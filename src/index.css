@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg-cream: #F5F1E8;
+    --color-brand-orange: #FF751F;
+    --color-brand-dark: #1A1A1A;
+  }
+
+  body {
+    background-color: #F5F1E8;
+    color: #1A1A1A;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .glass-card-light {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(26, 26, 26, 0.08);
+  }
+
+  .glass-card-dark {
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  /* Default glass-card is versatile */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    box-shadow: 0 10px 25px -5px rgba(26, 26, 26, 0.04);
+  }
+
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-card-hover:hover {
+    background: #FFFFFF;
+    border-color: rgba(255, 117, 31, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 35px -10px rgba(255, 117, 31, 0.15), 0 0 15px -3px rgba(255, 117, 31, 0.2);
+  }
+
+  .glass-nav {
+    background: rgba(245, 241, 232, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+  }
+
+  .text-gradient-orange {
+    background: linear-gradient(135deg, #1A1A1A 20%, #FF751F 70%, #E65E08 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-hare {
+    background: linear-gradient(135deg, #FF751F 0%, #FFA05C 40%, #E65E08 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .grid-pattern-light {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(26, 26, 26, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(26, 26, 26, 0.04) 1px, transparent 1px);
+  }
+
+  .grid-pattern-dark {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F1E8;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9D2C6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF751F;
+}

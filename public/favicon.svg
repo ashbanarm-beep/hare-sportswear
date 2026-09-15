@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="24" fill="#F5F1E8"/>
+  {/* Chasing hare */}
+  <path d="M28 42C24 45 20 44 18 43" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 47C22 49 18 48 16 48" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28 53C24 54 20 54 18 54" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  
+  {/* Hare body */}
+  <path d="M30 48C36 40 48 38 58 40C62 40 68 44 70 48C72 52 70 56 66 58C64 60 62 64 64 68C61 66 59 62 57 60C54 62 50 63 46 62L41 68L37 68L42 58C36 58 32 54 30 48Z" fill="#FF751F"/>
+  {/* Ears */}
+  <path d="M62 38L65 24C66 22 69 22 70 25L69 36" fill="#FF751F"/>
+  <path d="M57 39L59 28C60 26 62 26 63 28L63 39" fill="#FF751F"/>
+  {/* Eye */}
+  <circle cx="68" cy="50" r="2.5" fill="#F5F1E8"/>
+  
+  {/* Soccer Ball */}
+  <circle cx="76" cy="68" r="8" fill="#FF751F"/>
+  <polygon points="76,64 79,66 78,70 74,70 73,66" fill="#FFFFFF"/>
+</svg>
