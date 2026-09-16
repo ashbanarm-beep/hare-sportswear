@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 title Hare Sportswear - Sync and Deploy to Vercel
 
 echo ========================================================
-echo   Hare Sportswear - Auto Sync & Deploy to GitHub / Vercel
+echo   Hare Sportswear - Auto Sync and Deploy to GitHub / Vercel
 echo ========================================================
 echo.
 
