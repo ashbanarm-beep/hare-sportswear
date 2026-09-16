@@ -99,3 +99,114 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #FF751F;
 }
+
+/* Custom Scissor Page Transition Animations */
+@keyframes scissorSweep {
+  0% {
+    left: -120px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% + 120px);
+    opacity: 0;
+  }
+}
+
+@keyframes bladeTopCut {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-18deg);
+  }
+}
+
+@keyframes bladeBottomCut {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes fabricTopCut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  85% {
+    transform: translateY(-80%);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fabricBottomCut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  85% {
+    transform: translateY(80%);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes chalkCut {
+  0% {
+    width: 0%;
+  }
+  85% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scissorSweep {
+  animation: scissorSweep 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-bladeTop {
+  animation: bladeTopCut 0.15s ease-in-out infinite;
+}
+
+.animate-bladeBottom {
+  animation: bladeBottomCut 0.15s ease-in-out infinite;
+}
+
+.animate-fabricTopCut {
+  animation: fabricTopCut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fabricBottomCut {
+  animation: fabricBottomCut 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-chalkCut {
+  animation: chalkCut 0.75s ease-out forwards;
+}

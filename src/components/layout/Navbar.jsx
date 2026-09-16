@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { 
-  Menu, X, MessageCircle, FileText, ChevronRight, 
-  Mail, Phone, ShoppingBag
+  Menu, X, MessageCircle, FileText, ChevronRight, ChevronDown,
+  Mail, Phone, ShoppingBag, Globe, Plane
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
 import { useRFQ } from '../../context/RFQContext';
+import { countryServices } from '../../data/countryServicesData';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [globalDropdownOpen, setGlobalDropdownOpen] = useState(false);
+  const [mobileRegionsOpen, setMobileRegionsOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const { inquiryBasket } = useRFQ();
   const location = useLocation();
 
@@ -21,9 +25,23 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close menus on route change
   useEffect(() => {
     setIsOpen(false);
+    setGlobalDropdownOpen(false);
+    setMobileRegionsOpen(false);
   }, [location.pathname]);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setGlobalDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -34,6 +52,8 @@ export default function Navbar() {
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
+
+  const isCurrentPathRegional = countryServices.some((c) => location.pathname === `/${c.slug}`);
 
   return (
     <>
@@ -77,12 +97,112 @@ export default function Navbar() {
           <BrandLogo size="md" />
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) => (
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+            {navLinks.slice(0, 3).map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
-                className={({ isActive }) => `px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  isActive 
+                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm' 
+                    : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+                }`}
+              >
+                {link.name}
+              </NavLink>
+            ))}
+
+            {/* Global Reach Dropdown Menu */}
+            <div 
+              className="relative"
+              ref={dropdownRef}
+              onMouseEnter={() => setGlobalDropdownOpen(true)}
+              onMouseLeave={() => setGlobalDropdownOpen(false)}
+            >
+              <button
+                onClick={() => setGlobalDropdownOpen(!globalDropdownOpen)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  isCurrentPathRegional || globalDropdownOpen
+                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm'
+                    : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+                }`}
+                aria-expanded={globalDropdownOpen}
+              >
+                <Globe className="w-4 h-4 text-[#FF751F]" />
+                <span>Global Reach</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${globalDropdownOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {/* Mega Dropdown Panel */}
+              {globalDropdownOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[540px] z-50 animate-fadeIn">
+                  <div className="rounded-2xl bg-white border border-[#E5DFD5] shadow-2xl p-5 space-y-4">
+                    
+                    <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF751F]">
+                          Target Regional Export Services
+                        </span>
+                        <h4 className="text-sm font-display font-bold text-[#1A1A1A]">
+                          Select Your Target Country Service Hub
+                        </h4>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F5F1E8] text-[11px] font-semibold text-[#595856]">
+                        ✈ Direct Air & DDP
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2.5">
+                      {countryServices.map((c) => {
+                        const isActive = location.pathname === `/${c.slug}`;
+                        return (
+                          <Link
+                            key={c.id}
+                            to={`/${c.slug}`}
+                            className={`flex items-center justify-between p-2.5 rounded-xl border transition-all ${
+                              isActive
+                                ? 'bg-[#FF751F]/10 border-[#FF751F] text-[#FF751F]'
+                                : 'bg-[#FAF8F3] hover:bg-white border-[#E5DFD5] hover:border-[#FF751F]/50 text-[#1A1A1A]'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <span className="text-xl shrink-0">{c.flag}</span>
+                              <div className="truncate text-left">
+                                <span className="font-bold text-xs block truncate">{c.name}</span>
+                                <span className="text-[10px] text-[#8A847A] block truncate">
+                                  {c.stats[1].value} Air Transit
+                                </span>
+                              </div>
+                            </div>
+                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    <div className="pt-2 border-t border-[#E5DFD5] flex items-center justify-between text-xs">
+                      <span className="text-[#595856]">
+                        Supplying 45+ countries worldwide with AQL 2.5 quality
+                      </span>
+                      <Link 
+                        to="/contact" 
+                        className="font-bold text-[#FF751F] hover:underline inline-flex items-center gap-1"
+                      >
+                        <span>Custom Port Delivery</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {navLinks.slice(3).map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   isActive 
                     ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm' 
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -159,8 +279,52 @@ export default function Navbar() {
 
         {/* Mobile Slide-Down Drawer Menu */}
         {isOpen && (
-          <div className="lg:hidden bg-[#F5F1E8] border-b border-[#E5DFD5] px-4 pt-3 pb-6 mt-3 space-y-2 animate-fadeIn shadow-xl">
-            {navLinks.map((link) => (
+          <div className="lg:hidden bg-[#F5F1E8] border-b border-[#E5DFD5] px-4 pt-3 pb-6 mt-3 space-y-2 animate-fadeIn shadow-xl max-h-[80vh] overflow-y-auto">
+            {navLinks.slice(0, 3).map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                  isActive
+                    ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                    : 'text-[#1A1A1A] hover:bg-black/5'
+                }`}
+              >
+                <span>{link.name}</span>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </NavLink>
+            ))}
+
+            {/* Mobile Expandable Global Reach Accordion */}
+            <div className="rounded-xl border border-[#E5DFD5] bg-white overflow-hidden">
+              <button
+                onClick={() => setMobileRegionsOpen(!mobileRegionsOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-[#1A1A1A]"
+              >
+                <span className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#FF751F]" />
+                  <span>Global Service Regions ({countryServices.length})</span>
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileRegionsOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {mobileRegionsOpen && (
+                <div className="p-3 bg-[#F5F1E8]/70 border-t border-[#E5DFD5] grid grid-cols-2 gap-2">
+                  {countryServices.map((c) => (
+                    <Link
+                      key={c.id}
+                      to={`/${c.slug}`}
+                      className="flex items-center gap-2 p-2 rounded-lg bg-white border border-[#E5DFD5] text-xs font-semibold text-[#1A1A1A] hover:text-[#FF751F]"
+                    >
+                      <span>{c.flag}</span>
+                      <span className="truncate">{c.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {navLinks.slice(3).map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}

@@ -7,6 +7,9 @@ import {
 } from 'lucide-react';
 import { products } from '../data/products';
 import { useRFQ } from '../context/RFQContext';
+import AnimatedCounter from '../components/common/AnimatedCounter';
+import ProductionTimeline from '../components/home/ProductionTimeline';
+import GlobalExportGlobe from '../components/home/GlobalExportGlobe';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -185,22 +188,30 @@ export default function HomePage() {
 
           </div>
 
-          {/* Stats Bar */}
+          {/* Animated Stats Bar */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm">
             <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#1A1A1A]">150K+</p>
+              <p className="text-3xl sm:text-4xl font-display font-black text-[#1A1A1A]">
+                <AnimatedCounter target={150} suffix="K+" duration={2000} />
+              </p>
               <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Monthly Output</p>
             </div>
             <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">45+</p>
+              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">
+                <AnimatedCounter target={45} suffix="+" duration={1800} />
+              </p>
               <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Export Destinations</p>
             </div>
             <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">25 Pcs</p>
+              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">
+                <AnimatedCounter target={25} suffix=" Pcs" duration={1600} />
+              </p>
               <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Flexible Low MOQ</p>
             </div>
             <div className="text-center p-3">
-              <p className="text-3xl sm:text-4xl font-display font-black text-emerald-600">99.4%</p>
+              <p className="text-3xl sm:text-4xl font-display font-black text-emerald-600">
+                <AnimatedCounter target={99.4} decimals={1} suffix="%" duration={2200} />
+              </p>
               <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">On-Time Shipment</p>
             </div>
           </div>
@@ -254,6 +265,9 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* Global Export Footprint 3D Interactive Globe Section */}
+      <GlobalExportGlobe />
 
       {/* 3. Core Categories Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -376,112 +390,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Manufacturing Process Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-xs font-bold text-[#FF751F] uppercase tracking-wider">
-            Lean OEM / ODM Execution
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[#1A1A1A]">
-            The 4-Step Production Journey
-          </h2>
-          <p className="text-sm text-[#595856] leading-relaxed">
-            From digital artwork vector specs to container dispatch, our transparent milestone tracking ensures zero miscommunication.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-          
-          {/* Step 1 */}
-          <div className="p-6 rounded-2xl bg-white relative space-y-4 border border-[#E5DFD5] group hover:border-[#FF751F]/40 transition-all shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-3xl font-display font-black text-[#FF751F]/40 group-hover:text-[#FF751F] transition-colors">
-                01
-              </span>
-              <span className="px-2 py-0.5 rounded bg-[#FF751F]/10 text-[#FF751F] text-[11px] font-bold">
-                1-2 Days
-              </span>
-            </div>
-            <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
-              Tech Pack & Consultation
-            </h3>
-            <p className="text-xs text-[#595856] leading-relaxed">
-              Submit your AI/PDF tech pack or conceptual sketch. Our technical garment technicians verify fabric weights, seams, POM grading, and prepare 3D digital mockups.
-            </p>
-            <button
-              onClick={() => setIsTechPackModalOpen(true)}
-              className="text-xs font-bold text-[#FF751F] hover:underline inline-flex items-center gap-1"
-            >
-              <span>Download Tech Pack Guide</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Step 2 */}
-          <div className="p-6 rounded-2xl bg-white relative space-y-4 border border-[#E5DFD5] group hover:border-[#FF751F]/40 transition-all shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-3xl font-display font-black text-[#FF751F]/40 group-hover:text-[#FF751F] transition-colors">
-                02
-              </span>
-              <span className="px-2 py-0.5 rounded bg-[#FF751F]/10 text-[#FF751F] text-[11px] font-bold">
-                7-10 Days
-              </span>
-            </div>
-            <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
-              Sampling & Prototype
-            </h3>
-            <p className="text-xs text-[#595856] leading-relaxed">
-              We cut, print, and sew a physical prototype. High-resolution HD photos and express DHL courier shipment give you 100% touch-and-fit approval before mass run.
-            </p>
-            <span className="text-[11px] text-[#8A847A] block">
-              ✓ Includes Lab Dips & Strike-offs
-            </span>
-          </div>
-
-          {/* Step 3 */}
-          <div className="p-6 rounded-2xl bg-white relative space-y-4 border border-[#E5DFD5] group hover:border-[#FF751F]/40 transition-all shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-3xl font-display font-black text-[#FF751F]/40 group-hover:text-[#FF751F] transition-colors">
-                03
-              </span>
-              <span className="px-2 py-0.5 rounded bg-[#FF751F]/10 text-[#FF751F] text-[11px] font-bold">
-                12-18 Days
-              </span>
-            </div>
-            <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
-              Mass Production
-            </h3>
-            <p className="text-xs text-[#595856] leading-relaxed">
-              Automated spreading, CNC laser cutting, Italian Kiian heat-press sublimation, and inline assembly by specialized stitching lines equipped with Juki and Pegasus machinery.
-            </p>
-            <span className="text-[11px] text-[#8A847A] block">
-              ✓ 10-point seam tensile verification
-            </span>
-          </div>
-
-          {/* Step 4 */}
-          <div className="p-6 rounded-2xl bg-white relative space-y-4 border border-[#E5DFD5] group hover:border-[#FF751F]/40 transition-all shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-3xl font-display font-black text-[#FF751F]/40 group-hover:text-[#FF751F] transition-colors">
-                04
-              </span>
-              <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">
-                3-5 Days Air
-              </span>
-            </div>
-            <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
-              AQL 2.5 QA & Delivery
-            </h3>
-            <p className="text-xs text-[#595856] leading-relaxed">
-              End-of-line needle detector scan, barcode tag validation, moisture-sealed carton packing, and global dispatch via DHL Express, air cargo, or ocean containers.
-            </p>
-            <span className="text-[11px] text-[#8A847A] block">
-              ✓ Full Customs Clearance Handled
-            </span>
-          </div>
-
-        </div>
-      </section>
+      {/* 4. Manufacturing Process Section (Interactive Side-by-Side Timeline with Orange Progress Pipeline) */}
+      <ProductionTimeline />
 
       {/* 5. Production Calculator Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
