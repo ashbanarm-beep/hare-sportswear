@@ -4,7 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import WhatsAppFloat from './components/common/WhatsAppFloat';
 import TechPackModal from './components/common/TechPackModal';
-import ScissorPageTransition from './components/common/ScissorPageTransition';
+import ScissorCursor from './components/common/ScissorCursor';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CustomManufacturingPage from './pages/CustomManufacturingPage';
@@ -16,7 +16,7 @@ import BlogPostPage from './pages/BlogPostPage';
 import CountryServicePage from './pages/CountryServicePage';
 import { RFQProvider } from './context/RFQContext';
 
-// Scroll to top on every route change
+// Instant scroll to top on route change without blocking animations
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function App() {
     <RFQProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <ScissorPageTransition />
+        <ScissorCursor />
         
         <div className="flex flex-col min-h-screen bg-[#F5F1E8] text-[#1A1A1A] font-sans selection:bg-[#FF751F] selection:text-white">
           <Navbar />
