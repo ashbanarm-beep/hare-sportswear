@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   Globe, Plane, Ship, ShieldCheck, ArrowRight, 
   MapPin, CheckCircle2, Sparkles, Navigation, Package, Shirt
 } from 'lucide-react';
 
 export default function GlobalExportGlobe() {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const [selectedHub, setSelectedHub] = useState(0);
   const [activeRegion, setActiveRegion] = useState('all');
   const [isRotating, setIsRotating] = useState(true);
+  const [mascotBounce, setMascotBounce] = useState(false);
   const rotationRef = useRef({ yaw: 0.6, pitch: 0.25 });
   const isDraggingRef = useRef(false);
   const lastMousePosRef = useRef({ x: 0, y: 0 });
@@ -603,21 +607,51 @@ export default function GlobalExportGlobe() {
         <div className="lg:col-span-5 space-y-4">
           
           {/* Mascot Global Dispatch Companion */}
-          <div className="rounded-3xl bg-white border border-[#E5DFD5] p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 relative overflow-hidden group">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-[#FAF8F3] border border-[#E5DFD5] shadow-sm shrink-0">
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            animate={mascotBounce ? { scale: [1, 0.92, 1.1, 1], rotate: [0, -4, 4, 0] } : {}}
+            transition={{ duration: 0.4 }}
+            onClick={() => {
+              setMascotBounce(true);
+              try {
+                confetti({
+                  particleCount: 35,
+                  spread: 65,
+                  origin: { y: 0.6 },
+                  colors: ['#FF751F', '#FFA05C', '#1A1A1A', '#FFFFFF']
+                });
+              } catch (err) {}
+              setTimeout(() => {
+                navigate(`/contact?source=globe-mascot&country=${encodeURIComponent(activeHubData.country)}`);
+              }, 400);
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Click to request export shipping quote to ${activeHubData.country} with Hurry the Hare`}
+            title={`Click Hurry for DDP delivery quote to ${activeHubData.country}! 🐰`}
+            className="rounded-3xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/60 p-4 sm:p-5 shadow-sm hover:shadow-lg transition-all flex items-center gap-4 relative overflow-hidden group cursor-pointer"
+          >
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-[#FAF8F3] border-2 border-[#E5DFD5] group-hover:border-[#FF751F] shadow-sm shrink-0 transition-colors">
               <img
                 src="/images/mascot/hurry-global.jpg"
                 alt="Hurry the Hare - Global Export Dispatcher"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
-              <span className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+              <span className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
             </div>
 
-            <div className="min-w-0 space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
-                <span className="text-[10px] font-bold text-white bg-[#FF751F] px-2 py-0.5 rounded-full shadow-sm">
-                  Global Dispatcher
+            <div className="min-w-0 space-y-1 flex-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                  <span className="text-[10px] font-bold text-white bg-[#FF751F] px-2 py-0.5 rounded-full shadow-sm">
+                    Dispatcher
+                  </span>
+                </div>
+                <span className="text-[11px] font-bold text-[#FF751F] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Ship Here</span>
+                  <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
               <p className="text-xs text-[#595856] leading-relaxed">
@@ -627,9 +661,11 @@ export default function GlobalExportGlobe() {
                 <span className="text-[#FF751F] font-semibold">✈ Direct DDP Delivery</span>
                 <span>•</span>
                 <span>45+ Export Markets</span>
+                <span>•</span>
+                <span className="text-emerald-600 font-semibold">Click to Quote</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E5DFD5] shadow-lg space-y-5">
             

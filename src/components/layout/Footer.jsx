@@ -167,6 +167,12 @@ export default function Footer() {
                   Request RFQ / Sample
                 </Link>
               </li>
+              <li>
+                <Link to="/meet-hare" className="text-[#FF751F] hover:underline font-semibold flex items-center gap-1.5 transition-colors">
+                  <span>🐰</span>
+                  <span>Meet Hurry the Hare</span>
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -10,6 +10,7 @@ import { useRFQ } from '../context/RFQContext';
 import AnimatedCounter from '../components/common/AnimatedCounter';
 import ProductionTimeline from '../components/home/ProductionTimeline';
 import GlobalExportGlobe from '../components/home/GlobalExportGlobe';
+import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -122,86 +123,9 @@ export default function HomePage() {
 
             </div>
 
-            {/* Hero Right Visual (5 cols) featuring "Hurry the Hare" Mascot */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                
-                {/* Ambient Glow Aura */}
-                <div className="absolute -inset-4 bg-gradient-to-tr from-[#FF751F]/20 via-amber-300/10 to-transparent rounded-[36px] blur-2xl pointer-events-none"></div>
-
-                {/* Floating Top Mascot Badge */}
-                <div className="absolute -top-4 -left-2 sm:-left-5 z-20 flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E5DFD5] shadow-xl animate-float">
-                  <span className="w-8 h-8 rounded-xl bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center font-bold text-base">⚡</span>
-                  <div>
-                    <p className="text-xs font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                      <span>Meet Hurry the Hare</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    </p>
-                    <p className="text-[10px] text-[#FF751F] font-semibold">Speed • Agility • Precision</p>
-                  </div>
-                </div>
-
-                {/* Floating Interactive CTA Callout (desktop only) */}
-                <div className="absolute top-1/2 -left-4 sm:-left-7 -translate-y-1/2 z-20 hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-[#FF751F]/40 shadow-lg text-xs font-bold text-[#FF751F] animate-float-delayed">
-                  <span>👈 "Start your custom kit here!"</span>
-                </div>
-
-                {/* Hero Showcase Card */}
-                <div className="relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] p-3 shadow-premium group">
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#FAF8F3]">
-                    <img
-                      src="/images/mascot/hurry-hero.jpg"
-                      alt="Hurry the Hare - Athletic 3D Mascot for Hare Sportswear & Goods"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    
-                    {/* Gradient Overlay for bottom text legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/10"></div>
-
-                    {/* Top Live Factory Indicator */}
-                    <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-white/40 text-xs text-[#1A1A1A] shadow-md flex items-center gap-1.5 font-bold">
-                      <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse"></span>
-                      <span>OEM/ODM Active</span>
-                    </div>
-
-                    {/* Bottom Card Meta */}
-                    <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-[#1A1A1A]/95 backdrop-blur-md border border-white/10 text-white space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-[#FF751F] uppercase tracking-wider flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          Official Brand Mascot
-                        </span>
-                        <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                          Rapid 7-Day Samples
-                        </span>
-                      </div>
-                      <h4 className="font-display font-bold text-base text-white">
-                        "Your team designs brought to life in record time!"
-                      </h4>
-                      <div className="flex items-center justify-between text-xs text-cream-200 pt-1 border-t border-white/10">
-                        <span>Low 25 MOQ</span>
-                        <span>•</span>
-                        <span>Kiian Inks</span>
-                        <span>•</span>
-                        <span>Direct Sialkot OEM</span>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-                {/* Floating Capacity Badge */}
-                <div className="absolute -bottom-5 -right-2 sm:-right-4 hidden sm:flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DFD5] shadow-xl">
-                  <div className="p-2 rounded-xl bg-[#FF751F]/15 text-[#FF751F]">
-                    <Factory className="w-4 h-4" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs font-bold text-[#1A1A1A]">150,000+ Units/Mo</p>
-                    <p className="text-[10px] text-[#595856]">Continuous Factory Capacity</p>
-                  </div>
-                </div>
-
-              </div>
+            {/* Hero Right Visual (5 cols) featuring Interactive "Hurry the Hare" Mascot */}
+            <div className="lg:col-span-5 relative pt-10 sm:pt-6 lg:pt-0">
+              <HurryHeroInteractive />
             </div>
 
           </div>

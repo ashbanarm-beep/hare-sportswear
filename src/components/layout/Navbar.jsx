@@ -72,7 +72,10 @@ export default function Navbar() {
             <span className="text-white/20 hidden md:inline">|</span>
             <span className="hidden md:inline text-cream-200">⚡ 7-Day Rapid Sampling</span>
             <span className="text-white/20 hidden sm:inline">|</span>
-            <span className="hidden sm:inline text-cream-200">📦 Low MOQs from 25 Pcs</span>
+            <Link to="/meet-hare" className="hidden sm:inline-flex items-center gap-1.5 text-[#FF751F] hover:text-white transition-colors font-semibold">
+              <span>🐰</span>
+              <span>Meet Hurry the Hare</span>
+            </Link>
           </div>
 
           <div className="flex items-center gap-4 text-xs">

@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   FileText, Sparkles, CheckCircle2, ChevronRight, 
   Layers, Scissors, ShieldCheck, Truck, Clock, ArrowRight,
@@ -7,10 +10,28 @@ import {
 import { useRFQ } from '../../context/RFQContext';
 
 export default function ProductionTimeline() {
+  const navigate = useNavigate();
   const { openTechPackModal } = useRFQ();
   const containerRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [mascotBounce, setMascotBounce] = useState(false);
+
+  const handleMascotRedirect = (e) => {
+    if (e) e.stopPropagation();
+    setMascotBounce(true);
+    try {
+      confetti({
+        particleCount: 35,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#FF751F', '#FFA05C', '#1A1A1A', '#FFFFFF']
+      });
+    } catch (err) {}
+    setTimeout(() => {
+      navigate('/meet-hare');
+    }, 400);
+  };
 
   const stepRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
@@ -255,16 +276,28 @@ export default function ProductionTimeline() {
           </div>
 
           {/* Mascot Companion Card: Hurry the Hare - Master Craftsman */}
-          <div className="rounded-3xl bg-[#FAF8F3] border border-[#E5DFD5] p-5 shadow-sm space-y-4 overflow-hidden relative group">
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            animate={mascotBounce ? { scale: [1, 0.92, 1.1, 1], rotate: [0, -4, 4, 0] } : {}}
+            transition={{ duration: 0.4 }}
+            className="rounded-3xl bg-[#FAF8F3] border border-[#E5DFD5] hover:border-[#FF751F]/60 p-5 shadow-sm hover:shadow-lg space-y-4 overflow-hidden relative group transition-all cursor-pointer"
+            onClick={handleMascotRedirect}
+            role="button"
+            tabIndex={0}
+            aria-label="Click to meet Hurry the Hare and explore our brand story"
+            title="Click Hurry to view our brand story! 🐰"
+          >
             <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-bl from-[#FF751F]/15 to-transparent rounded-bl-3xl pointer-events-none"></div>
 
             <div className="flex items-center gap-3.5">
-              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] shadow shrink-0">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white border-2 border-[#E5DFD5] group-hover:border-[#FF751F] shadow shrink-0 transition-colors">
                 <img
                   src="/images/mascot/hurry-craftsman.jpg"
                   alt="Hurry the Hare - Master Sports Craftsman"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
+                <span className="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
               </div>
 
               <div className="min-w-0">
@@ -274,7 +307,10 @@ export default function ProductionTimeline() {
                     Phase 0{activeStep + 1}
                   </span>
                 </div>
-                <p className="text-[11px] text-[#8A847A] font-medium">Head of Rapid Sampling</p>
+                <p className="text-[11px] text-[#8A847A] font-medium flex items-center gap-1">
+                  <span>Head of Rapid Sampling</span>
+                  <span className="text-[10px] text-[#FF751F] font-semibold">• Click Me!</span>
+                </p>
               </div>
             </div>
 
@@ -287,14 +323,28 @@ export default function ProductionTimeline() {
               <p>{hurryTips[activeStep]?.message}</p>
             </div>
 
-            <button
-              onClick={openTechPackModal}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white text-xs font-bold transition-all shadow flex items-center justify-center gap-2 group-hover:shadow-glow-orange"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>Ask Hurry About Tech Packs</span>
-            </button>
-          </div>
+            <div className="flex items-center gap-2 pt-1">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openTechPackModal();
+                }}
+                className="flex-1 py-2.5 px-3 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white text-xs font-bold transition-all shadow flex items-center justify-center gap-1.5"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Tech Pack Guide</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleMascotRedirect}
+                className="py-2.5 px-3 rounded-xl bg-white hover:bg-[#FF751F]/10 text-[#FF751F] border border-[#FF751F]/30 text-xs font-bold transition-all flex items-center gap-1"
+              >
+                <span>Story 👋</span>
+              </button>
+            </div>
+          </motion.div>
 
         </div>
 
@@ -302,24 +352,32 @@ export default function ProductionTimeline() {
         <div className="lg:col-span-7 space-y-8">
           
           {/* Mobile Mascot Companion Banner */}
-          <div className="lg:hidden rounded-2xl bg-white border border-[#E5DFD5] p-4 flex items-center gap-3.5 shadow-sm">
+          <motion.div 
+            whileTap={{ scale: 0.97 }}
+            onClick={handleMascotRedirect}
+            className="lg:hidden rounded-2xl bg-white border border-[#E5DFD5] p-4 flex items-center gap-3.5 shadow-sm cursor-pointer active:bg-[#FAF8F3]"
+            title="Click to meet Hurry the Hare!"
+          >
             <img
               src="/images/mascot/hurry-craftsman.jpg"
               alt="Hurry the Hare"
               className="w-14 h-14 rounded-xl object-cover border border-[#E5DFD5] shrink-0"
             />
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
-                <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-1.5 py-0.5 rounded">
-                  Craftsman Guide
-                </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                  <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-1.5 py-0.5 rounded">
+                    Craftsman
+                  </span>
+                </div>
+                <span className="text-[10px] font-bold text-[#FF751F]">Meet Me 👋</span>
               </div>
               <p className="text-[11px] text-[#595856] mt-0.5 line-clamp-2">
                 "{hurryTips[activeStep]?.message}"
               </p>
             </div>
-          </div>
+          </motion.div>
           {steps.map((step, idx) => {
             const Icon = step.icon;
             const isActive = activeStep === idx;
