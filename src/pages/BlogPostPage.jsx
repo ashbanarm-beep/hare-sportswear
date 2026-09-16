@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
 import { 
   Clock, Calendar, ArrowLeft, Share2, MessageCircle, 
   Copy, Check, FileText, ArrowRight, User, Sparkles, 
   ListOrdered, ChevronRight, ChevronDown, Bookmark, 
-  Lightbulb, ShieldCheck, Zap, X, Eye, ThumbsUp
+  ShieldCheck, Zap, ThumbsUp, Box, Layers
 } from 'lucide-react';
 import { blogPosts } from '../data/blogData';
 import { LinkedInIcon, TwitterIcon } from '../components/common/SocialIcons';
 import { useRFQ } from '../context/RFQContext';
+import FloatingCornerMascot from '../components/mascot/FloatingCornerMascot';
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -21,9 +21,7 @@ export default function BlogPostPage() {
   const [activeHeadingId, setActiveHeadingId] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
-  const [mascotDismissed, setMascotDismissed] = useState(false);
-  const [mascotClicked, setMascotClicked] = useState(false);
-  const [claps, setClaps] = useState(24);
+  const [claps, setClaps] = useState(28);
   const [hasClapped, setHasClapped] = useState(false);
 
   const articleRef = useRef(null);
@@ -32,6 +30,11 @@ export default function BlogPostPage() {
   const post = useMemo(() => {
     return blogPosts.find(p => p.slug === slug) || blogPosts[0];
   }, [slug]);
+
+  // Related posts (excluding current post)
+  const relatedPosts = useMemo(() => {
+    return blogPosts.filter(p => p.slug !== post.slug).slice(0, 3);
+  }, [post]);
 
   // Set document title
   useEffect(() => {
@@ -118,88 +121,9 @@ export default function BlogPostPage() {
     }
   };
 
-  const handleMascotClick = (e) => {
-    if (e) e.stopPropagation();
-    setMascotClicked(true);
-    try {
-      confetti({
-        particleCount: 50,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ['#FF751F', '#FFA05C', '#1A1A1A', '#FFFFFF']
-      });
-    } catch (e) {}
-
-    setTimeout(() => {
-      setMascotClicked(false);
-      openTechPackModal();
-    }, 450);
-  };
-
   const handleClap = () => {
     setClaps(prev => prev + 1);
     setHasClapped(true);
-    try {
-      confetti({
-        particleCount: 20,
-        spread: 45,
-        origin: { y: 0.85 },
-        colors: ['#FF751F', '#1A1A1A']
-      });
-    } catch (e) {}
-  };
-
-  // Dynamic Mascot speech bubble & tips based on scroll percentage
-  const mascotState = useMemo(() => {
-    if (scrollProgress < 25) {
-      return {
-        stage: 'intro',
-        title: 'Hey Brand Founder! 🐰',
-        message: "I'm Hurry the Hare. Read along as I share secret Sialkot manufacturing insights!",
-        actionLabel: 'Browse All Sections',
-        actionType: 'toc',
-        badge: 'Article Guide',
-      };
-    } else if (scrollProgress < 55) {
-      return {
-        stage: 'specs',
-        title: '💡 Engineering Tip',
-        message: 'Always specify exact SPI (Stitches Per Inch) & Pantone TCX swatches to avoid sample rejections!',
-        actionLabel: 'Need Fabric Specs?',
-        actionType: 'glossary',
-        badge: 'Factory Insight',
-      };
-    } else if (scrollProgress < 85) {
-      return {
-        stage: 'craft',
-        title: '🧵 Sialkot Secret',
-        message: 'Our 4-needle 6-thread flatlock seams prevent athlete chafing under maximum match exertion.',
-        actionLabel: 'Order Physical Swatches',
-        actionType: 'contact',
-        badge: 'Craft Mastery',
-      };
-    } else {
-      return {
-        stage: 'conclusion',
-        title: '🚀 Ready to Produce?',
-        message: 'Click me to upload your tech pack for a rapid 7-day physical prototype run!',
-        actionLabel: 'Get Instant 24h Quote',
-        actionType: 'quote',
-        badge: '7-Day Turnaround',
-      };
-    }
-  }, [scrollProgress]);
-
-  const handleMascotAction = () => {
-    if (mascotState.actionType === 'quote') {
-      openTechPackModal();
-    } else if (mascotState.actionType === 'glossary') {
-      navigate('/fabric-glossary');
-    } else if (mascotState.actionType === 'contact') {
-      navigate('/contact');
-    } else if (headings[0]) {
-      scrollToSection({ preventDefault: () => {} }, headings[0].id);
-    }
   };
 
   return (
@@ -361,15 +285,15 @@ export default function BlogPostPage() {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* Main 3-Column / Responsive SaaS Layout */}
-        {/* [Left: Sticky TOC] | [Center: Article] | [Right: Floating Mascot] */}
+        {/* Main 3-Column SaaS Layout */}
+        {/* [Left: Sticky TOC] | [Center: Article Body] | [Right: B2B Sidebar] */}
         {/* ------------------------------------------------------------- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mt-8 items-start">
           
           {/* ========================================================= */}
           {/* LEFT COLUMN: Sticky Table of Contents (Desktop) */}
           {/* ========================================================= */}
-          <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-6">
+          <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-5">
             <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-4">
               
               <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
@@ -385,7 +309,7 @@ export default function BlogPostPage() {
               </div>
 
               {/* TOC Heading Links */}
-              <nav className="space-y-1.5 text-xs">
+              <nav className="space-y-1.5 text-xs max-h-[50vh] overflow-y-auto scrollbar-none pr-1">
                 {headings.map((heading, idx) => {
                   const isActive = activeHeadingId === heading.id;
                   return (
@@ -431,7 +355,7 @@ export default function BlogPostPage() {
             {/* Fabric Glossary Cross-Link Widget */}
             <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#DCD3C0] text-xs space-y-2">
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block">
-                Related Technical Hub
+                Technical Reference
               </span>
               <h4 className="font-bold text-[#1A1A1A] font-display">
                 Material &amp; Fabric Glossary
@@ -463,7 +387,7 @@ export default function BlogPostPage() {
               />
               <div className="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-black/70 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Sialkot Factory Certified Insights</span>
+                <span>Sialkot Factory Direct Insights</span>
               </div>
             </div>
 
@@ -635,129 +559,92 @@ export default function BlogPostPage() {
           </main>
 
           {/* ========================================================= */}
-          {/* RIGHT COLUMN: Floating Scrolling Mascot ("Hurry the Hare") */}
+          {/* RIGHT COLUMN: Dedicated B2B Sidebar */}
           {/* ========================================================= */}
-          <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-4">
+          <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-5">
             
-            {!mascotDismissed ? (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-                className="relative"
+            {/* Quick Factory Specs Box */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3.5">
+              <div className="flex items-center gap-2 text-[11px] font-bold text-[#FF751F] uppercase tracking-wider">
+                <Zap className="w-3.5 h-3.5" />
+                <span>Factory Production Highlights</span>
+              </div>
+              <h4 className="font-bold text-sm text-[#1A1A1A] font-display">
+                Sialkot Turnaround Benchmarks
+              </h4>
+              <ul className="space-y-2 text-xs text-[#59554E]">
+                <li className="flex items-center justify-between pb-1.5 border-b border-[#E5DFD5]">
+                  <span>Physical Sampling:</span>
+                  <strong className="text-[#1A1A1A]">5–7 Days</strong>
+                </li>
+                <li className="flex items-center justify-between pb-1.5 border-b border-[#E5DFD5]">
+                  <span>Minimum Order (MOQ):</span>
+                  <strong className="text-[#1A1A1A]">30–50 Pcs</strong>
+                </li>
+                <li className="flex items-center justify-between pb-1.5 border-b border-[#E5DFD5]">
+                  <span>Quality Standard:</span>
+                  <strong className="text-emerald-600 font-bold">AQL 2.5 Major</strong>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Air Shipping Transit:</span>
+                  <strong className="text-[#1A1A1A]">3–5 Days (DHL/FedEx)</strong>
+                </li>
+              </ul>
+
+              <Link
+                to="/contact"
+                className="w-full mt-2 py-2 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
               >
-                {/* 1. SaaS Dynamic Speech Bubble (SayNine Inspired) */}
-                <motion.div
-                  key={mascotState.stage}
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="mb-3 relative"
-                >
-                  <div className="p-4 rounded-2xl bg-white border-2 border-[#FF751F]/40 shadow-xl space-y-2 relative">
-                    
-                    {/* Header badge */}
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="px-2 py-0.5 rounded-full bg-[#FF751F]/15 text-[#FF751F] font-bold uppercase tracking-wider">
-                        {mascotState.badge}
-                      </span>
-                      <button
-                        onClick={() => setMascotDismissed(true)}
-                        className="text-[#8C8476] hover:text-[#1A1A1A]"
-                        title="Minimize mascot"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    <h4 className="text-xs font-bold text-[#1A1A1A] font-display">
-                      {mascotState.title}
-                    </h4>
-
-                    <p className="text-xs text-[#59554E] leading-relaxed">
-                      {mascotState.message}
-                    </p>
-
-                    <button
-                      onClick={handleMascotAction}
-                      className="w-full mt-2 py-2 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-[11px] transition-colors shadow-sm flex items-center justify-center gap-1"
-                    >
-                      <span>{mascotState.actionLabel}</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
-
-                    {/* Speech pointer triangle */}
-                    <div className="absolute -bottom-2 right-12 w-4 h-4 bg-white border-r-2 border-b-2 border-[#FF751F]/40 rotate-45" />
-                  </div>
-                </motion.div>
-
-                {/* 2. Interactive Mascot Card with Gentle Floating Animation */}
-                <motion.div
-                  animate={
-                    mascotClicked
-                      ? { scale: [1, 0.9, 1.12, 1], rotate: [0, -6, 6, 0] }
-                      : { y: [0, -6, 0] }
-                  }
-                  transition={
-                    mascotClicked
-                      ? { duration: 0.45, ease: 'easeOut' }
-                      : { duration: 4.5, repeat: Infinity, ease: 'easeInOut' }
-                  }
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={handleMascotClick}
-                  className="rounded-3xl bg-white border border-[#E5DFD5] p-3 shadow-lg cursor-pointer group select-none relative overflow-hidden"
-                  title="Click Hurry the Hare to request a quote!"
-                >
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#1A1A1A]">
-                    <img
-                      src="/images/mascot/hurry-hero.jpg"
-                      alt="Hurry the Hare Mascot"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-
-                    {/* Subtle Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                    {/* Badge */}
-                    <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[10px] font-bold text-[#1A1A1A] shadow-md flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>Reading with you</span>
-                    </div>
-
-                    {/* Bottom Prompt */}
-                    <div className="absolute bottom-3 left-3 right-3 text-center">
-                      <span className="text-[11px] font-bold text-white block">
-                        🐰 Hurry the Hare
-                      </span>
-                      <span className="text-[10px] text-[#FF751F] font-semibold">
-                        Tap for 7-Day Prototype
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-              </motion.div>
-            ) : (
-              // Re-open chip when minimized
-              <button
-                onClick={() => setMascotDismissed(false)}
-                className="w-full p-3 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm hover:border-[#FF751F] text-xs font-bold text-[#1A1A1A] flex items-center justify-between group transition-all"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🐰</span>
-                  <span>Open Hurry Companion</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-[#8C8476] group-hover:text-[#FF751F]" />
-              </button>
-            )}
-
-            {/* Quick Sialkot Certifications Tag */}
-            <div className="p-3 rounded-xl bg-white/60 border border-[#E5DFD5] text-[11px] text-[#66625B] space-y-1">
-              <p className="font-bold text-[#1A1A1A]">⚡ Direct Factory Production</p>
-              <p>Turnaround: 5-7 days rapid sample</p>
-              <p>Export: USA, UK, EU, UAE, Australia</p>
+                <span>Request Custom Quote</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
+
+            {/* Physical Swatch Box Promotion */}
+            <div className="p-5 rounded-2xl bg-[#1A1A1A] text-white border border-black/40 shadow-md space-y-3 relative overflow-hidden">
+              <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#FF751F]">
+                <Box className="w-3.5 h-3.5" />
+                <span>Physical Swatch Portfolio</span>
+              </div>
+              <h4 className="font-bold text-sm text-white font-display">
+                Order 30+ Fabric Swatches
+              </h4>
+              <p className="text-[11px] text-[#C4BDAF] leading-relaxed">
+                Test interlocks, 4-way spandex, and 3D silicone transfers before placing bulk orders.
+              </p>
+              <Link
+                to="/fabric-glossary"
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#FF751F] hover:underline pt-1"
+              >
+                <span>Explore Fabric Glossary</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            {/* Related Manufacturing Guides */}
+            {relatedPosts.length > 0 && (
+              <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] font-display">
+                  Related Factory Guides
+                </h4>
+                <div className="space-y-3">
+                  {relatedPosts.map((rel) => (
+                    <Link
+                      key={rel.slug}
+                      to={`/blog/${rel.slug}`}
+                      className="group block space-y-1 pb-2.5 border-b border-[#E5DFD5] last:border-0 last:pb-0"
+                    >
+                      <span className="text-[10px] font-semibold text-[#FF751F] block uppercase">
+                        {rel.category}
+                      </span>
+                      <h5 className="text-xs font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors line-clamp-2 leading-snug">
+                        {rel.title}
+                      </h5>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
           </aside>
 
@@ -765,20 +652,11 @@ export default function BlogPostPage() {
 
       </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* Mobile Floating Hurry Companion Button (Bottom-Right) */}
-      {/* ------------------------------------------------------------- */}
-      <div className="lg:hidden fixed bottom-6 right-4 z-40">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={handleMascotClick}
-          className="p-3 rounded-full bg-[#1A1A1A] text-white border-2 border-[#FF751F] shadow-2xl flex items-center gap-2 relative"
-        >
-          <span className="text-xl">🐰</span>
-          <span className="text-xs font-bold text-white pr-1">Ask Hurry</span>
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white animate-pulse" />
-        </motion.button>
-      </div>
+      {/* ============================================================= */}
+      {/* SAYNINE-STYLE FLOATING CORNER MASCOT ("HURRY THE HARE") */}
+      {/* Fluidly follows viewport on the left/bottom corner as user scrolls */}
+      {/* ============================================================= */}
+      <FloatingCornerMascot scrollProgress={scrollProgress} />
 
     </div>
   );
