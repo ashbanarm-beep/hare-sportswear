@@ -51,6 +51,7 @@ export default function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
     { name: 'Custom Manufacturing', path: '/custom-manufacturing' },
+    { name: 'Fabric Glossary', path: '/fabric-glossary' },
     { name: 'Quality & Factory', path: '/quality' },
     { name: 'About Us', path: '/about' },
     { name: 'Blog', path: '/blog' },

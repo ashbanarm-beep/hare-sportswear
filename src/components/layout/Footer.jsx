@@ -163,6 +163,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/fabric-glossary" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 font-medium text-[#FF751F]">
+                  <span>🧵</span>
+                  <span>Fabric Glossary Hub</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="hover:text-[#FF751F] transition-colors">
                   Request RFQ / Sample
                 </Link>

@@ -16,6 +16,7 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import CountryServicePage from './pages/CountryServicePage';
 import MeetHarePage from './pages/MeetHarePage';
+import FabricGlossaryPage from './pages/FabricGlossaryPage';
 import { RFQProvider } from './context/RFQContext';
 
 // Instant scroll to top on route change without blocking animations
@@ -52,6 +53,11 @@ export default function App() {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/blog" element={<BlogPage />} />
                   <Route path="/blog/:slug" element={<BlogPostPage />} />
+                  <Route path="/fabric-glossary" element={<FabricGlossaryPage />} />
+                  <Route path="/resources/fabric-glossary" element={<Navigate to="/fabric-glossary" replace />} />
+                  <Route path="/glossary" element={<Navigate to="/fabric-glossary" replace />} />
+                  <Route path="/materials" element={<Navigate to="/fabric-glossary" replace />} />
+                  <Route path="/fabrics" element={<Navigate to="/fabric-glossary" replace />} />
                   <Route path="/meet-hare" element={<MeetHarePage />} />
                   <Route path="/mascot" element={<Navigate to="/meet-hare" replace />} />
                   <Route path="/hurry" element={<Navigate to="/meet-hare" replace />} />
