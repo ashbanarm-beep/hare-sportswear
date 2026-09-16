@@ -32,14 +32,14 @@ export const countryServices = [
         icon: 'ShieldCheck'
       },
       {
-        title: 'Basketball Reversible Uniforms',
-        desc: 'Ultra-lightweight 150 GSM bird-eye mesh singlets with zero-bleed sublimation, anti-snag ribbing, and 9-inch inseam match shorts.',
-        icon: 'Flame'
-      },
-      {
         title: 'Streetwear & Heavyweight Hoodies',
         desc: '450-500 GSM luxury French Terry cotton fleece pullovers, custom drop-shoulder cuts, high-density screen print, and puff embroidery.',
         icon: 'Layers'
+      },
+      {
+        title: 'Thermal Soccer Balls & Boxing Fight Gear',
+        desc: 'FIFA-grade thermal bonded match soccer balls, genuine cowhide leather boxing gloves, MMA fight shorts, and IBJJF-compliant BJJ gis.',
+        icon: 'Flame'
       }
     ],
     logistics: {
@@ -83,7 +83,7 @@ export const countryServices = [
     ],
     nicheFocus: [
       {
-        title: 'Football Club Match Kits',
+        title: 'Football Club Match Kits & Tracksuits',
         desc: 'FA-compliant club jerseys with micro-perforated side ventilation panels, silicone crests, and reinforced seams tested for cold wet British pitches.',
         icon: 'Trophy'
       },
@@ -98,8 +98,8 @@ export const countryServices = [
         icon: 'Flame'
       },
       {
-        title: 'Custom Gym & Athleisure Apparel',
-        desc: 'Seamless gym leggings, oversized pump cover tees, zip-up fleece jackets, and water-repellent stadium rain jackets.',
+        title: 'FIFA Quality Match Balls & Goalkeeper Gloves',
+        desc: 'Sialkot hand-stitched and thermal-bonded match soccer balls, German 4mm contact latex match goalkeeper gloves, and custom gear bags.',
         icon: 'Layers'
       }
     ],
@@ -159,8 +159,8 @@ export const countryServices = [
         icon: 'ShieldCheck'
       },
       {
-        title: 'Cricket Club Playing & Training Kits',
-        desc: 'Sublimated T20 colored match kits and traditional creams featuring high moisture-wicking and airflow vents for 40°C summer conditions.',
+        title: 'Cricket Leather Balls & Rugby Equipment',
+        desc: 'Traditional 4-piece alum-tanned hand-stitched leather cricket balls, sublimated T20 whites, and high-impact rugby training hit shields.',
         icon: 'Layers'
       }
     ],
@@ -220,8 +220,8 @@ export const countryServices = [
         icon: 'ShieldCheck'
       },
       {
-        title: 'Fitness & Streetwear Collections',
-        desc: 'Premium combed heavy cotton hoodies, French Terry sweatshirts, and squat-proof seamless performance leggings.',
+        title: 'Handball Match Balls & Goalkeeper Latex',
+        desc: 'Resin-compatible official match handball balls, German 4mm contact latex goalie gloves, and agility training accessories.',
         icon: 'Layers'
       }
     ],
@@ -281,8 +281,8 @@ export const countryServices = [
         icon: 'Flame'
       },
       {
-        title: 'Heavyweight Streetwear & Athleisure',
-        desc: 'Canadian-standard 450 GSM luxury brushed fleece hoodies, custom jogger sets, and custom printed athletic gym merchandise.',
+        title: '900D Heavy Sports Equipment Bags & Gear',
+        desc: 'High-durability waterproof Cordura hockey equipment bags, boxing fight gloves, MMA training mitts, and club merchandise.',
         icon: 'Layers'
       }
     ],

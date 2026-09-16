@@ -2,158 +2,166 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Globe, Plane, Ship, ShieldCheck, ArrowRight, 
-  MapPin, CheckCircle2, Sparkles, Navigation, Layers
+  MapPin, CheckCircle2, Sparkles, Navigation, Package, Shirt
 } from 'lucide-react';
-import { countryServices } from '../../data/countryServicesData';
 
 export default function GlobalExportGlobe() {
   const canvasRef = useRef(null);
   const [selectedHub, setSelectedHub] = useState(0);
   const [activeRegion, setActiveRegion] = useState('all');
   const [isRotating, setIsRotating] = useState(true);
-  const rotationRef = useRef({ yaw: 0.8, pitch: 0.3 });
+  const rotationRef = useRef({ yaw: 0.6, pitch: 0.25 });
   const isDraggingRef = useRef(false);
   const lastMousePosRef = useRef({ x: 0, y: 0 });
 
-  // Sialkot HQ Coordinates
+  // Sialkot HQ Coordinates (Factory Origin)
   const SIALKOT = { name: 'Sialkot HQ', lat: 32.49, lon: 74.52, isHQ: true };
 
-  // Major Global Export Hubs with geographic coordinates
+  // Well-spaced, non-clustered global export destinations representing both Sportswear & Sports Goods
   const exportHubs = [
     {
-      id: 'us-nyc',
-      name: 'New York & East Coast',
+      id: 'us',
+      name: 'United States',
       country: 'USA',
       flag: '🇺🇸',
-      lat: 40.71,
-      lon: -74.0,
+      lat: 39.50,
+      lon: -98.35, // Centralized continental US coordinate
       region: 'na',
       slug: 'sports-wear-manufacturer-us',
-      volume: '65,000+ Units/Yr',
-      airTransit: '4-6 Days (DHL / FedEx)',
-      seaTransit: '18-22 Days (Port of NY/NJ)',
-      primaryLines: '7v7 Football, Baseball Jerseys & Heavy French Terry Hoodies',
-      clientRating: '4.98 / 5.0 (180+ Brands)'
+      volume: '110,000+ Units/Yr',
+      airTransit: '4-6 Days (DHL / FedEx Priority)',
+      seaTransit: '18-22 Days (NY/NJ & Long Beach DDP)',
+      sportswear: 'American Football & 7v7 Uniforms, Baseball Button-Downs, Heavy 460 GSM Hoodies',
+      sportsGoods: 'Thermal-Bonded Soccer Match Balls, Cowhide Boxing Fight Gloves & BJJ Gis',
+      clientRating: '4.98 / 5.0 (220+ US Brands)'
     },
     {
-      id: 'us-la',
-      name: 'Los Angeles & West Coast',
-      country: 'USA',
-      flag: '🇺🇸',
-      lat: 34.05,
-      lon: -118.24,
-      region: 'na',
-      slug: 'sports-wear-manufacturer-us',
-      volume: '45,000+ Units/Yr',
-      airTransit: '4-6 Days Express',
-      seaTransit: '16-20 Days (Port of Long Beach)',
-      primaryLines: 'Basketball Uniforms, Seamless Gymwear & Combat Gear',
-      clientRating: '4.95 / 5.0'
-    },
-    {
-      id: 'uk-london',
-      name: 'London & Midlands',
+      id: 'uk',
+      name: 'United Kingdom',
       country: 'United Kingdom',
       flag: '🇬🇧',
-      lat: 51.5,
-      lon: -0.12,
+      lat: 53.5,
+      lon: -2.0, // Central UK
       region: 'eu',
       slug: 'sports-wear-manufacturer-uk',
-      volume: '55,000+ Units/Yr',
-      airTransit: '3-5 Days (LHR Cargo)',
-      seaTransit: '20-24 Days (Felixstowe)',
-      primaryLines: 'Football Club Match Kits, Rugby Uniforms & Tracksuits',
-      clientRating: '4.97 / 5.0 (140+ Clubs)'
+      volume: '65,000+ Units/Yr',
+      airTransit: '3-5 Days (Heathrow Air Cargo)',
+      seaTransit: '20-24 Days (Port of Felixstowe)',
+      sportswear: 'FA-Compliant Football Club Match Kits, Pro Rugby Union/League Uniforms',
+      sportsGoods: 'FIFA Quality Pro Match Balls, German Contact Latex Goalkeeper Gloves',
+      clientRating: '4.97 / 5.0 (150+ Clubs)'
     },
     {
-      id: 'de-frankfurt',
-      name: 'Frankfurt & Munich',
+      id: 'ca',
+      name: 'Canada',
+      country: 'Canada',
+      flag: '🇨🇦',
+      lat: 53.0,
+      lon: -95.0, // Central Canadian corridor
+      region: 'na',
+      slug: 'sports-wear-manufacturer-canada',
+      volume: '38,000+ Units/Yr',
+      airTransit: '4-6 Days (Air Canada Express)',
+      seaTransit: '20-25 Days (Montreal & Vancouver)',
+      sportswear: 'Pro 300 GSM Air-Knit Hockey Sweaters, Thermal Conditioning Tops & Tracksuits',
+      sportsGoods: 'Waterproof 900D Heavy Sports Equipment Bags & Training Gear',
+      clientRating: '4.95 / 5.0 (90+ Canadian Clubs)'
+    },
+    {
+      id: 'au',
+      name: 'Australia',
+      country: 'Australia',
+      flag: '🇦🇺',
+      lat: -25.27,
+      lon: 133.77, // Central Australia
+      region: 'apac',
+      slug: 'sports-wear-manufacturer-australia',
+      volume: '45,000+ Units/Yr',
+      airTransit: '5-7 Days (Qantas Freight Priority)',
+      seaTransit: '18-24 Days (Melbourne & Sydney)',
+      sportswear: 'AFL Footy Guernseys, Sublimated Netball Match Dresses & UPF 50+ Lycra Rashguards',
+      sportsGoods: 'Hand-Stitched Cricket Leather Match Balls & Rugby Training Shields',
+      clientRating: '4.96 / 5.0 (110+ Aussie Brands)'
+    },
+    {
+      id: 'de',
+      name: 'Germany',
       country: 'Germany',
       flag: '🇩🇪',
-      lat: 50.11,
-      lon: 8.68,
+      lat: 51.16,
+      lon: 10.45, // Central Germany
       region: 'eu',
       slug: 'sports-wear-manufacturer-germany',
-      volume: '38,000+ Units/Yr',
-      airTransit: '3-5 Days Direct',
-      seaTransit: '22-26 Days (Hamburg)',
-      primaryLines: 'Handball Kits, Aero Cycling Suits & Running Singlets',
+      volume: '42,000+ Units/Yr',
+      airTransit: '3-5 Days (Lufthansa Cargo Direct)',
+      seaTransit: '22-26 Days (Port of Hamburg)',
+      sportswear: 'Handball League Kits, Aerodynamic Cycling Skinsuits & Micro-Mesh Running Tees',
+      sportsGoods: 'Official Size Handball Match Balls, Cut-Resistant Shin Guards & Agility Accessories',
       clientRating: '4.99 / 5.0 (OEKO-TEX Certified)'
     },
     {
-      id: 'au-sydney',
-      name: 'Sydney & Melbourne',
-      country: 'Australia',
-      flag: '🇦🇺',
-      lat: -33.86,
-      lon: 151.2,
-      region: 'apac',
-      slug: 'sports-wear-manufacturer-australia',
-      volume: '42,000+ Units/Yr',
-      airTransit: '5-7 Days (Qantas Air)',
-      seaTransit: '18-24 Days (Port Botany)',
-      primaryLines: 'AFL Guernseys, Netball Dresses & UPF 50+ Rashguards',
-      clientRating: '4.96 / 5.0'
+      id: 'uae',
+      name: 'UAE & Middle East',
+      country: 'UAE & GCC',
+      flag: '🇦🇪',
+      lat: 24.2,
+      lon: 54.5, // Arabian Gulf
+      region: 'me',
+      slug: 'sports-wear-manufacturer-uae',
+      volume: '52,000+ Units/Yr',
+      airTransit: '2-4 Days (Emirates SkyCargo Direct)',
+      seaTransit: '8-12 Days (Port of Jebel Ali, Dubai)',
+      sportswear: 'High-Heat Breathable Padel Polos, Football Academy Kits & Marathon Tees',
+      sportsGoods: 'Padel Racket Thermal Bags, Leather Boxing Sparring Gloves & BJJ Ripstop Gis',
+      clientRating: '4.98 / 5.0 (120+ GCC Partners)'
     },
     {
-      id: 'ca-toronto',
-      name: 'Toronto & Montreal',
-      country: 'Canada',
-      flag: '🇨🇦',
-      lat: 43.65,
-      lon: -79.38,
-      region: 'na',
-      slug: 'sports-wear-manufacturer-canada',
-      volume: '32,000+ Units/Yr',
-      airTransit: '4-6 Days (Air Canada)',
-      seaTransit: '20-25 Days (Montreal)',
-      primaryLines: 'Pro Air-Knit Hockey Sweaters & Winter Thermal Tops',
+      id: 'fr',
+      name: 'France',
+      country: 'France',
+      flag: '🇫🇷',
+      lat: 46.5,
+      lon: 2.5, // Central France
+      region: 'eu',
+      slug: 'sports-wear-manufacturer-france',
+      volume: '30,000+ Units/Yr',
+      airTransit: '3-5 Days (Air France Cargo CDG)',
+      seaTransit: '20-24 Days (Port of Le Havre)',
+      sportswear: 'Top 14 Style Rugby Jerseys, Technical Trail Running Singlets & Athleisure',
+      sportsGoods: 'Heavy-Duty Ball Carrying Sacks, Combat Kick Shields & Fitness Belts',
       clientRating: '4.94 / 5.0'
     },
     {
-      id: 'uae-dubai',
-      name: 'Dubai & Abu Dhabi',
-      country: 'UAE & GCC',
-      flag: '🇦🇪',
-      lat: 25.2,
-      lon: 55.27,
-      region: 'me',
-      slug: 'sports-wear-manufacturer-uae',
-      volume: '48,000+ Units/Yr',
-      airTransit: '2-4 Days (Emirates SkyCargo)',
-      seaTransit: '8-12 Days (Jebel Ali Port)',
-      primaryLines: 'Padel Sportswear, Soccer Academy Kits & Boxing Gloves',
-      clientRating: '4.98 / 5.0'
-    },
-    {
-      id: 'fr-paris',
-      name: 'Paris & Lyon',
-      country: 'France',
-      flag: '🇫🇷',
-      lat: 48.85,
-      lon: 2.35,
-      region: 'eu',
-      slug: 'sports-wear-manufacturer-france',
-      volume: '28,000+ Units/Yr',
-      airTransit: '3-5 Days Express',
-      seaTransit: '20-24 Days (Le Havre)',
-      primaryLines: 'Rugby Jerseys, Trail Running Gear & Combed Cotton Athleisure',
-      clientRating: '4.93 / 5.0'
-    },
-    {
-      id: 'nl-amsterdam',
-      name: 'Amsterdam & Rotterdam',
-      country: 'Netherlands',
-      flag: '🇳🇱',
-      lat: 52.37,
-      lon: 4.89,
-      region: 'eu',
-      slug: 'sports-wear-manufacturer-netherlands',
+      id: 'jp',
+      name: 'Japan & East Asia',
+      country: 'Japan',
+      flag: '🇯🇵',
+      lat: 36.2,
+      lon: 138.25, // Japan
+      region: 'apac',
+      slug: 'sports-wear-manufacturer-us',
       volume: '26,000+ Units/Yr',
-      airTransit: '3-5 Days (Schiphol)',
-      seaTransit: '20-22 Days (Rotterdam)',
-      primaryLines: 'Recycled Poly Field Hockey Kits & Speed Skating Suits',
-      clientRating: '4.95 / 5.0'
+      airTransit: '4-6 Days (Narita Express Cargo)',
+      seaTransit: '14-18 Days (Port of Yokohama)',
+      sportswear: 'Single/Double Weave Judo Gis, 4-Way Compression Rashguards & Running Singlets',
+      sportsGoods: 'Micro-Fiber FIFA Spec Footballs & Traditional Leather Martial Arts Gear',
+      clientRating: '4.96 / 5.0'
+    },
+    {
+      id: 'za',
+      name: 'South Africa',
+      country: 'South Africa',
+      flag: '🇿🇦',
+      lat: -29.0,
+      lon: 24.5, // South Africa
+      region: 'apac',
+      slug: 'sports-wear-manufacturer-uk',
+      volume: '22,000+ Units/Yr',
+      airTransit: '5-7 Days (Air Freight Door-to-Door)',
+      seaTransit: '22-26 Days (Durban Sea Port)',
+      sportswear: 'Rugby Union Match Jerseys, Cricket Whites & Sublimated Tracksuits',
+      sportsGoods: 'Four-Piece Cricket Leather Balls, Rugby Match Balls & Tackle Bags',
+      clientRating: '4.93 / 5.0'
     }
   ];
 
@@ -198,15 +206,14 @@ export default function GlobalExportGlobe() {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    // Pre-calculate sample land dots distributed on the sphere
-    const dotsCount = 450;
+    // Pre-calculate sample distributed land points on sphere
+    const dotsCount = 420;
     const sphereDots = [];
     for (let i = 0; i < dotsCount; i++) {
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = Math.cbrt(Math.random());
       const sinPhi = Math.sin(phi);
       sphereDots.push({
         x: Math.sin(theta) * sinPhi,
@@ -218,11 +225,11 @@ export default function GlobalExportGlobe() {
     let arcProgress = 0;
 
     const render = () => {
-      // Auto-rotation if not interacting
+      // Auto-rotation if user isn't dragging
       if (isRotating && !isDraggingRef.current) {
-        rotationRef.current.yaw += 0.004;
+        rotationRef.current.yaw += 0.0035;
       }
-      arcProgress = (arcProgress + 0.012) % 1;
+      arcProgress = (arcProgress + 0.010) % 1;
 
       const width = canvas.width;
       const height = canvas.height;
@@ -232,45 +239,44 @@ export default function GlobalExportGlobe() {
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Globe Ambient Shadow & Outer Atmosphere Glow
+      // 1. Globe Outer Ambient Glow (Dark aesthetic with warm orange rim)
       const glowGradient = ctx.createRadialGradient(
-        centerX, centerY, radius * 0.8,
+        centerX, centerY, radius * 0.85,
         centerX, centerY, radius * 1.25
       );
-      glowGradient.addColorStop(0, 'rgba(255, 117, 31, 0.12)');
-      glowGradient.addColorStop(0.6, 'rgba(255, 117, 31, 0.03)');
+      glowGradient.addColorStop(0, 'rgba(255, 117, 31, 0.14)');
+      glowGradient.addColorStop(0.5, 'rgba(255, 117, 31, 0.04)');
       glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = glowGradient;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius * 1.25, 0, Math.PI * 2);
       ctx.fill();
 
-      // 2. Base Sphere Fill (Dark Luxury Obsidian with Warm Tint)
+      // 2. Base Sphere Fill (Deep Obsidian Charcoal with warm gradient)
       const sphereGradient = ctx.createRadialGradient(
-        centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.1,
+        centerX - radius * 0.35, centerY - radius * 0.35, radius * 0.1,
         centerX, centerY, radius
       );
-      sphereGradient.addColorStop(0, '#2D2825');
-      sphereGradient.addColorStop(0.7, '#1A1817');
-      sphereGradient.addColorStop(1, '#0E0D0C');
+      sphereGradient.addColorStop(0, '#2A2624');
+      sphereGradient.addColorStop(0.65, '#171514');
+      sphereGradient.addColorStop(1, '#0C0B0A');
 
       ctx.fillStyle = sphereGradient;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // 3. Globe Border Ring
-      ctx.strokeStyle = 'rgba(255, 117, 31, 0.3)';
+      // 3. Crisp Globe Border Ring
+      ctx.strokeStyle = 'rgba(255, 117, 31, 0.35)';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 4. Latitude / Longitude Grid Rings
+      // 4. Subtle Latitude/Longitude Grid Lines
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
       ctx.lineWidth = 1;
 
-      // Draw latitude circles
       [-45, 0, 45].forEach((latDeg) => {
         const phi = (90 - latDeg) * (Math.PI / 180);
         const yBase = Math.cos(phi);
@@ -291,21 +297,21 @@ export default function GlobalExportGlobe() {
         ctx.stroke();
       });
 
-      // 5. Draw Decorative Landmass Points on Sphere
+      // 5. Decorative Land Dots
       sphereDots.forEach((dot) => {
         const rot = rotatePoint(dot, rotationRef.current.yaw, rotationRef.current.pitch);
         if (rot.z > 0) {
           const screenX = centerX + rot.x * radius;
           const screenY = centerY - rot.y * radius;
-          const alpha = (rot.z * 0.45).toFixed(2);
-          ctx.fillStyle = `rgba(229, 223, 213, ${alpha})`;
+          const alpha = (rot.z * 0.4).toFixed(2);
+          ctx.fillStyle = `rgba(245, 241, 232, ${alpha})`;
           ctx.beginPath();
           ctx.arc(screenX, screenY, 1.2, 0, Math.PI * 2);
           ctx.fill();
         }
       });
 
-      // 6. Draw Export Trajectory Flight Arcs from Sialkot to Hubs
+      // 6. Draw Export Trajectory Flight Arcs from Sialkot HQ to Well-Spaced Hubs
       const sialkot3D = toCartesian(SIALKOT.lat, SIALKOT.lon);
       const sialkotRot = rotatePoint(sialkot3D, rotationRef.current.yaw, rotationRef.current.pitch);
 
@@ -313,23 +319,21 @@ export default function GlobalExportGlobe() {
         const hub3D = toCartesian(hub.lat, hub.lon);
         const hubRot = rotatePoint(hub3D, rotationRef.current.yaw, rotationRef.current.pitch);
 
-        // If either Sialkot or the hub is on the visible front hemisphere
+        // Render arc if either Sialkot or the hub is in view
         if (sialkotRot.z > -0.2 || hubRot.z > -0.2) {
           const isCurrentSelected = selectedHub === hIdx;
 
-          // Draw great-circle arc interpolation
           ctx.beginPath();
-          const arcSegments = 24;
+          const arcSegments = 26;
           for (let s = 0; s <= arcSegments; s++) {
             const t = s / arcSegments;
-            // Interpolate vector on sphere
             const ix = sialkot3D.x * (1 - t) + hub3D.x * t;
             const iy = sialkot3D.y * (1 - t) + hub3D.y * t;
             const iz = sialkot3D.z * (1 - t) + hub3D.z * t;
             const mag = Math.sqrt(ix * ix + iy * iy + iz * iz);
 
-            // Loft the arc outwards above sphere surface
-            const loft = 1.0 + Math.sin(t * Math.PI) * 0.18;
+            // Elevated loft curve
+            const loft = 1.0 + Math.sin(t * Math.PI) * 0.20;
             const pLoft = {
               x: (ix / mag) * loft,
               y: (iy / mag) * loft,
@@ -346,20 +350,20 @@ export default function GlobalExportGlobe() {
           }
 
           ctx.strokeStyle = isCurrentSelected 
-            ? 'rgba(255, 117, 31, 0.9)' 
-            : 'rgba(255, 117, 31, 0.35)';
+            ? 'rgba(255, 117, 31, 0.95)' 
+            : 'rgba(255, 117, 31, 0.30)';
           ctx.lineWidth = isCurrentSelected ? 2.5 : 1.2;
-          ctx.setLineDash(isCurrentSelected ? [4, 4] : [2, 6]);
+          ctx.setLineDash(isCurrentSelected ? [5, 4] : [2, 6]);
           ctx.stroke();
-          ctx.setLineDash([]); // Reset dash
+          ctx.setLineDash([]);
 
-          // Glowing animated packet traveling along the arc
-          const tP = (arcProgress + hIdx * 0.15) % 1;
+          // Animated courier packet traveling along the trajectory
+          const tP = (arcProgress + hIdx * 0.12) % 1;
           const ix = sialkot3D.x * (1 - tP) + hub3D.x * tP;
           const iy = sialkot3D.y * (1 - tP) + hub3D.y * tP;
           const iz = sialkot3D.z * (1 - tP) + hub3D.z * tP;
           const mag = Math.sqrt(ix * ix + iy * iy + iz * iz);
-          const loft = 1.0 + Math.sin(tP * Math.PI) * 0.18;
+          const loft = 1.0 + Math.sin(tP * Math.PI) * 0.20;
           const packet3D = {
             x: (ix / mag) * loft,
             y: (iy / mag) * loft,
@@ -367,7 +371,7 @@ export default function GlobalExportGlobe() {
           };
           const packetRot = rotatePoint(packet3D, rotationRef.current.yaw, rotationRef.current.pitch);
 
-          if (packetRot.z > 0) {
+          if (packetRot.z > 0.05) {
             const px = centerX + packetRot.x * radius;
             const py = centerY - packetRot.y * radius;
             ctx.fillStyle = '#FFFFFF';
@@ -376,31 +380,32 @@ export default function GlobalExportGlobe() {
             ctx.beginPath();
             ctx.arc(px, py, isCurrentSelected ? 3.5 : 2, 0, Math.PI * 2);
             ctx.fill();
-            ctx.shadowBlur = 0; // reset
+            ctx.shadowBlur = 0;
           }
         }
       });
 
-      // 7. Draw Destination Hotspots / Pins
+      // 7. Draw Destination Hotspots (Filtered by front depth z > 0.12 for clean breathing room)
       exportHubs.forEach((hub, hIdx) => {
         const hub3D = toCartesian(hub.lat, hub.lon);
         const hubRot = rotatePoint(hub3D, rotationRef.current.yaw, rotationRef.current.pitch);
 
-        if (hubRot.z > 0.05) {
+        // Only draw if facing the viewer with ample clearance (prevents perimeter clutter)
+        if (hubRot.z > 0.12) {
           const hx = centerX + hubRot.x * radius;
           const hy = centerY - hubRot.y * radius;
           const isCurrent = selectedHub === hIdx;
 
-          // Hotspot pulsing ring
+          // Pulsing radar ripple around the active pin
           if (isCurrent) {
-            ctx.strokeStyle = 'rgba(255, 117, 31, 0.6)';
+            ctx.strokeStyle = 'rgba(255, 117, 31, 0.7)';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.arc(hx, hy, 12, 0, Math.PI * 2);
             ctx.stroke();
           }
 
-          // Hotspot solid center
+          // Pin marker center
           ctx.fillStyle = isCurrent ? '#FF751F' : '#FFFFFF';
           ctx.beginPath();
           ctx.arc(hx, hy, isCurrent ? 5.5 : 3.5, 0, Math.PI * 2);
@@ -410,35 +415,34 @@ export default function GlobalExportGlobe() {
           ctx.lineWidth = 1.5;
           ctx.stroke();
 
-          // Text label for active or prominent hubs
-          if (isCurrent || hubRot.z > 0.5) {
+          // Text label only for active selection or high-depth focal points (eliminates label clutter)
+          if (isCurrent) {
             ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 10px Inter, sans-serif';
-            ctx.fillText(`${hub.flag} ${hub.country}`, hx + 8, hy - 4);
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.fillText(`${hub.flag} ${hub.country}`, hx + 10, hy - 4);
           }
         }
       });
 
-      // 8. Draw Sialkot Factory Origin Hotspot (Radiating Gold/Orange Beacon)
-      if (sialkotRot.z > 0) {
+      // 8. Draw Sialkot Factory Origin (Radiating Gold/Orange Beacon)
+      if (sialkotRot.z > 0.08) {
         const sx = centerX + sialkotRot.x * radius;
         const sy = centerY - sialkotRot.y * radius;
 
-        // Radiating pulse ring
-        ctx.strokeStyle = 'rgba(255, 117, 31, 0.8)';
+        ctx.strokeStyle = 'rgba(255, 117, 31, 0.85)';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(sx, sy, 10, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 11, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.fillStyle = '#FF751F';
         ctx.beginPath();
-        ctx.arc(sx, sy, 5, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 5.5, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = '#FFFFFF';
         ctx.font = 'bold 11px Inter, sans-serif';
-        ctx.fillText('🏭 Hare Plant (Sialkot HQ)', sx + 12, sy + 4);
+        ctx.fillText('🏭 Hare Plant (Sialkot HQ)', sx + 14, sy + 4);
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -449,7 +453,7 @@ export default function GlobalExportGlobe() {
     return () => cancelAnimationFrame(animationFrameId);
   }, [selectedHub, activeRegion, isRotating]);
 
-  // Mouse drag handlers for rotating the globe manually
+  // Mouse drag handlers for manual 3D globe rotation
   const handleMouseDown = (e) => {
     isDraggingRef.current = true;
     lastMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -469,12 +473,11 @@ export default function GlobalExportGlobe() {
     isDraggingRef.current = false;
   };
 
-  // When user clicks a hub card, rotate globe toward it
+  // Smoothly rotate globe towards a selected country hub
   const selectHub = (index) => {
     setSelectedHub(index);
     const targetHub = exportHubs[index];
     if (targetHub) {
-      // Calculate yaw to bring destination into front view
       const targetYaw = -((targetHub.lon + 180) * (Math.PI / 180)) + Math.PI / 2;
       rotationRef.current.yaw = targetYaw;
       rotationRef.current.pitch = 0.2;
@@ -494,10 +497,10 @@ export default function GlobalExportGlobe() {
             Global Export Footprint & Distribution
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[#1A1A1A] mt-2">
-            Supplying 45+ International Sportswear Markets
+            Supplying 45+ International Sportswear & Goods Markets
           </h2>
           <p className="text-sm text-[#595856] mt-1 max-w-2xl">
-            From our factory dry-port in Sialkot, Pakistan to commercial ports and doorsteps worldwide. Explore our active export corridors, transit lead times, and country hubs.
+            From our factory in Sialkot, Pakistan to commercial sports brands, leagues, and distributors worldwide. Delivering both technical sportswear apparel and athletic equipment internationally.
           </p>
         </div>
 
@@ -525,13 +528,13 @@ export default function GlobalExportGlobe() {
         </div>
       </div>
 
-      {/* Main Interactive Stage: 3D Canvas Globe + Destination Tooltip Intel */}
+      {/* Main Interactive Stage: 3D Canvas Globe + Detailed Dual Capability Profile Card */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         
         {/* Left: 3D Interactive Canvas Globe (7 cols) */}
         <div className="lg:col-span-7 relative">
           <div 
-            className="relative rounded-3xl overflow-hidden bg-[#161413] border border-black/40 p-4 shadow-2xl group cursor-grab active:cursor-grabbing"
+            className="relative rounded-3xl overflow-hidden bg-[#141211] border border-black/40 p-4 shadow-2xl group cursor-grab active:cursor-grabbing"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -568,7 +571,7 @@ export default function GlobalExportGlobe() {
               className="w-full h-[380px] sm:h-[460px] object-contain select-none"
             />
 
-            {/* Bottom Quick Hubs Strip */}
+            {/* Bottom Quick Destination Pills */}
             <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
               {filteredHubs.map((hub, idx) => {
                 const globalIndex = exportHubs.findIndex(h => h.id === hub.id);
@@ -596,11 +599,11 @@ export default function GlobalExportGlobe() {
           </div>
         </div>
 
-        {/* Right: Rich Interactive Tooltip & Logistics Profile Card (5 cols) */}
+        {/* Right: Detailed Export Intel Card showcasing BOTH Sportswear & Sports Goods */}
         <div className="lg:col-span-5 space-y-5">
-          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E5DFD5] shadow-lg space-y-6">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E5DFD5] shadow-lg space-y-5">
             
-            {/* Header with National Flag and Region Name */}
+            {/* Country Header */}
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#E5DFD5]">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
@@ -614,7 +617,7 @@ export default function GlobalExportGlobe() {
                 </h3>
                 <p className="text-xs text-[#595856] flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-[#FF751F]" />
-                  <span>Key Entry Corridor: {activeHubData.name}</span>
+                  <span>Regional Hub: {activeHubData.name}</span>
                 </p>
               </div>
 
@@ -626,42 +629,59 @@ export default function GlobalExportGlobe() {
 
             {/* Freight Speed Matrix */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-2xl bg-[#F5F1E8] border border-[#E5DFD5] space-y-1">
+              <div className="p-3 rounded-2xl bg-[#F5F1E8] border border-[#E5DFD5] space-y-1">
                 <span className="text-[11px] font-bold text-[#8A847A] uppercase flex items-center gap-1">
                   <Plane className="w-3.5 h-3.5 text-[#FF751F]" />
                   Air Priority Express
                 </span>
-                <p className="font-display font-bold text-sm text-[#1A1A1A]">
+                <p className="font-display font-bold text-xs text-[#1A1A1A]">
                   {activeHubData.airTransit}
                 </p>
                 <span className="text-[10px] text-emerald-600 block">DDP Customs Cleared</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[#F5F1E8] border border-[#E5DFD5] space-y-1">
+              <div className="p-3 rounded-2xl bg-[#F5F1E8] border border-[#E5DFD5] space-y-1">
                 <span className="text-[11px] font-bold text-[#8A847A] uppercase flex items-center gap-1">
                   <Ship className="w-3.5 h-3.5 text-[#FF751F]" />
-                  Ocean LCL / FCL
+                  Ocean Freight
                 </span>
-                <p className="font-display font-bold text-sm text-[#1A1A1A]">
+                <p className="font-display font-bold text-xs text-[#1A1A1A]">
                   {activeHubData.seaTransit}
                 </p>
-                <span className="text-[10px] text-[#595856] block">Lowest landed cost</span>
+                <span className="text-[10px] text-[#595856] block">Lowest landed unit cost</span>
               </div>
             </div>
 
-            {/* Primary Product Demands for this market */}
-            <div className="space-y-2 text-xs">
-              <span className="font-bold text-[#1A1A1A] uppercase tracking-wider block">
-                Top Product Lines Exported to {activeHubData.country}:
-              </span>
-              <p className="text-[#595856] leading-relaxed p-3 rounded-xl bg-[#FAF8F3] border border-[#E5DFD5]">
-                {activeHubData.primaryLines}
-              </p>
+            {/* Dual Manufacturing Lines Breakdown (Sportswear + Sports Goods) */}
+            <div className="space-y-2.5">
+              
+              {/* 1. Custom Sportswear Line */}
+              <div className="p-3 rounded-xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF751F] flex items-center gap-1.5">
+                  <Shirt className="w-3.5 h-3.5" />
+                  Custom Sportswear Apparel:
+                </span>
+                <p className="text-xs text-[#595856] leading-relaxed">
+                  {activeHubData.sportswear}
+                </p>
+              </div>
+
+              {/* 2. Sports Goods & Equipment Line */}
+              <div className="p-3 rounded-xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5">
+                  <Package className="w-3.5 h-3.5 text-[#FF751F]" />
+                  Sports Goods & Equipment:
+                </span>
+                <p className="text-xs text-[#595856] leading-relaxed">
+                  {activeHubData.sportsGoods}
+                </p>
+              </div>
+
             </div>
 
-            {/* Client Rating Pill */}
+            {/* Satisfaction Rating */}
             <div className="flex items-center justify-between text-xs pt-1">
-              <span className="text-[#595856]">Satisfaction Rating:</span>
+              <span className="text-[#595856]">Client Satisfaction:</span>
               <span className="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                 ★ {activeHubData.clientRating}
               </span>
