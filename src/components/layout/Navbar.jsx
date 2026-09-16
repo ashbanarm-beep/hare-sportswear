@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { 
   Menu, X, MessageCircle, FileText, ChevronRight, ChevronDown,
-  Mail, Phone, ShoppingBag, Globe, Plane
+  Mail, Phone, ShoppingBag, Globe, Plane, ArrowRight
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
 import { useRFQ } from '../../context/RFQContext';
@@ -35,8 +35,12 @@ export default function Navbar() {
   // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setGlobalDropdownOpen(false);
+      try {
+        if (dropdownRef.current && e?.target instanceof Node && !dropdownRef.current.contains(e.target)) {
+          setGlobalDropdownOpen(false);
+        }
+      } catch (err) {
+        // Suppress any DOM tree traversal errors
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -168,9 +172,9 @@ export default function Navbar() {
                             <div className="flex items-center gap-2.5 min-w-0">
                               <span className="text-xl shrink-0">{c.flag}</span>
                               <div className="truncate text-left">
-                                <span className="font-bold text-xs block truncate">{c.name}</span>
+                                <span className="font-bold text-xs block truncate">{c?.name}</span>
                                 <span className="text-[10px] text-[#8A847A] block truncate">
-                                  {c.stats[1].value} Air Transit
+                                  {c?.stats?.[1]?.value || '3-5 Days'} Air Transit
                                 </span>
                               </div>
                             </div>
@@ -231,7 +235,7 @@ export default function Navbar() {
             </a>
 
             {/* Inquiry Basket Indicator (if items selected) */}
-            {inquiryBasket.length > 0 && (
+            {(inquiryBasket?.length || 0) > 0 && (
               <Link
                 to="/contact"
                 className="relative p-2.5 rounded-xl bg-white text-[#FF751F] border border-[#FF751F]/30 hover:bg-[#FF751F]/10 transition-all shadow-sm"

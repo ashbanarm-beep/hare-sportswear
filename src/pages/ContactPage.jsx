@@ -13,21 +13,44 @@ export default function ContactPage() {
 
   const prefillCat = searchParams.get('cat') || (selectedProductForInquiry ? selectedProductForInquiry.category : 'Teamwear & Kits');
   const prefillQty = searchParams.get('qty') || (selectedProductForInquiry ? '50-100' : '100-500');
+  const prefillCountry = searchParams.get('country') || '';
+  const prefillProduct = searchParams.get('product') || '';
 
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     email: '',
     phone: '',
-    country: '',
+    country: prefillCountry,
     category: prefillCat,
     quantity: prefillQty,
     targetDate: 'Within 30 Days',
     fabricPreference: selectedProductForInquiry ? selectedProductForInquiry.material : '100% Polyester Interlock (160 GSM)',
-    message: inquiryBasket.length > 0 
-      ? `Inquiring about ${inquiryBasket.length} style(s) from catalog:\n` + inquiryBasket.map(p => `- ${p.name} (MOQ: ${p.moq})`).join('\n')
-      : ''
+    message: prefillProduct 
+      ? `Inquiring regarding custom manufacturing for ${prefillProduct}. Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
+      : inquiryBasket.length > 0 
+        ? `Inquiring about ${inquiryBasket.length} style(s) from catalog:\n` + inquiryBasket.map(p => `- ${p.name} (MOQ: ${p.moq})`).join('\n')
+        : ''
   });
+
+  useEffect(() => {
+    const country = searchParams.get('country');
+    const product = searchParams.get('product');
+    const cat = searchParams.get('cat');
+    const qty = searchParams.get('qty');
+
+    if (country || product || cat || qty) {
+      setFormData(prev => ({
+        ...prev,
+        country: country !== null && country !== undefined ? country : prev.country,
+        category: cat || prev.category,
+        quantity: qty || prev.quantity,
+        message: product 
+          ? `Inquiring regarding custom manufacturing for ${product}. Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
+          : prev.message
+      }));
+    }
+  }, [searchParams]);
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);

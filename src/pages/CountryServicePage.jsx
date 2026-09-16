@@ -10,11 +10,12 @@ import { useRFQ } from '../context/RFQContext';
 
 export default function CountryServicePage() {
   const location = useLocation();
+  const { countryCode } = useParams();
   const { openTechPackModal } = useRFQ();
 
-  // Determine current country from pathname (e.g. /sports-wear-manufacturer-us -> sports-wear-manufacturer-us)
-  const currentSlug = location.pathname.replace(/^\//, '');
-  const country = getCountryBySlug(currentSlug) || countryServices[0];
+  // Determine current country from params or pathname
+  const cleanPath = location.pathname.replace(/^\/+|\/+$/g, '');
+  const country = getCountryBySlug(countryCode || cleanPath) || countryServices[0];
 
   // Dynamically set Meta Title and Meta Description per user requirement
   useEffect(() => {

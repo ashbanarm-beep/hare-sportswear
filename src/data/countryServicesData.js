@@ -491,7 +491,18 @@ export const countryServices = [
 ];
 
 export function getCountryBySlug(slug) {
-  return countryServices.find((c) => c.slug === slug);
+  if (!slug) return undefined;
+  const clean = slug.toLowerCase().replace(/^\/+|\/+$/g, '');
+  const code = clean.replace(/^sports-wear-manufacturer-/, '');
+  return countryServices.find((c) => 
+    c.slug.toLowerCase() === clean || 
+    c.id.toLowerCase() === clean ||
+    c.id.toLowerCase() === code ||
+    c.countryName.toLowerCase() === code ||
+    c.name.toLowerCase() === code ||
+    clean.endsWith(`-${c.id.toLowerCase()}`) ||
+    clean === `sports-wear-manufacturer-${c.id.toLowerCase()}`
+  );
 }
 
 export function getCountryById(id) {

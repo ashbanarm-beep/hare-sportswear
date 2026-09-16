@@ -30,7 +30,7 @@ export default function ScissorCursor() {
 
       // Check if hovering over clickable elements
       const target = e.target;
-      const isClickable = target.closest('a, button, input, select, textarea, [role="button"], label, .interactive-hover');
+      const isClickable = target && typeof target.closest === 'function' && target.closest('a, button, input, select, textarea, [role="button"], label, .interactive-hover');
       setIsHovering(!!isClickable);
     };
 

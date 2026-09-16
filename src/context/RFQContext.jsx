@@ -21,6 +21,9 @@ export function RFQProvider({ children }) {
     setInquiryBasket([]);
   };
 
+  const openTechPackModal = () => setIsTechPackModalOpen(true);
+  const closeTechPackModal = () => setIsTechPackModalOpen(false);
+
   return (
     <RFQContext.Provider value={{
       inquiryBasket,
@@ -30,7 +33,9 @@ export function RFQProvider({ children }) {
       selectedProductForInquiry,
       setSelectedProductForInquiry,
       isTechPackModalOpen,
-      setIsTechPackModalOpen
+      setIsTechPackModalOpen,
+      openTechPackModal,
+      closeTechPackModal
     }}>
       {children}
     </RFQContext.Provider>

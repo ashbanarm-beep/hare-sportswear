@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
   Search, Filter, SlidersHorizontal, Check, Eye, ShoppingBag, 
@@ -19,6 +19,15 @@ export default function ProductsPage() {
 
   const { addToBasket } = useRFQ();
   const [addedItemMap, setAddedItemMap] = useState({});
+
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) {
+      setSelectedCategory(cat);
+    } else {
+      setSelectedCategory('all');
+    }
+  }, [searchParams]);
 
   // Filter products based on category, material, and search
   const filteredProducts = useMemo(() => {
