@@ -10,7 +10,6 @@ import {
 import { blogPosts } from '../data/blogData';
 import { LinkedInIcon, TwitterIcon } from '../components/common/SocialIcons';
 import { useRFQ } from '../context/RFQContext';
-import FloatingCornerMascot from '../components/mascot/FloatingCornerMascot';
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -563,6 +562,36 @@ export default function BlogPostPage() {
           {/* ========================================================= */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-5">
             
+            {/* Clean Stable Mascot Companion Card */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3.5 text-center">
+              <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden border-2 border-[#FF751F] shadow-md bg-[#1A1A1A]">
+                <img
+                  src="/images/mascot/hurry-hero.jpg"
+                  alt="Hurry the Hare - Brand Mascot"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block">
+                  Meet Hurry the Hare 🐰
+                </span>
+                <h4 className="font-bold text-sm text-[#1A1A1A] font-display">
+                  Need Custom Teamwear Samples?
+                </h4>
+                <p className="text-[11px] text-[#59554E] leading-relaxed mt-1">
+                  Get direct Sialkot factory advice on tech packs, fabric weights (GSM), and 7-day rapid physical prototypes.
+                </p>
+              </div>
+              <Link
+                to="/contact?source=blog-mascot-card"
+                className="w-full py-2.5 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                <span>Request Factory Quote</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
             {/* Quick Factory Specs Box */}
             <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3.5">
               <div className="flex items-center gap-2 text-[11px] font-bold text-[#FF751F] uppercase tracking-wider">
@@ -590,14 +619,6 @@ export default function BlogPostPage() {
                   <strong className="text-[#1A1A1A]">3–5 Days (DHL/FedEx)</strong>
                 </li>
               </ul>
-
-              <Link
-                to="/contact"
-                className="w-full mt-2 py-2 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
-              >
-                <span>Request Custom Quote</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
 
             {/* Physical Swatch Box Promotion */}
@@ -651,12 +672,6 @@ export default function BlogPostPage() {
         </div>
 
       </div>
-
-      {/* ============================================================= */}
-      {/* SAYNINE-STYLE FLOATING CORNER MASCOT ("HURRY THE HARE") */}
-      {/* Fluidly follows viewport on the left/bottom corner as user scrolls */}
-      {/* ============================================================= */}
-      <FloatingCornerMascot scrollProgress={scrollProgress} />
 
     </div>
   );
