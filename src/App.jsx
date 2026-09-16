@@ -35,7 +35,7 @@ export default function App() {
           <ScrollToTop />
           <ScissorCursor />
           
-          <div className="flex flex-col min-h-screen bg-[#F5F1E8] text-[#1A1A1A] font-sans selection:bg-[#FF751F] selection:text-white">
+          <div className="flex flex-col min-h-screen bg-[#F5F1E8] text-[#1A1A1A] font-sans">
             <ErrorBoundary name="Navbar">
               <Navbar />
             </ErrorBoundary>

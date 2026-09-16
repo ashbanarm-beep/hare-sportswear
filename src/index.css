@@ -131,4 +131,25 @@
   animation: floatSlow 4.5s ease-in-out 2.25s infinite;
 }
 
+/* Global Text Selection Styling */
+::selection {
+  background: transparent;
+  color: #FF751F; /* Exact Brand Orange */
+}
+
+::-moz-selection {
+  background: transparent;
+  color: #FF751F;
+}
+
+*::selection {
+  background: transparent;
+  color: #FF751F;
+}
+
+*::-moz-selection {
+  background: transparent;
+  color: #FF751F;
+}
+
 
