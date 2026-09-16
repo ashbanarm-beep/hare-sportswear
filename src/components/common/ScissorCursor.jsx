@@ -23,7 +23,7 @@ export default function ScissorCursor() {
 
     if (!mediaQuery.matches) return;
 
-    // Smooth mouse position update with lerp for organic feel
+    // Direct, ultra-responsive mouse position update
     const handleMouseMove = (e) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
@@ -36,11 +36,11 @@ export default function ScissorCursor() {
 
     const handleMouseDown = (e) => {
       setIsSnapping(true);
-      // Create a micro spark particle at cursor blade tip
+      // Create micro cut spark at scissor tip
       setClickSpark({ id: Date.now(), x: e.clientX, y: e.clientY });
       setTimeout(() => {
         setClickSpark(null);
-      }, 350);
+      }, 300);
     };
 
     const handleMouseUp = () => {
@@ -55,11 +55,10 @@ export default function ScissorCursor() {
       setIsVisible(true);
     };
 
-    // Smooth RAF loop to eliminate jitter while maintaining zero perceived lag
+    // Smooth RAF loop with high lerp factor for instant responsiveness
     const animate = () => {
-      // 0.85 factor provides immediate, razor-sharp response without sluggishness
-      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.9;
-      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.9;
+      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.92;
+      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.92;
 
       setPos({
         x: Math.round(currentPosRef.current.x * 10) / 10,
@@ -96,114 +95,136 @@ export default function ScissorCursor() {
 
   return (
     <>
-      {/* Click Spark / Fabric Cut Micro Effect */}
+      {/* Click Spark / Fabric Snip Effect */}
       {clickSpark && (
         <div
           className="fixed pointer-events-none z-[999999] -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${clickSpark.x}px`, top: `${clickSpark.y}px` }}
         >
-          {/* Expanding cut ripple */}
-          <div className="w-8 h-8 rounded-full border border-[#FF751F] animate-ping opacity-75"></div>
-          {/* Spark dots */}
+          <div className="w-6 h-6 rounded-full border border-[#FF751F] animate-ping opacity-80"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-bounce"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F]"></span>
           </div>
         </div>
       )}
 
-      {/* Main Scissor Cursor */}
+      {/* Main Straight Upright Scissor Cursor */}
       <div
         className="fixed pointer-events-none z-[999998] transition-transform duration-75 select-none"
         style={{
           left: `${pos.x}px`,
           top: `${pos.y}px`,
-          transform: `translate(-4px, -4px) scale(${isHovering ? 1.15 : 1}) ${isSnapping ? 'scale(0.92)' : ''}`,
+          // Hotspot is exactly at the top center tip (x = 18px, y = 1px)
+          transform: `translate(-18px, -1px) scale(${isHovering ? 1.15 : 1}) ${isSnapping ? 'scale(0.92)' : ''}`,
           willChange: 'transform, left, top'
         }}
         aria-hidden="true"
       >
-        {/* Scissor Vector Graphic */}
         <div className="relative">
+          {/* Straight Upright Scissor SVG */}
           <svg
             width="36"
-            height="36"
-            viewBox="0 0 48 48"
+            height="46"
+            viewBox="0 0 36 46"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
+            className="filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.45)]"
           >
-            {/* Top Blade & Handle (pivoting from center screw at x=20, y=20) */}
+            {/* Left Blade & Handle Unit (Pivots around center screw at 18, 21) */}
             <g
-              className="transition-transform duration-100 ease-out origin-[20px_20px]"
+              className="transition-transform duration-100 ease-out origin-[18px_21px]"
               style={{
-                transform: isSnapping ? 'rotate(18deg)' : isHovering ? 'rotate(-6deg)' : 'rotate(0deg)'
+                transform: isSnapping 
+                  ? 'rotate(8deg)' 
+                  : isHovering 
+                    ? 'rotate(-5deg)' 
+                    : 'rotate(0deg)'
               }}
             >
-              {/* Upper Handle / Finger Loop */}
-              <circle
-                cx="34"
-                cy="12"
-                r="7"
-                stroke="#FF751F"
-                strokeWidth="2.5"
-                fill="#1A1A1A"
-              />
-              {/* Upper Blade pointing down-left toward (2, 2) */}
+              {/* Left Blade (vertical taper pointing straight UP to x=17, y=1) */}
               <path
-                d="M27 16 C23 18 21 19 20 20 L2 4 C1 3 2 1 4 2 L20 18 Z"
-                fill="url(#scissorBladeGrad)"
-                stroke="#2B2927"
+                d="M17.5 1 L14 18 C14 20 16 21 18 21 L18 19 L17.5 1 Z"
+                fill="url(#straightBladeMetallic)"
+                stroke="#1A1A1A"
                 strokeWidth="0.75"
               />
-            </g>
-
-            {/* Bottom Blade & Handle */}
-            <g
-              className="transition-transform duration-100 ease-out origin-[20px_20px]"
-              style={{
-                transform: isSnapping ? 'rotate(-18deg)' : isHovering ? 'rotate(6deg)' : 'rotate(0deg)'
-              }}
-            >
-              {/* Lower Handle / Finger Loop */}
+              {/* Left Handle Arm */}
+              <path
+                d="M17 21 C15 25 12 28 11 31"
+                stroke="#FF751F"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+              {/* Left Handle Finger Ring */}
               <ellipse
-                cx="35"
-                cy="32"
-                rx="8"
-                ry="6.5"
+                cx="10"
+                cy="37"
+                rx="6.5"
+                ry="5.5"
                 stroke="#FF751F"
                 strokeWidth="2.5"
                 fill="#1A1A1A"
               />
-              {/* Lower Blade pointing down-left toward (2, 2) */}
+            </g>
+
+            {/* Right Blade & Handle Unit (Pivots around center screw at 18, 21) */}
+            <g
+              className="transition-transform duration-100 ease-out origin-[18px_21px]"
+              style={{
+                transform: isSnapping 
+                  ? 'rotate(-8deg)' 
+                  : isHovering 
+                    ? 'rotate(5deg)' 
+                    : 'rotate(0deg)'
+              }}
+            >
+              {/* Right Blade (vertical taper pointing straight UP to x=18.5, y=1) */}
               <path
-                d="M28 28 C24 24 21 21 20 20 L2 4 C1 5 3 7 4 6 L20 22 Z"
-                fill="url(#scissorBladeGrad)"
-                stroke="#2B2927"
+                d="M18.5 1 L22 18 C22 20 20 21 18 21 L18 19 L18.5 1 Z"
+                fill="url(#straightBladeMetallic)"
+                stroke="#1A1A1A"
                 strokeWidth="0.75"
+              />
+              {/* Right Handle Arm */}
+              <path
+                d="M19 21 C21 25 24 28 25 31"
+                stroke="#FF751F"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+              {/* Right Handle Thumb Loop */}
+              <ellipse
+                cx="26"
+                cy="37"
+                rx="7"
+                ry="5.5"
+                stroke="#FF751F"
+                strokeWidth="2.5"
+                fill="#1A1A1A"
               />
             </g>
 
-            {/* Pivot Gold Screw at Center of rotation */}
-            <circle cx="20" cy="20" r="3" fill="#FF751F" stroke="#FFFFFF" strokeWidth="1" />
-            <circle cx="20" cy="20" r="1" fill="#1A1A1A" />
+            {/* Center Pivot Fastener & Screw */}
+            <circle cx="18" cy="21" r="3.5" fill="#FF751F" stroke="#FFFFFF" strokeWidth="1" />
+            <circle cx="18" cy="21" r="1.2" fill="#1A1A1A" />
 
-            {/* Precise Cutting Tip Pointer Dot at (2, 2) */}
-            <circle cx="2.5" cy="2.5" r="1.2" fill="#FF751F" />
+            {/* Cutting Target Tip Indicator Dot at top apex (18, 1) */}
+            <circle cx="18" cy="1" r="1" fill="#FF751F" />
 
-            {/* Linear Gradient for Metallic Stainless Steel Blades */}
+            {/* Gradient for Sharp Stainless Steel Blades */}
             <defs>
-              <linearGradient id="scissorBladeGrad" x1="2" y1="2" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <linearGradient id="straightBladeMetallic" x1="14" y1="1" x2="22" y2="21" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#FFFFFF" />
-                <stop offset="0.45" stopColor="#E5DFD5" />
-                <stop offset="0.8" stopColor="#A8A296" />
-                <stop offset="1" stopColor="#595856" />
+                <stop offset="0.4" stopColor="#EAE5DC" />
+                <stop offset="0.75" stopColor="#B3ADA3" />
+                <stop offset="1" stopColor="#6E6962" />
               </linearGradient>
             </defs>
           </svg>
 
-          {/* Hover Glow Dot at the Tip */}
+          {/* Hover Glow Accent at Tip */}
           {isHovering && (
-            <span className="absolute -top-0.5 -left-0.5 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-pulse"></span>
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-pulse"></span>
           )}
         </div>
       </div>
