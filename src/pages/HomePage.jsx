@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, ShieldCheck, Zap, Globe, Sparkles, CheckCircle2, 
@@ -14,6 +14,29 @@ import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
+
+  useEffect(() => {
+    const pageTitle = "Hare Sportswear and Goods - Best sportswear manufacturer";
+    document.title = pageTitle;
+
+    // Set og:title meta tag
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitle);
+    }
+    ogTitle.setAttribute('content', pageTitle);
+
+    // Set twitter:title meta tag
+    let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (!twitterTitle) {
+      twitterTitle = document.createElement('meta');
+      twitterTitle.setAttribute('name', 'twitter:title');
+      document.head.appendChild(twitterTitle);
+    }
+    twitterTitle.setAttribute('content', pageTitle);
+  }, []);
 
   // Mini-calculator state for fast quote estimate
   const [calcCategory, setCalcCategory] = useState('Teamwear & Jerseys');
