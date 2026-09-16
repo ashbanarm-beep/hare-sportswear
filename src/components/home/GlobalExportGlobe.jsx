@@ -600,7 +600,37 @@ export default function GlobalExportGlobe() {
         </div>
 
         {/* Right: Detailed Export Intel Card showcasing BOTH Sportswear & Sports Goods */}
-        <div className="lg:col-span-5 space-y-5">
+        <div className="lg:col-span-5 space-y-4">
+          
+          {/* Mascot Global Dispatch Companion */}
+          <div className="rounded-3xl bg-white border border-[#E5DFD5] p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 relative overflow-hidden group">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-[#FAF8F3] border border-[#E5DFD5] shadow-sm shrink-0">
+              <img
+                src="/images/mascot/hurry-global.jpg"
+                alt="Hurry the Hare - Global Export Dispatcher"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <span className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+            </div>
+
+            <div className="min-w-0 space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                <span className="text-[10px] font-bold text-white bg-[#FF751F] px-2 py-0.5 rounded-full shadow-sm">
+                  Global Dispatcher
+                </span>
+              </div>
+              <p className="text-xs text-[#595856] leading-relaxed">
+                "Direct air dispatch into <strong className="text-[#1A1A1A]">{activeHubData.country}</strong> in {activeHubData.airTransit.split(' ')[0]} with all customs DDP pre-cleared!"
+              </p>
+              <div className="flex items-center gap-3 text-[10px] text-[#8A847A] pt-0.5">
+                <span className="text-[#FF751F] font-semibold">✈ Direct DDP Delivery</span>
+                <span>•</span>
+                <span>45+ Export Markets</span>
+              </div>
+            </div>
+          </div>
+
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E5DFD5] shadow-lg space-y-5">
             
             {/* Country Header */}

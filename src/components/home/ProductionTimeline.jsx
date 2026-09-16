@@ -85,6 +85,25 @@ export default function ProductionTimeline() {
     }
   ];
 
+  const hurryTips = [
+    {
+      heading: 'Tech Pack Vector Digitalization',
+      message: 'Send your AI vector or PDF tech pack! Our senior pattern masters calculate precise seam tolerances and fabric consumptions within 24 hours.'
+    },
+    {
+      heading: '7-Day Courier Strike-Off',
+      message: 'Approve your physical sample! Inspect Kiian Italian sublimation vibrancy, 4-way stretch tension, and woven brand labels before mass run.'
+    },
+    {
+      heading: 'Precision Juki Flatlock Assembly',
+      message: 'CNC laser cutters and automated Juki stitching lines in full swing! Producing 150,000+ units monthly with strict dimensional consistency.'
+    },
+    {
+      heading: 'AQL 2.5 Needle Detector Sweep',
+      message: '100% metal detector cleared, individual barcode polybags, and pre-cleared for direct DDP priority air dispatch straight to your door!'
+    }
+  ];
+
   // Scroll listener to update dynamic pipeline progress bar and active step
   useEffect(() => {
     const handleScroll = () => {
@@ -234,10 +253,73 @@ export default function ProductionTimeline() {
             </div>
 
           </div>
+
+          {/* Mascot Companion Card: Hurry the Hare - Master Craftsman */}
+          <div className="rounded-3xl bg-[#FAF8F3] border border-[#E5DFD5] p-5 shadow-sm space-y-4 overflow-hidden relative group">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-bl from-[#FF751F]/15 to-transparent rounded-bl-3xl pointer-events-none"></div>
+
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] shadow shrink-0">
+                <img
+                  src="/images/mascot/hurry-craftsman.jpg"
+                  alt="Hurry the Hare - Master Sports Craftsman"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry's Production Tip</span>
+                  <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-2 py-0.5 rounded-full border border-[#FF751F]/20">
+                    Phase 0{activeStep + 1}
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#8A847A] font-medium">Head of Rapid Sampling</p>
+              </div>
+            </div>
+
+            {/* Dynamic Mascot Tip */}
+            <div className="p-3.5 rounded-2xl bg-white border border-[#E5DFD5] text-xs text-[#595856] leading-relaxed relative shadow-sm">
+              <div className="font-semibold text-[#1A1A1A] mb-1 flex items-center gap-1.5 text-[11px]">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF751F]" />
+                <span>{hurryTips[activeStep]?.heading}</span>
+              </div>
+              <p>{hurryTips[activeStep]?.message}</p>
+            </div>
+
+            <button
+              onClick={openTechPackModal}
+              className="w-full py-2.5 px-4 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white text-xs font-bold transition-all shadow flex items-center justify-center gap-2 group-hover:shadow-glow-orange"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Ask Hurry About Tech Packs</span>
+            </button>
+          </div>
+
         </div>
 
         {/* Right Side: Detailed Scrolling Step Cards (7 cols) */}
         <div className="lg:col-span-7 space-y-8">
+          
+          {/* Mobile Mascot Companion Banner */}
+          <div className="lg:hidden rounded-2xl bg-white border border-[#E5DFD5] p-4 flex items-center gap-3.5 shadow-sm">
+            <img
+              src="/images/mascot/hurry-craftsman.jpg"
+              alt="Hurry the Hare"
+              className="w-14 h-14 rounded-xl object-cover border border-[#E5DFD5] shrink-0"
+            />
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-1.5 py-0.5 rounded">
+                  Craftsman Guide
+                </span>
+              </div>
+              <p className="text-[11px] text-[#595856] mt-0.5 line-clamp-2">
+                "{hurryTips[activeStep]?.message}"
+              </p>
+            </div>
+          </div>
           {steps.map((step, idx) => {
             const Icon = step.icon;
             const isActive = activeStep === idx;
