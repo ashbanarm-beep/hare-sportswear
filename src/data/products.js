@@ -27,11 +27,9 @@ export const products = [
     gsm: '155 - 160 GSM',
     moq: '25 Sets',
     leadTime: '10-14 Days',
-    image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-01-football-kit.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-01-football-kit.jpg'
     ],
     description: 'Engineered for professional clubs and tournament play. Features full all-over Italian sublimation with zero color-bleed, ultra-fast moisture wicking, reinforced bar-tack seams, and ergonomic side mesh cooling inserts.',
     features: [
@@ -59,10 +57,9 @@ export const products = [
     gsm: '180 GSM (Dual-Ply)',
     moq: '20 Sets',
     leadTime: '12-15 Days',
-    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-02-basketball-uniform.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-02-basketball-uniform.jpg'
     ],
     description: 'Two jerseys in one for home and away fixtures. Dual-layer micro birdseye mesh offers maximum airflow and frictionless drape during intense court movement.',
     features: [
@@ -88,9 +85,9 @@ export const products = [
     gsm: '280 - 300 GSM',
     moq: '25 Pcs',
     leadTime: '14 Days',
-    image: 'https://images.unsplash.com/photo-1628779238951-be2c9f2a59f4?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-03-rugby-jersey.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1628779238951-be2c9f2a59f4?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-03-rugby-jersey.jpg'
     ],
     description: 'Heavyweight, grip-infused rugby match jersey built to withstand high-impact scrums and tackles. Features tensile-reinforced flatlock stitching and rubber button plackets.',
     features: [
@@ -116,9 +113,9 @@ export const products = [
     gsm: '160 GSM CoolMax Jacquard',
     moq: '25 Sets',
     leadTime: '12 Days',
-    image: 'https://images.unsplash.com/photo-1531415074868-036b1c57e329?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-04-cricket-kit.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1531415074868-036b1c57e329?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-04-cricket-kit.jpg'
     ],
     description: 'Designed for high-performance fielding and batting in warm climates. Featuring UPF 50+ sun protection and moisture channels that disperse sweat rapidly.',
     features: [
@@ -144,9 +141,9 @@ export const products = [
     gsm: '220 GSM Double Knit',
     moq: '30 Pcs',
     leadTime: '14 Days',
-    image: 'https://images.unsplash.com/photo-1508344928928-7165b67de128?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-05-baseball-jersey.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1508344928928-7165b67de128?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-05-baseball-jersey.jpg'
     ],
     description: 'Traditional pro-cut baseball jersey featuring full button-up front with braided piping along placket, neck, and cuffs. Built with heavy-duty snag-resistant double knit yarn.',
     features: [

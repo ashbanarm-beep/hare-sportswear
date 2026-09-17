@@ -183,11 +183,15 @@ export default function ProductsPage() {
               className="group rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 flex flex-col cursor-pointer transition-all duration-300 shadow-sm hover:shadow-xl"
             >
               {/* Product Image Box */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#1A1A1A]">
+              <div className="relative aspect-[4/3] overflow-hidden bg-white border-b border-[#E5DFD5]">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${
+                    product.image.startsWith('/images/products/') 
+                      ? 'object-contain p-3' 
+                      : 'object-cover object-center'
+                  }`}
                 />
                 
                 {/* Badges */}

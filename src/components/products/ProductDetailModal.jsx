@@ -75,11 +75,15 @@ export default function ProductDetailModal({ product, onClose }) {
           <div className="lg:col-span-5 p-6 bg-[#FAF8F3] flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E5DFD5]">
             <div>
               {/* Main Preview Image */}
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#1A1A1A] border border-[#E5DFD5] shadow-inner group">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] shadow-inner group p-3 flex items-center justify-center">
                 <img
                   src={images[activeImage]}
                   alt={product.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${
+                    images[activeImage]?.startsWith('/images/products/')
+                      ? 'object-contain'
+                      : 'object-cover object-center'
+                  }`}
                 />
                 <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                   <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#FF751F] text-white shadow">
