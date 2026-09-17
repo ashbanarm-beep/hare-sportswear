@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, ArrowRight } from 'lucide-react';
+import CircularVideoHover from '../components/common/CircularVideoHover';
 
 import QualityCertifications from '../components/quality/QualityCertifications';
 import ZeroDefectSection from '../components/quality/ZeroDefectSection';
@@ -64,11 +65,11 @@ export default function QualityPage() {
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10">
           <p className="text-xs text-cream-300">
-            Request an in-person or live video audit of our Sialkot factory prior to placing a bulk order.
+            Request an in-person or <CircularVideoHover videoSrc="/videos/factory-production-showcase.mp4" label="Sialkot Facility Live Video Tour" badge="LIVE AUDIT"><span className="text-white font-bold underline decoration-[#FF751F]">live video audit of our Sialkot factory</span></CircularVideoHover> prior to placing a bulk order.
           </p>
           <Link
             to="/contact"
-            className="px-6 py-3 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white font-bold text-xs transition-colors shadow-glow-orange flex items-center gap-2"
+            className="px-6 py-3 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white font-bold text-xs transition-colors shadow-glow-orange flex items-center gap-2 shrink-0"
           >
             <span>Book a Factory Video Audit</span>
             <ArrowRight className="w-3.5 h-3.5" />
