@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Scissors, Layers, Zap, Tag, Sparkles, Cpu, 
-  ShieldCheck, Flame, Package, CheckCircle2, ArrowRight, 
-  ChevronRight, ChevronLeft, Maximize2, X, LayoutGrid, 
-  ListOrdered, SlidersHorizontal, Clock, Award
+  ShieldCheck, Flame, Package, CheckCircle2,
+  ChevronRight, ChevronLeft, Maximize2, X, Clock
 } from 'lucide-react';
 
 export default function PrecisionManufacturingFloor() {
-  const [viewMode, setViewMode] = useState('timeline'); // 'timeline' | 'tabs' | 'grid'
-  const [activeTab, setActiveTab] = useState(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const timelineRef = useRef(null);
 
   const steps = [
     {
@@ -167,6 +166,47 @@ export default function PrecisionManufacturingFloor() {
     }
   ];
 
+  // Scroll Progress Listener for Center Glowing Timeline
+  useEffect(() => {
+    let ticking = false;
+
+    const updateScrollProgress = () => {
+      if (!timelineRef.current) return;
+      const rect = timelineRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Start glow when top of timeline reaches upper-middle of viewport
+      const startTrigger = windowHeight * 0.70;
+      const endTrigger = windowHeight * 0.30;
+      const totalHeight = rect.height;
+
+      if (totalHeight <= 0) return;
+
+      const currentScroll = startTrigger - rect.top;
+      const maxScrollable = totalHeight + (startTrigger - endTrigger);
+      const progress = Math.min(Math.max(currentScroll / maxScrollable, 0), 1);
+
+      setScrollProgress(progress);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollProgress);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    updateScrollProgress();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   // Lightbox keyboard controls
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -181,12 +221,12 @@ export default function PrecisionManufacturingFloor() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImageIndex]);
+  }, [selectedImageIndex, steps.length]);
 
   return (
     <section className="space-y-10 pt-6">
       
-      {/* 1. Header & View Switcher */}
+      {/* 1. Header with Production Flow Details */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#E5DFD5]">
         <div className="space-y-2.5 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E5DFD5] text-xs font-bold text-[#1A1A1A] shadow-sm">
@@ -205,391 +245,202 @@ export default function PrecisionManufacturingFloor() {
           </p>
         </div>
 
-        {/* View Mode Switcher */}
-        <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-semibold text-[#8A847A] hidden sm:inline">Layout:</span>
-          <div className="inline-flex p-1 rounded-2xl bg-white border border-[#E5DFD5] text-xs font-semibold shadow-sm">
-            <button
-              type="button"
-              onClick={() => setViewMode('timeline')}
-              className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-                viewMode === 'timeline' 
-                  ? 'bg-[#1A1A1A] text-white shadow-sm' 
-                  : 'text-[#595856] hover:text-[#1A1A1A]'
-              }`}
-              title="Sequential Alternating Flow"
-            >
-              <ListOrdered className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Alternating</span>
-              <span>Flow</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setViewMode('tabs')}
-              className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-                viewMode === 'tabs' 
-                  ? 'bg-[#1A1A1A] text-white shadow-sm' 
-                  : 'text-[#595856] hover:text-[#1A1A1A]'
-              }`}
-              title="Interactive Step Navigator"
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Step</span>
-              <span>Navigator</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setViewMode('grid')}
-              className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-                viewMode === 'grid' 
-                  ? 'bg-[#1A1A1A] text-white shadow-sm' 
-                  : 'text-[#595856] hover:text-[#1A1A1A]'
-              }`}
-              title="Symmetric 3x3 Grid"
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>3 × 3 Grid</span>
-            </button>
-          </div>
+        {/* Milestone Indicator */}
+        <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-[#E5DFD5] text-xs font-bold text-[#1A1A1A] shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Sequential Alternating Production Flow</span>
         </div>
       </div>
 
-      {/* 2. VIEW MODE 1: Alternating Timeline / Flow (Default) */}
-      {viewMode === 'timeline' && (
-        <div className="relative space-y-12 sm:space-y-16 py-4">
+      {/* Mobile Scroll Progress Bar */}
+      <div className="lg:hidden w-full bg-[#E5DFD5]/70 h-1.5 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-[#FF751F] to-[#E65E08] shadow-[0_0_8px_#FF751F] transition-all duration-150 ease-out"
+          style={{ width: `${Math.max(scrollProgress * 100, 5)}%` }}
+        />
+      </div>
+
+      {/* 2. Alternating Flow Timeline with Glowing Center Spine */}
+      <div ref={timelineRef} className="relative space-y-12 sm:space-y-16 py-4">
+        
+        {/* Central Connecting Spine Base Track (Desktop) */}
+        <div className="hidden lg:block absolute left-1/2 top-8 bottom-8 -translate-x-1/2 w-1 bg-[#E5DFD5] rounded-full pointer-events-none">
           
-          {/* Central Connecting Spine Line (Desktop) */}
-          <div className="hidden lg:block absolute left-1/2 top-10 bottom-10 -translate-x-1/2 w-0.5 bg-gradient-to-b from-[#FF751F] via-[#E5DFD5] to-[#FF751F] pointer-events-none"></div>
+          {/* Ambient Glow Halo behind the spine */}
+          <div 
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-8 -ml-3.5 bg-gradient-to-b from-[#FF751F] via-[#FF9040] to-[#E65E08] blur-md opacity-75 rounded-full transition-all duration-150 ease-out pointer-events-none"
+            style={{ 
+              height: `${scrollProgress * 100}%` 
+            }}
+          />
 
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            const isEven = idx % 2 === 1;
-
-            return (
-              <div 
-                key={idx}
-                className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-              >
-                {/* Desktop Central Node Indicator */}
-                <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-[#FAF8F3] border-4 border-white shadow-xl items-center justify-center font-black text-xs text-[#FF751F] ring-2 ring-[#FF751F]/30">
-                  {step.number}
-                </div>
-
-                {/* Left Column */}
-                <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                  <div className="rounded-3xl bg-white border border-[#E5DFD5] p-6 sm:p-8 shadow-sm hover:shadow-lg transition-all space-y-5 relative group">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center font-black text-sm">
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-black text-[#FF751F] uppercase tracking-wider">
-                              Stage {step.number}
-                            </span>
-                            <span className="text-[#8A847A]">•</span>
-                            <span className="text-xs font-bold text-[#1A1A1A]">
-                              {step.stage}
-                            </span>
-                          </div>
-                          <span className="text-[11px] text-[#8A847A] flex items-center gap-1 font-medium">
-                            <Clock className="w-3 h-3 text-[#FF751F]" />
-                            {step.leadTime}
-                          </span>
-                        </div>
-                      </div>
-
-                      <span className="text-3xl font-display font-black text-[#E5DFD5] group-hover:text-[#FF751F]/30 transition-colors">
-                        {step.number}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-display font-black text-[#1A1A1A]">
-                        {step.title}
-                      </h3>
-                      <p className="text-xs font-bold text-[#FF751F] mt-1">
-                        {step.specs}
-                      </p>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-[#595856] leading-relaxed">
-                      {step.description}
-                    </p>
-
-                    {/* Key Technical Checklist */}
-                    <div className="space-y-2 pt-2 border-t border-[#E5DFD5]">
-                      {step.keyHighlights.map((hl, i) => (
-                        <div key={i} className="flex items-start gap-2.5 text-xs text-[#1A1A1A]">
-                          <CheckCircle2 className="w-4 h-4 text-[#FF751F] shrink-0 mt-0.5" />
-                          <span>{hl}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column: Image Container */}
-                <div className={`lg:col-span-6 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div 
-                    onClick={() => setSelectedImageIndex(idx)}
-                    className="relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/60 p-3 shadow-md hover:shadow-2xl transition-all duration-300 group cursor-pointer"
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Enlarge photo of ${step.title}`}
-                  >
-                    <div className="relative aspect-[16/11] rounded-2xl overflow-hidden bg-[#1A1A1A]">
-                      <img 
-                        src={step.image} 
-                        alt={step.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
-                      />
-                      
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
-
-                      {/* Top Step Pill */}
-                      <div className="absolute top-3.5 left-3.5 px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-white/40 text-xs font-bold text-[#1A1A1A] shadow-sm flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse"></span>
-                        <span>Step {step.number} : {step.shortTitle}</span>
-                      </div>
-
-                      {/* Enlarge Hint */}
-                      <div className="absolute top-3.5 right-3.5 p-2 rounded-xl bg-black/60 hover:bg-[#FF751F] backdrop-blur-md border border-white/20 text-white text-xs transition-colors shadow-sm flex items-center gap-1.5">
-                        <Maximize2 className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-semibold hidden sm:inline">Enlarge</span>
-                      </div>
-
-                      {/* Bottom Image Overlay Strip */}
-                      <div className="absolute bottom-3.5 left-3.5 right-3.5 p-3 rounded-xl bg-[#1A1A1A]/90 backdrop-blur-md border border-white/10 text-white pointer-events-none">
-                        <p className="text-xs font-semibold text-[#FF751F]">
-                          {step.stage} • Precision Benchmark
-                        </p>
-                        <p className="text-xs text-white/90 line-clamp-1 mt-0.5 font-medium">
-                          {step.summary}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
+          {/* Active Glowing Center Beam */}
+          <div 
+            className="relative w-full bg-gradient-to-b from-[#FF751F] via-[#FFA25B] to-[#FF4500] rounded-full transition-all duration-150 ease-out"
+            style={{ 
+              height: `${scrollProgress * 100}%`,
+              boxShadow: '0 0 10px #FF751F, 0 0 20px #FF751F, 0 0 32px rgba(255, 117, 31, 0.7)'
+            }}
+          />
         </div>
-      )}
 
-      {/* 3. VIEW MODE 2: Interactive Step Navigator (Tabs) */}
-      {viewMode === 'tabs' && (
-        <div className="space-y-8">
-          {/* Horizontal Step Selector Pills */}
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 scrollbar-none">
-            {steps.map((step, idx) => {
-              const isActive = activeTab === idx;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => setActiveTab(idx)}
-                  className={`px-4 py-3 rounded-2xl border text-left shrink-0 transition-all flex items-center gap-3 ${
-                    isActive 
-                      ? 'bg-[#1A1A1A] border-[#FF751F] text-white shadow-lg scale-105' 
-                      : 'bg-white border-[#E5DFD5] text-[#595856] hover:border-[#FF751F]/40'
+        {/* Traveling Laser Pulse Orb at the glowing beam tip */}
+        <div 
+          className="hidden lg:block absolute left-1/2 -translate-x-1/2 pointer-events-none z-30 transition-all duration-150 ease-out"
+          style={{ 
+            top: `calc(2rem + ${scrollProgress} * (100% - 4rem))`,
+            opacity: scrollProgress > 0.01 && scrollProgress < 0.99 ? 1 : 0
+          }}
+        >
+          <div className="relative -translate-y-1/2 flex items-center justify-center">
+            <div className="w-5 h-5 rounded-full bg-white shadow-[0_0_20px_#FF751F,0_0_40px_#FF751F] border-2 border-[#FF751F] flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-[#FF751F] animate-ping" />
+            </div>
+            <div className="absolute w-8 h-8 rounded-full bg-[#FF751F]/30 animate-pulse pointer-events-none" />
+          </div>
+        </div>
+
+        {steps.map((step, idx) => {
+          const Icon = step.icon;
+          const isEven = idx % 2 === 1;
+          
+          // Node activation threshold: milestone glows when beam reaches it
+          const nodeThreshold = idx / (steps.length - 1);
+          const isNodeActive = scrollProgress >= nodeThreshold * 0.92;
+
+          return (
+            <div 
+              key={idx}
+              className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            >
+              {/* Desktop Central Glowing Node Indicator */}
+              <div 
+                className={`hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border-4 transition-all duration-500 items-center justify-center font-black text-xs select-none ${
+                  isNodeActive
+                    ? 'bg-gradient-to-br from-[#FF751F] to-[#E65E08] text-white border-white shadow-[0_0_25px_rgba(255,117,31,0.85),0_0_45px_rgba(255,117,31,0.45)] ring-4 ring-[#FF751F]/40 scale-110'
+                    : 'bg-[#FAF8F3] text-[#8A847A] border-white shadow-md ring-1 ring-[#E5DFD5] scale-100'
+                }`}
+              >
+                {step.number}
+              </div>
+
+              {/* Text Card Column */}
+              <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                <div 
+                  className={`rounded-3xl bg-white border p-6 sm:p-8 transition-all duration-500 space-y-5 relative group ${
+                    isNodeActive
+                      ? 'border-[#FF751F]/40 shadow-lg ring-1 ring-[#FF751F]/20'
+                      : 'border-[#E5DFD5] shadow-sm hover:shadow-lg'
                   }`}
                 >
-                  <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs ${
-                    isActive ? 'bg-[#FF751F] text-white' : 'bg-[#FAF8F3] text-[#1A1A1A]'
-                  }`}>
-                    {step.number}
-                  </span>
-                  <div>
-                    <p className={`text-xs font-bold leading-tight ${isActive ? 'text-white' : 'text-[#1A1A1A]'}`}>
-                      {step.shortTitle}
-                    </p>
-                    <p className="text-[10px] text-[#8A847A] leading-tight">
-                      {step.stage}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm transition-colors duration-300 ${
+                        isNodeActive ? 'bg-[#FF751F] text-white shadow-sm' : 'bg-[#FF751F]/15 text-[#FF751F]'
+                      }`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black text-[#FF751F] uppercase tracking-wider">
+                            Stage {step.number}
+                          </span>
+                          <span className="text-[#8A847A]">•</span>
+                          <span className="text-xs font-bold text-[#1A1A1A]">
+                            {step.stage}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-[#8A847A] flex items-center gap-1 font-medium">
+                          <Clock className="w-3 h-3 text-[#FF751F]" />
+                          {step.leadTime}
+                        </span>
+                      </div>
+                    </div>
 
-          {/* Active Step Feature Box */}
-          <div className="rounded-3xl bg-white border border-[#E5DFD5] p-6 sm:p-10 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left Content (6 cols) */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#FF751F]/15 border border-[#FF751F]/30 text-[#FF751F] text-xs font-bold">
-                    Step {steps[activeTab].number} of 09
-                  </span>
-                  <span className="text-xs font-bold text-[#8A847A]">
-                    {steps[activeTab].stage}
-                  </span>
-                </div>
-
-                <span className="text-xs font-semibold text-[#8A847A] flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-[#FF751F]" />
-                  {steps[activeTab].leadTime}
-                </span>
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">
-                  {steps[activeTab].title}
-                </h3>
-                <p className="text-xs sm:text-sm font-bold text-[#FF751F]">
-                  {steps[activeTab].specs}
-                </p>
-              </div>
-
-              <p className="text-xs sm:text-base text-[#595856] leading-relaxed">
-                {steps[activeTab].description}
-              </p>
-
-              <div className="space-y-2.5 pt-2 border-t border-[#E5DFD5]">
-                {steps[activeTab].keyHighlights.map((hl, i) => (
-                  <div key={i} className="flex items-start gap-2 text-xs sm:text-sm text-[#1A1A1A]">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF751F] shrink-0 mt-0.5" />
-                    <span>{hl}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Prev / Next Buttons */}
-              <div className="flex items-center gap-3 pt-4 border-t border-[#E5DFD5]">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab(prev => Math.max(0, prev - 1))}
-                  disabled={activeTab === 0}
-                  className="px-4 py-2.5 rounded-xl border border-[#E5DFD5] text-xs font-bold text-[#1A1A1A] hover:bg-[#FAF8F3] disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1.5"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span>Previous Step</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setActiveTab(prev => Math.min(steps.length - 1, prev + 1))}
-                  disabled={activeTab === steps.length - 1}
-                  className="px-5 py-2.5 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white text-xs font-bold disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1.5 shadow"
-                >
-                  <span>Next Step</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right Photo (6 cols) */}
-            <div className="lg:col-span-6">
-              <div 
-                onClick={() => setSelectedImageIndex(activeTab)}
-                className="relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F] p-3 shadow-xl transition-all group cursor-pointer"
-                title="Click to Enlarge"
-              >
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#1A1A1A]">
-                  <img
-                    src={steps[activeTab].image}
-                    alt={steps[activeTab].title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
-
-                  <div className="absolute top-4 right-4 p-2.5 rounded-xl bg-black/60 hover:bg-[#FF751F] backdrop-blur-md border border-white/20 text-white transition-colors">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className="text-[11px] font-bold text-[#FF751F] uppercase">
-                      Live Sialkot Workshop
+                    <span className={`text-3xl font-display font-black transition-colors duration-500 ${
+                      isNodeActive ? 'text-[#FF751F]' : 'text-[#E5DFD5] group-hover:text-[#FF751F]/30'
+                    }`}>
+                      {step.number}
                     </span>
-                    <h4 className="font-display font-bold text-base mt-0.5 text-white">
-                      {steps[activeTab].title}
-                    </h4>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-display font-black text-[#1A1A1A]">
+                      {step.title}
+                    </h3>
+                    <p className="text-xs font-bold text-[#FF751F] mt-1">
+                      {step.specs}
+                    </p>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-[#595856] leading-relaxed">
+                    {step.description}
+                  </p>
+
+                  {/* Key Technical Checklist */}
+                  <div className="space-y-2 pt-2 border-t border-[#E5DFD5]">
+                    {step.keyHighlights.map((hl, i) => (
+                      <div key={i} className="flex items-start gap-2.5 text-xs text-[#1A1A1A]">
+                        <CheckCircle2 className="w-4 h-4 text-[#FF751F] shrink-0 mt-0.5" />
+                        <span>{hl}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div>
-        </div>
-      )}
-
-      {/* 4. VIEW MODE 3: Symmetric 3 × 3 Grid */}
-      {viewMode === 'grid' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={idx}
-                onClick={() => setSelectedImageIndex(idx)}
-                className="group rounded-3xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/60 p-3 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
-                role="button"
-                tabIndex={0}
-                aria-label={`Enlarge ${step.title}`}
-              >
-                <div className="space-y-3">
-                  {/* Photo Container */}
+              {/* Photo Column */}
+              <div className={`lg:col-span-6 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div 
+                  onClick={() => setSelectedImageIndex(idx)}
+                  className={`relative rounded-3xl overflow-hidden bg-white border p-3 shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer ${
+                    isNodeActive 
+                      ? 'border-[#FF751F]/50 shadow-[0_10px_30px_rgba(255,117,31,0.12)]' 
+                      : 'border-[#E5DFD5] hover:border-[#FF751F]/60'
+                  }`}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Enlarge photo of ${step.title}`}
+                >
                   <div className="relative aspect-[16/11] rounded-2xl overflow-hidden bg-[#1A1A1A]">
-                    <img
-                      src={step.image}
+                    <img 
+                      src={step.image} 
                       alt={step.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30 pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
 
-                    {/* Step Badge */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-xl bg-white/95 backdrop-blur-md border border-white/40 text-xs font-bold text-[#1A1A1A] shadow-sm flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F]"></span>
-                      <span>Step {step.number}</span>
+                    {/* Top Step Pill */}
+                    <div className="absolute top-3.5 left-3.5 px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-white/40 text-xs font-bold text-[#1A1A1A] shadow-sm flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${isNodeActive ? 'bg-[#FF751F] animate-ping' : 'bg-[#FF751F]'}`}></span>
+                      <span>Step {step.number} : {step.shortTitle}</span>
                     </div>
 
-                    <div className="absolute top-3 right-3 p-2 rounded-xl bg-black/60 hover:bg-[#FF751F] text-white transition-colors">
+                    {/* Enlarge Hint */}
+                    <div className="absolute top-3.5 right-3.5 p-2 rounded-xl bg-black/60 hover:bg-[#FF751F] backdrop-blur-md border border-white/20 text-white text-xs transition-colors shadow-sm flex items-center gap-1.5">
                       <Maximize2 className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-semibold hidden sm:inline">Enlarge</span>
                     </div>
 
-                    <div className="absolute bottom-3 left-3 right-3 text-white">
-                      <p className="text-[10px] text-[#FF751F] font-bold uppercase tracking-wider">
-                        {step.stage}
+                    {/* Bottom Image Overlay Strip */}
+                    <div className="absolute bottom-3.5 left-3.5 right-3.5 p-3 rounded-xl bg-[#1A1A1A]/90 backdrop-blur-md border border-white/10 text-white pointer-events-none">
+                      <p className="text-xs font-semibold text-[#FF751F]">
+                        {step.stage} • Precision Benchmark
                       </p>
-                      <h4 className="font-display font-bold text-sm text-white line-clamp-1">
-                        {step.title}
-                      </h4>
+                      <p className="text-xs text-white/90 line-clamp-1 mt-0.5 font-medium">
+                        {step.summary}
+                      </p>
                     </div>
                   </div>
-
-                  {/* Body Content */}
-                  <div className="p-2 space-y-2">
-                    <p className="text-xs text-[#FF751F] font-bold line-clamp-1">
-                      {step.specs}
-                    </p>
-                    <p className="text-xs text-[#595856] line-clamp-3 leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-2 pt-3 border-t border-[#E5DFD5] flex items-center justify-between text-xs text-[#8A847A]">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-[#FF751F]" />
-                    {step.leadTime}
-                  </span>
-                  <span className="font-bold text-[#FF751F] group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                    <span>Inspect</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      )}
 
-      {/* 5. Lightbox Modal for Full-Screen Inspection */}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 3. Lightbox Modal for Full-Screen Inspection */}
       {selectedImageIndex !== null && (
         <div 
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"

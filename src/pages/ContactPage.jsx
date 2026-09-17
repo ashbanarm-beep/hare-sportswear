@@ -171,12 +171,12 @@ export default function ContactPage() {
                     Dedicated account managers for North America, UK, and European timezones.
                   </span>
                   <a
-                    href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20I'd%20like%20to%20request%20an%20RFQ"
+                    href="https://wa.me/message/PBVPZM3J7ETGH1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-emerald-600 font-bold mt-1.5 hover:underline"
                   >
-                    <span>Chat on WhatsApp (+92 300 1234567)</span>
+                    <span>Chat on Factory WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -262,7 +262,7 @@ export default function ContactPage() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
                   <a
-                    href={`https://wa.me/923001234567?text=Hi%20Hare%20Sportswear,%20I%20just%20submitted%20RFQ%20reference%20${referenceId}`}
+                    href="https://wa.me/message/PBVPZM3J7ETGH1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition-all"

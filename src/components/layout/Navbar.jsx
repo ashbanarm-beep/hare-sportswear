@@ -85,7 +85,7 @@ export default function Navbar() {
               <span className="hidden sm:inline">export@haresportswear.com</span>
             </a>
             <span className="text-white/20 hidden sm:inline">•</span>
-            <a href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20inquiry%20from%20website" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 font-medium text-white">
+            <a href="https://wa.me/message/PBVPZM3J7ETGH1" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 font-medium text-white">
               <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
               <span>WhatsApp: +92 300 1234567</span>
             </a>
@@ -223,20 +223,6 @@ export default function Navbar() {
 
           {/* Right Actions & RFQ CTA */}
           <div className="hidden sm:flex items-center gap-3">
-            
-            {/* WhatsApp Quick Chat */}
-            <a
-              href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20I%20want%20to%20inquire%20about%20sportswear%20manufacturing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-600 border border-[#E5DFD5] hover:border-emerald-300 transition-all duration-200 group relative shadow-sm"
-              title="Chat with Sialkot Factory on WhatsApp"
-            >
-              <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1A1A1A] text-[11px] text-white px-2 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                WhatsApp Chat
-              </span>
-            </a>
 
             {/* Inquiry Basket Indicator (if items selected) */}
             {(inquiryBasket?.length || 0) > 0 && (
@@ -357,7 +343,7 @@ export default function Navbar() {
               </Link>
 
               <a
-                href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20I%20am%20interested%20in%20custom%20sportswear%20manufacturing"
+                href="https://wa.me/message/PBVPZM3J7ETGH1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm text-emerald-700 bg-emerald-50 border border-emerald-200"

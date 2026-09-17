@@ -557,7 +557,7 @@ export default function HomePage() {
             </Link>
 
             <a
-              href="https://wa.me/923001234567?text=Hi%20Hare%20Sportswear,%20I'd%20like%20to%20speak%20with%20a%20production%20manager"
+              href="https://wa.me/message/PBVPZM3J7ETGH1"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 transition-all"

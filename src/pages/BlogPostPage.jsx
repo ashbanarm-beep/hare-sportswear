@@ -521,7 +521,7 @@ export default function BlogPostPage() {
                 </button>
 
                 <a
-                  href="https://wa.me/923001234567?text=Hi%20Hare%20Sportswear,%20I%20just%20read%20your%20blog%20post%20and%20want%20to%20inquire%20about%20manufacturing"
+                  href="https://wa.me/message/PBVPZM3J7ETGH1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-xs text-emerald-300 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all"

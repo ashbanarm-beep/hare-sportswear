@@ -491,7 +491,7 @@ export default function CountryServicePage() {
               {country.ctaSection?.buttonText || `Request ${country.name} Quote`}
             </Link>
             <a
-              href={`https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20inquiring%20about%20manufacturing%20for%20${encodeURIComponent(country.name)}`}
+              href="https://wa.me/message/PBVPZM3J7ETGH1"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-4 rounded-xl bg-[#1A1A1A] hover:bg-black text-white font-bold text-sm text-center flex items-center justify-center gap-2 border border-white/20 hover:scale-105 transition-transform"
