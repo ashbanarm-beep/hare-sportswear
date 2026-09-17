@@ -249,7 +249,7 @@ export default function HomePage() {
             to="/products"
             className="inline-flex items-center gap-2 text-sm font-bold text-[#FF751F] hover:text-[#E65E08] transition-colors"
           >
-            <span>View Complete 18-Product Catalog</span>
+            <span>View Complete 28-Product Catalog</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -322,31 +322,31 @@ export default function HomePage() {
 
           {/* Category 3 */}
           <Link
-            to="/products?category=accessories"
+            to="/products?category=equipment"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[460px] shadow-sm hover:shadow-xl"
           >
             <div className="relative h-2/3 overflow-hidden bg-[#1A1A1A]">
               <img
-                src="https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=800&q=80"
-                alt="Sports Goods & Accessories"
+                src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80"
+                alt="Sports Equipment & Goods"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
               <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
-                Balls • Gloves • Gear Bags
+                Rackets • Fitness • Cues • Balls • Outdoor
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between bg-white">
               <div>
                 <h3 className="text-2xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
-                  Sports Goods & Accessories
+                  Sports Equipment & Goods
                 </h3>
                 <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  FIFA-quality thermal-bonded soccer balls, German contact latex goalkeeper gloves, genuine leather boxing fight gloves, and 900D Cordura gym bags.
+                  Professional Toray carbon badminton & padel rackets, commercial hex dumbbells, eco TPE yoga mats, hand-spliced ash cues, match balls, and 4-season expedition tents.
                 </p>
               </div>
               <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
-                <span>Explore Sports Goods</span>
+                <span>Explore Sports Equipment & Goods</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>

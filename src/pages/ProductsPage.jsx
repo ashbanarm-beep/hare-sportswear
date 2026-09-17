@@ -4,15 +4,17 @@ import {
   Search, Filter, SlidersHorizontal, Check, Eye, ShoppingBag, 
   ArrowRight, Sparkles, Layers, ShieldCheck, X 
 } from 'lucide-react';
-import { products, categories, materialTypes } from '../data/products';
+import { products, categories, equipmentSubcategories, materialTypes } from '../data/products';
 import ProductDetailModal from '../components/products/ProductDetailModal';
 import { useRFQ } from '../context/RFQContext';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialCat = searchParams.get('category') || 'all';
+  const rawCat = searchParams.get('category') || 'all';
+  const initialCat = rawCat === 'accessories' ? 'equipment' : rawCat;
 
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
+  const [selectedSubcategory, setSelectedSubcategory] = useState('all-equipment');
   const [selectedMaterial, setSelectedMaterial] = useState('All Materials');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalProduct, setActiveModalProduct] = useState(null);
@@ -22,27 +24,34 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const cat = searchParams.get('category');
-    if (cat) {
+    if (cat === 'accessories') {
+      setSelectedCategory('equipment');
+    } else if (cat) {
       setSelectedCategory(cat);
     } else {
       setSelectedCategory('all');
     }
   }, [searchParams]);
 
-  // Filter products based on category, material, and search
+  // Filter products based on category, subcategory, material, and search
   const filteredProducts = useMemo(() => {
     return products.filter(item => {
       const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      const matchesSubcategory = 
+        selectedCategory !== 'equipment' || 
+        selectedSubcategory === 'all-equipment' || 
+        item.subcategory === selectedSubcategory;
       const matchesMaterial = selectedMaterial === 'All Materials' || item.material === selectedMaterial;
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             item.sport.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesMaterial && matchesSearch;
+      return matchesCategory && matchesSubcategory && matchesMaterial && matchesSearch;
     });
-  }, [selectedCategory, selectedMaterial, searchQuery]);
+  }, [selectedCategory, selectedSubcategory, selectedMaterial, searchQuery]);
 
   const handleCategoryChange = (catId) => {
     setSelectedCategory(catId);
+    setSelectedSubcategory('all-equipment');
     if (catId === 'all') {
       searchParams.delete('category');
       setSearchParams(searchParams);
@@ -137,17 +146,42 @@ export default function ProductsPage() {
 
       </div>
 
+      {/* Equipment Division Subcategories (Shown when Sports Equipment & Goods is selected) */}
+      {selectedCategory === 'equipment' && (
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none animate-fadeIn">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A847A] whitespace-nowrap mr-1">
+            Equipment Division:
+          </span>
+          {equipmentSubcategories.map((sub) => (
+            <button
+              key={sub.id}
+              onClick={() => setSelectedSubcategory(sub.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                selectedSubcategory === sub.id
+                  ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
+                  : 'bg-white border border-[#E5DFD5] text-[#595856] hover:text-[#1A1A1A] hover:bg-[#FAF8F3]'
+              }`}
+            >
+              {sub.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Results Count */}
       <div className="flex items-center justify-between text-xs text-[#595856]">
         <span>
           Showing <strong className="text-[#1A1A1A]">{filteredProducts.length}</strong> manufacturing styles
         </span>
-        {(selectedCategory !== 'all' || selectedMaterial !== 'All Materials' || searchQuery) && (
+        {(selectedCategory !== 'all' || selectedSubcategory !== 'all-equipment' || selectedMaterial !== 'All Materials' || searchQuery) && (
           <button
             onClick={() => {
               setSelectedCategory('all');
+              setSelectedSubcategory('all-equipment');
               setSelectedMaterial('All Materials');
               setSearchQuery('');
+              searchParams.delete('category');
+              setSearchParams(searchParams);
             }}
             className="text-[#FF751F] font-bold hover:underline flex items-center gap-1"
           >
@@ -268,9 +302,9 @@ export default function ProductsPage() {
                       e.stopPropagation();
                       setActiveModalProduct(product);
                     }}
-                    className="px-4 py-2 rounded-xl text-xs font-bold text-[#1A1A1A] bg-[#FAF8F3] hover:bg-[#FF751F] hover:text-white border border-[#E5DFD5] transition-all flex items-center gap-1.5"
+                    className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65E08] transition-all flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>Inquire / Specs</span>
+                    <span>Inquire / Request Bulk Quote</span>
                     <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>

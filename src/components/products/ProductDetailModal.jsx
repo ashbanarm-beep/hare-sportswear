@@ -199,81 +199,111 @@ export default function ProductDetailModal({ product, onClose }) {
               </div>
             </div>
 
-            {/* Sizing Chart Guide Accordion */}
-            <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5]">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5 font-display">
-                  <Ruler className="w-4 h-4 text-[#FF751F]" />
-                  Sizing Chart Guide (POM)
-                </h4>
+            {/* Sizing Chart Guide or Equipment Specifications */}
+            {product.gearSpecs ? (
+              <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5 font-display">
+                    <Award className="w-4 h-4 text-[#FF751F]" />
+                    Equipment Engineering Specifications & Tolerances
+                  </h4>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    Factory QA Certified
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {Object.entries(product.gearSpecs).map(([key, val]) => (
+                    <div key={key} className="p-2.5 rounded-xl bg-white border border-[#E5DFD5] flex flex-col justify-between">
+                      <span className="text-[10px] font-bold text-[#8A847A] uppercase tracking-wider">
+                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                      </span>
+                      <span className="text-xs font-bold text-[#1A1A1A] mt-0.5">
+                        {val}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[10px] text-[#8A847A]">
+                  * Bespoke dimensions, custom stiffness, and OEM branding available upon tech pack submission.
+                </p>
+              </div>
+            ) : (
+              /* Sizing Chart Guide Accordion */
+              <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5]">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5 font-display">
+                    <Ruler className="w-4 h-4 text-[#FF751F]" />
+                    Sizing Chart Guide (POM)
+                  </h4>
 
-                <div className="flex items-center gap-2 text-xs">
-                  {/* Unit Switcher */}
-                  <div className="flex items-center bg-white rounded-lg p-0.5 border border-[#E5DFD5]">
-                    <button
-                      onClick={() => setUnit('cm')}
-                      className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all ${
-                        unit === 'cm' ? 'bg-[#FF751F] text-white' : 'text-[#595856] hover:text-[#1A1A1A]'
-                      }`}
-                    >
-                      CM
-                    </button>
-                    <button
-                      onClick={() => setUnit('inches')}
-                      className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all ${
-                        unit === 'inches' ? 'bg-[#FF751F] text-white' : 'text-[#595856] hover:text-[#1A1A1A]'
-                      }`}
-                    >
-                      INCH
-                    </button>
+                  <div className="flex items-center gap-2 text-xs">
+                    {/* Unit Switcher */}
+                    <div className="flex items-center bg-white rounded-lg p-0.5 border border-[#E5DFD5]">
+                      <button
+                        onClick={() => setUnit('cm')}
+                        className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all ${
+                          unit === 'cm' ? 'bg-[#FF751F] text-white' : 'text-[#595856] hover:text-[#1A1A1A]'
+                        }`}
+                      >
+                        CM
+                      </button>
+                      <button
+                        onClick={() => setUnit('inches')}
+                        className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all ${
+                          unit === 'inches' ? 'bg-[#FF751F] text-white' : 'text-[#595856] hover:text-[#1A1A1A]'
+                        }`}
+                      >
+                        INCH
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Size Category Tabs */}
-              <div className="flex items-center gap-2 mb-3">
-                {['men', 'women', 'youth'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveSizeTab(tab)}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold capitalize transition-all ${
-                      activeSizeTab === tab
-                        ? 'bg-[#1A1A1A] text-white'
-                        : 'bg-white text-[#595856] border border-[#E5DFD5] hover:text-[#1A1A1A]'
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
+                {/* Size Category Tabs */}
+                <div className="flex items-center gap-2 mb-3">
+                  {['men', 'women', 'youth'].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveSizeTab(tab)}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold capitalize transition-all ${
+                        activeSizeTab === tab
+                          ? 'bg-[#1A1A1A] text-white'
+                          : 'bg-white text-[#595856] border border-[#E5DFD5] hover:text-[#1A1A1A]'
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
 
-              {/* Table */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#595856]">
-                  <thead className="bg-white text-[11px] uppercase text-[#1A1A1A] border-b border-[#E5DFD5]">
-                    <tr>
-                      <th className="p-2 font-bold">Size</th>
-                      <th className="p-2 font-bold">1/2 Chest ({unit.toUpperCase()})</th>
-                      <th className="p-2 font-bold">Body Length ({unit.toUpperCase()})</th>
-                      <th className="p-2 font-bold">Waist ({unit.toUpperCase()})</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#E5DFD5]">
-                    {sizeCharts[activeSizeTab].map((row, idx) => (
-                      <tr key={idx} className="hover:bg-white/60">
-                        <td className="p-2 font-bold text-[#1A1A1A]">{row.size}</td>
-                        <td className="p-2">{unit === 'cm' ? row.chestCm : row.chestIn}</td>
-                        <td className="p-2">{unit === 'cm' ? row.lengthCm : row.lengthIn}</td>
-                        <td className="p-2">{unit === 'cm' ? row.waistCm : row.waistIn}</td>
+                {/* Table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs text-[#595856]">
+                    <thead className="bg-white text-[11px] uppercase text-[#1A1A1A] border-b border-[#E5DFD5]">
+                      <tr>
+                        <th className="p-2 font-bold">Size</th>
+                        <th className="p-2 font-bold">1/2 Chest ({unit.toUpperCase()})</th>
+                        <th className="p-2 font-bold">Body Length ({unit.toUpperCase()})</th>
+                        <th className="p-2 font-bold">Waist ({unit.toUpperCase()})</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-[#E5DFD5]">
+                      {sizeCharts[activeSizeTab].map((row, idx) => (
+                        <tr key={idx} className="hover:bg-white/60">
+                          <td className="p-2 font-bold text-[#1A1A1A]">{row.size}</td>
+                          <td className="p-2">{unit === 'cm' ? row.chestCm : row.chestIn}</td>
+                          <td className="p-2">{unit === 'cm' ? row.lengthCm : row.lengthIn}</td>
+                          <td className="p-2">{unit === 'cm' ? row.waistCm : row.waistIn}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-[10px] text-[#8A847A] mt-2">
+                  * Custom grading spec sheets accepted. Tolerances: &plusmn; 1.0 cm.
+                </p>
               </div>
-              <p className="text-[10px] text-[#8A847A] mt-2">
-                * Custom grading spec sheets accepted. Tolerances: $\pm 1.0$ cm.
-              </p>
-            </div>
+            )}
 
             {/* Action Buttons */}
             <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
