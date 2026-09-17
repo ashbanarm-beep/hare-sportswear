@@ -734,9 +734,9 @@ export const products = [
     gsm: '17.5 oz - 19.5 oz Balanced',
     moq: '30 Cues',
     leadTime: '20-25 Days',
-    image: 'https://images.unsplash.com/photo-1611095973763-414019e72400?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-24-snooker-cue.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1611095973763-414019e72400?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-24-snooker-cue.jpg'
     ],
     description: 'Artisan hand-crafted cue built from selected kiln-dried North American Grade-A straight-grain Ash and Canadian Hard Rock Maple. Features a 3/4 quick-release precision brass vacuum joint, hand-spliced solid Ebony butt with exotic rosewood splices, and a 9.5mm pressed Elkmaster leather tip.',
     features: [
@@ -770,9 +770,9 @@ export const products = [
     gsm: '567g - 650g (Official 29.5")',
     moq: '50 Balls',
     leadTime: '15-20 Days',
-    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-25-basketball.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-25-basketball.jpg'
     ],
     description: 'Tournament-ready official Size 7 basketball engineered with ultra-soft moisture-absorbing Japanese microfiber composite leather. Features deep-pebbled surface texture, patented concave channel design for ultimate fingertip control, and a reinforced butyl bladder for roundness retention.',
     features: [
@@ -806,9 +806,9 @@ export const products = [
     gsm: '220g per Pole (Ultralight)',
     moq: '50 Pairs',
     leadTime: '14-18 Days',
-    image: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-26-trekking-poles.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-26-trekking-poles.jpg'
     ],
     description: 'Heavy-duty collapsible telescopic trekking poles crafted from aircraft-grade 7075 aluminum alloy and 3K carbon fiber tubing. Outfitted with metal lever quick-flip locks for one-handed height adjustment from 65cm to 135cm, anti-sweat natural cork ergonomic grips, and tungsten carbide tips.',
     features: [
@@ -842,9 +842,9 @@ export const products = [
     gsm: '65 Liters Capacity (1.65 kg)',
     moq: '30 Pcs',
     leadTime: '15-20 Days',
-    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-27-tactical-backpack.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-27-tactical-backpack.jpg'
     ],
     description: 'Military-inspired multi-day expedition backpack constructed from 1000D waterproof PU-coated ballistic Cordura nylon. Built with a lightweight internal dual-aluminum spine frame, modular laser-cut MOLLE webbing, ventilated honeycomb EVA suspension harness, and an integrated bottom rain cover.',
     features: [
@@ -878,9 +878,9 @@ export const products = [
     gsm: '3-Person Alpine (3.85 kg Complete)',
     moq: '20 Tents',
     leadTime: '20-25 Days',
-    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-28-expedition-tent.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-28-expedition-tent.jpg'
     ],
     description: 'Heavy-duty 4-season geodesic expedition tent engineered to withstand 80 km/h alpine winds and heavy snow loads. Features aerospace-grade 7001-T6 aluminum poles, 210T ripstop polyester rainfly with 5000mm PU waterproof silicone coating, reinforced snow flaps, and dual dual-entry vestibules.',
     features: [
