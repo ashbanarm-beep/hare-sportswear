@@ -306,9 +306,9 @@ export const products = [
     gsm: '260 GSM Recycled Poly Blend',
     moq: '40 Pcs',
     leadTime: '12-14 Days',
-    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-11-sports-bra.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-11-sports-bra.jpg'
     ],
     description: 'Engineered for high-impact sports like sprinting, HIIT, and boxing. Features perforated breathable lining, removable molded cups, and an ultra-soft plush underband.',
     features: [
@@ -333,9 +333,9 @@ export const products = [
     gsm: '135 GSM Engineered Mesh',
     moq: '50 Pcs',
     leadTime: '10-12 Days',
-    image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-12-training-tee.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-12-training-tee.jpg'
     ],
     description: 'Weightless athletic tee with gradient jacquard breathability. Pulls moisture directly from skin to the surface where it evaporates in seconds.',
     features: [
@@ -360,9 +360,9 @@ export const products = [
     gsm: '1.2mm Textured Japanese PU',
     moq: '50 Balls',
     leadTime: '15-20 Days',
-    image: 'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-13-match-ball.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-13-match-ball.jpg'
     ],
     description: 'Manufactured in the heart of Sialkot—supplier to the world cup match balls. Seamless thermal-bonding technology delivers zero water absorption, true flight trajectory, and exceptional shape retention.',
     features: [
@@ -388,9 +388,9 @@ export const products = [
     gsm: '4mm German Pro Contact Foam',
     moq: '30 Pairs',
     leadTime: '14-18 Days',
-    image: 'https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-14-goalkeeper-gloves.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-14-goalkeeper-gloves.jpg'
     ],
     description: 'Pro goalkeeper glove featuring 4mm premium German Contact Latex palm offering supreme grip in dry and wet conditions. Negative cut design provides tight, tactile feel.',
     features: [
@@ -416,9 +416,9 @@ export const products = [
     gsm: 'Genuine Cowhide / Microfiber',
     moq: '30 Pairs',
     leadTime: '15-20 Days',
-    image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-15-boxing-gloves.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-15-boxing-gloves.jpg'
     ],
     description: 'Traditional Sialkot handmade leather combat gloves. Multi-layer foam padding distributes knuckle impact evenly, protecting hands during heavy sparring.',
     features: [
