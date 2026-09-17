@@ -444,9 +444,9 @@ export const products = [
     gsm: '450 GSM Pearl Weave + 10oz Pants',
     moq: '25 Sets',
     leadTime: '18-22 Days',
-    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-16-bjj-gi.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-16-bjj-gi.jpg'
     ],
     description: 'IBJJF tournament compliant kimono. Jacket crafted from 450 GSM pre-shrunk Pearl Weave cotton with EVA foam collar, paired with military-grade 10oz ripstop cotton pants.',
     features: [
@@ -472,9 +472,9 @@ export const products = [
     gsm: '900D Ballistic Cordura Nylon',
     moq: '50 Pcs',
     leadTime: '15 Days',
-    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-17-gear-duffle-bag.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-17-gear-duffle-bag.jpg'
     ],
     description: 'Rugged B2B custom team travel bag. Built with ventilated shoe compartment, water-resistant tarp bottom, and padded backpack convertibility straps.',
     features: [
@@ -500,9 +500,9 @@ export const products = [
     gsm: '80% Combed Cotton / 15% Poly / 5% Elastane',
     moq: '100 Pairs',
     leadTime: '10 Days',
-    image: 'https://images.unsplash.com/photo-1582965372486-66497473d0f6?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-18-sports-socks.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1582965372486-66497473d0f6?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-18-sports-socks.jpg'
     ],
     description: 'Custom knit technical team socks featuring terry cushioned sole for shock absorption, rib-arch compression band for stability, and anti-blister flat toe seams.',
     features: [
