@@ -168,9 +168,9 @@ export const products = [
     gsm: '240 GSM Heavy Knit',
     moq: '20 Pcs',
     leadTime: '14 Days',
-    image: 'https://images.unsplash.com/photo-1515703407324-5f753eed2411?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-06-hockey-jersey.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1515703407324-5f753eed2411?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-06-hockey-jersey.jpg'
     ],
     description: 'Roomy pro-fit cut designed to accommodate chest protectors and elbow pads. Double-layered shoulders and reinforced elbows give superior abrasion resistance.',
     features: [
@@ -195,10 +195,9 @@ export const products = [
     gsm: '230 GSM (85% Poly / 15% Spandex)',
     moq: '30 Pcs',
     leadTime: '10 Days',
-    image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-07-compression-rashguard.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-07-compression-rashguard.jpg'
     ],
     description: 'Second-skin compression designed for martial arts, grappling, and gym training. 6-thread flatlock seams prevent mat burns and chafing. Sublimation will never peel or crack.',
     features: [
@@ -224,10 +223,9 @@ export const products = [
     gsm: '340 - 360 GSM (80% Cotton / 20% Poly)',
     moq: '50 Pcs',
     leadTime: '15-18 Days',
-    image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-08-fleece-hoodie.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-08-fleece-hoodie.jpg'
     ],
     description: 'Custom heavyweight streetwear-inspired fitness hoodie. Features a 3-panel double-layer hood, bonded waterproof zip kangaroo pocket, and matte metal custom-branded aglets.',
     features: [
@@ -253,9 +251,9 @@ export const products = [
     gsm: '320 GSM 100% Cotton',
     moq: '50 Pcs',
     leadTime: '15 Days',
-    image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-09-terry-joggers.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-09-terry-joggers.jpg'
     ],
     description: 'Modern slim-tapered athletic jogger pants crafted from premium ringspun French Terry. Features concealed zip pockets to keep phones and keys safe during workouts.',
     features: [
@@ -280,9 +278,9 @@ export const products = [
     gsm: '250 GSM (78% Nylon / 22% Spandex)',
     moq: '40 Pcs',
     leadTime: '12-15 Days',
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-10-seamless-leggings.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-10-seamless-leggings.jpg'
     ],
     description: 'Ultra-luxurious buttery soft hand-feel with complete squat-proof opacity. Designed with a wide compressive waistband that stays in place with zero roll-down.',
     features: [
