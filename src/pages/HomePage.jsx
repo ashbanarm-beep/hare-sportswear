@@ -9,7 +9,7 @@ import { products } from '../data/products';
 import { useRFQ } from '../context/RFQContext';
 import AnimatedCounter from '../components/common/AnimatedCounter';
 import ProductionTimeline from '../components/home/ProductionTimeline';
-import GlobalExportGlobe from '../components/home/GlobalExportGlobe';
+import GlobalExportFootprint from '../components/home/GlobalExportFootprint';
 import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
 
 export default function HomePage() {
@@ -231,8 +231,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Global Export Footprint 3D Interactive Globe Section */}
-      <GlobalExportGlobe />
+      {/* Global Export Footprint Section */}
+      <GlobalExportFootprint />
 
       {/* 3. Core Categories Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">

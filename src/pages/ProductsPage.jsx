@@ -239,23 +239,17 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Hover Quick Action Overlay */}
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                <div className="absolute inset-0 bg-black/35 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveModalProduct(product);
                     }}
-                    className="p-3 rounded-full bg-white text-[#1A1A1A] hover:bg-[#FF751F] hover:text-white transition-colors shadow-lg"
+                    className="px-5 py-2.5 rounded-xl bg-white/95 hover:bg-[#FF751F] text-[#1A1A1A] hover:text-white transition-all shadow-xl font-bold text-xs flex items-center gap-2 transform translate-y-2 group-hover:translate-y-0 duration-200"
                     title="View Technical Specifications"
                   >
-                    <Eye className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={(e) => handleQuickAdd(product, e)}
-                    className="p-3 rounded-full bg-[#FF751F] hover:bg-[#E65E08] text-white transition-colors shadow-lg"
-                    title="Add to RFQ Basket"
-                  >
-                    <ShoppingBag className="w-5 h-5" />
+                    <Eye className="w-4 h-4" />
+                    <span>View Specifications</span>
                   </button>
                 </div>
 

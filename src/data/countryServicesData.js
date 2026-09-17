@@ -2,7 +2,7 @@
 export const countryServices = [
   {
     id: 'us',
-    slug: 'sports-wear-manufacturer-us',
+    slug: 'global-reach/usa',
     name: 'USA',
     countryName: 'USA',
     fullName: 'United States of America',
@@ -1077,16 +1077,28 @@ export const countryServices = [
 export function getCountryBySlug(slug) {
   if (!slug) return undefined;
   const clean = slug.toLowerCase().replace(/^\/+|\/+$/g, '');
-  const code = clean.replace(/^sports-wear-manufacturer-/, '');
-  return countryServices.find((c) => 
-    c.slug.toLowerCase() === clean || 
-    c.id.toLowerCase() === clean ||
-    c.id.toLowerCase() === code ||
-    c.countryName.toLowerCase() === code ||
-    c.name.toLowerCase() === code ||
-    clean.endsWith(`-${c.id.toLowerCase()}`) ||
-    clean === `sports-wear-manufacturer-${c.id.toLowerCase()}`
-  );
+  const code = clean
+    .replace(/^global-reach\//, '')
+    .replace(/^sports-wear-manufacturer-/, '');
+
+  return countryServices.find((c) => {
+    const cSlug = c.slug.toLowerCase();
+    const cId = c.id.toLowerCase();
+    const cCode = cSlug.replace(/^global-reach\//, '').replace(/^sports-wear-manufacturer-/, '');
+    
+    return (
+      cSlug === clean || 
+      cId === clean ||
+      cId === code ||
+      cCode === code ||
+      c.countryName.toLowerCase() === code ||
+      c.name.toLowerCase() === code ||
+      (c.id === 'us' && (clean === 'usa' || code === 'usa' || clean === 'global-reach/usa' || clean === 'sports-wear-manufacturer-us')) ||
+      clean.endsWith(`-${cId}`) ||
+      clean === `sports-wear-manufacturer-${cId}` ||
+      clean === `global-reach/${cId}`
+    );
+  });
 }
 
 export function getCountryById(id) {

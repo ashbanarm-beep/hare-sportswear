@@ -97,40 +97,46 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 3: Manufacturing Capabilities */}
+          {/* Col 3: Product Catalog */}
           <div>
             <h4 className="text-white font-bold text-sm tracking-wider uppercase mb-4 font-display">
-              Capabilities
+              Products
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-[#C4BDAF]">
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  All-Over Dye Sublimation
+                <Link to="/products?category=teamwear" className="hover:text-[#FF751F] transition-colors">
+                  Custom Teamwear Uniforms
                 </Link>
               </li>
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  Tajima 3D Embroidery
+                <Link to="/products?category=activewear" className="hover:text-[#FF751F] transition-colors">
+                  Private Label Activewear
                 </Link>
               </li>
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  Plastisol & High-Density Puff
+                <Link to="/products?category=equipment" className="hover:text-[#FF751F] transition-colors">
+                  Sports Equipment & Goods
                 </Link>
               </li>
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  Seamless Compression Wear
+                <Link to="/products?category=equipment&sub=racket-sports" className="hover:text-[#FF751F] transition-colors">
+                  Racket & Net Sports
                 </Link>
               </li>
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  Thermal Bonded Match Balls
+                <Link to="/products?category=equipment&sub=fitness" className="hover:text-[#FF751F] transition-colors">
+                  Fitness & Gym Gear
                 </Link>
               </li>
               <li>
-                <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">
-                  Private Label & Custom Trims
+                <Link to="/products?category=equipment&sub=outdoor" className="hover:text-[#FF751F] transition-colors">
+                  Outdoor & Camping Gear
+                </Link>
+              </li>
+              <li>
+                <Link to="/products" className="text-[#FF751F] hover:underline font-semibold flex items-center gap-1">
+                  <span>Explore 28-Product Catalog</span>
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
@@ -229,7 +235,7 @@ export default function Footer() {
             </span>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
-            <Link to="/sports-wear-manufacturer-us" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
+            <Link to="/global-reach/usa" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
               <span>🇺🇸</span>
               <span>Sportswear Manufacturer USA</span>
             </Link>
@@ -304,13 +310,22 @@ export default function Footer() {
           </form>
         </div>
 
-        {/* Bottom Copyright */}
+        {/* Bottom Copyright & Legal Links */}
         <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8A847A] gap-4">
           <p>© {new Date().getFullYear()} Hare Sportswear & Goods (Pvt.) Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <span>Production Operating Timezone: PKT (GMT+5)</span>
+          <div className="flex items-center gap-4 text-xs font-medium">
+            <Link to="/terms" className="hover:text-[#FF751F] transition-colors">
+              Terms & Conditions
+            </Link>
             <span>•</span>
-            <span className="text-emerald-400 font-medium">● Plant Operating at 100% Capacity</span>
+            <Link to="/privacy" className="hover:text-[#FF751F] transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
+          <div className="flex items-center gap-6">
+            <span>Operating Timezone: PKT (GMT+5)</span>
+            <span>•</span>
+            <span className="text-emerald-400 font-medium">● Sialkot Plant 100% Operational</span>
           </div>
         </div>
 

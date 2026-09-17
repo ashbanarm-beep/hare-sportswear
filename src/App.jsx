@@ -17,6 +17,8 @@ import BlogPostPage from './pages/BlogPostPage';
 import CountryServicePage from './pages/CountryServicePage';
 import MeetHarePage from './pages/MeetHarePage';
 import FabricGlossaryPage from './pages/FabricGlossaryPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
 import { RFQProvider } from './context/RFQContext';
 
 // Instant scroll to top on route change without blocking animations
@@ -62,8 +64,13 @@ export default function App() {
                   <Route path="/mascot" element={<Navigate to="/meet-hare" replace />} />
                   <Route path="/hurry" element={<Navigate to="/meet-hare" replace />} />
 
+                  {/* Global Reach Service Pages */}
+                  <Route path="/global-reach/usa" element={<CountryServicePage />} />
+                  <Route path="/usa" element={<CountryServicePage />} />
+                  <Route path="/global-reach/:countryCode" element={<CountryServicePage />} />
+
                   {/* Dedicated Target Country Service Pages */}
-                  <Route path="/sports-wear-manufacturer-us" element={<CountryServicePage />} />
+                  <Route path="/sports-wear-manufacturer-us" element={<Navigate to="/global-reach/usa" replace />} />
                   <Route path="/sports-wear-manufacturer-uk" element={<CountryServicePage />} />
                   <Route path="/sports-wear-manufacturer-australia" element={<CountryServicePage />} />
                   <Route path="/sports-wear-manufacturer-germany" element={<CountryServicePage />} />
@@ -72,6 +79,12 @@ export default function App() {
                   <Route path="/sports-wear-manufacturer-france" element={<CountryServicePage />} />
                   <Route path="/sports-wear-manufacturer-netherlands" element={<CountryServicePage />} />
                   
+                  {/* Dedicated Legal Pages */}
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/terms-and-conditions" element={<Navigate to="/terms" replace />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/privacy-policy" element={<Navigate to="/privacy" replace />} />
+
                   {/* Catch-all dynamic route for any other country code or alias */}
                   <Route path="/sports-wear-manufacturer-:countryCode" element={<CountryServicePage />} />
 

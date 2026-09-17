@@ -55,7 +55,6 @@ export default function Navbar() {
     { name: 'Quality & Factory', path: '/quality' },
     { name: 'About Us', path: '/about' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
   ];
 
   const isCurrentPathRegional = countryServices.some((c) => location.pathname === `/${c.slug}`);

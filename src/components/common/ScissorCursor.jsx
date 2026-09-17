@@ -114,117 +114,159 @@ export default function ScissorCursor() {
         style={{
           left: `${pos.x}px`,
           top: `${pos.y}px`,
-          // Hotspot is exactly at the top center tip (x = 18px, y = 1px)
-          transform: `translate(-18px, -1px) scale(${isHovering ? 1.15 : 1}) ${isSnapping ? 'scale(0.92)' : ''}`,
+          // Hotspot is exactly at the top sharp tip (x = 18px, y = 2px)
+          transform: `translate(-18px, -2px) scale(${isHovering ? 1.15 : 1}) ${isSnapping ? 'scale(0.93)' : ''}`,
           willChange: 'transform, left, top'
         }}
         aria-hidden="true"
       >
         <div className="relative">
-          {/* Straight Upright Scissor SVG */}
+          {/* Professional Tailor's Shears SVG */}
           <svg
             width="36"
-            height="46"
-            viewBox="0 0 36 46"
+            height="48"
+            viewBox="0 0 36 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="filter drop-shadow-[0_2px_5px_rgba(0,0,0,0.45)]"
+            className="filter drop-shadow-[0_3px_6px_rgba(0,0,0,0.4)]"
           >
-            {/* Left Blade & Handle Unit (Pivots around center screw at 18, 21) */}
+            {/* Left Unit: Blade + Finger Bow Handle (Pivots at 18, 22) */}
             <g
-              className="transition-transform duration-100 ease-out origin-[18px_21px]"
+              className="transition-transform duration-100 ease-out origin-[18px_22px]"
               style={{
                 transform: isSnapping 
-                  ? 'rotate(8deg)' 
+                  ? 'rotate(0deg)' 
                   : isHovering 
-                    ? 'rotate(-5deg)' 
-                    : 'rotate(0deg)'
+                    ? 'rotate(-13deg)' 
+                    : 'rotate(-5deg)'
               }}
             >
-              {/* Left Blade (vertical taper pointing straight UP to x=17, y=1) */}
+              {/* Left Steel Blade (Cutting edge along x=18 from y=22 to y=2) */}
               <path
-                d="M17.5 1 L14 18 C14 20 16 21 18 21 L18 19 L17.5 1 Z"
-                fill="url(#straightBladeMetallic)"
+                d="M18 2 L14 18 C14 20 16 22 18 22 L18 2 Z"
+                fill="url(#leftBladeGradient)"
                 stroke="#1A1A1A"
                 strokeWidth="0.75"
               />
-              {/* Left Handle Arm */}
+              {/* Left Blade Bevel Highlight */}
               <path
-                d="M17 21 C15 25 12 28 11 31"
+                d="M18 2 L16.5 17 L18 21 L18 2 Z"
+                fill="url(#bladeHighlight)"
+                opacity="0.85"
+              />
+              {/* Left Handle Shank */}
+              <path
+                d="M17 22 C15.5 25.5 13 28.5 11 31"
                 stroke="#FF751F"
-                strokeWidth="3"
+                strokeWidth="3.2"
                 strokeLinecap="round"
               />
-              {/* Left Handle Finger Ring */}
+              {/* Left Handle Elongated Finger Bow (for 2-3 fingers) */}
               <ellipse
                 cx="10"
-                cy="37"
+                cy="38.5"
                 rx="6.5"
-                ry="5.5"
+                ry="7.5"
                 stroke="#FF751F"
-                strokeWidth="2.5"
+                strokeWidth="2.8"
                 fill="#1A1A1A"
+              />
+              <ellipse
+                cx="10"
+                cy="38.5"
+                rx="4.2"
+                ry="5.2"
+                fill="#242424"
               />
             </g>
 
-            {/* Right Blade & Handle Unit (Pivots around center screw at 18, 21) */}
+            {/* Right Unit: Blade + Thumb Loop Handle (Pivots at 18, 22) */}
             <g
-              className="transition-transform duration-100 ease-out origin-[18px_21px]"
+              className="transition-transform duration-100 ease-out origin-[18px_22px]"
               style={{
                 transform: isSnapping 
-                  ? 'rotate(-8deg)' 
+                  ? 'rotate(0deg)' 
                   : isHovering 
-                    ? 'rotate(5deg)' 
-                    : 'rotate(0deg)'
+                    ? 'rotate(13deg)' 
+                    : 'rotate(5deg)'
               }}
             >
-              {/* Right Blade (vertical taper pointing straight UP to x=18.5, y=1) */}
+              {/* Right Steel Blade (Cutting edge along x=18 from y=22 to y=2) */}
               <path
-                d="M18.5 1 L22 18 C22 20 20 21 18 21 L18 19 L18.5 1 Z"
-                fill="url(#straightBladeMetallic)"
+                d="M18 2 L22 18 C22 20 20 22 18 22 L18 2 Z"
+                fill="url(#rightBladeGradient)"
                 stroke="#1A1A1A"
                 strokeWidth="0.75"
               />
-              {/* Right Handle Arm */}
+              {/* Right Blade Bevel Highlight */}
               <path
-                d="M19 21 C21 25 24 28 25 31"
+                d="M18 2 L19.5 17 L18 21 L18 2 Z"
+                fill="url(#bladeHighlight)"
+                opacity="0.85"
+              />
+              {/* Right Handle Shank */}
+              <path
+                d="M19 22 C20.5 25.5 23 28.5 25 31"
                 stroke="#FF751F"
-                strokeWidth="3"
+                strokeWidth="3.2"
                 strokeLinecap="round"
               />
-              {/* Right Handle Thumb Loop */}
+              {/* Right Handle Oval Thumb Loop */}
               <ellipse
                 cx="26"
                 cy="37"
-                rx="7"
-                ry="5.5"
+                rx="6.5"
+                ry="6"
                 stroke="#FF751F"
-                strokeWidth="2.5"
+                strokeWidth="2.8"
                 fill="#1A1A1A"
+              />
+              <ellipse
+                cx="26"
+                cy="37"
+                rx="4.2"
+                ry="3.8"
+                fill="#242424"
               />
             </g>
 
-            {/* Center Pivot Fastener & Screw */}
-            <circle cx="18" cy="21" r="3.5" fill="#FF751F" stroke="#FFFFFF" strokeWidth="1" />
-            <circle cx="18" cy="21" r="1.2" fill="#1A1A1A" />
+            {/* Polished Brass Tension Screw & Washer at Center Pivot (18, 22) */}
+            <circle cx="18" cy="22" r="3.5" fill="url(#brassScrewGradient)" stroke="#1A1A1A" strokeWidth="0.6" />
+            <line x1="16.2" y1="22" x2="19.8" y2="22" stroke="#452C06" strokeWidth="0.8" strokeLinecap="round" />
 
-            {/* Cutting Target Tip Indicator Dot at top apex (18, 1) */}
-            <circle cx="18" cy="1" r="1" fill="#FF751F" />
+            {/* Precision Tip Indicator Dot */}
+            <circle cx="18" cy="2" r="1.2" fill="#FF751F" />
 
-            {/* Gradient for Sharp Stainless Steel Blades */}
+            {/* Gradients */}
             <defs>
-              <linearGradient id="straightBladeMetallic" x1="14" y1="1" x2="22" y2="21" gradientUnits="userSpaceOnUse">
+              <linearGradient id="leftBladeGradient" x1="14" y1="2" x2="18" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#F5F5F5" />
+                <stop offset="0.3" stopColor="#E0E0E0" />
+                <stop offset="0.7" stopColor="#A8A29E" />
+                <stop offset="1" stopColor="#78716C" />
+              </linearGradient>
+              <linearGradient id="rightBladeGradient" x1="22" y1="2" x2="18" y2="22" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#FFFFFF" />
-                <stop offset="0.4" stopColor="#EAE5DC" />
-                <stop offset="0.75" stopColor="#B3ADA3" />
-                <stop offset="1" stopColor="#6E6962" />
+                <stop offset="0.3" stopColor="#ECECEC" />
+                <stop offset="0.7" stopColor="#B8B2A7" />
+                <stop offset="1" stopColor="#78716C" />
+              </linearGradient>
+              <linearGradient id="bladeHighlight" x1="18" y1="2" x2="18" y2="21" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FFFFFF" />
+                <stop offset="0.5" stopColor="#F5F5F5" />
+                <stop offset="1" stopColor="#D6D3D1" />
+              </linearGradient>
+              <linearGradient id="brassScrewGradient" x1="15" y1="19" x2="21" y2="25" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FDE68A" />
+                <stop offset="0.4" stopColor="#F59E0B" />
+                <stop offset="1" stopColor="#B45309" />
               </linearGradient>
             </defs>
           </svg>
 
-          {/* Hover Glow Accent at Tip */}
+          {/* Hover Precision Indicator at Tip */}
           {isHovering && (
-            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-pulse"></span>
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_10px_#FF751F] animate-ping"></span>
           )}
         </div>
       </div>
