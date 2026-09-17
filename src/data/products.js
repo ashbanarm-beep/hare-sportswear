@@ -554,9 +554,9 @@ export const products = [
     gsm: '4U (82-84g) / 3U (85-88g)',
     moq: '50 Rackets',
     leadTime: '15-18 Days',
-    image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-19-badminton-racket.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-19-badminton-racket.jpg'
     ],
     description: 'Engineered with Toray T800 Japanese high-modulus carbon graphite. Features an aerodynamic isometric head shape for an expanded sweet spot, ultra-slim 6.8mm aero-box shaft for lightning-fast swing speed, and 28-32 lbs string tension capability.',
     features: [
@@ -590,9 +590,9 @@ export const products = [
     gsm: '4.8g - 5.2g per Shuttlecock',
     moq: '100 Tubes (1,200 pcs)',
     leadTime: '12-15 Days',
-    image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-20-shuttlecocks.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-20-shuttlecocks.jpg'
     ],
     description: 'Available in two precision tournament configurations: Grade-A selected natural goose feather with three-layer Portuguese natural cork base for international tournament trajectory, or high-tensile engineering nylon skirts with composite EVA cork heads for high-durability training facilities.',
     features: [
@@ -626,9 +626,9 @@ export const products = [
     gsm: '360g - 375g Balance',
     moq: '40 Rackets',
     leadTime: '18-22 Days',
-    image: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-21-padel-racket.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-21-padel-racket.jpg'
     ],
     description: 'Full 3K bi-directional carbon fiber face paired with 100% carbon tubular frame and high-rebound Soft EVA 17 memory foam core. Features a 3D hexagonal sand-spin textured surface for maximum spin control, power output, and elbow vibration reduction.',
     features: [
@@ -662,9 +662,9 @@ export const products = [
     gsm: '6mm - 8mm High Density (950g)',
     moq: '50 Mats',
     leadTime: '10-14 Days',
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-22-yoga-mat.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-22-yoga-mat.jpg'
     ],
     description: 'Dual-layer closed-cell eco-friendly TPE and natural tree rubber workout mat. Completely non-toxic, PVC-free, and odorless with a textured non-slip wave base for zero slipping on wooden or tiled gym floors. Includes laser-etched precision alignment lines.',
     features: [
@@ -698,9 +698,9 @@ export const products = [
     gsm: '2.5kg to 50kg Pairs (5 - 100 lbs)',
     moq: '500 kg (Assorted Sets)',
     leadTime: '20-25 Days',
-    image: 'https://images.unsplash.com/photo-1586401100295-7a8096fd231a?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/product-23-rubber-hex-dumbbells.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1586401100295-7a8096fd231a?auto=format&fit=crop&w=800&q=80'
+      '/images/products/product-23-rubber-hex-dumbbells.jpg'
     ],
     description: 'Commercial-grade hexagonal dumbbells constructed from single-piece solid cast iron cores permanently welded to ergonomic chrome-plated contoured steel handles. Encased in high-density virgin rubber coating to eliminate floor damage and noise.',
     features: [
