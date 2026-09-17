@@ -1,19 +1,58 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+/**
+ * ScissorCursor with Dynamic Circular Video Follower
+ * 1. Reverts to the original scissor design style, scaled down to a sleek, compact, natural size (~24px).
+ * 2. Features an organic fabric snip spark on click.
+ * 3. Dynamically displays a smooth circular video follower playing alternating factory production videos
+ *    whenever the cursor moves over empty whitespace / background areas.
+ */
 export default function ScissorCursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 });
+  const [followerPos, setFollowerPos] = useState({ x: -100, y: -100 });
   const [isSnapping, setIsSnapping] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isOverWhitespace, setIsOverWhitespace] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasPointer, setHasPointer] = useState(false);
   const [clickSpark, setClickSpark] = useState(null);
+  const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
 
   const requestRef = useRef(null);
   const mousePosRef = useRef({ x: -100, y: -100 });
   const currentPosRef = useRef({ x: -100, y: -100 });
+  const followerPosRef = useRef({ x: -100, y: -100 });
+  const followerVideoRef = useRef(null);
+
+  // Factory production showcase videos to alternate smoothly
+  const factoryVideos = [
+    {
+      src: '/videos/factory-production-showcase.mp4',
+      label: 'Precision Stitching'
+    },
+    {
+      src: '/videos/factory-cutting-floor.mp4',
+      label: 'Sialkot Cutting Floor'
+    }
+  ];
+
+  // Auto-alternate videos every 9 seconds or when the current one ends
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentVideoIdx(prev => (prev + 1) % factoryVideos.length);
+    }, 9000);
+    return () => clearInterval(timer);
+  }, [factoryVideos.length]);
+
+  // Ensure video plays smoothly when switching
+  useEffect(() => {
+    if (followerVideoRef.current && isOverWhitespace) {
+      followerVideoRef.current.play().catch(() => {});
+    }
+  }, [currentVideoIdx, isOverWhitespace]);
 
   useEffect(() => {
-    // Check if the device has a fine pointer (mouse/trackpad, not touch only)
+    // Only run on devices with fine pointer (mouse / precision trackpad)
     if (typeof window === 'undefined') return;
     const mediaQuery = window.matchMedia('(pointer: fine)');
     setHasPointer(mediaQuery.matches);
@@ -23,20 +62,32 @@ export default function ScissorCursor() {
 
     if (!mediaQuery.matches) return;
 
-    // Direct, ultra-responsive mouse position update
     const handleMouseMove = (e) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
 
-      // Check if hovering over clickable elements
       const target = e.target;
-      const isClickable = target && typeof target.closest === 'function' && target.closest('a, button, input, select, textarea, [role="button"], label, .interactive-hover');
+      if (!target) return;
+
+      // 1. Check if hovering over clickable or interactive elements
+      const isClickable = target.closest && target.closest(
+        'a, button, input, select, textarea, [role="button"], label, .interactive-hover, [role="dialog"], [role="menu"]'
+      );
       setIsHovering(!!isClickable);
+
+      // 2. Check if hovering over dense content (paragraphs, headings, images, cards, inputs)
+      // If none of these match, the cursor is over empty background / whitespace!
+      const isDenseContent = target.closest && target.closest(
+        'p, h1, h2, h3, h4, h5, h6, img, video, table, ul, ol, form, blockquote, [data-no-follower]'
+      );
+
+      // Whitespace condition: not interactive and not over dense text/images
+      const onBlankSpace = !isClickable && !isDenseContent;
+      setIsOverWhitespace(onBlankSpace);
     };
 
     const handleMouseDown = (e) => {
       setIsSnapping(true);
-      // Create micro cut spark at scissor tip
       setClickSpark({ id: Date.now(), x: e.clientX, y: e.clientY });
       setTimeout(() => {
         setClickSpark(null);
@@ -49,20 +100,48 @@ export default function ScissorCursor() {
 
     const handleMouseLeave = () => {
       setIsVisible(false);
+      setIsOverWhitespace(false);
     };
 
     const handleMouseEnter = () => {
       setIsVisible(true);
     };
 
-    // Smooth RAF loop with high lerp factor for instant responsiveness
+    // Smooth RAF loop:
+    // Cursor position uses snappy 0.90 lerp for zero perceived lag
+    // Follower uses 0.16 lerp for organic trailing float
     const animate = () => {
-      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.92;
-      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.92;
+      // Scissor cursor (sharp, instant response)
+      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.90;
+      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.90;
+
+      // Calculate smart offset for the circular follower so it doesn't overflow the viewport
+      const offsetDistance = 24;
+      const followerDiameter = 88;
+      
+      let targetFollowerX = mousePosRef.current.x + offsetDistance;
+      let targetFollowerY = mousePosRef.current.y + offsetDistance;
+
+      if (typeof window !== 'undefined') {
+        if (targetFollowerX + followerDiameter > window.innerWidth - 12) {
+          targetFollowerX = mousePosRef.current.x - followerDiameter - 12;
+        }
+        if (targetFollowerY + followerDiameter > window.innerHeight - 12) {
+          targetFollowerY = mousePosRef.current.y - followerDiameter - 12;
+        }
+      }
+
+      followerPosRef.current.x += (targetFollowerX - followerPosRef.current.x) * 0.16;
+      followerPosRef.current.y += (targetFollowerY - followerPosRef.current.y) * 0.16;
 
       setPos({
         x: Math.round(currentPosRef.current.x * 10) / 10,
         y: Math.round(currentPosRef.current.y * 10) / 10
+      });
+
+      setFollowerPos({
+        x: Math.round(followerPosRef.current.x * 10) / 10,
+        y: Math.round(followerPosRef.current.y * 10) / 10
       });
 
       requestRef.current = requestAnimationFrame(animate);
@@ -75,8 +154,6 @@ export default function ScissorCursor() {
     document.addEventListener('mouseenter', handleMouseEnter);
 
     requestRef.current = requestAnimationFrame(animate);
-
-    // Add class to body to hide default browser cursor on desktop
     document.documentElement.classList.add('custom-scissor-cursor-active');
 
     return () => {
@@ -95,178 +172,170 @@ export default function ScissorCursor() {
 
   return (
     <>
-      {/* Click Spark / Fabric Snip Effect */}
+      {/* Click Spark / Fabric Snip Micro Effect */}
       {clickSpark && (
         <div
           className="fixed pointer-events-none z-[999999] -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${clickSpark.x}px`, top: `${clickSpark.y}px` }}
         >
-          <div className="w-6 h-6 rounded-full border border-[#FF751F] animate-ping opacity-80"></div>
+          <div className="w-6 h-6 rounded-full border border-[#FF751F] animate-ping opacity-80" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F]" />
           </div>
         </div>
       )}
 
-      {/* Main Straight Upright Scissor Cursor */}
+      {/* Dynamic Circular Video Follower (Active over empty space/whitespace) */}
+      <div
+        className="fixed pointer-events-none z-[999990] select-none transition-opacity duration-200"
+        style={{
+          left: `${followerPos.x}px`,
+          top: `${followerPos.y}px`,
+          opacity: isOverWhitespace ? 1 : 0,
+          transform: `scale(${isOverWhitespace ? 1 : 0.4})`,
+          transition: 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease-out',
+          willChange: 'transform, left, top, opacity'
+        }}
+        aria-hidden="true"
+      >
+        <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full overflow-hidden border-2 border-[#FF751F] shadow-[0_10px_25px_rgba(255,117,31,0.35),0_4px_12px_rgba(0,0,0,0.5)] ring-2 ring-white/90 bg-black">
+          {/* Autoplaying Alternating Factory Production Video */}
+          <video
+            ref={followerVideoRef}
+            key={factoryVideos[currentVideoIdx].src}
+            src={factoryVideos[currentVideoIdx].src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover scale-110"
+          />
+
+          {/* Vignette Overlay */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+
+          {/* Mini Live Recording Pill */}
+          <div className="absolute top-1.5 inset-x-0 flex items-center justify-center pointer-events-none">
+            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/75 backdrop-blur-sm border border-white/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-[7.5px] font-black tracking-widest text-white uppercase font-mono">
+                LIVE
+              </span>
+            </div>
+          </div>
+
+          {/* Bottom Video Category Label */}
+          <div className="absolute bottom-1.5 inset-x-1 text-center pointer-events-none">
+            <p className="text-[7.5px] font-extrabold text-white truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] font-display tracking-tight">
+              {factoryVideos[currentVideoIdx].label}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Scissor Cursor - Reverted to Original Angled Tailor Style & Scaled Down Sleek (~24px) */}
       <div
         className="fixed pointer-events-none z-[999998] transition-transform duration-75 select-none"
         style={{
           left: `${pos.x}px`,
           top: `${pos.y}px`,
-          // Hotspot is exactly at the top sharp tip (x = 18px, y = 2px)
-          transform: `translate(-18px, -2px) scale(${isHovering ? 1.15 : 1}) ${isSnapping ? 'scale(0.93)' : ''}`,
+          // Hotspot is exactly at the cutting point (2, 2)
+          transform: `translate(-2px, -2px) scale(${isHovering ? 1.12 : 1}) ${isSnapping ? 'scale(0.92)' : ''}`,
           willChange: 'transform, left, top'
         }}
         aria-hidden="true"
       >
         <div className="relative">
-          {/* Professional Tailor's Shears SVG */}
+          {/* Compact 24x24 Original Scissor Graphic */}
           <svg
-            width="36"
-            height="48"
-            viewBox="0 0 36 48"
+            width="24"
+            height="24"
+            viewBox="0 0 48 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="filter drop-shadow-[0_3px_6px_rgba(0,0,0,0.4)]"
+            className="filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
           >
-            {/* Left Unit: Blade + Finger Bow Handle (Pivots at 18, 22) */}
+            {/* Top Blade & Handle (pivoting from center screw at x=20, y=20) */}
             <g
-              className="transition-transform duration-100 ease-out origin-[18px_22px]"
+              className="transition-transform duration-100 ease-out origin-[20px_20px]"
               style={{
                 transform: isSnapping 
-                  ? 'rotate(0deg)' 
+                  ? 'rotate(18deg)' 
                   : isHovering 
-                    ? 'rotate(-13deg)' 
-                    : 'rotate(-5deg)'
+                    ? 'rotate(-6deg)' 
+                    : 'rotate(0deg)'
               }}
             >
-              {/* Left Steel Blade (Cutting edge along x=18 from y=22 to y=2) */}
-              <path
-                d="M18 2 L14 18 C14 20 16 22 18 22 L18 2 Z"
-                fill="url(#leftBladeGradient)"
-                stroke="#1A1A1A"
-                strokeWidth="0.75"
-              />
-              {/* Left Blade Bevel Highlight */}
-              <path
-                d="M18 2 L16.5 17 L18 21 L18 2 Z"
-                fill="url(#bladeHighlight)"
-                opacity="0.85"
-              />
-              {/* Left Handle Shank */}
-              <path
-                d="M17 22 C15.5 25.5 13 28.5 11 31"
+              {/* Upper Handle / Finger Loop */}
+              <circle
+                cx="34"
+                cy="12"
+                r="7"
                 stroke="#FF751F"
-                strokeWidth="3.2"
-                strokeLinecap="round"
-              />
-              {/* Left Handle Elongated Finger Bow (for 2-3 fingers) */}
-              <ellipse
-                cx="10"
-                cy="38.5"
-                rx="6.5"
-                ry="7.5"
-                stroke="#FF751F"
-                strokeWidth="2.8"
+                strokeWidth="2.5"
                 fill="#1A1A1A"
               />
-              <ellipse
-                cx="10"
-                cy="38.5"
-                rx="4.2"
-                ry="5.2"
-                fill="#242424"
+              {/* Upper Blade pointing down-left toward (2, 2) */}
+              <path
+                d="M27 16 C23 18 21 19 20 20 L2 4 C1 3 2 1 4 2 L20 18 Z"
+                fill="url(#scissorBladeGradOrig)"
+                stroke="#2B2927"
+                strokeWidth="0.75"
               />
             </g>
 
-            {/* Right Unit: Blade + Thumb Loop Handle (Pivots at 18, 22) */}
+            {/* Bottom Blade & Handle */}
             <g
-              className="transition-transform duration-100 ease-out origin-[18px_22px]"
+              className="transition-transform duration-100 ease-out origin-[20px_20px]"
               style={{
                 transform: isSnapping 
-                  ? 'rotate(0deg)' 
+                  ? 'rotate(-18deg)' 
                   : isHovering 
-                    ? 'rotate(13deg)' 
-                    : 'rotate(5deg)'
+                    ? 'rotate(6deg)' 
+                    : 'rotate(0deg)'
               }}
             >
-              {/* Right Steel Blade (Cutting edge along x=18 from y=22 to y=2) */}
-              <path
-                d="M18 2 L22 18 C22 20 20 22 18 22 L18 2 Z"
-                fill="url(#rightBladeGradient)"
-                stroke="#1A1A1A"
-                strokeWidth="0.75"
-              />
-              {/* Right Blade Bevel Highlight */}
-              <path
-                d="M18 2 L19.5 17 L18 21 L18 2 Z"
-                fill="url(#bladeHighlight)"
-                opacity="0.85"
-              />
-              {/* Right Handle Shank */}
-              <path
-                d="M19 22 C20.5 25.5 23 28.5 25 31"
-                stroke="#FF751F"
-                strokeWidth="3.2"
-                strokeLinecap="round"
-              />
-              {/* Right Handle Oval Thumb Loop */}
+              {/* Lower Handle / Finger Loop */}
               <ellipse
-                cx="26"
-                cy="37"
-                rx="6.5"
-                ry="6"
+                cx="35"
+                cy="32"
+                rx="8"
+                ry="6.5"
                 stroke="#FF751F"
-                strokeWidth="2.8"
+                strokeWidth="2.5"
                 fill="#1A1A1A"
               />
-              <ellipse
-                cx="26"
-                cy="37"
-                rx="4.2"
-                ry="3.8"
-                fill="#242424"
+              {/* Lower Blade pointing down-left toward (2, 2) */}
+              <path
+                d="M28 28 C24 24 21 21 20 20 L2 4 C1 5 3 7 4 6 L20 22 Z"
+                fill="url(#scissorBladeGradOrig)"
+                stroke="#2B2927"
+                strokeWidth="0.75"
               />
             </g>
 
-            {/* Polished Brass Tension Screw & Washer at Center Pivot (18, 22) */}
-            <circle cx="18" cy="22" r="3.5" fill="url(#brassScrewGradient)" stroke="#1A1A1A" strokeWidth="0.6" />
-            <line x1="16.2" y1="22" x2="19.8" y2="22" stroke="#452C06" strokeWidth="0.8" strokeLinecap="round" />
+            {/* Pivot Gold Screw at Center of rotation */}
+            <circle cx="20" cy="20" r="3" fill="#FF751F" stroke="#FFFFFF" strokeWidth="1" />
+            <circle cx="20" cy="20" r="1" fill="#1A1A1A" />
 
-            {/* Precision Tip Indicator Dot */}
-            <circle cx="18" cy="2" r="1.2" fill="#FF751F" />
+            {/* Precise Cutting Tip Pointer Dot at (2.5, 2.5) */}
+            <circle cx="2.5" cy="2.5" r="1.2" fill="#FF751F" />
 
-            {/* Gradients */}
+            {/* Linear Gradient for Metallic Stainless Steel Blades */}
             <defs>
-              <linearGradient id="leftBladeGradient" x1="14" y1="2" x2="18" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F5F5F5" />
-                <stop offset="0.3" stopColor="#E0E0E0" />
-                <stop offset="0.7" stopColor="#A8A29E" />
-                <stop offset="1" stopColor="#78716C" />
-              </linearGradient>
-              <linearGradient id="rightBladeGradient" x1="22" y1="2" x2="18" y2="22" gradientUnits="userSpaceOnUse">
+              <linearGradient id="scissorBladeGradOrig" x1="2" y1="2" x2="28" y2="28" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#FFFFFF" />
-                <stop offset="0.3" stopColor="#ECECEC" />
-                <stop offset="0.7" stopColor="#B8B2A7" />
-                <stop offset="1" stopColor="#78716C" />
-              </linearGradient>
-              <linearGradient id="bladeHighlight" x1="18" y1="2" x2="18" y2="21" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#FFFFFF" />
-                <stop offset="0.5" stopColor="#F5F5F5" />
-                <stop offset="1" stopColor="#D6D3D1" />
-              </linearGradient>
-              <linearGradient id="brassScrewGradient" x1="15" y1="19" x2="21" y2="25" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#FDE68A" />
-                <stop offset="0.4" stopColor="#F59E0B" />
-                <stop offset="1" stopColor="#B45309" />
+                <stop offset="0.45" stopColor="#E5DFD5" />
+                <stop offset="0.8" stopColor="#A8A296" />
+                <stop offset="1" stopColor="#595856" />
               </linearGradient>
             </defs>
           </svg>
 
-          {/* Hover Precision Indicator at Tip */}
+          {/* Hover Glow Dot at the Tip */}
           {isHovering && (
-            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_10px_#FF751F] animate-ping"></span>
+            <span className="absolute -top-0.5 -left-0.5 w-2 h-2 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-pulse" />
           )}
         </div>
       </div>

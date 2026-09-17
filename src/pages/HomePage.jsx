@@ -11,7 +11,6 @@ import AnimatedCounter from '../components/common/AnimatedCounter';
 import ProductionTimeline from '../components/home/ProductionTimeline';
 import GlobalExportFootprint from '../components/home/GlobalExportFootprint';
 import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
-import CircularVideoHover, { SpinningCircularVideoBadge } from '../components/common/CircularVideoHover';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -96,13 +95,7 @@ export default function HomePage() {
               
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E5DFD5] text-xs font-semibold text-[#1A1A1A] shadow-sm">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#FF751F] animate-pulse"></span>
-                <CircularVideoHover 
-                  videoSrc="/videos/factory-production-showcase.mp4" 
-                  label="Sialkot OEM/ODM Manufacturing Floor" 
-                  badge="LIVE 4K"
-                >
-                  Premier Sialkot OEM/ODM Sports Manufacturer
-                </CircularVideoHover>
+                <span>Premier Sialkot OEM/ODM Sports Manufacturer</span>
                 <span className="text-[#C9BEAB]">•</span>
                 <span className="text-[#FF751F] font-bold">2026/27 Production Active</span>
               </div>
@@ -113,10 +106,10 @@ export default function HomePage() {
               </h1>
 
               <p className="text-base sm:text-xl text-[#595856] max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                We empower international sports brands, tournament organizers, and athletic startups with factory-direct custom sportswear, technical sublimation, and premium athletic equipment. Low MOQs, rapid 7-day sampling, and <CircularVideoHover videoSrc="/videos/factory-production-showcase.mp4" label="Sialkot Precision Stitching & Assembly" badge="25S SHOWCASE">precision Sialkot craftsmanship</CircularVideoHover>.
+                We empower international sports brands, tournament organizers, and athletic startups with factory-direct custom sportswear, technical sublimation, and premium athletic equipment. Low MOQs, rapid 7-day sampling, and precision Sialkot craftsmanship.
               </p>
 
-              {/* Dual CTAs & 25s Production Tour Badge */}
+              {/* Dual CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <Link
                   to="/contact"
@@ -133,23 +126,6 @@ export default function HomePage() {
                   <span>Explore Products</span>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
-
-                {/* Live 25-Second Factory Production Tour Circular Badge */}
-                <div className="hidden xl:flex items-center gap-2.5 pl-3 border-l border-[#E5DFD5]">
-                  <SpinningCircularVideoBadge 
-                    videoSrc="/videos/factory-production-showcase.mp4" 
-                    title="• 25S FACTORY SHOWCASE • SIALKOT STITCHING •" 
-                    size="sm" 
-                  />
-                  <div className="text-left">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#FF751F] block">
-                      25s Showcase
-                    </span>
-                    <p className="text-xs font-bold text-[#1A1A1A] leading-tight">
-                      Factory Tour
-                    </p>
-                  </div>
-                </div>
               </div>
 
               {/* Trust Indicators below CTA */}
