@@ -4,7 +4,6 @@ import {
   ShieldCheck, Flame, Package, CheckCircle2,
   ChevronRight, ChevronLeft, Maximize2, X, Clock, Play
 } from 'lucide-react';
-import CircularVideoHover, { SpinningCircularVideoBadge } from '../common/CircularVideoHover';
 
 export default function PrecisionManufacturingFloor() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -246,25 +245,6 @@ export default function PrecisionManufacturingFloor() {
           </p>
         </div>
 
-        {/* 25-Second Factory Showcase Circular Video Interactive Feature */}
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm">
-          <SpinningCircularVideoBadge 
-            videoSrc="/videos/factory-production-showcase.mp4" 
-            title="• 25-SEC FACTORY TOUR • SIALKOT MANUFACTURING •" 
-            size="sm" 
-          />
-          <div className="text-left">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#FF751F] block">
-              Live Factory Footage
-            </span>
-            <p className="text-xs font-bold text-[#1A1A1A] leading-tight">
-              25s Production Tour
-            </p>
-            <p className="text-[10px] text-[#8A847A]">
-              Click to watch in HD
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Mobile Scroll Progress Bar */}
@@ -392,38 +372,6 @@ export default function PrecisionManufacturingFloor() {
                     {step.description}
                   </p>
 
-                  {/* Circular Video Preview Trigger for Step 05 (Embroidery) & Step 06 (Stitching) */}
-                  {step.number === '05' && (
-                    <div className="pt-1">
-                      <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/25 text-xs text-[#1A1A1A] shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-ping" />
-                        <span className="text-[#FF751F] font-bold">Live Floor Preview:</span>
-                        <CircularVideoHover 
-                          videoSrc="/videos/factory-production-showcase.mp4" 
-                          label="Tajima 15-Color Computerized Multi-Needle Embroidery" 
-                          badge="EMBROIDERY"
-                        >
-                          multi-needle embroidery station
-                        </CircularVideoHover>
-                      </div>
-                    </div>
-                  )}
-
-                  {step.number === '06' && (
-                    <div className="pt-1">
-                      <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/25 text-xs text-[#1A1A1A] shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-emerald-700 font-bold">Live Floor Preview:</span>
-                        <CircularVideoHover 
-                          videoSrc="/videos/factory-production-showcase.mp4" 
-                          label="Japanese Juki 4-Needle 6-Thread Flatlock Assembly" 
-                          badge="STITCHING"
-                        >
-                          precision stitching & flatlock assembly
-                        </CircularVideoHover>
-                      </div>
-                    </div>
-                  )}
 
                   {/* Key Technical Checklist */}
                   <div className="space-y-2 pt-2 border-t border-[#E5DFD5]">

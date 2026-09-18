@@ -100,16 +100,10 @@
   background: #FF751F;
 }
 
-/* Custom Scissor Cursor Styles */
+/* Dynamic Whitespace Video Cursor Follower */
 @media (pointer: fine) {
-  html.custom-scissor-cursor-active,
-  html.custom-scissor-cursor-active body,
-  html.custom-scissor-cursor-active a,
-  html.custom-scissor-cursor-active button,
-  html.custom-scissor-cursor-active input[type="range"],
-  html.custom-scissor-cursor-active select,
-  html.custom-scissor-cursor-active [role="button"],
-  html.custom-scissor-cursor-active label {
+  html.whitespace-video-active,
+  html.whitespace-video-active body {
     cursor: none !important;
   }
 }

@@ -256,20 +256,19 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* Category 1 */}
+          {/* Category 1: Teamwear */}
           <Link
             to="/products?category=teamwear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[460px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-2/3 overflow-hidden bg-[#1A1A1A]">
+            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
-                src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=800&q=80"
-                alt="Teamwear & Kits"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                src="/teamwear-img.jpg"
+                alt="Custom Teamwear & Kits"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
-                Soccer • Basketball • Cricket
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Cricket • Basketball • Rugby • Football
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between bg-white">
@@ -288,20 +287,19 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* Category 2 */}
+          {/* Category 2: Activewear */}
           <Link
             to="/products?category=activewear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[460px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-2/3 overflow-hidden bg-[#1A1A1A]">
+            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
-                src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+                src="/activewear-img.jpg"
                 alt="Activewear & Gym Essentials"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
-                Gym • Compression • Hoodies
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Hoodies • Leggings • Sports Bras • Shorts
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between bg-white">
@@ -320,20 +318,19 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* Category 3 */}
+          {/* Category 3: Equipment */}
           <Link
             to="/products?category=equipment"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[460px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-2/3 overflow-hidden bg-[#1A1A1A]">
+            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
-                src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80"
+                src="/equipment-img.jpg"
                 alt="Sports Equipment & Goods"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
-                Rackets • Fitness • Cues • Balls • Outdoor
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Rackets • Balls • Cues • Gear • Expedition
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between bg-white">

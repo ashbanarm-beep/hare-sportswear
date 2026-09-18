@@ -6,7 +6,6 @@ import {
   Cpu, FileText, Palette, Scissors, Zap, Globe, Gauge, Flame, Award, Play
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
-import CircularVideoHover, { SpinningCircularVideoBadge } from '../components/common/CircularVideoHover';
 
 export default function CustomManufacturingPage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -141,7 +140,7 @@ export default function CustomManufacturingPage() {
           Custom Manufacturing & Embellishment Technologies
         </h1>
         <p className="text-sm sm:text-base text-[#595856] leading-relaxed">
-          From proprietary yarn knitting and Italian sublimation to laser-welded seams and Tajima embroidery, our <CircularVideoHover videoSrc="/videos/factory-production-showcase.mp4" label="Sialkot Manufacturing Floor (Live Showcase)" badge="25S TOUR">Sialkot manufacturing floor</CircularVideoHover> translates your technical concepts into tournament-grade reality.
+          From proprietary yarn knitting and Italian sublimation to laser-welded seams and Tajima embroidery, our Sialkot manufacturing floor translates your technical concepts into tournament-grade reality.
         </p>
 
         {/* Machinery & Factory Telemetry Pill Bar */}
@@ -156,9 +155,7 @@ export default function CustomManufacturingPage() {
           </span>
           <span className="px-3 py-1 rounded-xl bg-white border border-[#E5DFD5] font-semibold flex items-center gap-1.5 shadow-sm">
             <Award className="w-3.5 h-3.5 text-emerald-600" />
-            <CircularVideoHover videoSrc="/videos/factory-production-showcase.mp4" label="Tajima 3D Computerized Multi-Needle Heads" badge="EMBROIDERY">
-              Tajima 3D Computerized Heads
-            </CircularVideoHover>
+            Tajima 3D Computerized Heads
           </span>
         </div>
       </motion.div>
