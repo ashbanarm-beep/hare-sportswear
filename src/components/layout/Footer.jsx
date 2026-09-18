@@ -181,8 +181,8 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/meet-hare" className="text-[#FF751F] hover:underline font-semibold flex items-center gap-1.5 transition-colors">
-                  <img src="/brand-logo-icon.png" alt="Hare Logo" className="w-3.5 h-3.5 object-contain" />
-                  <span>Our Brand Story</span>
+                  <span>🐰</span>
+                  <span>Meet Hurry the Hare</span>
                 </Link>
               </li>
             </ul>

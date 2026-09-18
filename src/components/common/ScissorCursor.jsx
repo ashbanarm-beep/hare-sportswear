@@ -185,28 +185,8 @@ export default function ScissorCursor() {
           loop
           playsInline
           preload="auto"
-          className="w-full h-full object-cover scale-110"
+          className="w-full h-full object-cover scale-105"
         />
-
-        {/* Soft Vignette Overlay */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/75 via-transparent to-black/35 pointer-events-none" />
-
-        {/* Live Indicator Pill */}
-        <div className="absolute top-1.5 inset-x-0 flex items-center justify-center pointer-events-none">
-          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-white/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-[7px] font-black tracking-widest text-white uppercase font-mono">
-              LIVE
-            </span>
-          </div>
-        </div>
-
-        {/* Bottom Title Label */}
-        <div className="absolute bottom-1 inset-x-1 text-center pointer-events-none">
-          <p className="text-[7px] font-extrabold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] font-display tracking-tight">
-            {factoryVideos[currentVideoIdx].label}
-          </p>
-        </div>
       </div>
     </div>
   );
