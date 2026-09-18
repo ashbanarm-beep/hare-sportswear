@@ -249,7 +249,7 @@ export default function HomePage() {
             to="/products"
             className="inline-flex items-center gap-2 text-sm font-bold text-[#FF751F] hover:text-[#E65E08] transition-colors"
           >
-            <span>View Complete 28-Product Catalog</span>
+            <span>View Complete 32-Product Catalog</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

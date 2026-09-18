@@ -255,7 +255,7 @@ export default function ProductsPage() {
                   </h3>
                   
                   {/* Material Composition & GSM */}
-                  <div className="mt-2 space-y-1 text-xs">
+                  <div className="mt-2 space-y-1.5 text-xs">
                     <p className="text-[#595856] font-medium line-clamp-1">
                       {product.material}
                     </p>
@@ -264,6 +264,17 @@ export default function ProductsPage() {
                       <span>•</span>
                       <span>{product.leadTime} Lead</span>
                     </div>
+
+                    {/* Durability Rating */}
+                    {(product.durabilityRating || product.gearSpecs?.durabilityRating) && (
+                      <div className="flex items-center gap-1.5 pt-0.5 text-[11px]">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <span className="text-[#8A847A] font-medium">Durability:</span>
+                        <span className="font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60 text-[10px]">
+                          {product.durabilityRating || product.gearSpecs?.durabilityRating}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -276,7 +287,7 @@ export default function ProductsPage() {
                     }}
                     className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65E08] active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-sm group/btn"
                   >
-                    <span>Request Quote / Inquire</span>
+                    <span>Request Bulk Quote</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
                   </button>
                 </div>

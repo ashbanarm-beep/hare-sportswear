@@ -1,18 +1,18 @@
 export const categories = [
-  { id: 'all', name: 'All Products', count: 28 },
+  { id: 'all', name: 'All Products', count: 32 },
   { id: 'teamwear', name: 'Teamwear', count: 6 },
   { id: 'activewear', name: 'Activewear', count: 6 },
-  { id: 'equipment', name: 'Sports Equipment & Goods', count: 16 },
+  { id: 'equipment', name: 'Sports Equipment & Goods', count: 20 },
 ];
 
 export const equipmentSubcategories = [
   { id: 'all-equipment', name: 'All Equipment & Goods' },
+  { id: 'combat-sports', name: 'Wrestling & Combat Gear' },
   { id: 'racket-sports', name: 'Racket & Net Sports' },
   { id: 'fitness', name: 'Fitness & Gym Equipment' },
   { id: 'cue-sports', name: 'Cue Sports' },
   { id: 'team-sports', name: 'Team Sports Equipment' },
   { id: 'outdoor', name: 'Outdoor & Camping Gear' },
-  { id: 'combat-sports', name: 'Combat & Martial Arts' },
   { id: 'bags-accessories', name: 'Bags & Accessories' },
 ];
 
@@ -32,7 +32,11 @@ export const materialTypes = [
   'Ash Wood & Canadian Maple',
   'Microfiber Composite Leather',
   'Aircraft 7075 Aluminum & 3K Carbon',
-  '1000D Cordura & 210T Ripstop Poly'
+  '1000D Cordura & 210T Ripstop Poly',
+  'Heavy-Duty Synthetic Leather & Alloy',
+  'Reinforced High-Tensile PU & Vinyl',
+  'High-Density EVA Foam & Polymer Shell',
+  'Honeycomb Mesh & Gum Rubber Sole'
 ];
 
 export const products = [
@@ -901,6 +905,166 @@ export const products = [
       poles: '4 x 8.5mm 7001-T6 Aircraft Aluminum',
       dimensions: 'Inner: 215 x 180 x 115 cm / Packed: 52 x 18 cm',
       windResistance: 'Tested to Force 9 Gale (80+ km/h)'
+    }
+  },
+  {
+    id: 'prod-29',
+    name: 'Custom Championship Title Belts (Gold & Silver Plated)',
+    category: 'equipment',
+    subcategory: 'combat-sports',
+    sport: 'Wrestling / Boxing / MMA',
+    badge: 'Tournament Grade',
+    material: 'Heavy-Duty Synthetic Leather & Alloy',
+    gsm: '4mm Cast Plates / Heavy PU Leather',
+    moq: '10 Belts',
+    leadTime: '18-25 Days',
+    durabilityRating: 'Tournament Pro (5/5)',
+    image: '/images/products/product-29-championship-belt.jpg',
+    gallery: [
+      '/images/products/product-29-championship-belt.jpg'
+    ],
+    description: 'Premier custom championship title belt manufactured for wrestling leagues, MMA federations, and tournament promotions. Features heavy-duty 4mm solid cast metal plates with multi-level 3D embossing, high-luster gold and chrome electroplating, and a thick synthetic leather strap with floral leather tooling.',
+    features: [
+      'Heavy-duty 4mm thick solid cast zinc / brass alloy center and dual side plates',
+      'Multi-layered 3D deep relief detailing with brilliant gold and silver electroplating',
+      'Thick, reinforced synthetic leather strap with hand-tooled border embossing',
+      'Heavy-duty brass snap-fasteners (5x2 on both sides) for secure waist fit',
+      'Protective soft velvet inner back lining to prevent scratches and provide comfort',
+      'Hand-applied jewelry-grade colored enamel infill on federation text and emblems'
+    ],
+    customizationOptions: [
+      'Custom Center & Side Plate 3D Vector Sculpting with Federation Crest',
+      'Dual-Tone 24K Gold, Antique Silver, or Smoked Nickel Finish',
+      'Custom Laser-Engraved Champion Nameplate & Tournament Date Bars',
+      'Deluxe Velvet-Lined Zippered Flight Case with Custom Brand Stamping'
+    ],
+    sizes: ['Adult Standard (50" Length)', 'Youth Division (40" Length)', 'Heavyweight Extra (54" Length)'],
+    gearSpecs: {
+      plateThickness: '4mm Solid Cast Zinc / Brass Alloy',
+      strapMaterial: 'Heavy-Duty PU Synthetic Leather with Border Tooling',
+      platingFinish: 'High-Gloss 24K Gold & Polished Chrome Duo-Tone',
+      beltWeight: '3.1 kg (6.8 lbs Tournament Standard)',
+      durabilityRating: 'Tournament Pro (5/5) Impact Resistant'
+    }
+  },
+  {
+    id: 'prod-30',
+    name: 'Reinforced Grappling & Wrestling Training Dummy',
+    category: 'equipment',
+    subcategory: 'combat-sports',
+    sport: 'Wrestling / MMA / BJJ / Grappling',
+    badge: 'Heavy-Duty Gym Grade',
+    material: 'Reinforced High-Tensile PU & Vinyl',
+    gsm: '900 GSM Heavy-Duty Vinyl & Synthetic Leather',
+    moq: '15 Units',
+    leadTime: '14-18 Days',
+    durabilityRating: 'Extreme Conditioning (5/5)',
+    image: '/images/products/product-30-wrestling-dummy.jpg',
+    gallery: [
+      '/images/products/product-30-wrestling-dummy.jpg'
+    ],
+    description: 'Full-body anatomical grappling and throwing dummy designed for high-intensity wrestling clubs, MMA gyms, and tactical combat conditioning. Constructed from multi-layer 900 GSM synthetic leather reinforced with triple-stitched bonded nylon seams to withstand thousands of high-velocity suplexes and throws.',
+    features: [
+      'Multi-layer 900 GSM tear-proof synthetic leather engineered to resist mat abrasion',
+      'Triple-locked bonded nylon structural seams with bar-tacked high-stress joints',
+      'Anatomically curved arm architecture enables realistic takedowns, throws, and submissions',
+      'Concealed industrial heavy-duty zipper base with protective hook-and-loop security flap',
+      'Integrated reinforced nylon webbed hanging harness loop on collar for suspended drills',
+      'Available pre-filled with shredded textile composite or unfilled for low-cost bulk export'
+    ],
+    customizationOptions: [
+      'Custom Federation / Gym Brand Logo Screen Printing or Heat Transfer',
+      'Available in Straight-Leg (Throws/Slams) or Positional Bent-Leg (BJJ/Ground)',
+      'Custom Accent Color Stitching & High-Visibility Target Striking Zones',
+      'Weight Calibration: Standard (30 kg), Heavy (45 kg), or Custom Specification'
+    ],
+    sizes: ['Youth 40" (15 kg)', 'Standard Adult 64" (30-35 kg)', 'Heavyweight Adult 70" (45 kg)'],
+    gearSpecs: {
+      shellMaterial: '900 GSM Laminated Synthetic Leather',
+      seamStrength: 'Triple-Lock Bonded Nylon (35 kg/cm Tensile)',
+      internalFilling: 'High-Density Clean Shredded Textile Composite',
+      slamResistance: 'Tested for 10,000+ High-Velocity Mat Throws',
+      durabilityRating: 'Extreme Conditioning (5/5)'
+    }
+  },
+  {
+    id: 'prod-31',
+    name: 'Pro-Guard Wrestling Headgear & Ear Guards',
+    category: 'equipment',
+    subcategory: 'combat-sports',
+    sport: 'Freestyle / Greco-Roman / Folkstyle',
+    badge: 'NFHS / UWW Compliant',
+    material: 'High-Density EVA Foam & Polymer Shell',
+    gsm: 'Dual-Layer Impact Polymer + Moisture-Wicking Liner',
+    moq: '30 Units',
+    leadTime: '12-16 Days',
+    durabilityRating: 'Mat-Proven Safety (5/5)',
+    image: '/images/products/product-31-wrestling-headgear.jpg',
+    gallery: [
+      '/images/products/product-31-wrestling-headgear.jpg'
+    ],
+    description: 'Tournament-grade wrestling headgear and ear guard engineered for maximum ear cartilage protection without sacrificing peripheral hearing or comfort. Features injection-molded polymer ear cups surrounded by high-density closed-cell EVA foam and a secure 4-strap harness with a cushioned chin cup.',
+    features: [
+      'Rigid injection-molded internal ear cups effectively prevent cauliflower ear injury',
+      'Dual-density shock-absorbing EVA foam cushions disperse direct collision forces',
+      '4-point fully adjustable nylon strap system provides a customized, non-slip fit',
+      'Strategic multi-port auditory ventilation holes maintain crystal-clear coach communication',
+      'Ultra-soft, anti-chafing neoprene chin cup with heavy-duty quick-snap buckle',
+      'Non-absorbent closed-cell foam cleans easily and resists bacterial growth and odor'
+    ],
+    customizationOptions: [
+      'Two-Tone Custom Colorway Combinations for Ear Cups, Straps, and Chin Pad',
+      'Custom School or Club Mascot Logo Printed Directly on Hard Ear Shells',
+      'Sublimated Removable Strap Wraps with Team Name or Sponsor Graphics',
+      'Custom Mesh Drawstring Gear Bag with Woven Brand Label'
+    ],
+    sizes: ['Youth Universal (Ages 6-12)', 'Adult Standard (Ages 13+)'],
+    gearSpecs: {
+      earCupCore: 'Rigid High-Impact Molded Polymer Shield',
+      paddingThickness: '12mm Dual-Density Closed-Cell EVA Foam',
+      strapSystem: '4-Point Adjustable Reinforced Hook & Loop Harness',
+      complianceStandard: 'Meets NFHS & Collegiate Mat Safety Specifications',
+      durabilityRating: 'Mat-Proven Safety (5/5)'
+    }
+  },
+  {
+    id: 'prod-32',
+    name: 'Mat-Grip Elite Wrestling & Combat Boots',
+    category: 'equipment',
+    subcategory: 'combat-sports',
+    sport: 'Wrestling / Boxing / Mat Sports',
+    badge: 'High Traction',
+    material: 'Honeycomb Mesh & Gum Rubber Sole',
+    gsm: 'Single-Layer Monofilament + Gum Rubber Sole',
+    moq: '25 Pairs',
+    leadTime: '15-20 Days',
+    durabilityRating: 'Tournament Ready (5/5)',
+    image: '/images/products/product-32-wrestling-boots.jpg',
+    gallery: [
+      '/images/products/product-32-wrestling-boots.jpg'
+    ],
+    description: 'Ultra-lightweight high-performance wrestling boots designed for rapid pivot speed, zero-slip mat purchase, and rock-solid ankle stabilization. Features an engineered single-layer breathable honeycomb mesh upper reinforced with synthetic suede overlays and a split-pod natural gum rubber traction outsole.',
+    features: [
+      'Full-wrap natural gum rubber outsole with multidirectional radial traction pods',
+      'High-top padded ankle collar provides structural support during explosive sprawls and shoots',
+      'Single-layer breathable honeycomb mesh keeps athlete feet cool under intense tournament rounds',
+      'Integrated tournament-legal lace garage system prevents shoelaces from untying during action',
+      'Abrasion-resistant synthetic suede toe cap and heel counter withstand rough canvas friction',
+      'Die-cut EVA sockliner provides low-profile impact cushioning without compromising mat feel'
+    ],
+    customizationOptions: [
+      'Custom Brand Logo Embossed on Tongue Patch, Lateral Quarter, and Heel Counter',
+      'Full Custom Colorway Matching for Mesh Body, Suede Overlays, and Laces',
+      'Sublimated Graphic Mesh Inserts with Team Camouflage or Gradients',
+      'Custom Branded Shoe Box, Tissue Wrap, and Extra Color-Coordinated Lace Pairs'
+    ],
+    sizes: ['US Men 5.0 - 14.0', 'EU 37 - 48', 'UK 4.5 - 13.5 (Custom Half-Sizes)'],
+    gearSpecs: {
+      outsoleCompound: 'Non-Marking Radial Pivot Gum Rubber',
+      upperConstruction: 'Engineered Monofilament Honeycomb Mesh + Suede',
+      shoeWeight: '235g per Shoe (US 9 / Featherlight)',
+      ankleProfile: 'High-Cut Anatomical Padded Collar',
+      durabilityRating: 'Tournament Ready (5/5)'
     }
   }
 ];

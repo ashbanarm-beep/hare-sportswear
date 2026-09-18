@@ -134,8 +134,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/products?category=equipment&sub=combat-sports" className="hover:text-[#FF751F] transition-colors">
+                  Wrestling & Combat Gear
+                </Link>
+              </li>
+              <li>
                 <Link to="/products" className="text-[#FF751F] hover:underline font-semibold flex items-center gap-1">
-                  <span>Explore 28-Product Catalog</span>
+                  <span>Explore 32-Product Catalog</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>
