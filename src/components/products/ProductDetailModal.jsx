@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   X, Check, ShieldCheck, Clock, Layers, Ruler, Sparkles, 
-  ArrowRight, ShoppingBag, Info, Award 
+  ArrowRight, Info, Award 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useRFQ } from '../../context/RFQContext';
@@ -10,17 +10,10 @@ export default function ProductDetailModal({ product, onClose }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeSizeTab, setActiveSizeTab] = useState('men');
   const [unit, setUnit] = useState('cm'); // 'cm' or 'inches'
-  const [added, setAdded] = useState(false);
 
   const { addToBasket, setSelectedProductForInquiry } = useRFQ();
 
   if (!product) return null;
-
-  const handleAddToBasket = () => {
-    addToBasket(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 3000);
-  };
 
   const handleInquireNow = () => {
     setSelectedProductForInquiry(product);
@@ -305,23 +298,15 @@ export default function ProductDetailModal({ product, onClose }) {
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-              <button
-                onClick={handleAddToBasket}
-                className="w-full sm:w-1/2 flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-xs bg-[#FAF8F3] hover:bg-[#F5F1E8] text-[#1A1A1A] border border-[#E5DFD5] transition-all active:scale-95"
-              >
-                <ShoppingBag className="w-4 h-4 text-[#FF751F]" />
-                <span>{added ? '✓ Added to RFQ Basket' : 'Add to RFQ Basket'}</span>
-              </button>
-
+            {/* Action Button: Inquire / Request Quote Now */}
+            <div className="pt-2">
               <Link
                 to="/contact"
                 onClick={handleInquireNow}
-                className="w-full sm:w-1/2 flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] text-white shadow-glow-orange transition-all active:scale-95"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] text-white shadow-glow-orange transition-all active:scale-95 group"
               >
                 <span>Inquire / Request Quote Now</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
 
