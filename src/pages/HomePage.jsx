@@ -146,7 +146,7 @@ export default function HomePage() {
 
             </div>
 
-            {/* Hero Right Visual (5 cols) featuring Interactive "Hurry the Hare" Mascot */}
+            {/* Hero Right Visual (5 cols) featuring Interactive Brand Showcase */}
             <div className="lg:col-span-5 relative pt-10 sm:pt-6 lg:pt-0">
               <HurryHeroInteractive />
             </div>

@@ -562,19 +562,19 @@ export default function BlogPostPage() {
           {/* ========================================================= */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-5">
             
-            {/* Clean Stable Mascot Companion Card */}
+            {/* Clean Stable Brand Factory Card */}
             <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3.5 text-center">
-              <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden border-2 border-[#FF751F] shadow-md bg-[#1A1A1A]">
+              <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden border-2 border-[#FF751F] shadow-md bg-[#1A1A1A] p-2.5 flex items-center justify-center">
                 <img
-                  src="/images/mascot/hurry-hero.jpg"
-                  alt="Hurry the Hare - Brand Mascot"
-                  className="w-full h-full object-cover"
+                  src="/brand-logo-icon.png"
+                  alt="Hare Sportswear & Goods Official Logo"
+                  className="w-full h-full object-contain"
                 />
                 <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block">
-                  Meet Hurry the Hare 🐰
+                  Hare Sportswear & Goods
                 </span>
                 <h4 className="font-bold text-sm text-[#1A1A1A] font-display">
                   Need Custom Teamwear Samples?
@@ -584,7 +584,7 @@ export default function BlogPostPage() {
                 </p>
               </div>
               <Link
-                to="/contact?source=blog-mascot-card"
+                to="/contact?source=blog-brand-card"
                 className="w-full py-2.5 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
               >
                 <span>Request Factory Quote</span>

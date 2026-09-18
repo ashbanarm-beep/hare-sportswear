@@ -623,20 +623,20 @@ export default function GlobalExportGlobe() {
                 });
               } catch (err) {}
               setTimeout(() => {
-                navigate(`/contact?source=globe-mascot&country=${encodeURIComponent(activeHubData.country)}`);
+                navigate(`/contact?source=globe-logistics&country=${encodeURIComponent(activeHubData.country)}`);
               }, 400);
             }}
             role="button"
             tabIndex={0}
-            aria-label={`Click to request export shipping quote to ${activeHubData.country} with Hurry the Hare`}
-            title={`Click Hurry for DDP delivery quote to ${activeHubData.country}! 🐰`}
+            aria-label={`Click to request export shipping quote to ${activeHubData.country}`}
+            title={`Click for DDP delivery quote to ${activeHubData.country}!`}
             className="rounded-3xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/60 p-4 sm:p-5 shadow-sm hover:shadow-lg transition-all flex items-center gap-4 relative overflow-hidden group cursor-pointer"
           >
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-[#FAF8F3] border-2 border-[#E5DFD5] group-hover:border-[#FF751F] shadow-sm shrink-0 transition-colors">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-[#1A1A1A] border-2 border-[#FF751F] group-hover:border-[#FF751F] shadow-sm shrink-0 transition-colors p-2.5 flex items-center justify-center">
               <img
-                src="/images/mascot/hurry-global.jpg"
-                alt="Hurry the Hare - Global Export Dispatcher"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                src="/brand-logo-icon.png"
+                alt="Hare Global Logistics"
+                className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
               />
               <span className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
             </div>
@@ -644,9 +644,9 @@ export default function GlobalExportGlobe() {
             <div className="min-w-0 space-y-1 flex-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                  <span className="text-xs font-bold text-[#1A1A1A]">Hare Global Logistics</span>
                   <span className="text-[10px] font-bold text-white bg-[#FF751F] px-2 py-0.5 rounded-full shadow-sm">
-                    Dispatcher
+                    DDP Air & Ocean
                   </span>
                 </div>
                 <span className="text-[11px] font-bold text-[#FF751F] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">

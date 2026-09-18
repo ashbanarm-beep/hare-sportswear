@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function BrandLogo({ className = "", isDark = false, iconOnly = false, size = "md" }) {
-  // Select the appropriate logo variant based on background
-  const logoSrc = isDark ? '/hare-logo-white-text.png' : '/hare-logo-transparent.png';
+  // Select the appropriate logo variant based on background or iconOnly
+  const logoSrc = iconOnly 
+    ? '/brand-logo-icon.png' 
+    : (isDark ? '/hare-logo-white-text.png' : '/hare-logo-transparent.png');
 
   const heights = {
     sm: "h-8",

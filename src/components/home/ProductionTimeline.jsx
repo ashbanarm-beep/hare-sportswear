@@ -106,7 +106,7 @@ export default function ProductionTimeline() {
     }
   ];
 
-  const hurryTips = [
+  const productionTips = [
     {
       heading: 'Tech Pack Vector Digitalization',
       message: 'Send your AI vector or PDF tech pack! Our senior pattern masters calculate precise seam tolerances and fabric consumptions within 24 hours.'
@@ -275,7 +275,7 @@ export default function ProductionTimeline() {
 
           </div>
 
-          {/* Mascot Companion Card: Hurry the Hare - Master Craftsman */}
+          {/* Brand Engineering Advisory Card */}
           <motion.div 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -285,42 +285,42 @@ export default function ProductionTimeline() {
             onClick={handleMascotRedirect}
             role="button"
             tabIndex={0}
-            aria-label="Click to meet Hurry the Hare and explore our brand story"
-            title="Click Hurry to view our brand story! 🐰"
+            aria-label="Click to explore our manufacturing brand story"
+            title="Click to view our manufacturing brand story!"
           >
             <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-bl from-[#FF751F]/15 to-transparent rounded-bl-3xl pointer-events-none"></div>
 
             <div className="flex items-center gap-3.5">
-              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white border-2 border-[#E5DFD5] group-hover:border-[#FF751F] shadow shrink-0 transition-colors">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-[#1A1A1A] border-2 border-[#FF751F] group-hover:border-[#FF751F] shadow p-2.5 flex items-center justify-center shrink-0 transition-colors">
                 <img
-                  src="/images/mascot/hurry-craftsman.jpg"
-                  alt="Hurry the Hare - Master Sports Craftsman"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  src="/brand-logo-icon.png"
+                  alt="Hare Sportswear Official Logo"
+                  className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                 />
                 <span className="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
               </div>
 
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry's Production Tip</span>
+                  <span className="text-xs font-bold text-[#1A1A1A]">Factory Engineering Tip</span>
                   <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-2 py-0.5 rounded-full border border-[#FF751F]/20">
                     Phase 0{activeStep + 1}
                   </span>
                 </div>
                 <p className="text-[11px] text-[#8A847A] font-medium flex items-center gap-1">
-                  <span>Head of Rapid Sampling</span>
-                  <span className="text-[10px] text-[#FF751F] font-semibold">• Click Me!</span>
+                  <span>Rapid Sampling Standard</span>
+                  <span className="text-[10px] text-[#FF751F] font-semibold">• Sialkot OEM</span>
                 </p>
               </div>
             </div>
 
-            {/* Dynamic Mascot Tip */}
+            {/* Dynamic Engineering Tip */}
             <div className="p-3.5 rounded-2xl bg-white border border-[#E5DFD5] text-xs text-[#595856] leading-relaxed relative shadow-sm">
               <div className="font-semibold text-[#1A1A1A] mb-1 flex items-center gap-1.5 text-[11px]">
                 <Sparkles className="w-3.5 h-3.5 text-[#FF751F]" />
-                <span>{hurryTips[activeStep]?.heading}</span>
+                <span>{productionTips[activeStep]?.heading}</span>
               </div>
-              <p>{hurryTips[activeStep]?.message}</p>
+              <p>{productionTips[activeStep]?.message}</p>
             </div>
 
             <div className="flex items-center gap-2 pt-1">
@@ -351,30 +351,32 @@ export default function ProductionTimeline() {
         {/* Right Side: Detailed Scrolling Step Cards (7 cols) */}
         <div className="lg:col-span-7 space-y-8">
           
-          {/* Mobile Mascot Companion Banner */}
+          {/* Mobile Brand Engineering Banner */}
           <motion.div 
             whileTap={{ scale: 0.97 }}
             onClick={handleMascotRedirect}
             className="lg:hidden rounded-2xl bg-white border border-[#E5DFD5] p-4 flex items-center gap-3.5 shadow-sm cursor-pointer active:bg-[#FAF8F3]"
-            title="Click to meet Hurry the Hare!"
+            title="Click to explore our manufacturing brand story!"
           >
-            <img
-              src="/images/mascot/hurry-craftsman.jpg"
-              alt="Hurry the Hare"
-              className="w-14 h-14 rounded-xl object-cover border border-[#E5DFD5] shrink-0"
-            />
+            <div className="w-14 h-14 rounded-xl bg-[#1A1A1A] border border-[#FF751F] p-2 shrink-0 flex items-center justify-center">
+              <img
+                src="/brand-logo-icon.png"
+                alt="Hare Sportswear Official Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-[#1A1A1A]">Hurry the Hare</span>
+                  <span className="text-xs font-bold text-[#1A1A1A]">Factory Engineering Tip</span>
                   <span className="text-[10px] font-bold text-[#FF751F] bg-[#FF751F]/10 px-1.5 py-0.5 rounded">
-                    Craftsman
+                    Phase 0{activeStep + 1}
                   </span>
                 </div>
-                <span className="text-[10px] font-bold text-[#FF751F]">Meet Me 👋</span>
+                <span className="text-[10px] font-bold text-[#FF751F]">Story 👋</span>
               </div>
               <p className="text-[11px] text-[#595856] mt-0.5 line-clamp-2">
-                "{hurryTips[activeStep]?.message}"
+                "{productionTips[activeStep]?.message}"
               </p>
             </div>
           </motion.div>
