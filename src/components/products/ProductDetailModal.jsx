@@ -11,13 +11,12 @@ export default function ProductDetailModal({ product, onClose }) {
   const [activeSizeTab, setActiveSizeTab] = useState('men');
   const [unit, setUnit] = useState('cm'); // 'cm' or 'inches'
 
-  const { addToBasket, setSelectedProductForInquiry } = useRFQ();
+  const { setSelectedProductForInquiry } = useRFQ();
 
   if (!product) return null;
 
   const handleInquireNow = () => {
     setSelectedProductForInquiry(product);
-    addToBasket(product);
     onClose();
   };
 
@@ -301,7 +300,7 @@ export default function ProductDetailModal({ product, onClose }) {
             {/* Action Button: Inquire / Request Quote Now */}
             <div className="pt-2">
               <Link
-                to="/contact"
+                to={`/contact?product=${encodeURIComponent(product.name)}&cat=${encodeURIComponent(product.category)}`}
                 onClick={handleInquireNow}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] text-white shadow-glow-orange transition-all active:scale-95 group"
               >

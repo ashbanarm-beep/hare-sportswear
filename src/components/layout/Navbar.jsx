@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { 
   Menu, X, MessageCircle, FileText, ChevronRight, ChevronDown,
-  Mail, Phone, ShoppingBag, Globe, Plane, ArrowRight
+  Mail, Phone, Globe, Plane, ArrowRight
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
-import { useRFQ } from '../../context/RFQContext';
 import { countryServices } from '../../data/countryServicesData';
 
 export default function Navbar() {
@@ -14,7 +13,6 @@ export default function Navbar() {
   const [globalDropdownOpen, setGlobalDropdownOpen] = useState(false);
   const [mobileRegionsOpen, setMobileRegionsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { inquiryBasket } = useRFQ();
   const location = useLocation();
 
   useEffect(() => {
@@ -222,21 +220,6 @@ export default function Navbar() {
 
           {/* Right Actions & RFQ CTA */}
           <div className="hidden sm:flex items-center gap-3">
-
-            {/* Inquiry Basket Indicator (if items selected) */}
-            {(inquiryBasket?.length || 0) > 0 && (
-              <Link
-                to="/contact"
-                className="relative p-2.5 rounded-xl bg-white text-[#FF751F] border border-[#FF751F]/30 hover:bg-[#FF751F]/10 transition-all shadow-sm"
-                title={`${inquiryBasket.length} items in your RFQ basket`}
-              >
-                <ShoppingBag className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FF751F] text-white text-xs font-bold flex items-center justify-center animate-bounce">
-                  {inquiryBasket.length}
-                </span>
-              </Link>
-            )}
-
             {/* Primary RFQ Button */}
             <Link
               to="/contact"

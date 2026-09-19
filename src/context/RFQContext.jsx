@@ -3,23 +3,14 @@ import React, { createContext, useContext, useState } from 'react';
 const RFQContext = createContext();
 
 export function RFQProvider({ children }) {
-  const [inquiryBasket, setInquiryBasket] = useState([]);
   const [selectedProductForInquiry, setSelectedProductForInquiry] = useState(null);
   const [isTechPackModalOpen, setIsTechPackModalOpen] = useState(false);
 
-  const addToBasket = (product) => {
-    if (!inquiryBasket.some(item => item.id === product.id)) {
-      setInquiryBasket(prev => [...prev, product]);
-    }
-  };
-
-  const removeFromBasket = (productId) => {
-    setInquiryBasket(prev => prev.filter(item => item.id !== productId));
-  };
-
-  const clearBasket = () => {
-    setInquiryBasket([]);
-  };
+  // Safe no-ops to eliminate e-commerce cart/basket states entirely
+  const inquiryBasket = [];
+  const addToBasket = () => {};
+  const removeFromBasket = () => {};
+  const clearBasket = () => {};
 
   const openTechPackModal = () => setIsTechPackModalOpen(true);
   const closeTechPackModal = () => setIsTechPackModalOpen(false);

@@ -9,12 +9,17 @@ import { useRFQ } from '../context/RFQContext';
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
-  const { inquiryBasket, clearBasket, selectedProductForInquiry } = useRFQ();
+  const { selectedProductForInquiry, setSelectedProductForInquiry } = useRFQ();
 
+  const prefillProduct = searchParams.get('product') || (selectedProductForInquiry ? selectedProductForInquiry.name : '');
   const prefillCat = searchParams.get('cat') || (selectedProductForInquiry ? selectedProductForInquiry.category : 'Teamwear & Kits');
-  const prefillQty = searchParams.get('qty') || (selectedProductForInquiry ? '50-100' : '100-500');
+  const prefillQty = searchParams.get('qty') || (selectedProductForInquiry ? `MOQ: ${selectedProductForInquiry.moq}` : '100-500');
   const prefillCountry = searchParams.get('country') || '';
-  const prefillProduct = searchParams.get('product') || '';
+  const prefillFabric = selectedProductForInquiry ? selectedProductForInquiry.material : '100% Polyester Interlock (160 GSM)';
+
+  const initialMessage = prefillProduct 
+    ? `Inquiring regarding custom OEM/ODM manufacturing for "${prefillProduct}". Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
+    : '';
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -25,32 +30,29 @@ export default function ContactPage() {
     category: prefillCat,
     quantity: prefillQty,
     targetDate: 'Within 30 Days',
-    fabricPreference: selectedProductForInquiry ? selectedProductForInquiry.material : '100% Polyester Interlock (160 GSM)',
-    message: prefillProduct 
-      ? `Inquiring regarding custom manufacturing for ${prefillProduct}. Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
-      : inquiryBasket.length > 0 
-        ? `Inquiring about ${inquiryBasket.length} style(s) from catalog:\n` + inquiryBasket.map(p => `- ${p.name} (MOQ: ${p.moq})`).join('\n')
-        : ''
+    fabricPreference: prefillFabric,
+    message: initialMessage
   });
 
   useEffect(() => {
     const country = searchParams.get('country');
-    const product = searchParams.get('product');
-    const cat = searchParams.get('cat');
-    const qty = searchParams.get('qty');
+    const product = searchParams.get('product') || (selectedProductForInquiry ? selectedProductForInquiry.name : '');
+    const cat = searchParams.get('cat') || (selectedProductForInquiry ? selectedProductForInquiry.category : '');
+    const qty = searchParams.get('qty') || (selectedProductForInquiry ? `MOQ: ${selectedProductForInquiry.moq}` : '');
 
-    if (country || product || cat || qty) {
+    if (country || product || cat || qty || selectedProductForInquiry) {
       setFormData(prev => ({
         ...prev,
         country: country !== null && country !== undefined ? country : prev.country,
         category: cat || prev.category,
         quantity: qty || prev.quantity,
+        fabricPreference: selectedProductForInquiry?.material || prev.fabricPreference,
         message: product 
-          ? `Inquiring regarding custom manufacturing for ${product}. Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
+          ? `Inquiring regarding custom OEM/ODM manufacturing for "${product}". Please provide wholesale factory pricing, MOQ breakdown, and sampling lead times.`
           : prev.message
       }));
     }
-  }, [searchParams]);
+  }, [searchParams, selectedProductForInquiry]);
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -95,7 +97,7 @@ export default function ContactPage() {
       setReferenceId(ref);
       setIsSubmitting(false);
       setIsSubmitted(true);
-      clearBasket();
+      setSelectedProductForInquiry(null);
     }, 1200);
   };
 
@@ -296,10 +298,13 @@ export default function ContactPage() {
                       Fill in your specifications below for instant factory evaluation
                     </p>
                   </div>
-                  {inquiryBasket.length > 0 && (
-                    <span className="text-[11px] font-bold text-[#FF751F] bg-[#FF751F]/15 px-2.5 py-1 rounded-full border border-[#FF751F]/30">
-                      {inquiryBasket.length} Items Selected
-                    </span>
+                  {(prefillProduct || selectedProductForInquiry) && (
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF751F]/10 border border-[#FF751F]/30 text-xs font-bold text-[#FF751F]">
+                      <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse"></span>
+                      <span className="truncate max-w-[240px]">
+                        Inquiring: {prefillProduct || selectedProductForInquiry?.name}
+                      </span>
+                    </div>
                   )}
                 </div>
 
