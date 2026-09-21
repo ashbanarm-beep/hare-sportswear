@@ -2,7 +2,7 @@
 export const countryServices = [
   {
     id: 'us',
-    slug: 'global-reach/usa',
+    slug: 'sports-wear-manufacturer-usa',
     name: 'USA',
     countryName: 'USA',
     fullName: 'United States of America',
@@ -1093,7 +1093,7 @@ export function getCountryBySlug(slug) {
       cCode === code ||
       c.countryName.toLowerCase() === code ||
       c.name.toLowerCase() === code ||
-      (c.id === 'us' && (clean === 'usa' || code === 'usa' || clean === 'global-reach/usa' || clean === 'sports-wear-manufacturer-us')) ||
+      (c.id === 'us' && (clean === 'usa' || code === 'usa' || clean === 'global-reach/usa' || clean === 'sports-wear-manufacturer-us' || clean === 'sports-wear-manufacturer-usa')) ||
       clean.endsWith(`-${cId}`) ||
       clean === `sports-wear-manufacturer-${cId}` ||
       clean === `global-reach/${cId}`

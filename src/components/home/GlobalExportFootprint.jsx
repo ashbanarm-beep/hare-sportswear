@@ -12,7 +12,7 @@ export default function GlobalExportFootprint() {
       name: 'United States',
       code: 'USA',
       flag: '🇺🇸',
-      slug: '/global-reach/usa',
+      slug: '/sports-wear-manufacturer-usa',
       tag: 'Largest Export Market',
       volume: '110,000+ Units/Yr',
       transit: '4-6 Days DDP Air',

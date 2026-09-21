@@ -31,7 +31,7 @@ export default function GlobalExportGlobe() {
       lat: 39.50,
       lon: -98.35, // Centralized continental US coordinate
       region: 'na',
-      slug: 'sports-wear-manufacturer-us',
+      slug: 'sports-wear-manufacturer-usa',
       volume: '110,000+ Units/Yr',
       airTransit: '4-6 Days (DHL / FedEx Priority)',
       seaTransit: '18-22 Days (NY/NJ & Long Beach DDP)',
@@ -143,7 +143,7 @@ export default function GlobalExportGlobe() {
       lat: 36.2,
       lon: 138.25, // Japan
       region: 'apac',
-      slug: 'sports-wear-manufacturer-us',
+      slug: 'sports-wear-manufacturer-usa',
       volume: '26,000+ Units/Yr',
       airTransit: '4-6 Days (Narita Express Cargo)',
       seaTransit: '14-18 Days (Port of Yokohama)',

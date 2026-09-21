@@ -78,13 +78,13 @@ export default function App() {
                   <Route path="/mascot" element={<Navigate to="/meet-hare" replace />} />
                   <Route path="/hurry" element={<Navigate to="/meet-hare" replace />} />
 
-                  {/* Global Reach Service Pages */}
-                  <Route path="/global-reach/usa" element={<CountryServicePage />} />
-                  <Route path="/usa" element={<CountryServicePage />} />
+                  {/* Dedicated Target Country Service Pages */}
+                  <Route path="/sports-wear-manufacturer-usa" element={<CountryServicePage />} />
+                  <Route path="/sports-wear-manufacturer-us" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
+                  <Route path="/global-reach/usa" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
+                  <Route path="/usa" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
                   <Route path="/global-reach/:countryCode" element={<CountryServicePage />} />
 
-                  {/* Dedicated Target Country Service Pages */}
-                  <Route path="/sports-wear-manufacturer-us" element={<Navigate to="/global-reach/usa" replace />} />
                   <Route path="/sports-wear-manufacturer-uk" element={<CountryServicePage />} />
                   <Route path="/sports-wear-manufacturer-australia" element={<CountryServicePage />} />
                   <Route path="/sports-wear-manufacturer-germany" element={<CountryServicePage />} />
@@ -103,8 +103,8 @@ export default function App() {
                   <Route path="/sports-wear-manufacturer-:countryCode" element={<CountryServicePage />} />
 
                   {/* High-traffic standard B2B Aliases & Route Redirects */}
-                  <Route path="/sports-wear-manufacturer" element={<Navigate to="/sports-wear-manufacturer-us" replace />} />
-                  <Route path="/sports-wear-manufacturers" element={<Navigate to="/sports-wear-manufacturer-us" replace />} />
+                  <Route path="/sports-wear-manufacturer" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
+                  <Route path="/sports-wear-manufacturers" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
                   <Route path="/services" element={<Navigate to="/custom-manufacturing" replace />} />
                   <Route path="/oem" element={<Navigate to="/custom-manufacturing" replace />} />
                   <Route path="/manufacturing" element={<Navigate to="/custom-manufacturing" replace />} />

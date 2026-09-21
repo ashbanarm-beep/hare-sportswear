@@ -258,7 +258,7 @@ export default function Footer() {
             </span>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
-            <Link to="/global-reach/usa" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
+            <Link to="/sports-wear-manufacturer-usa" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
               <span>🇺🇸</span>
               <span>Sportswear Manufacturer USA</span>
             </Link>

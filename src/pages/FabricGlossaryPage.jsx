@@ -657,7 +657,7 @@ export default function FabricGlossaryPage() {
               <p className="text-[#59554E] mb-3 leading-relaxed">
                 Dedicated regional duty-paid (DDP) logistics for brand owners in USA, UK, Australia, Germany, and UAE.
               </p>
-              <Link to="/sports-wear-manufacturer-us" className="text-[#FF751F] font-bold hover:underline inline-flex items-center gap-1">
+              <Link to="/sports-wear-manufacturer-usa" className="text-[#FF751F] font-bold hover:underline inline-flex items-center gap-1">
                 <span>Explore Country Hubs</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>
