@@ -109,8 +109,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/products?category=womens-activewear" className="hover:text-[#FF751F] transition-colors">
+                  Sports Bras & Women's Activewear
+                </Link>
+              </li>
+              <li>
                 <Link to="/products?category=activewear" className="hover:text-[#FF751F] transition-colors">
-                  Private Label Activewear
+                  Men's Activewear & Training
                 </Link>
               </li>
               <li>
@@ -140,7 +145,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/products" className="text-[#FF751F] hover:underline font-semibold flex items-center gap-1">
-                  <span>Explore 32-Product Catalog</span>
+                  <span>Explore 34-Product Catalog</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>

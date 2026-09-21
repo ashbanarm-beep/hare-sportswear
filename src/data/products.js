@@ -1,8 +1,21 @@
 export const categories = [
-  { id: 'all', name: 'All Products', count: 32 },
+  { id: 'all', name: 'All Products', count: 34 },
   { id: 'teamwear', name: 'Teamwear', count: 6 },
-  { id: 'activewear', name: 'Activewear', count: 6 },
+  { id: 'womens-activewear', name: "Sports Bras & Women's Activewear", count: 4 },
+  { id: 'activewear', name: "Men's Activewear & Training", count: 4 },
   { id: 'equipment', name: 'Sports Equipment & Goods', count: 20 },
+];
+
+export const womensSubcategories = [
+  { id: 'all-womens', name: "All Women's Collection" },
+  { id: 'sports-bras', name: 'Sports Bras & Tops' },
+  { id: 'leggings-shorts', name: 'Seamless Leggings & Shorts' },
+];
+
+export const activewearSubcategories = [
+  { id: 'all-activewear', name: 'All Activewear' },
+  { id: 'womens-activewear', name: "Sports Bras & Women's Activewear" },
+  { id: 'mens-activewear', name: "Men's Activewear & Training" },
 ];
 
 export const equipmentSubcategories = [
@@ -212,6 +225,8 @@ export const products = [
     id: 'prod-07',
     name: 'Pro Athletic Compression Rashguard',
     category: 'activewear',
+    subcategory: 'mens-activewear',
+    gender: 'men',
     sport: 'MMA / BJJ / Crossfit',
     badge: '4-Way Stretch',
     material: 'Poly-Spandex Stretch Blend',
@@ -240,6 +255,8 @@ export const products = [
     id: 'prod-08',
     name: 'Heavyweight Tech Fleece Pullover Hoodie',
     category: 'activewear',
+    subcategory: 'mens-activewear',
+    gender: 'men',
     sport: 'Lifestyle / Gym',
     badge: 'Premium Comfort',
     material: 'Heavyweight French Terry',
@@ -268,6 +285,8 @@ export const products = [
     id: 'prod-09',
     name: 'Tapered Athletic French Terry Joggers',
     category: 'activewear',
+    subcategory: 'mens-activewear',
+    gender: 'men',
     sport: 'Gym / Warm-Up',
     badge: 'Pre-Shrunk',
     material: 'Heavyweight French Terry',
@@ -294,7 +313,10 @@ export const products = [
   {
     id: 'prod-10',
     name: 'Seamless High-Waist Women Leggings',
-    category: 'activewear',
+    category: 'womens-activewear',
+    subcategory: 'leggings-shorts',
+    gender: 'women',
+    sizingType: 'women-leggings',
     sport: 'Yoga / Training',
     badge: 'Squat-Proof',
     material: 'Poly-Spandex Stretch Blend',
@@ -305,24 +327,29 @@ export const products = [
     gallery: [
       '/images/products/product-10-seamless-leggings.jpg'
     ],
-    description: 'Ultra-luxurious buttery soft hand-feel with complete squat-proof opacity. Designed with a wide compressive waistband that stays in place with zero roll-down.',
+    description: 'Ultra-luxurious buttery soft hand-feel with complete squat-proof opacity. Designed with a wide compressive waistband that stays in place with zero roll-down. Strictly engineered for women\'s athletic ergonomics.',
     features: [
       '100% Squat-Proof zero-sheer testing guaranteed',
       'Seamless front (no camel-toe center seam)',
       'Hidden key/card pocket inside waistband',
-      'Contouring glute-accentuating subtle back seam'
+      'Contouring glute-accentuating subtle back seam',
+      'Women\'s high-rise 4.5-inch compressive waistband'
     ],
     customizationOptions: [
       'Matte Heat Transfer Vinyl Logos',
       'Laser-cut pattern detailing along calf',
-      'Custom Pantone matching & custom hangtags'
+      'Custom Pantone matching & custom hangtags',
+      'Custom Inseam Lengths (Full 28", 7/8 25", Capri 21")'
     ],
-    sizes: ['XS', 'S', 'M', 'L', 'XL']
+    sizes: ['XS (US 0-2)', 'S (US 4-6)', 'M (US 8-10)', 'L (US 12-14)', 'XL (US 16)']
   },
   {
     id: 'prod-11',
     name: 'High-Impact Racerback Sports Bra',
-    category: 'activewear',
+    category: 'womens-activewear',
+    subcategory: 'sports-bras',
+    gender: 'women',
+    sizingType: 'sports-bra',
     sport: 'Fitness / Running',
     badge: 'High Support',
     material: 'Poly-Spandex Stretch Blend',
@@ -333,23 +360,28 @@ export const products = [
     gallery: [
       '/images/products/product-11-sports-bra.jpg'
     ],
-    description: 'Engineered for high-impact sports like sprinting, HIIT, and boxing. Features perforated breathable lining, removable molded cups, and an ultra-soft plush underband.',
+    description: 'Engineered for high-impact sports like sprinting, HIIT, and boxing. Features perforated breathable lining, removable molded cups, and an ultra-soft plush underband. Strict women\'s anatomical cup and band grading.',
     features: [
-      'Removable anti-bacterial molded foam padding',
+      'Removable anti-bacterial molded foam padding cups',
       'Reinforced racerback straps for maximum scapular mobility',
-      'Plush brushed elastic underband prevents skin irritation'
+      'Plush brushed elastic underband prevents skin irritation',
+      'Sweat-wicking interior mesh lining for core cooling',
+      'High-compression bounce reduction architecture'
     ],
     customizationOptions: [
       'Sublimation or solid Pantone reactive dye',
       'Reflective transfer logo for night running',
-      'Custom woven underband elastic with brand jacquard'
+      'Custom woven underband elastic with brand jacquard',
+      'Custom molded cup thickness (regular or push-up contour)'
     ],
-    sizes: ['XS', 'S', 'M', 'L', 'XL']
+    sizes: ['XS (30A-32B)', 'S (32C-34B)', 'M (34C-36B)', 'L (36C-38B)', 'XL (38C-40C)', '2XL (40C-42C)']
   },
   {
     id: 'prod-12',
     name: 'Ultralight Seamless Training Gym Tee',
     category: 'activewear',
+    subcategory: 'mens-activewear',
+    gender: 'men',
     sport: 'Gym / Crossfit',
     badge: 'Ultralight',
     material: '100% Polyester Interlock',
@@ -1066,5 +1098,71 @@ export const products = [
       ankleProfile: 'High-Cut Anatomical Padded Collar',
       durabilityRating: 'Tournament Ready (5/5)'
     }
+  },
+  {
+    id: 'prod-33',
+    name: 'Strappy Back Low-Impact Yoga Sports Bra',
+    category: 'womens-activewear',
+    subcategory: 'sports-bras',
+    gender: 'women',
+    sizingType: 'sports-bra',
+    sport: 'Yoga / Pilates / Barre',
+    badge: 'Buttery Soft',
+    material: 'Poly-Spandex Stretch Blend',
+    gsm: '220 GSM (75% Nylon / 25% Spandex)',
+    moq: '40 Pcs',
+    leadTime: '12-14 Days',
+    image: '/images/products/product-11-sports-bra.jpg',
+    gallery: [
+      '/images/products/product-11-sports-bra.jpg'
+    ],
+    description: 'Light-to-medium support active bra engineered for freedom of movement during yoga, pilates, and studio fitness. Multi-strap geometric back provides ventilation and aesthetic appeal with zero shoulder digging.',
+    features: [
+      'Naked-feel double-brushed 4-way stretch fabric',
+      'Delicate multi-strap strappy back design with reinforced bar-tacks',
+      'Removable teardrop foam pads for customized modesty',
+      'Gentle compressive underband that moves with the body',
+      'Quick-dry moisture transport keeps skin dry'
+    ],
+    customizationOptions: [
+      'Custom Strap Configurations (criss-cross, open keyhole, lattice)',
+      'Subtle Silicone 3D Heat Transfer Logo',
+      'Custom Fabric Finishes (Peach-skin matte, gloss sheen)',
+      'Brand Woven Underband Label'
+    ],
+    sizes: ['XS (30A-32B)', 'S (32C-34B)', 'M (34C-36B)', 'L (36C-38B)', 'XL (38C-40C)']
+  },
+  {
+    id: 'prod-34',
+    name: 'High-Waist Compression Biker Shorts with Pockets',
+    category: 'womens-activewear',
+    subcategory: 'leggings-shorts',
+    gender: 'women',
+    sizingType: 'women-leggings',
+    sport: 'Training / Running / Cycling',
+    badge: 'Dual Pockets',
+    material: 'Poly-Spandex Stretch Blend',
+    gsm: '250 GSM (78% Polyester / 22% Spandex)',
+    moq: '40 Pcs',
+    leadTime: '12-15 Days',
+    image: '/images/products/product-10-seamless-leggings.jpg',
+    gallery: [
+      '/images/products/product-10-seamless-leggings.jpg'
+    ],
+    description: 'Performance biker shorts with deep side drop-in pockets for smartphones and keys. Built with a high-rise tummy-control waistband, flatlock non-chafe seams, and raw-cut non-squeeze thigh leg openings.',
+    features: [
+      'Dual deep side drop-in pockets that securely hold large smartphones',
+      'High-waisted compression contour band stays locked during sprints',
+      '6-thread flatlock anti-chafe stitch construction',
+      'Gusseted triangle crotch for optimal squat flexibility',
+      'Zero roll-up thigh band with silicone micro-dot grip'
+    ],
+    customizationOptions: [
+      '6-inch or 8-inch Inseam Length Options',
+      'Reflective Brand Icon Placement on Pocket or Thigh',
+      'Custom Sublimation Panels or Solid Reactive Dye Colors',
+      'Contrasting Flatlock Seam Threads'
+    ],
+    sizes: ['XS (US 0-2)', 'S (US 4-6)', 'M (US 8-10)', 'L (US 12-14)', 'XL (US 16)']
   }
 ];

@@ -83,9 +83,17 @@ export default function Navbar() {
       color: 'text-orange-600 bg-orange-50'
     },
     {
-      name: 'Activewear & Gym Essentials',
+      name: "Sports Bras & Women's Activewear",
+      path: '/products?category=womens-activewear',
+      desc: 'High-impact sports bras, seamless leggings, bike shorts & yoga sets',
+      badge: "Women's Line",
+      icon: Sparkles,
+      color: 'text-rose-600 bg-rose-50'
+    },
+    {
+      name: "Men's Activewear & Training",
       path: '/products?category=activewear',
-      desc: 'Seamless leggings, gym tees, compression wear & fleece hoodies',
+      desc: 'Compression rashguards, athletic joggers & heavyweight fleece hoodies',
       badge: 'Athleisure',
       icon: Dumbbell,
       color: 'text-blue-600 bg-blue-50'
