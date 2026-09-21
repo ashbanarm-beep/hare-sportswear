@@ -4,9 +4,12 @@ import {
   Search, BookOpen, Clock, Calendar, ArrowRight, User, 
   Sparkles, Tag, ChevronRight, X 
 } from 'lucide-react';
-import { blogPosts, blogCategories } from '../data/blogData';
+import { useCMS } from '../context/CMSContext';
 
 export default function BlogPage() {
+  const { getPublishedBlogPosts, blogCategories } = useCMS();
+  const blogPosts = getPublishedBlogPosts();
+
   const [selectedCategory, setSelectedCategory] = useState('All Articles');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -17,12 +20,12 @@ export default function BlogPage() {
   const filteredPosts = useMemo(() => {
     return blogPosts.filter(post => {
       const matchesCat = selectedCategory === 'All Articles' || post.category === selectedCategory;
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            post.content.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = (post.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (post.excerpt || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (post.content || '').toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCat && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [blogPosts, selectedCategory, searchQuery]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">

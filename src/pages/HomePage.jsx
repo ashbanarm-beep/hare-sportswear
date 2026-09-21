@@ -11,6 +11,8 @@ import AnimatedCounter from '../components/common/AnimatedCounter';
 import ProductionTimeline from '../components/home/ProductionTimeline';
 import GlobalExportFootprint from '../components/home/GlobalExportFootprint';
 import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
+import PageFAQSection from '../components/common/PageFAQSection';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -565,6 +567,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Dynamic Visual Content Blocks (Configurable via Admin Elementor-Style Page Builder) */}
+      <DynamicPageContent pageId="home" />
+
       {/* 7. Bottom CTA Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-[#1A1A1A] text-white border border-black/40 p-8 sm:p-14 text-center space-y-6 shadow-2xl relative overflow-hidden">
@@ -598,6 +603,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Dedicated FAQ Accordion Section (Managed via Admin Dynamic FAQ Manager) */}
+      <PageFAQSection 
+        pageId="home" 
+        title="Frequently Asked Questions" 
+        subtitle="Key manufacturing insights, sampling processes, MOQ requirements, and international export procedures direct from our Sialkot factory."
+      />
 
     </div>
   );

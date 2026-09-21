@@ -7,7 +7,7 @@ import {
   ListOrdered, ChevronRight, ChevronDown, Bookmark, 
   ShieldCheck, Zap, ThumbsUp, Box, Layers
 } from 'lucide-react';
-import { blogPosts } from '../data/blogData';
+import { useCMS } from '../context/CMSContext';
 import { LinkedInIcon, TwitterIcon } from '../components/common/SocialIcons';
 import { useRFQ } from '../context/RFQContext';
 
@@ -15,6 +15,7 @@ export default function BlogPostPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { openTechPackModal } = useRFQ();
+  const { getBlogPostBySlug, blogPosts } = useCMS();
 
   const [copied, setCopied] = useState(false);
   const [activeHeadingId, setActiveHeadingId] = useState('');
@@ -27,13 +28,13 @@ export default function BlogPostPage() {
 
   // Find post or fallback to first post
   const post = useMemo(() => {
-    return blogPosts.find(p => p.slug === slug) || blogPosts[0];
-  }, [slug]);
+    return getBlogPostBySlug(slug) || blogPosts.find(p => p.slug === slug) || blogPosts[0];
+  }, [slug, getBlogPostBySlug, blogPosts]);
 
   // Related posts (excluding current post)
   const relatedPosts = useMemo(() => {
-    return blogPosts.filter(p => p.slug !== post.slug).slice(0, 3);
-  }, [post]);
+    return blogPosts.filter(p => p.slug !== (post?.slug)).slice(0, 3);
+  }, [blogPosts, post]);
 
   // Set document title
   useEffect(() => {
@@ -395,6 +396,15 @@ export default function BlogPostPage() {
               {post.content.split('\n\n').map((para, i) => {
                 const trimmed = para.trim();
 
+                // H1 Heading Parsing
+                if (trimmed.startsWith('# ')) {
+                  return (
+                    <h1 key={i} className="text-3xl sm:text-4xl font-display font-black text-[#1A1A1A] pt-6 pb-2">
+                      {trimmed.replace('# ', '')}
+                    </h1>
+                  );
+                }
+
                 // H2 Heading Parsing
                 if (trimmed.startsWith('## ')) {
                   const title = trimmed.replace('## ', '');
@@ -431,6 +441,59 @@ export default function BlogPostPage() {
                     <h3 key={i} className="text-lg sm:text-xl font-display font-bold text-[#1A1A1A] pt-4 text-[#1A1A1A]">
                       {trimmed.replace('### ', '')}
                     </h3>
+                  );
+                }
+
+                // H4 Subheading Parsing
+                if (trimmed.startsWith('#### ')) {
+                  return (
+                    <h4 key={i} className="text-base sm:text-lg font-display font-bold text-[#FF751F] pt-3">
+                      {trimmed.replace('#### ', '')}
+                    </h4>
+                  );
+                }
+
+                // Markdown Table Parsing
+                if (trimmed.startsWith('|') && trimmed.includes('\n|')) {
+                  const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|'));
+                  const headerRow = rows[0];
+                  const dataRows = rows.slice(1).filter(r => !r.includes('---'));
+
+                  const parseCells = (rowStr) => 
+                    rowStr.split('|')
+                      .map(c => c.trim())
+                      .filter((c, idx, arr) => (idx > 0 && idx < arr.length - 1) || (idx === 1 && arr.length === 3));
+
+                  const headers = parseCells(headerRow);
+
+                  return (
+                    <div key={i} className="my-6 overflow-x-auto rounded-2xl border border-[#E5DFD5] bg-white shadow-xs">
+                      <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead className="bg-[#FAF8F3] border-b border-[#E5DFD5]">
+                          <tr>
+                            {headers.map((h, hIdx) => (
+                              <th key={hIdx} className="px-4 py-3 font-bold text-[#1A1A1A] uppercase tracking-wider text-[11px]">
+                                {h.replace(/\*\*(.*?)\*\*/g, '$1')}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#E5DFD5]/60">
+                          {dataRows.map((rowStr, rIdx) => {
+                            const cells = parseCells(rowStr);
+                            return (
+                              <tr key={rIdx} className="hover:bg-[#F5F1E8]/40 transition-colors">
+                                {cells.map((cell, cIdx) => (
+                                  <td key={cIdx} className="px-4 py-3 text-gray-700 leading-relaxed">
+                                    <span dangerouslySetInnerHTML={{ __html: cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                                  </td>
+                                ))}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   );
                 }
 
