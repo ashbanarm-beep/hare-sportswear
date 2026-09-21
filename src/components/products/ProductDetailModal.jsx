@@ -73,23 +73,23 @@ export default function ProductDetailModal({ product, onClose }) {
   const images = product.gallery && product.gallery.length > 0 ? product.gallery : [product.image];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
       
-      <div className="relative w-full max-w-5xl rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl overflow-hidden my-6">
+      <div className="relative w-full max-w-5xl rounded-2xl sm:rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl overflow-hidden my-2 sm:my-6">
         
         {/* Modal Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-[#1A1A1A]/80 hover:bg-[#1A1A1A] text-white transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 p-2 sm:p-2.5 rounded-full bg-[#1A1A1A]/80 hover:bg-[#1A1A1A] text-white transition-colors shadow-md"
           aria-label="Close product modal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 max-h-[85vh] overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 max-h-[92vh] overflow-y-auto overscroll-contain">
           
           {/* Left Column: Image Gallery (5 cols) */}
-          <div className="lg:col-span-5 p-6 bg-[#FAF8F3] flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E5DFD5]">
+          <div className="lg:col-span-5 p-4 sm:p-6 bg-[#FAF8F3] flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E5DFD5]">
             <div>
               {/* Main Preview Image */}
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] shadow-inner group p-3 flex items-center justify-center">
@@ -114,12 +114,12 @@ export default function ProductDetailModal({ product, onClose }) {
 
               {/* Thumbnails */}
               {images.length > 1 && (
-                <div className="flex items-center gap-2.5 mt-3">
+                <div className="flex items-center gap-2.5 mt-3 overflow-x-auto pb-1 scrollbar-none">
                   {images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImage(idx)}
-                      className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
+                      className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
                         activeImage === idx ? 'border-[#FF751F] shadow-glow-orange scale-105' : 'border-[#E5DFD5] opacity-70 hover:opacity-100'
                       }`}
                     >
@@ -131,7 +131,7 @@ export default function ProductDetailModal({ product, onClose }) {
             </div>
 
             {/* Quick Specs Highlight Box */}
-            <div className="mt-6 p-4 rounded-2xl bg-white border border-[#E5DFD5] space-y-2.5 text-xs shadow-sm">
+            <div className="mt-4 sm:mt-6 p-3.5 sm:p-4 rounded-2xl bg-white border border-[#E5DFD5] space-y-2 text-xs shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="text-[#595856]">Standard MOQ:</span>
                 <span className="font-bold text-[#FF751F]">{product.moq}</span>
@@ -149,7 +149,7 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           {/* Right Column: Specs, Customizations & Sizing Chart (7 cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 space-y-6 bg-white">
+          <div className="lg:col-span-7 p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 bg-white">
             
             {/* Title & Material Specs */}
             <div>

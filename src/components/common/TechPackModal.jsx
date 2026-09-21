@@ -92,26 +92,26 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
       
-      <div className="relative w-full max-w-3xl rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl overflow-hidden my-8">
+      <div className="relative w-full max-w-3xl rounded-2xl sm:rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl overflow-hidden my-2 sm:my-6">
         
         {/* Modal Header */}
-        <div className="bg-[#1A1A1A] p-6 text-white flex items-center justify-between">
+        <div className="bg-[#1A1A1A] p-4 sm:p-6 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#FF751F]/20 text-[#FF751F] border border-[#FF751F]/30">
-              <FileText className="w-6 h-6" />
+            <div className="p-2 sm:p-2.5 rounded-xl bg-[#FF751F]/20 text-[#FF751F] border border-[#FF751F]/30 shrink-0">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-display font-bold text-xl text-white">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-display font-bold text-lg sm:text-xl text-white">
                   Sportswear Tech Pack Guide & Template
                 </h3>
-                <span className="text-xs px-2 py-0.5 rounded bg-[#FF751F]/20 text-[#FF751F] font-bold">
+                <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded bg-[#FF751F]/20 text-[#FF751F] font-bold">
                   Free B2B Asset
                 </span>
               </div>
-              <p className="text-xs text-cream-300 mt-0.5">
+              <p className="text-[11px] sm:text-xs text-cream-300 mt-0.5 leading-tight">
                 Standardized factory blueprint used by global athletic brands to ensure zero sampling error
               </p>
             </div>
@@ -119,19 +119,20 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
 
           <button
             onClick={() => setIsTechPackModalOpen(false)}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors shrink-0 ml-2"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto bg-white">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[75vh] overflow-y-auto overscroll-contain bg-white">
           
           {/* Visual Breakdown Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
             
-            <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
               <div className="w-8 h-8 rounded-lg bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center">
                 <Scissors className="w-4 h-4" />
               </div>
@@ -141,9 +142,9 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
               <div className="w-8 h-8 rounded-lg bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center">
-                <Layers className="w-4 h-4" />
+                <Sparkles className="w-4 h-4" />
               </div>
               <h4 className="font-bold text-sm text-[#1A1A1A]">2. Bill of Materials (BOM)</h4>
               <p className="text-xs text-[#595856] leading-relaxed">
@@ -151,7 +152,7 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-2">
               <div className="w-8 h-8 rounded-lg bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center">
                 <Ruler className="w-4 h-4" />
               </div>
@@ -164,7 +165,7 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
           </div>
 
           {/* Critical Advice Callout */}
-          <div className="p-4 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/30 flex items-start gap-3">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/30 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-[#FF751F] shrink-0 mt-0.5" />
             <div className="text-xs text-[#1A1A1A] space-y-1">
               <p className="font-bold text-[#FF751F]">Why Exact Tech Packs Save 50% on Sampling Costs:</p>
@@ -175,23 +176,23 @@ Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 123456
           </div>
 
           {/* Interactive Preview Box */}
-          <div className="rounded-2xl bg-[#1A1A1A] p-4 border border-black/40 font-mono text-xs text-cream-200 space-y-2">
-            <div className="flex items-center justify-between text-cream-400 pb-2 border-b border-white/10">
-              <span>HARE_TECHPACK_SPEC_V4.2.TXT</span>
-              <span className="text-emerald-400 font-sans text-[11px] font-bold flex items-center gap-1">
+          <div className="rounded-2xl bg-[#1A1A1A] p-3.5 sm:p-4 border border-black/40 font-mono text-xs text-cream-200 space-y-2 overflow-x-auto">
+            <div className="flex items-center justify-between text-cream-400 pb-2 border-b border-white/10 gap-2 flex-wrap">
+              <span className="truncate">HARE_TECHPACK_SPEC_V4.2.TXT</span>
+              <span className="text-emerald-400 font-sans text-[11px] font-bold flex items-center gap-1 shrink-0">
                 <CheckCircle2 className="w-3 h-3" /> Ready for Immediate Use
               </span>
             </div>
-            <p className="text-[#FF751F] font-bold">1.1 SHELL FABRIC: 100% Micro Polyester Interlock (160 GSM)</p>
-            <p>1.2 STITCHING: ISO 607 (4-Needle 6-Thread Flatlock, 11 SPI)</p>
-            <p>1.3 INKS: Italian Kiian Sublimation (OEKO-TEX Class 1)</p>
-            <p>1.4 POM TOLERANCE: Grade A (±1.0cm Chest / Front Length)</p>
+            <p className="text-[#FF751F] font-bold whitespace-nowrap sm:whitespace-normal">1.1 SHELL FABRIC: 100% Micro Polyester Interlock (160 GSM)</p>
+            <p className="whitespace-nowrap sm:whitespace-normal">1.2 STITCHING: ISO 607 (4-Needle 6-Thread Flatlock, 11 SPI)</p>
+            <p className="whitespace-nowrap sm:whitespace-normal">1.3 INKS: Italian Kiian Sublimation (OEKO-TEX Class 1)</p>
+            <p className="whitespace-nowrap sm:whitespace-normal">1.4 POM TOLERANCE: Grade A (±1.0cm Chest / Front Length)</p>
           </div>
 
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="p-6 bg-[#FAF8F3] border-t border-[#E5DFD5] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-4 sm:p-6 bg-[#FAF8F3] border-t border-[#E5DFD5] flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <p className="text-xs text-[#595856] text-center sm:text-left">
             Have a custom sketch already? Our engineering team reviews them free of charge.
           </p>

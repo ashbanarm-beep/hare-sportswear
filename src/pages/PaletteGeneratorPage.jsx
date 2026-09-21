@@ -136,7 +136,7 @@ Guaranteed Sublimation Precision: Level 4.5+ Washfastness (Sialkot Factory Direc
   const neutralColor = currentSlots[3]?.hex || '#FFFFFF';
 
   return (
-    <div className="bg-[#FAF8F5] min-h-screen text-[#1B2A4A] pt-24 pb-20 selection:bg-[#FF751F] selection:text-white">
+    <div className="bg-[#FAF8F5] min-h-screen text-[#1B2A4A] pt-8 sm:pt-12 pb-16 selection:bg-[#FF751F] selection:text-white">
       {/* Top Header / Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-6">

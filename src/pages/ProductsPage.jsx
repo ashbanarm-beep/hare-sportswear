@@ -172,7 +172,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Category Tabs */}
-        <div className="lg:col-span-5 flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+        <div className="lg:col-span-5 flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-none overscroll-x-contain">
           {categories.map((cat) => (
             <button
               key={cat.id}

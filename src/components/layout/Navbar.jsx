@@ -155,31 +155,32 @@ export default function Navbar() {
   return (
     <>
       {/* Top B2B Export Announcement Strip */}
-      <div className="bg-[#1A1A1A] text-xs text-[#E5DFD5] py-2 px-4 border-b border-black/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <span className="flex items-center gap-2 font-medium text-white">
-              <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse"></span>
-              Sialkot Factory Direct OEM/ODM Export
+      <div className="bg-[#1A1A1A] text-[11px] sm:text-xs text-[#E5DFD5] py-1.5 sm:py-2 px-3 sm:px-4 border-b border-black/20">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-6 min-w-0 truncate">
+            <span className="flex items-center gap-1.5 sm:gap-2 font-medium text-white truncate">
+              <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse shrink-0"></span>
+              <span className="truncate">Sialkot Factory Direct OEM/ODM Export</span>
             </span>
             <span className="text-white/20 hidden md:inline">|</span>
-            <span className="hidden md:inline text-cream-200">⚡ 7-Day Rapid Sampling</span>
+            <span className="hidden md:inline text-cream-200 shrink-0">⚡ 7-Day Rapid Sampling</span>
             <span className="text-white/20 hidden sm:inline">|</span>
-            <Link to="/meet-hare" className="hidden sm:inline-flex items-center gap-1.5 text-[#FF751F] hover:text-white transition-colors font-semibold">
+            <Link to="/meet-hare" className="hidden sm:inline-flex items-center gap-1.5 text-[#FF751F] hover:text-white transition-colors font-semibold shrink-0">
               <span>🐰</span>
               <span>Meet Hurry the Hare</span>
             </Link>
           </div>
 
-          <div className="flex items-center gap-4 text-xs">
-            <a href="mailto:export@haresportswear.com" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 text-cream-200">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0 text-[11px] sm:text-xs">
+            <a href="mailto:export@haresportswear.com" className="hover:text-[#FF751F] transition-colors hidden sm:flex items-center gap-1.5 text-cream-200">
               <Mail className="w-3.5 h-3.5 text-[#FF751F]" />
-              <span className="hidden sm:inline">export@haresportswear.com</span>
+              <span>export@haresportswear.com</span>
             </a>
             <span className="text-white/20 hidden sm:inline">•</span>
-            <a href="https://wa.me/message/PBVPZM3J7ETGH1" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 font-medium text-white">
-              <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-              <span>WhatsApp: +92 300 1234567</span>
+            <a href="https://wa.me/message/PBVPZM3J7ETGH1" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1 sm:gap-1.5 font-medium text-white">
+              <MessageCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="hidden xs:inline sm:inline">WhatsApp: +92 300 1234567</span>
+              <span className="inline xs:hidden sm:hidden">WhatsApp</span>
             </a>
           </div>
         </div>
@@ -528,36 +529,36 @@ export default function Navbar() {
             </NavLink>
           </nav>
 
-          {/* Right Actions & RFQ CTA (Only Request a Quote button, no duplicate Contact link) */}
-          <div className="hidden sm:flex items-center gap-3">
-            {/* Primary RFQ Button */}
+          {/* Right Actions & RFQ CTA */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Primary RFQ Button (Desktop & Tablet) */}
             <Link
               to="/contact"
-              className="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] shadow-glow-orange hover:shadow-lg transition-all duration-300 transform active:scale-95 group overflow-hidden"
+              className="hidden sm:inline-flex relative items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] shadow-glow-orange hover:shadow-lg transition-all duration-300 transform active:scale-95 group overflow-hidden"
             >
               <FileText className="w-4 h-4 text-white group-hover:rotate-12 transition-transform" />
               <span>Request a Quote (RFQ)</span>
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
             </Link>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 sm:hidden">
+            {/* Mobile-Only WhatsApp Icon Button */}
             <a
               href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20inquiry%20from%20mobile"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+              className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 sm:hidden"
+              aria-label="Direct WhatsApp Inquiry"
             >
               <MessageCircle className="w-5 h-5" />
             </a>
 
+            {/* Mobile & Tablet Hamburger Menu Button (Shown across all viewports below lg: 1024px) */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-xl bg-white border border-[#E5DFD5] text-[#1A1A1A] hover:bg-black/5 transition-colors"
+              className="p-2 sm:p-2.5 rounded-xl bg-white border border-[#E5DFD5] text-[#1A1A1A] hover:bg-black/5 transition-colors lg:hidden"
               aria-label="Toggle navigation menu"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
 

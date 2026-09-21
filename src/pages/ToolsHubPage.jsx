@@ -82,7 +82,7 @@ export default function ToolsHubPage() {
   ];
 
   return (
-    <div className="bg-[#FAF8F5] min-h-screen text-[#1B2A4A] pt-24 pb-20 selection:bg-[#FF751F] selection:text-white">
+    <div className="bg-[#FAF8F5] min-h-screen text-[#1B2A4A] pt-8 sm:pt-12 pb-16 selection:bg-[#FF751F] selection:text-white">
       {/* Hero Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="text-center max-w-3xl mx-auto">

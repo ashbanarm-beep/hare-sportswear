@@ -434,7 +434,9 @@ export default function ContactPage() {
                     >
                       <option value="Teamwear & Kits">Teamwear & Sublimated Match Kits</option>
                       <option value="Activewear & Gym Essentials">Activewear & Gym Essentials</option>
-                      <option value="Sports Goods & Accessories">Sports Goods (Balls, Gloves, Gear)</option>
+                      <option value="Sports Bras & Women's Activewear">Sports Bras & Women's Activewear</option>
+                      <option value="Wrestling Equipment & Combat Gear">Wrestling Equipment & Combat Gear</option>
+                      <option value="Sports Goods & Accessories">Sports Equipment & Goods</option>
                       <option value="Custom Bespoke Production">Custom Bespoke Tech Pack Production</option>
                     </select>
                   </div>

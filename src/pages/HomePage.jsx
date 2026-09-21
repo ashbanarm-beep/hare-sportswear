@@ -154,30 +154,30 @@ export default function HomePage() {
           </div>
 
           {/* Animated Stats Bar */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm">
-            <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#1A1A1A]">
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-6 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm">
+            <div className="text-center p-3 border-r border-b md:border-b-0 border-[#E5DFD5]">
+              <p className="text-2xl sm:text-4xl font-display font-black text-[#1A1A1A]">
                 <AnimatedCounter target={150} suffix="K+" duration={2000} />
               </p>
-              <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Monthly Output</p>
+              <p className="text-[11px] sm:text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Monthly Output</p>
             </div>
-            <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">
+            <div className="text-center p-3 border-b md:border-b-0 md:border-r border-[#E5DFD5]">
+              <p className="text-2xl sm:text-4xl font-display font-black text-[#FF751F]">
                 <AnimatedCounter target={45} suffix="+" duration={1800} />
               </p>
-              <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Export Destinations</p>
+              <p className="text-[11px] sm:text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Export Destinations</p>
             </div>
-            <div className="text-center p-3 border-r border-[#E5DFD5] last:border-r-0">
-              <p className="text-3xl sm:text-4xl font-display font-black text-[#FF751F]">
+            <div className="text-center p-3 border-r border-[#E5DFD5]">
+              <p className="text-2xl sm:text-4xl font-display font-black text-[#FF751F]">
                 <AnimatedCounter target={25} suffix=" Pcs" duration={1600} />
               </p>
-              <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Flexible Low MOQ</p>
+              <p className="text-[11px] sm:text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">Flexible Low MOQ</p>
             </div>
             <div className="text-center p-3">
-              <p className="text-3xl sm:text-4xl font-display font-black text-emerald-600">
+              <p className="text-2xl sm:text-4xl font-display font-black text-emerald-600">
                 <AnimatedCounter target={99.4} decimals={1} suffix="%" duration={2200} />
               </p>
-              <p className="text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">On-Time Shipment</p>
+              <p className="text-[11px] sm:text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">On-Time Shipment</p>
             </div>
           </div>
 
@@ -254,26 +254,26 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
           {/* Category 1: Teamwear */}
           <Link
             to="/products?category=teamwear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/teamwear-img.jpg"
                 alt="Custom Teamwear & Kits"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
-                Cricket • Basketball • Rugby • Football
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Cricket • Basketball • Football
               </span>
             </div>
-            <div className="p-6 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-2xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Teamwear & Kits
                 </h3>
                 <p className="text-xs text-[#595856] mt-2 line-clamp-2">
@@ -290,21 +290,21 @@ export default function HomePage() {
           {/* Category 2: Activewear */}
           <Link
             to="/products?category=activewear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/activewear-img.jpg"
                 alt="Activewear & Gym Essentials"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
-                Hoodies • Leggings • Sports Bras • Shorts
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Hoodies • Leggings • Sports Bras
               </span>
             </div>
-            <div className="p-6 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-2xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Activewear & Gym Essentials
                 </h3>
                 <p className="text-xs text-[#595856] mt-2 line-clamp-2">
@@ -318,32 +318,63 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* Category 3: Equipment */}
+          {/* Category 3: Sports Equipment */}
           <Link
             to="/products?category=equipment"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col h-[470px] shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-64 sm:h-72 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/equipment-img.jpg"
                 alt="Sports Equipment & Goods"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
-                Rackets • Balls • Cues • Gear • Expedition
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Rackets • Balls • Cues • Gear
               </span>
             </div>
-            <div className="p-6 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-2xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Sports Equipment & Goods
                 </h3>
                 <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  Professional Toray carbon badminton & padel rackets, commercial hex dumbbells, eco TPE yoga mats, hand-spliced ash cues, match balls, and 4-season expedition tents.
+                  Toray carbon padel & badminton rackets, commercial hex dumbbells, eco TPE yoga mats, match balls, and high-altitude tents.
                 </p>
               </div>
               <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
-                <span>Explore Sports Equipment & Goods</span>
+                <span>Explore Equipment Specs</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Category 4: Wrestling & Combat Gear */}
+          <Link
+            to="/products?category=combat-sports"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
+          >
+            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+              <img
+                src="/images/products/product-29-championship-belt.jpg"
+                alt="Wrestling Equipment & Combat Gear"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              />
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Belts • Dummies • Headgear • Boots
+              </span>
+            </div>
+            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
+              <div>
+                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                  Wrestling & Combat Gear
+                </h3>
+                <p className="text-xs text-[#595856] mt-2 line-clamp-2">
+                  Custom embossed championship title belts, 900 GSM synthetic leather grappling dummies, tournament headgear, and high-traction wrestling boots.
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
+                <span>Explore Wrestling & Combat</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -398,6 +429,8 @@ export default function HomePage() {
                 >
                   <option value="Teamwear & Jerseys" className="bg-[#1A1A1A] text-white">Teamwear & Match Jerseys</option>
                   <option value="Activewear & Compression" className="bg-[#1A1A1A] text-white">Activewear, Leggings & Compression</option>
+                  <option value="Sports Bras & Women's Activewear" className="bg-[#1A1A1A] text-white">Sports Bras & Women's Activewear</option>
+                  <option value="Wrestling Equipment & Combat Gear" className="bg-[#1A1A1A] text-white">Wrestling Equipment & Combat Gear</option>
                   <option value="Streetwear & Hoodies" className="bg-[#1A1A1A] text-white">Heavyweight Hoodies & Joggers</option>
                   <option value="Sports Match Balls" className="bg-[#1A1A1A] text-white">Thermal-Bonded FIFA Soccer Balls</option>
                   <option value="Combat Gear & Gloves" className="bg-[#1A1A1A] text-white">Boxing Gloves & BJJ Gis</option>

@@ -25,13 +25,24 @@ export default function ScissorCursor() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const mediaQuery = window.matchMedia('(pointer: fine)');
-    setHasPointer(mediaQuery.matches);
+    
+    // Check pointer capabilities - only activate on desktop pointing devices with true hover
+    const finePointerQuery = window.matchMedia('(pointer: fine) and (hover: hover)');
+    
+    const updatePointerStatus = () => {
+      const isFine = finePointerQuery.matches;
+      setHasPointer(isFine);
+      if (isFine) {
+        document.documentElement.classList.add('custom-scissor-active');
+      } else {
+        document.documentElement.classList.remove('custom-scissor-active');
+      }
+    };
 
-    const handleMediaChange = (e) => setHasPointer(e.matches);
-    mediaQuery.addEventListener('change', handleMediaChange);
+    updatePointerStatus();
+    finePointerQuery.addEventListener('change', updatePointerStatus);
 
-    if (!mediaQuery.matches) return;
+    if (!finePointerQuery.matches) return;
 
     // Helper: Determine if mouse is over interactive/clickable elements
     const checkIsClickable = (target) => {
@@ -43,9 +54,21 @@ export default function ScissorCursor() {
       );
     };
 
+    // If a touch occurs (mobile / tablet / hybrid touch screen), immediately hide scissor cursor
+    const handleTouchStart = () => {
+      setIsVisible(false);
+      document.documentElement.classList.remove('custom-scissor-active');
+    };
+
     const handleMouseMove = (e) => {
+      // Ignore simulated mouse events fired by touch interactions
+      if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+
       mousePosRef.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
+      if (!isVisible) {
+        setIsVisible(true);
+        document.documentElement.classList.add('custom-scissor-active');
+      }
 
       const isClickable = checkIsClickable(e.target);
       setIsHoveringClickable(isClickable);
@@ -85,6 +108,7 @@ export default function ScissorCursor() {
       requestRef.current = requestAnimationFrame(animate);
     };
 
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
@@ -93,16 +117,14 @@ export default function ScissorCursor() {
 
     requestRef.current = requestAnimationFrame(animate);
 
-    // Apply universal cursor hiding class to html root
-    document.documentElement.classList.add('custom-scissor-active');
-
     return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
-      mediaQuery.removeEventListener('change', handleMediaChange);
+      finePointerQuery.removeEventListener('change', updatePointerStatus);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
       document.documentElement.classList.remove('custom-scissor-active');
     };
