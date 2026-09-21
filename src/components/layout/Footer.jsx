@@ -181,7 +181,7 @@ export default function Footer() {
               <li>
                 <Link to="/fabric-glossary" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 font-medium text-[#FF751F]">
                   <span>🧵</span>
-                  <span>Fabric Glossary Hub</span>
+                  <span>Fabric Glossary & Technical Hub</span>
                 </Link>
               </li>
               <li>

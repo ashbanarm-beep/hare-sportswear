@@ -3,7 +3,7 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { 
   Menu, X, MessageCircle, FileText, ChevronRight, ChevronDown,
   Mail, Globe, ArrowRight, Palette, Pipette, 
-  Calculator, BookOpen, Shirt, Dumbbell, Trophy, Sparkles
+  Calculator, Shirt, Dumbbell, Trophy, Sparkles
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
 import { countryServices } from '../../data/countryServicesData';
@@ -141,14 +141,6 @@ export default function Navbar() {
       badge: 'Live Pricing',
       icon: Calculator,
       color: 'text-emerald-600 bg-emerald-50'
-    },
-    {
-      name: 'Fabric Glossary & Technical Hub',
-      path: '/fabric-glossary',
-      desc: 'Detailed GSM weights, knit structures, and washfastness specs for performance fabrics',
-      badge: 'Material Specs',
-      icon: BookOpen,
-      color: 'text-stone-700 bg-stone-100'
     }
   ];
 
@@ -194,16 +186,18 @@ export default function Navbar() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Logo */}
-          <BrandLogo size="md" />
+          {/* Logo with clean right breathing room */}
+          <div className="shrink-0 flex items-center pr-2">
+            <BrandLogo size="md" />
+          </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+          {/* Desktop Navigation Links with balanced spacing from Logo and RFQ CTA */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 ml-8 xl:ml-12 mr-8 xl:mr-12">
             
             {/* Home */}
             <NavLink
               to="/"
-              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
                   : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -221,7 +215,7 @@ export default function Navbar() {
             >
               <button
                 onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`flex items-center gap-1 xl:gap-1.5 px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                   isProductsActive || productsDropdownOpen
                     ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -302,7 +296,7 @@ export default function Navbar() {
             {/* Custom Manufacturing */}
             <NavLink
               to="/custom-manufacturing"
-              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
                   : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -320,14 +314,13 @@ export default function Navbar() {
             >
               <button
                 onClick={() => setGlobalDropdownOpen(!globalDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`flex items-center gap-1 xl:gap-1.5 px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                   isCurrentPathRegional || globalDropdownOpen
                     ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
                 }`}
                 aria-expanded={globalDropdownOpen}
               >
-                <Globe className="w-4 h-4 text-[#FF751F]" />
                 <span>Global Reach</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${globalDropdownOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
               </button>
@@ -399,7 +392,7 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Tools Dropdown (Replaces standalone Fabric Glossary) */}
+            {/* Tools Dropdown */}
             <div 
               className="relative"
               ref={toolsRef}
@@ -408,14 +401,13 @@ export default function Navbar() {
             >
               <button
                 onClick={() => setToolsDropdownOpen(!toolsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                className={`flex items-center gap-1 xl:gap-1.5 px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                   isToolsActive || toolsDropdownOpen
                     ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
                 }`}
                 aria-expanded={toolsDropdownOpen}
               >
-                <Palette className="w-4 h-4 text-[#FF751F]" />
                 <span>Tools</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsDropdownOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
               </button>
@@ -495,7 +487,7 @@ export default function Navbar() {
             {/* Quality & Factory */}
             <NavLink
               to="/quality"
-              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
                   : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -507,7 +499,7 @@ export default function Navbar() {
             {/* About Us */}
             <NavLink
               to="/about"
-              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
                   : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -519,7 +511,7 @@ export default function Navbar() {
             {/* Blog */}
             <NavLink
               to="/blog"
-              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
                   : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
@@ -530,7 +522,7 @@ export default function Navbar() {
           </nav>
 
           {/* Right Actions & RFQ CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Primary RFQ Button (Desktop & Tablet) */}
             <Link
               to="/contact"
