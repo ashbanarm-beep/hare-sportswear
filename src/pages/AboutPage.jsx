@@ -5,6 +5,7 @@ import {
   Leaf, ArrowRight, CheckCircle2, History, Compass, Target
 } from 'lucide-react';
 import PrecisionManufacturingFloor from '../components/about/PrecisionManufacturingFloor';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function AboutPage() {
   const values = [
@@ -167,6 +168,9 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="about" />
 
     </div>
   );

@@ -5,6 +5,7 @@ import {
   Sparkles, Tag, ChevronRight, X 
 } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function BlogPage() {
   const { getPublishedBlogPosts, blogCategories } = useCMS();
@@ -206,6 +207,9 @@ export default function BlogPage() {
           </article>
         ))}
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="blog" />
 
     </div>
   );

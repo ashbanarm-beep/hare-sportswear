@@ -26,9 +26,13 @@ const AVAILABLE_PAGES = [
   { id: 'products', name: 'Products Catalog', path: '/products' },
   { id: 'custom-manufacturing', name: 'Custom Manufacturing (OEM/ODM)', path: '/custom-manufacturing' },
   { id: 'quality', name: 'Quality & Testing Standards', path: '/quality' },
+  { id: 'about', name: 'About & Factory Ethics', path: '/about' },
+  { id: 'contact', name: 'Contact & Quote Page', path: '/contact' },
+  { id: 'tools', name: 'Digital Tools Hub', path: '/tools' },
   { id: 'usa-hub', name: 'USA Distribution Hub', path: '/sports-wear-manufacturer-usa' },
   { id: 'blog', name: 'Blog & Articles Hub', path: '/blog' },
-  { id: 'contact', name: 'Contact & Quote Page', path: '/contact' }
+  { id: 'fabric-glossary', name: 'Fabric Glossary Hub', path: '/fabric-glossary' },
+  { id: 'meet-hare', name: 'Meet Hurry the Hare', path: '/meet-hare' }
 ];
 
 const PRESET_CATEGORIES = [

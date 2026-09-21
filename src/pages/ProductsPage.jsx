@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { products, categories, equipmentSubcategories, activewearSubcategories, womensSubcategories, materialTypes } from '../data/products';
 import ProductDetailModal from '../components/products/ProductDetailModal';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -440,6 +441,9 @@ export default function ProductsPage() {
           ))}
         </div>
       )}
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="products" />
 
       {/* Product Detail Modal */}
       {activeModalProduct && (

@@ -225,6 +225,325 @@ export const defaultPageBlocks = {
         }
       ],
       active: true
+    },
+    {
+      id: 'block-home-table',
+      type: 'table_block',
+      title: 'Standard Production Lead Times & Low MOQs',
+      subtitle: 'Transparent Sialkot factory operational schedules for seasonal athletic apparel collections',
+      headers: ['Product Line', 'Standard MOQ', 'Physical Sample', 'Bulk Production', 'Freight Mode'],
+      rows: [
+        ['Custom Sublimated Teamwear Kits', '25 Sets', '7 - 10 Days', '14 - 18 Days', 'DHL / FedEx DDP Air'],
+        ['4-Way Stretch Compression & Activewear', '50 Pieces', '7 - 10 Days', '16 - 21 Days', 'Air Cargo / DDP Courier'],
+        ['Match & Training Sports Balls (FIFA Spec)', '50 Balls', '5 - 7 Days', '12 - 16 Days', 'Air Freight / Ocean LCL'],
+        ['Wrestling Gear & Combat Sports Equipment', '30 Sets', '8 - 12 Days', '18 - 24 Days', 'Air Express / Sea Freight'],
+        ['Custom Cut & Sew Hoodies, Tracksuits & Outerwear', '50 Units', '7 - 10 Days', '16 - 20 Days', 'DDP Door Delivery']
+      ],
+      active: true
+    },
+    {
+      id: 'block-home-cta',
+      type: 'cta_banner',
+      title: 'Ready for a 7-Day Physical Sample Run?',
+      subtitle: 'Upload your vector Adobe Illustrator tech pack or sketch. Our senior pattern engineering team will audit tolerances and provide a wholesale cost sheet within 24 hours.',
+      buttonText: 'Submit Tech Pack for Audit',
+      buttonUrl: '/contact',
+      whatsappUrl: 'https://wa.me/message/PBVPZM3J7ETGH1',
+      active: true
+    }
+  ],
+  products: [
+    {
+      id: 'block-products-heading',
+      type: 'text_block',
+      title: 'Bespoke Sports Apparel & Athletic Equipment Engineering',
+      subtitle: 'Custom OEM/ODM Manufacturing Specs',
+      content: 'Every product catalog item at Hare Sportswear is manufactured to your exact technical specifications. We do not sell off-the-shelf blanks. We cut, stitch, dye, and label from raw technical yarn to your finished brand packaging.',
+      alignment: 'center',
+      theme: 'dark',
+      active: true
+    },
+    {
+      id: 'block-products-features',
+      type: 'feature_grid',
+      title: 'Supported Custom Embellishment Techniques',
+      subtitle: 'In-house printing, embroidery, and branding machinery at our Sialkot facility',
+      columns: 3,
+      items: [
+        {
+          title: 'Full All-Over Sublimation',
+          desc: 'High-definition digital printing using Italian Kiian disperse dyes. Zero fading, peel, or crack under extreme sweat and commercial washing.',
+          badge: 'Kiian Italian Inks',
+          icon: 'Sparkles'
+        },
+        {
+          title: '3D High-Density Silicone Heat Seals',
+          desc: 'Raised rubberized club badges, crisp brand emblems, and textured gripper silicone applications for premium pro-tier apparel.',
+          badge: '3D Silicone',
+          icon: 'Layers'
+        },
+        {
+          title: '3M Reflective & Metallic Accents',
+          desc: 'High-visibility safety trims, iridescent logos, and custom metallic foils engineered for evening running and cycling lines.',
+          badge: '3M Certified',
+          icon: 'Zap'
+        }
+      ],
+      active: true
+    },
+    {
+      id: 'block-products-cta',
+      type: 'cta_banner',
+      title: 'Have a Custom Product Concept Not Listed in Our Catalog?',
+      subtitle: 'Our Sialkot R&D pattern department creates bespoke patterns from reference samples, sketches, or technical garment specs.',
+      buttonText: 'Request Custom R&D Development',
+      buttonUrl: '/contact',
+      whatsappUrl: 'https://wa.me/message/PBVPZM3J7ETGH1',
+      active: true
+    }
+  ],
+  'custom-manufacturing': [
+    {
+      id: 'block-cm-heading',
+      type: 'text_block',
+      title: 'End-to-End OEM/ODM Manufacturing Pipeline',
+      subtitle: 'From Vector Tech Pack to Global Port Clearance',
+      content: 'Partnering directly with a Sialkot manufacturer gives you full control over material GSM, compression ratios, stitching threads, and custom trims. Our engineering team guides you through every step of sampling, lab testing, and volume packaging.',
+      alignment: 'center',
+      theme: 'light',
+      active: true
+    },
+    {
+      id: 'block-cm-features',
+      type: 'feature_grid',
+      title: 'Our 4-Stage Production Protocol',
+      subtitle: 'Rigorous manufacturing governance across every production order',
+      columns: 4,
+      items: [
+        {
+          title: '1. CAD Tech Pack Audit',
+          desc: 'Our pattern masters verify seam allowances, POM charts, and sublimation artwork placement for zero distortion.',
+          badge: 'Phase 1',
+          icon: 'FileText'
+        },
+        {
+          title: '2. 7-Day Strike-Off Sample',
+          desc: 'Physical prototype produced and couriered via DHL Express for fit verification and tactile fabric approval.',
+          badge: 'Phase 2',
+          icon: 'Sparkles'
+        },
+        {
+          title: '3. Bulk CNC Cut & Stitch',
+          desc: 'Automated laser cutting and 4-needle 6-thread flatlock assembly lines monitored under AQL 2.5 parameters.',
+          badge: 'Phase 3',
+          icon: 'Layers'
+        },
+        {
+          title: '4. DDP Customs Delivery',
+          desc: 'Cartons palletized, barcoded, and shipped DDP straight to your warehouse doors in the US, UK, Canada, or EU.',
+          badge: 'Phase 4',
+          icon: 'Truck'
+        }
+      ],
+      active: true
+    }
+  ],
+  quality: [
+    {
+      id: 'block-quality-features',
+      type: 'feature_grid',
+      title: 'Laboratory Testing & Quality Verification',
+      subtitle: 'International compliance and physical stress testing performed in Sialkot',
+      columns: 3,
+      items: [
+        {
+          title: 'ISO 105-C06 Color Fastness',
+          desc: 'Sublimated fabrics tested up to Level 4.5+ wash fastness. Colors remain vibrant and uncompromised across 50+ commercial wash cycles.',
+          badge: 'ISO Certified',
+          icon: 'Award'
+        },
+        {
+          title: 'ASTM D5034 Seam Tensile Test',
+          desc: 'Stitch burst and tensile strength tested under calibrated mechanical tension to ensure seam integrity during contact sports.',
+          badge: 'ASTM Standard',
+          icon: 'ShieldCheck'
+        },
+        {
+          title: 'AQL 2.5 Statistical Audits',
+          desc: 'Strict military-standard random sampling for stitch counts, label alignment, and cosmetic perfection before carton sealing.',
+          badge: 'AQL 2.5 Strict',
+          icon: 'CheckCircle2'
+        }
+      ],
+      active: true
+    },
+    {
+      id: 'block-quality-table',
+      type: 'table_block',
+      title: 'Apparel Laboratory Testing Protocol Matrix',
+      subtitle: 'Performance benchmarks enforced across every OEM production batch',
+      headers: ['Test Parameter', 'Testing Standard', 'Factory Benchmark', 'Verification Frequency'],
+      rows: [
+        ['Washfastness to Domestic Laundering', 'ISO 105-C06', 'Grade 4.5+ (Zero Bleed)', 'Every Fabric Lot'],
+        ['Perspiration Fastness (Acid & Alkaline)', 'ISO 105-E04', 'Grade 4.0 minimum', 'Pre-Production Strike-Off'],
+        ['Dimensional Stability (Shrinkage)', 'AATCC 135', 'Under ±2.5% maximum', 'Pre-Cut Fabric Bolt Audit'],
+        ['Seam Burst & Tensile Strength', 'ASTM D5034', 'Greater than 220 N force', 'Finished Garment Sample'],
+        ['Pilling Resistance (Martindale)', 'ISO 12945-2', 'Grade 4-5 at 2,000 rubs', 'Textile Mill Qualification']
+      ],
+      active: true
+    }
+  ],
+  about: [
+    {
+      id: 'block-about-heading',
+      type: 'text_block',
+      title: 'Rooted in Sialkot. Engineered for Global Champions.',
+      subtitle: 'Our Factory Heritage & Ethical Manufacturing Values',
+      content: 'For over two decades, our manufacturing campus in Sialkot, Pakistan has crafted technical apparel and sports goods for world-renowned brands. We believe true craftsmanship is built on transparency, fair living wages, safe ergonomic conditions, and continuous technical innovation.',
+      alignment: 'center',
+      theme: 'dark',
+      active: true
+    },
+    {
+      id: 'block-about-features',
+      type: 'feature_grid',
+      title: 'Our Ethical Manufacturing Commitments',
+      subtitle: 'Zero compromises on worker welfare and environmental standards',
+      columns: 3,
+      items: [
+        {
+          title: 'Fair Living Wages & Safe Ergonomics',
+          desc: 'Our facility strictly guarantees living wages, medical coverage, and climate-controlled ergonomic workstations for all team members.',
+          badge: 'Human First',
+          icon: 'Award'
+        },
+        {
+          title: 'Zero Child Labor Guarantee',
+          desc: '100% certified adherence to international labor standards with third-party biometric age verification audits.',
+          badge: 'Strict Policy',
+          icon: 'ShieldCheck'
+        },
+        {
+          title: 'Eco-Friendly OEKO-TEX Inks',
+          desc: 'All disperse sublimation dyes and printing chemistry are OEKO-TEX Standard 100 certified, non-toxic and skin-safe.',
+          badge: 'Eco Certified',
+          icon: 'Sparkles'
+        }
+      ],
+      active: true
+    }
+  ],
+  contact: [
+    {
+      id: 'block-contact-features',
+      type: 'feature_grid',
+      title: 'What to Include in Your Tech Pack for Instant Pricing',
+      subtitle: 'Help our Sialkot engineering team deliver an accurate pricing quote within 24 hours',
+      columns: 3,
+      items: [
+        {
+          title: '1. Vector CAD Sketches',
+          desc: 'Front, back, and side vector illustrations (AI, PDF, or high-res PNG) indicating paneling, stitching lines, and logo placements.',
+          badge: 'Vector Files',
+          icon: 'FileText'
+        },
+        {
+          title: '2. Target Fabric Specs & GSM',
+          desc: 'Fabric preferences (e.g. 160 GSM Interlock, 240 GSM 4-way spandex, 320 GSM French Terry) or reference garment hand-feel.',
+          badge: 'Material Specs',
+          icon: 'Layers'
+        },
+        {
+          title: '3. Size Curve & Quantities',
+          desc: 'Breakdown of desired size quantities (S-3XL) and total order volume so we can calculate exact yarn and dye efficiencies.',
+          badge: 'Order Volume',
+          icon: 'CheckCircle2'
+        }
+      ],
+      active: true
+    }
+  ],
+  tools: [
+    {
+      id: 'block-tools-features',
+      type: 'feature_grid',
+      title: 'Digital Pre-Press & Color Lab Tools',
+      subtitle: 'Free interactive manufacturing tools for international designers and production managers',
+      columns: 3,
+      items: [
+        {
+          title: 'Pantone Color Matcher',
+          desc: 'Convert HEX, RGB, or PMS color codes into calibrated dye formulas for exact sublimation color fidelity.',
+          badge: 'PMS Engine',
+          icon: 'Sparkles'
+        },
+        {
+          title: 'Athletic Palette Generator',
+          desc: 'Explore high-contrast sportswear color combinations and preview 3D kit strike-off harmonizations.',
+          badge: 'Kit Palette',
+          icon: 'Layers'
+        },
+        {
+          title: 'Cost & Lead Time Estimator',
+          desc: 'Estimate FOB and DDP per-unit manufacturing costs and prototype delivery schedules based on order volume.',
+          badge: 'Instant Pricing',
+          icon: 'Truck'
+        }
+      ],
+      active: true
+    }
+  ],
+  blog: [
+    {
+      id: 'block-blog-heading',
+      type: 'text_block',
+      title: 'Textile Engineering Guides & Sialkot Sourcing Intelligence',
+      subtitle: 'Empowering athletic brand founders with actionable technical knowledge',
+      content: 'Learn how pro-tier sportswear is engineered. From decoding GSM weights and sublimation chemistry to mastering Adobe Illustrator tech pack creation and navigating ocean freight logistics.',
+      alignment: 'center',
+      theme: 'light',
+      active: true
+    }
+  ],
+  'usa-hub': [
+    {
+      id: 'block-usa-heading',
+      type: 'text_block',
+      title: 'Direct Sialkot Factory Partner for USA Athletic Brands',
+      subtitle: 'Zero Middlemen • DDP Air Courier • US Sizing Grading',
+      content: 'Hare Sportswear specializes in supplying collegiate sports clubs, tournament organizers, and private label athletic apparel brands across the United States with seamless DDP (Delivered Duty Paid) door delivery.',
+      alignment: 'center',
+      theme: 'dark',
+      active: true
+    },
+    {
+      id: 'block-usa-features',
+      type: 'feature_grid',
+      title: 'The American Sourcing Advantage',
+      subtitle: 'Why US apparel startups choose direct manufacturing with Hare Sportswear',
+      columns: 3,
+      items: [
+        {
+          title: 'Door-to-Door DDP Freight',
+          desc: 'We clear US Customs (CBP) and pay all import tariffs upfront. Your orders arrive at your warehouse via DHL/FedEx Express.',
+          badge: 'Zero Tariff Risk',
+          icon: 'Truck'
+        },
+        {
+          title: 'Standard American Sizing Specs',
+          desc: 'POM charts tailored specifically for the US market across Men, Women, and Youth athletic sizing standards.',
+          badge: 'US Fit Grading',
+          icon: 'CheckCircle2'
+        },
+        {
+          title: 'Low 25-Piece Minimums',
+          desc: 'Launch new custom kit designs without holding excessive capital or unsold inventory in US fulfillment centers.',
+          badge: 'Low 25 MOQ',
+          icon: 'Award'
+        }
+      ],
+      active: true
     }
   ]
 };
+

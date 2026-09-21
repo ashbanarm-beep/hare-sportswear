@@ -63,7 +63,14 @@ export function CMSProvider({ children }) {
   const [pageBlocks, setPageBlocks] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.PAGE_BLOCKS);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Merge with defaultPageBlocks so newly supported pages (products, tools, etc.) are always populated
+        return {
+          ...defaultPageBlocks,
+          ...parsed
+        };
+      }
     } catch (e) {
       console.warn('Failed to load page blocks from storage', e);
     }

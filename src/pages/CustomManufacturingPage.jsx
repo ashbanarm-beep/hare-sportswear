@@ -6,6 +6,7 @@ import {
   Cpu, FileText, Palette, Scissors, Zap, Globe, Gauge, Flame, Award, Play
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function CustomManufacturingPage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -363,6 +364,9 @@ export default function CustomManufacturingPage() {
           </div>
         </div>
       </motion.section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="custom-manufacturing" />
 
     </div>
   );

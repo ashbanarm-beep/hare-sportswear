@@ -13,6 +13,7 @@ import GlobalExportFootprint from '../components/home/GlobalExportFootprint';
 import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
 import PageFAQSection from '../components/common/PageFAQSection';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import MeetFounderSection from '../components/home/MeetFounderSection';
 
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -182,6 +183,9 @@ export default function HomePage() {
               <p className="text-[11px] sm:text-xs text-[#595856] mt-1 uppercase tracking-wider font-semibold">On-Time Shipment</p>
             </div>
           </div>
+
+          {/* Dynamic Top Announcement / Hero Content Blocks (Elementor Page Builder) */}
+          <DynamicPageContent pageId="home-top" className="mt-8" />
 
         </div>
       </section>
@@ -566,6 +570,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Meet the Founder & Executive Sialkot Vision Section */}
+      <MeetFounderSection />
 
       {/* Dynamic Visual Content Blocks (Configurable via Admin Elementor-Style Page Builder) */}
       <DynamicPageContent pageId="home" />

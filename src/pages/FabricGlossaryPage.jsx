@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { GLOSSARY_CATEGORIES, GSM_WEIGHT_TIERS, GLOSSARY_TERMS } from '../data/fabricGlossaryData';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function FabricGlossaryPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -666,6 +667,9 @@ export default function FabricGlossaryPage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="fabric-glossary" />
 
     </div>
   );

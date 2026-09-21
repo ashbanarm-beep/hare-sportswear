@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { getCountryBySlug, countryServices } from '../data/countryServicesData';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function CountryServicePage() {
   const location = useLocation();
@@ -555,6 +556,9 @@ export default function CountryServicePage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId={country?.slug === 'sports-wear-manufacturer-usa' ? 'usa-hub' : `country-${country?.slug}`} />
 
     </div>
   );

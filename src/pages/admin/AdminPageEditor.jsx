@@ -9,12 +9,20 @@ import { useCMS } from '../../context/CMSContext';
 import DynamicPageContent from '../../components/cms/DynamicPageContent';
 
 const availablePages = [
-  { id: 'home', name: 'Homepage (/)', path: '/' },
+  { id: 'home', name: 'Homepage (Main / Sections)', path: '/' },
+  { id: 'home-top', name: 'Homepage (Top Hero Zone)', path: '/' },
   { id: 'products', name: 'Products Catalog (/products)', path: '/products' },
   { id: 'custom-manufacturing', name: 'Custom Manufacturing (/custom-manufacturing)', path: '/custom-manufacturing' },
   { id: 'quality', name: 'Quality & Factory (/quality)', path: '/quality' },
   { id: 'about', name: 'About Us (/about)', path: '/about' },
-  { id: 'contact', name: 'Contact & RFQ (/contact)', path: '/contact' }
+  { id: 'contact', name: 'Contact & RFQ (/contact)', path: '/contact' },
+  { id: 'tools', name: 'Digital Tools Hub (/tools)', path: '/tools' },
+  { id: 'blog', name: 'Blog & Technical Articles (/blog)', path: '/blog' },
+  { id: 'usa-hub', name: 'USA Distribution Hub (/sports-wear-manufacturer-usa)', path: '/sports-wear-manufacturer-usa' },
+  { id: 'fabric-glossary', name: 'Fabric Glossary Hub (/fabric-glossary)', path: '/fabric-glossary' },
+  { id: 'meet-hare', name: 'Meet Hurry the Hare (/meet-hare)', path: '/meet-hare' },
+  { id: 'terms', name: 'Terms & Conditions (/terms)', path: '/terms' },
+  { id: 'privacy', name: 'Privacy Policy (/privacy)', path: '/privacy' }
 ];
 
 export default function AdminPageEditor() {

@@ -4,6 +4,7 @@ import { ShieldCheck, ArrowRight } from 'lucide-react';
 
 import QualityCertifications from '../components/quality/QualityCertifications';
 import ZeroDefectSection from '../components/quality/ZeroDefectSection';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function QualityPage() {
   return (
@@ -75,6 +76,9 @@ export default function QualityPage() {
           </Link>
         </div>
       </section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="quality" />
 
     </div>
   );

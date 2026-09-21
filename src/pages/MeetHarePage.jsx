@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function MeetHarePage() {
   const { openTechPackModal } = useRFQ();
@@ -324,6 +325,9 @@ export default function MeetHarePage() {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="meet-hare" />
 
     </div>
   );

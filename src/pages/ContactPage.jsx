@@ -6,6 +6,7 @@ import {
   Trash2, Sparkles, Building2, Send, Check, Palette, Calculator, X
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
@@ -659,6 +660,9 @@ export default function ContactPage() {
         </div>
 
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="contact" />
 
     </div>
   );

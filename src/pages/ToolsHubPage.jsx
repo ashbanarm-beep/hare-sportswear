@@ -4,6 +4,7 @@ import {
   Palette, Pipette, Calculator, BookOpen, Sparkles, 
   ArrowRight, ShieldCheck, CheckCircle2, Factory, Zap, Clock, Globe
 } from 'lucide-react';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function ToolsHubPage() {
   const tools = [
@@ -227,6 +228,9 @@ export default function ToolsHubPage() {
             </div>
           </div>
         </div>
+
+        {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+        <DynamicPageContent pageId="tools" />
       </div>
     </div>
   );
