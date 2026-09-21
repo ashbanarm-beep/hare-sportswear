@@ -17,6 +17,10 @@ import BlogPostPage from './pages/BlogPostPage';
 import CountryServicePage from './pages/CountryServicePage';
 import MeetHarePage from './pages/MeetHarePage';
 import FabricGlossaryPage from './pages/FabricGlossaryPage';
+import ToolsHubPage from './pages/ToolsHubPage';
+import PantoneMatcherPage from './pages/PantoneMatcherPage';
+import PaletteGeneratorPage from './pages/PaletteGeneratorPage';
+import CostEstimatorPage from './pages/CostEstimatorPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import { RFQProvider } from './context/RFQContext';
@@ -55,6 +59,16 @@ export default function App() {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/blog" element={<BlogPage />} />
                   <Route path="/blog/:slug" element={<BlogPostPage />} />
+                  {/* Digital Manufacturing & Color Tools */}
+                  <Route path="/tools" element={<ToolsHubPage />} />
+                  <Route path="/tools/pantone-matcher" element={<PantoneMatcherPage />} />
+                  <Route path="/pantone-matcher" element={<Navigate to="/tools/pantone-matcher" replace />} />
+                  <Route path="/tools/palette-generator" element={<PaletteGeneratorPage />} />
+                  <Route path="/palette-generator" element={<Navigate to="/tools/palette-generator" replace />} />
+                  <Route path="/tools/cost-estimator" element={<CostEstimatorPage />} />
+                  <Route path="/cost-estimator" element={<Navigate to="/tools/cost-estimator" replace />} />
+
+                  {/* Fabric Glossary Hub & Aliases */}
                   <Route path="/fabric-glossary" element={<FabricGlossaryPage />} />
                   <Route path="/resources/fabric-glossary" element={<Navigate to="/fabric-glossary" replace />} />
                   <Route path="/glossary" element={<Navigate to="/fabric-glossary" replace />} />

@@ -5,6 +5,10 @@ const RFQContext = createContext();
 export function RFQProvider({ children }) {
   const [selectedProductForInquiry, setSelectedProductForInquiry] = useState(null);
   const [isTechPackModalOpen, setIsTechPackModalOpen] = useState(false);
+  
+  // Digital Tools State (Pantone & Cost Estimator)
+  const [attachedColors, setAttachedColors] = useState([]);
+  const [attachedEstimate, setAttachedEstimate] = useState(null);
 
   // Safe no-ops to eliminate e-commerce cart/basket states entirely
   const inquiryBasket = [];
@@ -14,6 +18,25 @@ export function RFQProvider({ children }) {
 
   const openTechPackModal = () => setIsTechPackModalOpen(true);
   const closeTechPackModal = () => setIsTechPackModalOpen(false);
+
+  // Attach Pantone colors to RFQ
+  const attachColorsToRFQ = (colors) => {
+    // Array of { name, pms, hex, role } or single color
+    if (Array.isArray(colors)) {
+      setAttachedColors(colors);
+    } else if (colors) {
+      setAttachedColors([colors]);
+    }
+  };
+
+  const clearAttachedColors = () => setAttachedColors([]);
+
+  // Attach Cost Estimate to RFQ
+  const attachEstimateToRFQ = (estimate) => {
+    setAttachedEstimate(estimate);
+  };
+
+  const clearAttachedEstimate = () => setAttachedEstimate(null);
 
   return (
     <RFQContext.Provider value={{
@@ -26,7 +49,14 @@ export function RFQProvider({ children }) {
       isTechPackModalOpen,
       setIsTechPackModalOpen,
       openTechPackModal,
-      closeTechPackModal
+      closeTechPackModal,
+      // Tools state
+      attachedColors,
+      attachColorsToRFQ,
+      clearAttachedColors,
+      attachedEstimate,
+      attachEstimateToRFQ,
+      clearAttachedEstimate
     }}>
       {children}
     </RFQContext.Provider>

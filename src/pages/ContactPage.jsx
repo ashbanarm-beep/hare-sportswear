@@ -3,13 +3,20 @@ import { useSearchParams } from 'react-router-dom';
 import { 
   Mail, Phone, MapPin, MessageCircle, Upload, FileText, 
   CheckCircle2, AlertCircle, ArrowRight, ShieldCheck, Clock, 
-  Trash2, Sparkles, Building2, Send, Check
+  Trash2, Sparkles, Building2, Send, Check, Palette, Calculator, X
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
-  const { selectedProductForInquiry, setSelectedProductForInquiry } = useRFQ();
+  const { 
+    selectedProductForInquiry, 
+    setSelectedProductForInquiry,
+    attachedColors,
+    clearAttachedColors,
+    attachedEstimate,
+    clearAttachedEstimate
+  } = useRFQ();
 
   const prefillProduct = searchParams.get('product') || (selectedProductForInquiry ? selectedProductForInquiry.name : '');
   const prefillCat = searchParams.get('cat') || (selectedProductForInquiry ? selectedProductForInquiry.category : 'Teamwear & Kits');
@@ -33,6 +40,50 @@ export default function ContactPage() {
     fabricPreference: prefillFabric,
     message: initialMessage
   });
+
+  // Pre-fill attached colors from digital tools
+  useEffect(() => {
+    if (attachedColors && attachedColors.length > 0) {
+      const colorNotes = `[Attached Pantone Textile Specifications]:\n` +
+        attachedColors.map(c => `• ${c.role || 'Color'}: ${c.name} (${c.code} / ${c.hex}) - Ink: ${c.kiianInk}`).join('\n');
+      
+      setFormData(prev => {
+        if (!prev.message.includes('[Attached Pantone Textile Specifications]')) {
+          return {
+            ...prev,
+            message: prev.message ? `${colorNotes}\n\n${prev.message}` : colorNotes
+          };
+        }
+        return prev;
+      });
+    }
+  }, [attachedColors]);
+
+  // Pre-fill attached estimate from Cost Estimator
+  useEffect(() => {
+    if (attachedEstimate) {
+      const estNotes = `[Attached Instant Production Cost Estimate]:\n` +
+        `• Category: ${attachedEstimate.category}\n` +
+        `• Quantity: ${attachedEstimate.quantity} Units\n` +
+        `• Estimated Factory Price: ${attachedEstimate.unitPriceRange}\n` +
+        `• Landed Unit Est (DDP): ${attachedEstimate.landedUnitEst}\n` +
+        `• Grand Total Projected: ${attachedEstimate.totalEst}\n` +
+        `• Timeline: ${attachedEstimate.leadTimeDays}\n` +
+        `• Freight Mode: ${attachedEstimate.shipping}` +
+        (attachedEstimate.embellishments?.length ? `\n• Embellishments: ${attachedEstimate.embellishments.join(', ')}` : '');
+
+      setFormData(prev => {
+        if (!prev.message.includes('[Attached Instant Production Cost Estimate]')) {
+          return {
+            ...prev,
+            quantity: `${attachedEstimate.quantity}`,
+            message: prev.message ? `${estNotes}\n\n${prev.message}` : estNotes
+          };
+        }
+        return prev;
+      });
+    }
+  }, [attachedEstimate]);
 
   useEffect(() => {
     const country = searchParams.get('country');
@@ -485,6 +536,81 @@ export default function ContactPage() {
                     </div>
                   )}
                 </div>
+
+                {/* Attached Tools Badges */}
+                {attachedColors && attachedColors.length > 0 && (
+                  <div className="p-4 rounded-2xl bg-[#FF751F]/5 border border-[#FF751F]/30 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Palette className="w-4 h-4 text-[#FF751F]" />
+                        <span className="text-xs font-bold text-[#1A1A1A]">
+                          Attached Pantone Textile Specifications ({attachedColors.length})
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={clearAttachedColors}
+                        className="text-[11px] font-bold text-stone-500 hover:text-red-600 flex items-center gap-1 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {attachedColors.map((color, idx) => (
+                        <div key={idx} className="p-2 rounded-xl bg-white border border-[#E5DFD5] flex items-center gap-2 shadow-xs">
+                          <span 
+                            className="w-4 h-4 rounded-full border border-stone-300 shrink-0"
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <div className="min-w-0 flex-1">
+                            <span className="font-bold text-[10px] block truncate text-[#1A1A1A]">{color.name}</span>
+                            <span className="font-mono text-[9px] text-[#FF751F] block">{color.code}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {attachedEstimate && (
+                  <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/30 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Calculator className="w-4 h-4 text-emerald-600" />
+                        <span className="text-xs font-bold text-[#1A1A1A]">
+                          Attached Instant Production Cost & Lead Time Estimate
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={clearAttachedEstimate}
+                        className="text-[11px] font-bold text-stone-500 hover:text-red-600 flex items-center gap-1 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      <div className="p-2 rounded-xl bg-white border border-[#E5DFD5]">
+                        <span className="text-[10px] text-stone-400 block">Category</span>
+                        <span className="font-bold text-stone-800 text-[11px] truncate block">{attachedEstimate.category}</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white border border-[#E5DFD5]">
+                        <span className="text-[10px] text-stone-400 block">Order Volume</span>
+                        <span className="font-bold text-[#1A1A1A] text-[11px] font-mono">{attachedEstimate.quantity} PCS</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white border border-[#E5DFD5]">
+                        <span className="text-[10px] text-stone-400 block">Factory Unit Est</span>
+                        <span className="font-bold text-[#FF751F] text-[11px] font-mono">{attachedEstimate.unitPriceRange}</span>
+                      </div>
+                      <div className="p-2 rounded-xl bg-white border border-[#E5DFD5]">
+                        <span className="text-[10px] text-stone-400 block">Projected Total</span>
+                        <span className="font-bold text-emerald-700 text-[11px] font-mono">{attachedEstimate.totalEst}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Specific Notes */}
                 <div>

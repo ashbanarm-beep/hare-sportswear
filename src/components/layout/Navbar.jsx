@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { 
   Menu, X, MessageCircle, FileText, ChevronRight, ChevronDown,
-  Mail, Phone, Globe, Plane, ArrowRight
+  Mail, Globe, ArrowRight, Palette, Pipette, 
+  Calculator, BookOpen, Shirt, Dumbbell, Trophy, Sparkles
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
 import { countryServices } from '../../data/countryServicesData';
@@ -10,9 +11,21 @@ import { countryServices } from '../../data/countryServicesData';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Desktop dropdown states
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const [globalDropdownOpen, setGlobalDropdownOpen] = useState(false);
+
+  // Mobile accordion states
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
   const [mobileRegionsOpen, setMobileRegionsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+
+  const productsRef = useRef(null);
+  const toolsRef = useRef(null);
+  const globalRef = useRef(null);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -26,36 +39,110 @@ export default function Navbar() {
   // Close menus on route change
   useEffect(() => {
     setIsOpen(false);
+    setProductsDropdownOpen(false);
+    setToolsDropdownOpen(false);
     setGlobalDropdownOpen(false);
+    setMobileProductsOpen(false);
+    setMobileToolsOpen(false);
     setMobileRegionsOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
-  // Close dropdown on click outside
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       try {
-        if (dropdownRef.current && e?.target instanceof Node && !dropdownRef.current.contains(e.target)) {
+        if (productsRef.current && !productsRef.current.contains(e.target)) {
+          setProductsDropdownOpen(false);
+        }
+        if (toolsRef.current && !toolsRef.current.contains(e.target)) {
+          setToolsDropdownOpen(false);
+        }
+        if (globalRef.current && !globalRef.current.contains(e.target)) {
           setGlobalDropdownOpen(false);
         }
       } catch (err) {
-        // Suppress any DOM tree traversal errors
+        // Suppress DOM traversal errors
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'Custom Manufacturing', path: '/custom-manufacturing' },
-    { name: 'Fabric Glossary', path: '/fabric-glossary' },
-    { name: 'Quality & Factory', path: '/quality' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Blog', path: '/blog' },
+  const isCurrentPathRegional = countryServices.some((c) => location.pathname === `/${c.slug}`);
+  const isToolsActive = location.pathname.startsWith('/tools') || location.pathname.includes('matcher') || location.pathname.includes('generator') || location.pathname.includes('estimator');
+  const isProductsActive = location.pathname.startsWith('/products');
+
+  // Product categories for the dropdown
+  const productCategories = [
+    {
+      name: 'Teamwear & Custom Kits',
+      path: '/products?category=teamwear',
+      desc: 'Soccer, rugby, basketball, cricket uniforms & technical kits',
+      badge: 'High-Performance',
+      icon: Shirt,
+      color: 'text-orange-600 bg-orange-50'
+    },
+    {
+      name: 'Activewear & Gym Essentials',
+      path: '/products?category=activewear',
+      desc: 'Seamless leggings, gym tees, compression wear & fleece hoodies',
+      badge: 'Athleisure',
+      icon: Dumbbell,
+      color: 'text-blue-600 bg-blue-50'
+    },
+    {
+      name: 'Sports Equipment & Goods',
+      path: '/products?category=equipment',
+      desc: 'FIFA-spec match balls, padel/badminton rackets, snooker & camping',
+      badge: 'Gear & Balls',
+      icon: Trophy,
+      color: 'text-emerald-600 bg-emerald-50'
+    },
+    {
+      name: 'Wrestling & Combat Gear',
+      path: '/products?category=equipment&sub=combat-sports',
+      desc: 'Championship belts, grappling dummies, headgear & wrestling boots',
+      badge: 'Pro Combat',
+      icon: Sparkles,
+      color: 'text-purple-600 bg-purple-50'
+    }
   ];
 
-  const isCurrentPathRegional = countryServices.some((c) => location.pathname === `/${c.slug}`);
+  // Digital manufacturing tools for the dropdown
+  const digitalTools = [
+    {
+      name: 'Pantone Color Matcher',
+      path: '/tools/pantone-matcher',
+      desc: 'Match HEX codes to official PMS textile codes & Italian sublimation ink formulas',
+      badge: 'Color Lab',
+      icon: Pipette,
+      color: 'text-orange-600 bg-orange-50'
+    },
+    {
+      name: 'Athletic Palette Generator',
+      path: '/tools/palette-generator',
+      desc: 'Generate 4-color uniform harmonies with live vector jersey simulation & slot locking',
+      badge: 'Kit Studio',
+      icon: Palette,
+      color: 'text-blue-600 bg-blue-50'
+    },
+    {
+      name: 'Instant Cost & Lead Time Estimator',
+      path: '/tools/cost-estimator',
+      desc: 'Model tiered MOQ factory pricing, sample lead times & DDP shipping landed quotes',
+      badge: 'Live Pricing',
+      icon: Calculator,
+      color: 'text-emerald-600 bg-emerald-50'
+    },
+    {
+      name: 'Fabric Glossary & Technical Hub',
+      path: '/fabric-glossary',
+      desc: 'Detailed GSM weights, knit structures, and washfastness specs for performance fabrics',
+      badge: 'Material Specs',
+      icon: BookOpen,
+      color: 'text-stone-700 bg-stone-100'
+    }
+  ];
 
   return (
     <>
@@ -103,24 +190,122 @@ export default function Navbar() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
-            {navLinks.slice(0, 3).map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  isActive 
-                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm' 
+            
+            {/* Home */}
+            <NavLink
+              to="/"
+              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive 
+                  ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
+                  : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+              }`}
+            >
+              Home
+            </NavLink>
+
+            {/* Products Mega Dropdown */}
+            <div 
+              className="relative"
+              ref={productsRef}
+              onMouseEnter={() => setProductsDropdownOpen(true)}
+              onMouseLeave={() => setProductsDropdownOpen(false)}
+            >
+              <button
+                onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  isProductsActive || productsDropdownOpen
+                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
                 }`}
+                aria-expanded={productsDropdownOpen}
               >
-                {link.name}
-              </NavLink>
-            ))}
+                <span>Products</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productsDropdownOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {/* Products Dropdown Panel */}
+              {productsDropdownOpen && (
+                <div className="absolute top-full left-0 pt-2 w-[520px] z-50 animate-fadeIn">
+                  <div className="rounded-2xl bg-white border border-[#E5DFD5] shadow-2xl p-5 space-y-3">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF751F]">
+                          Manufacturing Divisions
+                        </span>
+                        <h4 className="text-sm font-display font-bold text-[#1A1A1A]">
+                          Custom Apparel & Sports Equipment Catalog
+                        </h4>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F5F1E8] text-[11px] font-semibold text-[#595856]">
+                        32+ Product Lines
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-2">
+                      {productCategories.map((cat, idx) => {
+                        const Icon = cat.icon;
+                        return (
+                          <Link
+                            key={idx}
+                            to={cat.path}
+                            onClick={() => setProductsDropdownOpen(false)}
+                            className="flex items-start gap-3 p-3 rounded-xl border border-stone-100 hover:border-[#FF751F]/40 hover:bg-[#FAF8F3] transition group"
+                          >
+                            <div className={`p-2.5 rounded-xl ${cat.color} shrink-0 transition-transform group-hover:scale-105`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between">
+                                <span className="font-bold text-xs sm:text-sm text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                                  {cat.name}
+                                </span>
+                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-stone-100 text-stone-600">
+                                  {cat.badge}
+                                </span>
+                              </div>
+                              <p className="text-xs text-stone-500 line-clamp-1 mt-0.5">
+                                {cat.desc}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    <div className="pt-2 border-t border-[#E5DFD5] flex items-center justify-between text-xs">
+                      <span className="text-stone-500">
+                        OEM/ODM full customization & private labeling
+                      </span>
+                      <Link 
+                        to="/products" 
+                        onClick={() => setProductsDropdownOpen(false)}
+                        className="font-bold text-[#FF751F] hover:underline inline-flex items-center gap-1"
+                      >
+                        <span>Explore Complete Catalog</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Custom Manufacturing */}
+            <NavLink
+              to="/custom-manufacturing"
+              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive 
+                  ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
+                  : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+              }`}
+            >
+              Custom Manufacturing
+            </NavLink>
 
             {/* Global Reach Dropdown Menu */}
             <div 
               className="relative"
-              ref={dropdownRef}
+              ref={globalRef}
               onMouseEnter={() => setGlobalDropdownOpen(true)}
               onMouseLeave={() => setGlobalDropdownOpen(false)}
             >
@@ -128,7 +313,7 @@ export default function Navbar() {
                 onClick={() => setGlobalDropdownOpen(!globalDropdownOpen)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   isCurrentPathRegional || globalDropdownOpen
-                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm'
+                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
                 }`}
                 aria-expanded={globalDropdownOpen}
@@ -164,6 +349,7 @@ export default function Navbar() {
                           <Link
                             key={c.id}
                             to={`/${c.slug}`}
+                            onClick={() => setGlobalDropdownOpen(false)}
                             className={`flex items-center justify-between p-2.5 rounded-xl border transition-all ${
                               isActive
                                 ? 'bg-[#FF751F]/10 border-[#FF751F] text-[#FF751F]'
@@ -191,6 +377,7 @@ export default function Navbar() {
                       </span>
                       <Link 
                         to="/contact" 
+                        onClick={() => setGlobalDropdownOpen(false)}
                         className="font-bold text-[#FF751F] hover:underline inline-flex items-center gap-1"
                       >
                         <span>Custom Port Delivery</span>
@@ -203,22 +390,137 @@ export default function Navbar() {
               )}
             </div>
 
-            {navLinks.slice(3).map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  isActive 
-                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-sm' 
+            {/* Tools Dropdown (Replaces standalone Fabric Glossary) */}
+            <div 
+              className="relative"
+              ref={toolsRef}
+              onMouseEnter={() => setToolsDropdownOpen(true)}
+              onMouseLeave={() => setToolsDropdownOpen(false)}
+            >
+              <button
+                onClick={() => setToolsDropdownOpen(!toolsDropdownOpen)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  isToolsActive || toolsDropdownOpen
+                    ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs'
                     : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
                 }`}
+                aria-expanded={toolsDropdownOpen}
               >
-                {link.name}
-              </NavLink>
-            ))}
+                <Palette className="w-4 h-4 text-[#FF751F]" />
+                <span>Tools</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsDropdownOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {/* Tools Dropdown Panel */}
+              {toolsDropdownOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[540px] z-50 animate-fadeIn">
+                  <div className="rounded-2xl bg-white border border-[#E5DFD5] shadow-2xl p-5 space-y-3">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF751F]">
+                          Digital Engineering & Pre-Press Suite
+                        </span>
+                        <h4 className="text-sm font-display font-bold text-[#1A1A1A]">
+                          Color Matching, Palette Builder & Cost Modeling
+                        </h4>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F5F1E8] text-[11px] font-semibold text-[#595856]">
+                        ⚡ Instant Sialkot Specs
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-2">
+                      {digitalTools.map((tool, idx) => {
+                        const Icon = tool.icon;
+                        const isCurrent = location.pathname === tool.path;
+                        return (
+                          <Link
+                            key={idx}
+                            to={tool.path}
+                            onClick={() => setToolsDropdownOpen(false)}
+                            className={`flex items-start gap-3 p-3 rounded-xl border transition group ${
+                              isCurrent
+                                ? 'bg-[#FF751F]/5 border-[#FF751F]/50'
+                                : 'border-stone-100 hover:border-[#FF751F]/40 hover:bg-[#FAF8F3]'
+                            }`}
+                          >
+                            <div className={`p-2.5 rounded-xl ${tool.color} shrink-0 transition-transform group-hover:scale-105`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between">
+                                <span className="font-bold text-xs sm:text-sm text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                                  {tool.name}
+                                </span>
+                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-stone-100 text-stone-600">
+                                  {tool.badge}
+                                </span>
+                              </div>
+                              <p className="text-xs text-stone-500 line-clamp-1 mt-0.5">
+                                {tool.desc}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    <div className="pt-2 border-t border-[#E5DFD5] flex items-center justify-between text-xs">
+                      <span className="text-stone-500">
+                        100% spectrophotometer color fidelity guaranteed
+                      </span>
+                      <Link 
+                        to="/tools" 
+                        onClick={() => setToolsDropdownOpen(false)}
+                        className="font-bold text-[#FF751F] hover:underline inline-flex items-center gap-1"
+                      >
+                        <span>View All Digital Tools</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quality & Factory */}
+            <NavLink
+              to="/quality"
+              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive 
+                  ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
+                  : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+              }`}
+            >
+              Quality & Factory
+            </NavLink>
+
+            {/* About Us */}
+            <NavLink
+              to="/about"
+              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive 
+                  ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
+                  : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+              }`}
+            >
+              About Us
+            </NavLink>
+
+            {/* Blog */}
+            <NavLink
+              to="/blog"
+              className={({ isActive }) => `px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive 
+                  ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
+                  : 'text-[#1A1A1A] hover:text-[#FF751F] hover:bg-black/5'
+              }`}
+            >
+              Blog
+            </NavLink>
           </nav>
 
-          {/* Right Actions & RFQ CTA */}
+          {/* Right Actions & RFQ CTA (Only Request a Quote button, no duplicate Contact link) */}
           <div className="hidden sm:flex items-center gap-3">
             {/* Primary RFQ Button */}
             <Link
@@ -255,23 +557,70 @@ export default function Navbar() {
 
         {/* Mobile Slide-Down Drawer Menu */}
         {isOpen && (
-          <div className="lg:hidden bg-[#F5F1E8] border-b border-[#E5DFD5] px-4 pt-3 pb-6 mt-3 space-y-2 animate-fadeIn shadow-xl max-h-[80vh] overflow-y-auto">
-            {navLinks.slice(0, 3).map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
-                  isActive
-                    ? 'bg-[#FF751F]/15 text-[#FF751F]'
-                    : 'text-[#1A1A1A] hover:bg-black/5'
-                }`}
-              >
-                <span>{link.name}</span>
-                <ChevronRight className="w-4 h-4 text-slate-400" />
-              </NavLink>
-            ))}
+          <div className="lg:hidden bg-[#F5F1E8] border-b border-[#E5DFD5] px-4 pt-3 pb-6 mt-3 space-y-2 animate-fadeIn shadow-xl max-h-[85vh] overflow-y-auto">
+            
+            {/* Home */}
+            <NavLink
+              to="/"
+              className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                isActive
+                  ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                  : 'text-[#1A1A1A] hover:bg-black/5'
+              }`}
+            >
+              <span>Home</span>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </NavLink>
 
-            {/* Mobile Expandable Global Reach Accordion */}
+            {/* Mobile Products Accordion */}
+            <div className="rounded-xl border border-[#E5DFD5] bg-white overflow-hidden">
+              <button
+                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-[#1A1A1A]"
+              >
+                <span className="flex items-center gap-2">
+                  <Shirt className="w-4 h-4 text-[#FF751F]" />
+                  <span>Products Catalog ({productCategories.length} Categories)</span>
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileProductsOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {mobileProductsOpen && (
+                <div className="p-3 bg-[#F5F1E8]/70 border-t border-[#E5DFD5] space-y-2">
+                  {productCategories.map((cat, idx) => (
+                    <Link
+                      key={idx}
+                      to={cat.path}
+                      className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-[#E5DFD5] text-xs font-semibold text-[#1A1A1A] hover:text-[#FF751F]"
+                    >
+                      <span>{cat.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                    </Link>
+                  ))}
+                  <Link
+                    to="/products"
+                    className="block text-center py-2 font-bold text-xs text-[#FF751F] hover:underline"
+                  >
+                    View All 32+ Products →
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Custom Manufacturing */}
+            <NavLink
+              to="/custom-manufacturing"
+              className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                isActive
+                  ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                  : 'text-[#1A1A1A] hover:bg-black/5'
+              }`}
+            >
+              <span>Custom Manufacturing</span>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </NavLink>
+
+            {/* Mobile Global Reach Accordion */}
             <div className="rounded-xl border border-[#E5DFD5] bg-white overflow-hidden">
               <button
                 onClick={() => setMobileRegionsOpen(!mobileRegionsOpen)}
@@ -300,20 +649,79 @@ export default function Navbar() {
               )}
             </div>
 
-            {navLinks.slice(3).map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
-                  isActive
-                    ? 'bg-[#FF751F]/15 text-[#FF751F]'
-                    : 'text-[#1A1A1A] hover:bg-black/5'
-                }`}
+            {/* Mobile Tools Accordion */}
+            <div className="rounded-xl border border-[#E5DFD5] bg-white overflow-hidden">
+              <button
+                onClick={() => setMobileToolsOpen(!mobileToolsOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-[#1A1A1A]"
               >
-                <span>{link.name}</span>
-                <ChevronRight className="w-4 h-4 text-slate-400" />
-              </NavLink>
-            ))}
+                <span className="flex items-center gap-2">
+                  <Palette className="w-4 h-4 text-[#FF751F]" />
+                  <span>Digital Tools & Color Lab</span>
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileToolsOpen ? 'rotate-180 text-[#FF751F]' : ''}`} />
+              </button>
+
+              {mobileToolsOpen && (
+                <div className="p-3 bg-[#F5F1E8]/70 border-t border-[#E5DFD5] space-y-2">
+                  {digitalTools.map((tool, idx) => (
+                    <Link
+                      key={idx}
+                      to={tool.path}
+                      className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-[#E5DFD5] text-xs font-semibold text-[#1A1A1A] hover:text-[#FF751F]"
+                    >
+                      <span>{tool.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                    </Link>
+                  ))}
+                  <Link
+                    to="/tools"
+                    className="block text-center py-2 font-bold text-xs text-[#FF751F] hover:underline"
+                  >
+                    Open Digital Tools Hub →
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Quality & Factory */}
+            <NavLink
+              to="/quality"
+              className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                isActive
+                  ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                  : 'text-[#1A1A1A] hover:bg-black/5'
+              }`}
+            >
+              <span>Quality & Factory</span>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </NavLink>
+
+            {/* About Us */}
+            <NavLink
+              to="/about"
+              className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                isActive
+                  ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                  : 'text-[#1A1A1A] hover:bg-black/5'
+              }`}
+            >
+              <span>About Us</span>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </NavLink>
+
+            {/* Blog */}
+            <NavLink
+              to="/blog"
+              className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                isActive
+                  ? 'bg-[#FF751F]/15 text-[#FF751F]'
+                  : 'text-[#1A1A1A] hover:bg-black/5'
+              }`}
+            >
+              <span>Blog</span>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </NavLink>
 
             <div className="pt-4 border-t border-[#E5DFD5] space-y-3">
               <Link

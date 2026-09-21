@@ -180,6 +180,24 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/tools/pantone-matcher" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
+                  <span>🎨</span>
+                  <span>Pantone Color Matcher</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/tools/palette-generator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
+                  <span>👕</span>
+                  <span>Palette & Kit Generator</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/tools/cost-estimator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
+                  <span>⚡</span>
+                  <span>Production Cost Estimator</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="hover:text-[#FF751F] transition-colors">
                   Request RFQ / Sample
                 </Link>
