@@ -100,14 +100,13 @@
   background: #FF751F;
 }
 
-/* Custom Tailoring Scissor Cursor Active */
+/* Universal Permanent Custom Scissor Cursor */
 @media (pointer: fine) {
   html.custom-scissor-active,
-  html.custom-scissor-active body {
-    cursor: none;
-  }
-
-  /* Revert to standard system default pointer over clickable links, buttons, and controls */
+  html.custom-scissor-active *,
+  html.custom-scissor-active *::before,
+  html.custom-scissor-active *::after,
+  html.custom-scissor-active body,
   html.custom-scissor-active a,
   html.custom-scissor-active button,
   html.custom-scissor-active input,
@@ -115,35 +114,15 @@
   html.custom-scissor-active textarea,
   html.custom-scissor-active [role="button"],
   html.custom-scissor-active label,
-  html.custom-scissor-active summary,
-  html.custom-scissor-active [onclick],
-  html.custom-scissor-active [tabindex]:not([tabindex="-1"]),
-  html.custom-scissor-active .cursor-pointer,
-  html.custom-scissor-active .interactive-hover {
-    cursor: pointer !important;
-  }
-
-  /* Revert to standard text cursor over editable text inputs */
-  html.custom-scissor-active input[type="text"],
-  html.custom-scissor-active input[type="email"],
-  html.custom-scissor-active input[type="number"],
-  html.custom-scissor-active textarea,
-  html.custom-scissor-active [contenteditable="true"] {
-    cursor: text !important;
-  }
-
-  /* Revert to standard text cursor over headings, paragraphs, and text blocks */
   html.custom-scissor-active p,
+  html.custom-scissor-active span,
   html.custom-scissor-active h1,
   html.custom-scissor-active h2,
   html.custom-scissor-active h3,
   html.custom-scissor-active h4,
   html.custom-scissor-active h5,
-  html.custom-scissor-active h6,
-  html.custom-scissor-active blockquote,
-  html.custom-scissor-active code,
-  html.custom-scissor-active pre {
-    cursor: auto !important;
+  html.custom-scissor-active h6 {
+    cursor: none !important;
   }
 }
 

@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 /**
- * Professional Tailoring Scissor Cursor
- * - Active on fine pointer devices (desktop / trackpad).
- * - Cleanly scaled down to a natural, sleek, razor-sharp size (24px x 31px).
- * - Features metallic stainless steel blades, Hare signature orange handles, and brass pivot screw.
- * - Dynamic cutting motion: blades snap shut on click (mousedown) with a subtle micro-spark.
- * - Reverts to the standard system default pointer over clickable links, buttons, form inputs, and text.
+ * Universal Permanent Tailoring Scissor Cursor
+ * - Replaces standard browser cursor 100% across the entire website.
+ * - Active across all areas (whitespace, text, buttons, links, inputs).
+ * - Compact, sleek luxury tailoring shears size (24px x 31px).
+ * - Exact precision tip hotspot aligned directly with the true mouse coordinates.
+ * - Dynamic interactive visual feedback:
+ *   - General movement: subtle open cutting stance.
+ *   - Over clickable links/buttons: blades widen slightly into ready-cut posture with subtle tip pulse.
+ *   - On click (mousedown): blades snap completely shut with cutting micro-spark.
  */
 export default function ScissorCursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 });
   const [isVisible, setIsVisible] = useState(false);
-  const [isInteractive, setIsInteractive] = useState(false);
+  const [isHoveringClickable, setIsHoveringClickable] = useState(false);
   const [isSnapping, setIsSnapping] = useState(false);
   const [hasPointer, setHasPointer] = useState(false);
   const [clickSpark, setClickSpark] = useState(null);
@@ -30,57 +33,31 @@ export default function ScissorCursor() {
 
     if (!mediaQuery.matches) return;
 
-    // Helper: Check if mouse is currently over clickable links, buttons, inputs, or text
-    const checkIsInteractiveOrText = (target) => {
+    // Helper: Determine if mouse is over interactive/clickable elements
+    const checkIsClickable = (target) => {
       if (!target || !(target instanceof Element)) return false;
-
-      // 1. Clickable or interactive elements
-      const isClickable = Boolean(
+      return Boolean(
         target.closest(
           'a, button, input, select, textarea, [role="button"], label, summary, [onclick], [tabindex]:not([tabindex="-1"]), .cursor-pointer, .interactive-hover, [role="dialog"], [role="menu"], [role="tab"]'
         )
       );
-      if (isClickable) return true;
-
-      // 2. Typographic headings, paragraphs, and long text passages
-      const isTextTag = Boolean(
-        target.closest(
-          'p, h1, h2, h3, h4, h5, h6, blockquote, code, pre, dt, dd, figcaption'
-        )
-      );
-      if (isTextTag) return true;
-
-      // 3. Text spans / list items with readable text content
-      const textContainer = target.closest('span, li, td, th, strong, em, b, i');
-      if (textContainer && textContainer.textContent && textContainer.textContent.trim().length > 0) {
-        // If it contains direct text nodes
-        for (let i = 0; i < textContainer.childNodes.length; i++) {
-          const child = textContainer.childNodes[i];
-          if (child.nodeType === Node.TEXT_NODE && child.textContent.trim().length > 0) {
-            return true;
-          }
-        }
-      }
-
-      return false;
     };
 
     const handleMouseMove = (e) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
 
-      const target = e.target;
-      const interactive = checkIsInteractiveOrText(target);
-      setIsInteractive(interactive);
+      const isClickable = checkIsClickable(e.target);
+      setIsHoveringClickable(isClickable);
     };
 
     const handleMouseDown = (e) => {
       setIsSnapping(true);
-      // Create micro cut spark at scissor tip if not over an interactive element
+      // Snip spark at scissor tip
       setClickSpark({ id: Date.now(), x: e.clientX, y: e.clientY });
       setTimeout(() => {
         setClickSpark(null);
-      }, 260);
+      }, 250);
     };
 
     const handleMouseUp = () => {
@@ -95,11 +72,10 @@ export default function ScissorCursor() {
       setIsVisible(true);
     };
 
-    // Ultra-responsive direct animation loop
+    // Ultra-smooth 60fps/120fps direct animation loop with 0.95 response
     const animate = () => {
-      // 0.94 lerp factor gives near instantaneous 1:1 mouse tracking with zero float/lag
-      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.94;
-      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.94;
+      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.95;
+      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.95;
 
       setPos({
         x: Math.round(currentPosRef.current.x * 10) / 10,
@@ -117,7 +93,7 @@ export default function ScissorCursor() {
 
     requestRef.current = requestAnimationFrame(animate);
 
-    // Apply active class to html root
+    // Apply universal cursor hiding class to html root
     document.documentElement.classList.add('custom-scissor-active');
 
     return () => {
@@ -135,38 +111,39 @@ export default function ScissorCursor() {
   if (!hasPointer || !isVisible) return null;
 
   // The scissor SVG is 36x46 in viewBox.
-  // Scaled to width="24" height="31", the tip apex (18, 2 in viewBox) sits exactly at x = 12px, y = 1.3px.
+  // Scaled to width="24" height="31", the tip apex (18, 2) is at x = 12px, y = 1.3px.
   // We translate by -12px, -1.3px so the tip aligns with the true mouse coordinates.
   return (
     <>
       {/* Click Micro-Spark / Snip Flash Effect */}
-      {clickSpark && !isInteractive && (
+      {clickSpark && (
         <div
           className="fixed pointer-events-none z-[999999] -translate-x-1/2 -translate-y-1/2 select-none"
           style={{ left: `${clickSpark.x}px`, top: `${clickSpark.y}px` }}
           aria-hidden="true"
         >
-          <div className="w-5 h-5 rounded-full border border-[#FF751F] animate-ping opacity-75"></div>
+          <div className="w-5 h-5 rounded-full border border-[#FF751F] animate-ping opacity-85"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_6px_#FF751F]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F]"></span>
           </div>
         </div>
       )}
 
-      {/* Main Sleek Tailoring Scissor Cursor */}
+      {/* Main Universal Permanent Scissor Cursor */}
       <div
         className="fixed pointer-events-none z-[999998] select-none will-change-transform"
         style={{
           left: `${pos.x}px`,
           top: `${pos.y}px`,
           // Hotspot tip alignment: x=12px, y=1.5px
-          transform: `translate(-12px, -1.5px) scale(${isInteractive ? 0.45 : 1})`,
-          opacity: isInteractive ? 0 : 1,
-          transition: 'opacity 0.14s ease-out, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1)'
+          transform: `translate(-12px, -1.5px) scale(${
+            isSnapping ? 0.92 : isHoveringClickable ? 1.12 : 1
+          })`,
+          transition: 'transform 0.1s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
         aria-hidden="true"
       >
-        <div className="relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.35)]">
+        <div className="relative drop-shadow-[0_2px_5px_rgba(0,0,0,0.4)]">
           <svg
             width="24"
             height="31"
@@ -180,7 +157,9 @@ export default function ScissorCursor() {
               style={{
                 transform: isSnapping 
                   ? 'rotate(0deg)' 
-                  : 'rotate(-5deg)'
+                  : isHoveringClickable 
+                    ? 'rotate(-8deg)' 
+                    : 'rotate(-4deg)'
               }}
             >
               {/* Left Stainless Steel Blade */}
@@ -228,7 +207,9 @@ export default function ScissorCursor() {
               style={{
                 transform: isSnapping 
                   ? 'rotate(0deg)' 
-                  : 'rotate(5deg)'
+                  : isHoveringClickable 
+                    ? 'rotate(8deg)' 
+                    : 'rotate(4deg)'
               }}
             >
               {/* Right Stainless Steel Blade */}
@@ -321,6 +302,11 @@ export default function ScissorCursor() {
               </linearGradient>
             </defs>
           </svg>
+
+          {/* Interactive Clickable Hover Indicator at Tip */}
+          {isHoveringClickable && (
+            <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#FF751F] shadow-[0_0_8px_#FF751F] animate-pulse"></span>
+          )}
         </div>
       </div>
     </>
