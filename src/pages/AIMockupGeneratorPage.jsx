@@ -5,7 +5,7 @@ import {
   RotateCcw, Eye, EyeOff, ShieldCheck, CheckCircle2, ChevronRight,
   Palette, Shirt, Layers, Zap, Info, Copy, Check, MessageCircle,
   Sliders, ArrowRight, ExternalLink, HelpCircle, Key, Settings,
-  AlertTriangle, XCircle, Activity, Wifi, X
+  AlertTriangle, XCircle, Activity, Wifi, X, BookOpen, Lightbulb
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
@@ -208,6 +208,8 @@ export default function AIMockupGeneratorPage() {
   const [apiKeySource, setApiKeySource] = useState(getGeminiKeySource);
   const [tempApiKeyInput, setTempApiKeyInput] = useState(apiKey);
   const [showApiModal, setShowApiModal] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState(false);
+  const [showPromptTips, setShowPromptTips] = useState(false);
   const [showKeyText, setShowKeyText] = useState(false);
   const [isTestingKey, setIsTestingKey] = useState(false);
   const [testResult, setTestResult] = useState(null);
@@ -829,6 +831,17 @@ WhatsApp: +92 300 1234567
 
           {/* Quick API Key & Engine Health Controls */}
           <div className="flex items-center gap-2 flex-wrap">
+            {/* "How It Works" Guide Button */}
+            <button
+              type="button"
+              id="btn-how-it-works-top"
+              onClick={() => setShowGuideModal(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-[#1A1A1A] text-white hover:bg-[#FF751F] transition-all cursor-pointer shadow-xs"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-[#FF751F]" />
+              <span>How It Works</span>
+            </button>
+
             <button
               type="button"
               onClick={() => setShowApiModal(true)}
@@ -852,16 +865,85 @@ WhatsApp: +92 300 1234567
         
         {/* Title Header */}
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF751F]/10 text-[#FF751F] text-xs font-bold uppercase tracking-wider mb-2">
-            <Zap className="w-3.5 h-3.5" />
-            <span>Direct Digital Apparel Prototyping</span>
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF751F]/10 text-[#FF751F] text-xs font-bold uppercase tracking-wider">
+              <Zap className="w-3.5 h-3.5" />
+              <span>Direct Digital Apparel Prototyping</span>
+            </div>
+            
+            {/* Interactive How It Works badge button */}
+            <button
+              type="button"
+              id="btn-how-it-works-header"
+              onClick={() => setShowGuideModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 hover:bg-[#FF751F]/15 text-stone-800 hover:text-[#FF751F] text-xs font-bold transition-all cursor-pointer border border-stone-200 hover:border-[#FF751F]/30"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#FF751F]" />
+              <span>How It Works (3 Steps)</span>
+              <ChevronRight className="w-3 h-3 text-stone-400" />
+            </button>
           </div>
+
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1A1A1A]">
             AI Sportswear <span className="text-[#FF751F]">Mockup Generator</span>
           </h1>
           <p className="mt-2 text-sm sm:text-base text-stone-600 max-w-3xl leading-relaxed">
             Generate custom photorealistic teamwear mockups, digital apparel prototypes, and factory-calibrated Pantone BOM specifications in real-time. Instantly download or attach directly to an RFQ for sampling in our Sialkot manufacturing facilities.
           </p>
+
+          {/* Quick 3-Step Interactive Workflow Banner */}
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3 max-w-4xl">
+            <div 
+              onClick={() => setShowGuideModal(true)}
+              className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 hover:shadow-md hover:shadow-[#FF751F]/5 cursor-pointer transition-all group"
+            >
+              <span className="w-7 h-7 rounded-xl bg-[#1A1A1A] text-white font-mono font-extrabold text-xs flex items-center justify-center shrink-0 group-hover:bg-[#FF751F] transition-colors">
+                1
+              </span>
+              <div className="min-w-0">
+                <span className="text-xs font-extrabold text-stone-900 block truncate group-hover:text-[#FF751F] transition-colors">
+                  1. Choose Apparel Type
+                </span>
+                <span className="text-[11px] text-stone-500 block truncate">
+                  6 Sialkot factory silhouettes
+                </span>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => setShowGuideModal(true)}
+              className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 hover:shadow-md hover:shadow-[#FF751F]/5 cursor-pointer transition-all group"
+            >
+              <span className="w-7 h-7 rounded-xl bg-[#FF751F] text-white font-mono font-extrabold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                2
+              </span>
+              <div className="min-w-0">
+                <span className="text-xs font-extrabold text-stone-900 block truncate group-hover:text-[#FF751F] transition-colors">
+                  2. Design Prompt & Colors
+                </span>
+                <span className="text-[11px] text-stone-500 block truncate">
+                  Colors, patterns & club branding
+                </span>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => setShowGuideModal(true)}
+              className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 hover:shadow-md hover:shadow-[#FF751F]/5 cursor-pointer transition-all group"
+            >
+              <span className="w-7 h-7 rounded-xl bg-emerald-600 text-white font-mono font-extrabold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                3
+              </span>
+              <div className="min-w-0">
+                <span className="text-xs font-extrabold text-stone-900 block truncate group-hover:text-emerald-700 transition-colors">
+                  3. Generate & Attach to RFQ
+                </span>
+                <span className="text-[11px] text-stone-500 block truncate">
+                  Instant BOM & factory sampling
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ========================================================= */}
@@ -968,15 +1050,60 @@ WhatsApp: +92 300 1234567
                   <Sparkles className="w-4 h-4 text-[#FF751F]" />
                   <span>2. Design Concept & Prompt</span>
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setShowApiModal(true)}
-                  className="text-[11px] font-mono text-[#FF751F] hover:underline font-bold flex items-center gap-1"
-                >
-                  <span>Gemini API Key</span>
-                  <Settings className="w-3 h-3" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPromptTips(!showPromptTips)}
+                    className="text-[11px] font-bold text-stone-600 hover:text-[#FF751F] transition-colors flex items-center gap-1 cursor-pointer bg-stone-100 hover:bg-[#FF751F]/10 px-2 py-0.5 rounded-md border border-stone-200"
+                    title="Toggle visual hints for writing effective B2B prompts"
+                  >
+                    <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{showPromptTips ? 'Hide Tips' : 'Prompt Tips'}</span>
+                  </button>
+                  <span className="text-stone-300">|</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowApiModal(true)}
+                    className="text-[11px] font-mono text-[#FF751F] hover:underline font-bold flex items-center gap-1"
+                  >
+                    <span>Gemini API Key</span>
+                    <Settings className="w-3 h-3" />
+                  </button>
+                </div>
               </div>
+
+              {/* Step-by-Step Visual Hints Banner for First-Time B2B Buyers */}
+              {showPromptTips && (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-2 text-xs animate-fadeIn">
+                  <div className="flex items-center justify-between text-amber-950 font-bold text-[11px]">
+                    <span className="flex items-center gap-1.5">
+                      <Lightbulb className="w-3.5 h-3.5 text-[#FF751F]" />
+                      International Buyer Prompt Guide:
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={() => setShowPromptTips(false)} 
+                      className="text-stone-400 hover:text-stone-700 cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-stone-700">
+                    <div className="p-2 rounded-xl bg-white/90 border border-amber-200/60 shadow-2xs">
+                      <strong className="block text-stone-900 font-bold mb-0.5">1. Specify Colors:</strong>
+                      <span className="leading-relaxed">Name 1-2 core colors (e.g. <em>"red and white"</em> or <em>"navy and gold"</em>). Our CAD engine matches exact Pantone TCX standards.</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white/90 border border-amber-200/60 shadow-2xs">
+                      <strong className="block text-stone-900 font-bold mb-0.5">2. Choose Geometry:</strong>
+                      <span className="leading-relaxed">Include pattern styles like <em>"geometric shards"</em>, <em>"speed chevrons"</em>, <em>"honeycomb hex"</em>, or <em>"tactical camo"</em>.</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-white/90 border border-amber-200/60 shadow-2xs">
+                      <strong className="block text-stone-900 font-bold mb-0.5">3. Trims & Badges:</strong>
+                      <span className="leading-relaxed">Call out manufacturing trims like <em>"3D raised silicone crest"</em>, <em>"contrast rib collar"</em>, or <em>"mesh vents"</em>.</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="relative">
                 <textarea
@@ -991,9 +1118,17 @@ WhatsApp: +92 300 1234567
                       handleGenerateAI(e);
                     }
                   }}
-                  placeholder="Describe your design vision (e.g. 90s retro chevrons, cyberpunk Tokyo neon, stealth desert camo, royal championship crest)..."
+                  placeholder="Describe your design vision (e.g. Modern geometric red and white pattern with brand logo, high-visibility tournament teamwear, 3D silicone chest crest)..."
                   className="w-full px-4 py-3 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] text-[#1A1A1A] text-xs leading-relaxed placeholder-stone-400 focus:outline-none focus:border-[#FF751F] focus:ring-2 focus:ring-[#FF751F]/20 transition-all"
                 />
+              </div>
+
+              {/* Helper Micro-Hint Pill */}
+              <div className="flex items-center justify-between text-[10px] text-stone-500 px-1">
+                <span className="flex items-center gap-1">
+                  <span className="text-[#FF751F] font-bold">💡 Tip:</span> Type colors like <em>"red and white"</em> for instant Pantone matching.
+                </span>
+                <span className="font-mono text-stone-400 hidden sm:inline">Ctrl+Enter to generate</span>
               </div>
 
               {/* Quick Inspiration Pills */}
@@ -1869,6 +2004,147 @@ WhatsApp: +92 300 1234567
         </div>
 
       </div>
+
+      {/* ========================================================= */}
+      {/* "HOW IT WORKS" 3-STEP WORKFLOW GUIDE MODAL                */}
+      {/* ========================================================= */}
+      {showGuideModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-2xl rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-[#E5DFD5]">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-2xl bg-[#FF751F]/10 text-[#FF751F]">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display font-extrabold text-xl text-[#1A1A1A]">
+                    How It Works: <span className="text-[#FF751F]">3-Step AI Apparel Prototyping</span>
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Direct digital mockups & factory-calibrated Pantone BOM specifications for international brands
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowGuideModal(false)}
+                className="p-2 rounded-xl text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 3 Step Process Cards */}
+            <div className="space-y-3.5">
+              
+              {/* Step 1 */}
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1A1A1A] text-white font-mono font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                  01
+                </div>
+                <div className="space-y-1 flex-1">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <h4 className="font-bold text-sm text-[#1A1A1A]">
+                      1. Choose Apparel Silhouette & Division
+                    </h4>
+                    <span className="text-[10px] font-mono font-bold bg-[#FF751F]/10 text-[#FF751F] px-2 py-0.5 rounded-full">
+                      Step 1 • Silhouette
+                    </span>
+                  </div>
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Select your target garment from 6 Sialkot factory-direct silhouettes (Sublimated Soccer Jersey, Basketball Uniform, Wrestling Singlet, Heavyweight Hoodie, Compression Rashguard, or Combat Shorts). Each is pre-calibrated with factory fabric weights (140 to 380 GSM) and athletic stitch patterns.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#FF751F] text-white font-mono font-extrabold text-sm flex items-center justify-center shrink-0 shadow-md shadow-[#FF751F]/20">
+                  02
+                </div>
+                <div className="space-y-1 flex-1">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <h4 className="font-bold text-sm text-[#1A1A1A]">
+                      2. Enter Design Directives & Color Palette
+                    </h4>
+                    <span className="text-[10px] font-mono font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                      Step 2 • AI Directives
+                    </span>
+                  </div>
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Type your visual theme in the prompt box (e.g. <em>"Modern geometric red and white pattern with brand logo"</em>). Customize club branding, player typography, and color schemes. Our smart engine automatically extracts your requested colors and maps them to calibrated Pantone TCX textile standards.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-mono font-extrabold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                  03
+                </div>
+                <div className="space-y-1 flex-1">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <h4 className="font-bold text-sm text-[#1A1A1A]">
+                      3. Generate Mockup, Tech Pack & Attach to RFQ
+                    </h4>
+                    <span className="text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                      Step 3 • Sialkot Production
+                    </span>
+                  </div>
+                  <p className="text-xs text-stone-600 leading-relaxed">
+                    Click <strong>"Generate AI Design & Specifications"</strong> to synthesize your prototype via Google Gemini. Review Front/Back views in the vector studio, export a complete factory Bill of Materials (BOM), or click <strong>"Attach Mockup to RFQ"</strong> to send it directly to our Sialkot manufacturing team for physical sampling.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Quick-Start Sample Prompts Section */}
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-2.5">
+              <span className="text-xs font-bold text-[#1A1A1A] block">
+                💡 Try an Example Prompt (Click to Apply):
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {[
+                  "Modern geometric red and white pattern with brand logo",
+                  "Cyberpunk neon lightning grid theme with speed chevrons",
+                  "Stealth tactical camo with high-visibility safety orange chest banding",
+                  "Classic 90s vintage geometric chevron blocks with gold metallic accents"
+                ].map((samplePrompt, sIdx) => (
+                  <button
+                    key={sIdx}
+                    type="button"
+                    onClick={() => {
+                      setPrompt(samplePrompt);
+                      setShowGuideModal(false);
+                    }}
+                    className="p-2.5 rounded-xl bg-white hover:bg-stone-50 border border-amber-200 text-left text-xs font-medium text-stone-800 hover:text-[#FF751F] hover:border-[#FF751F] transition-all cursor-pointer truncate shadow-2xs"
+                  >
+                    "{samplePrompt}"
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-between pt-3 border-t border-[#E5DFD5] flex-wrap gap-3">
+              <span className="text-[11px] text-stone-500">
+                Sialkot Factory Direct OEM/ODM • Plots 42-45, Phase II, SIE, Sialkot 51310, Pakistan
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowGuideModal(false)}
+                className="px-5 py-2.5 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white font-bold text-xs transition-colors cursor-pointer shadow-xs"
+              >
+                Got It, Start Prototyping
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* ========================================================= */}
       {/* GEMINI API CONFIGURATION & CONNECTION DIAGNOSTICS MODAL   */}
