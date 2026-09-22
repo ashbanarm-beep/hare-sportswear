@@ -16,7 +16,9 @@ export default function ContactPage() {
     attachedColors,
     clearAttachedColors,
     attachedEstimate,
-    clearAttachedEstimate
+    clearAttachedEstimate,
+    attachedMockup,
+    clearAttachedMockup
   } = useRFQ();
 
   const prefillProduct = searchParams.get('product') || (selectedProductForInquiry ? selectedProductForInquiry.name : '');
@@ -85,6 +87,34 @@ export default function ContactPage() {
       });
     }
   }, [attachedEstimate]);
+
+  // Pre-fill attached AI mockup prototype from AI Mockup Generator
+  useEffect(() => {
+    if (attachedMockup) {
+      const pmsList = attachedMockup.pantoneCodes?.map(p => `${p.role}: ${p.name} (${p.pantone || p.hex})`).join(', ') || 'Custom Sportswear Palette';
+      const mockupNotes = `[Attached AI Product Mockup & Design Prototype]:\n` +
+        `• Garment Type: ${attachedMockup.apparelName || attachedMockup.apparelType || 'Custom Sportswear'}\n` +
+        `• Style / Concept: ${attachedMockup.concept || attachedMockup.prompt || 'Custom Athletic Tech Spec'}\n` +
+        `• Color Scheme & Pantone: ${pmsList}\n` +
+        (attachedMockup.fabricSpecs ? `• Fabric Specification: ${attachedMockup.fabricSpecs.name} (${attachedMockup.fabricSpecs.gsm} GSM, ${attachedMockup.fabricSpecs.composition})\n` : '') +
+        (attachedMockup.productionDetails?.length ? `• Construction & Stitching: ${attachedMockup.productionDetails.join('; ')}\n` : '') +
+        `• Visual Mockup Attached: Yes (Digital Vector / Prototype included)`;
+
+      setFormData(prev => {
+        if (!prev.message.includes('[Attached AI Product Mockup & Design Prototype]')) {
+          return {
+            ...prev,
+            category: attachedMockup.category || prev.category,
+            fabricPreference: attachedMockup.fabricSpecs?.name 
+              ? `${attachedMockup.fabricSpecs.name} (${attachedMockup.fabricSpecs.gsm} GSM)` 
+              : prev.fabricPreference,
+            message: prev.message ? `${mockupNotes}\n\n${prev.message}` : mockupNotes
+          };
+        }
+        return prev;
+      });
+    }
+  }, [attachedMockup]);
 
   useEffect(() => {
     const country = searchParams.get('country');
@@ -610,6 +640,78 @@ export default function ContactPage() {
                       <div className="p-2 rounded-xl bg-white border border-[#E5DFD5]">
                         <span className="text-[10px] text-stone-400 block">Projected Total</span>
                         <span className="font-bold text-emerald-700 text-[11px] font-mono">{attachedEstimate.totalEst}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Attached AI Mockup Prototype Badge */}
+                {attachedMockup && (
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-[#FF751F]/10 via-amber-500/5 to-purple-500/10 border border-[#FF751F]/40 space-y-3 shadow-xs">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="p-1 rounded-lg bg-[#FF751F] text-white shadow-xs">
+                          <Sparkles className="w-3.5 h-3.5 animate-spin-slow" />
+                        </span>
+                        <div>
+                          <span className="text-xs font-bold text-[#1A1A1A] block">
+                            Attached AI Sportswear Mockup Prototype
+                          </span>
+                          <span className="text-[10px] text-stone-500 font-mono">
+                            {attachedMockup.apparelName || 'Digital Apparel Tech Pack'} • Sialkot OEM/ODM Direct
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={clearAttachedMockup}
+                        className="text-[11px] font-bold text-stone-500 hover:text-red-600 flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center p-3 rounded-xl bg-white border border-[#E5DFD5]">
+                      {attachedMockup.previewImage ? (
+                        <img 
+                          src={attachedMockup.previewImage} 
+                          alt="AI Mockup Preview" 
+                          className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-lg bg-stone-50 border border-stone-200 p-1 shrink-0"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-stone-900 text-white flex flex-col items-center justify-center p-2 text-center shrink-0 border border-stone-800 shadow-inner">
+                          <Sparkles className="w-5 h-5 text-[#FF751F] mb-1" />
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-stone-300">Mockup</span>
+                          <span className="text-[8px] text-[#FF751F] font-mono">Vector AI</span>
+                        </div>
+                      )}
+
+                      <div className="min-w-0 flex-1 space-y-1 text-xs">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-extrabold text-[#1A1A1A] text-sm">
+                            {attachedMockup.apparelName || attachedMockup.apparelType}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF751F]/15 text-[#FF751F] border border-[#FF751F]/30">
+                            {attachedMockup.teamName || 'Custom Teamwear'}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-stone-600 line-clamp-2 italic">
+                          "{attachedMockup.concept || attachedMockup.prompt}"
+                        </p>
+                        
+                        {/* Pantone Swatches */}
+                        {attachedMockup.pantoneCodes && attachedMockup.pantoneCodes.length > 0 && (
+                          <div className="flex items-center gap-1.5 pt-1">
+                            <span className="text-[10px] font-bold text-stone-400">PMS:</span>
+                            {attachedMockup.pantoneCodes.slice(0, 4).map((p, pIdx) => (
+                              <div key={pIdx} className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-stone-100 border border-stone-200 text-[9px] font-mono">
+                                <span className="w-2.5 h-2.5 rounded-full border border-stone-300" style={{ backgroundColor: p.hex }} />
+                                <span className="font-semibold text-stone-700">{p.pantone || p.name}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

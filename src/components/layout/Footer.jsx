@@ -185,6 +185,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/tools/ai-mockup-generator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 font-bold text-amber-400">
+                  <span>✨</span>
+                  <span>AI Mockup Generator</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/tools/pantone-matcher" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
                   <span>🎨</span>
                   <span>Pantone Color Matcher</span>

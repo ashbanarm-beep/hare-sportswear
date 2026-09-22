@@ -119,6 +119,14 @@ export default function Navbar() {
   // Digital manufacturing tools for the dropdown
   const digitalTools = [
     {
+      name: 'AI Mockup Generator',
+      path: '/tools/ai-mockup-generator',
+      desc: 'Generate custom sportswear mockups & digital apparel prototypes with Gemini AI',
+      badge: 'AI Powered',
+      icon: Sparkles,
+      color: 'text-purple-600 bg-purple-50'
+    },
+    {
       name: 'Pantone Color Matcher',
       path: '/tools/pantone-matcher',
       desc: 'Match HEX codes to official PMS textile codes & Italian sublimation ink formulas',

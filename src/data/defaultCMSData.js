@@ -49,6 +49,12 @@ export const defaultSEORegistry = {
     keywords: 'sportswear design tools, pantone color matcher, palette kit generator, apparel cost estimator',
     canonical: 'https://hare-sportswear.vercel.app/tools'
   },
+  '/tools/ai-mockup-generator': {
+    title: 'AI Sportswear Mockup & Prototype Generator | Hare Sportswear Sialkot',
+    description: 'Generate photorealistic custom sports mockups, digital apparel prototypes, and Pantone color BOM specifications with Google Gemini AI. Instant 1600px PNG downloads and RFQ quote attachment.',
+    keywords: 'ai sportswear mockup, gemini apparel generator, custom jersey prototype, digital sportswear design, sialkot sports manufacturing',
+    canonical: 'https://hare-sportswear.vercel.app/tools/ai-mockup-generator'
+  },
   '/tools/pantone-matcher': {
     title: 'Pantone PMS Color Matcher for Sublimation Inks | Hare Sportswear',
     description: 'Convert HEX & RGB artwork colors directly into official Pantone Textile (PMS) codes and Italian Kiian sublimation disperse ink formulations.',

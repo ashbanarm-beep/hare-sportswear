@@ -6,9 +6,10 @@ export function RFQProvider({ children }) {
   const [selectedProductForInquiry, setSelectedProductForInquiry] = useState(null);
   const [isTechPackModalOpen, setIsTechPackModalOpen] = useState(false);
   
-  // Digital Tools State (Pantone & Cost Estimator)
+  // Digital Tools State (Pantone, Cost Estimator & AI Mockup Generator)
   const [attachedColors, setAttachedColors] = useState([]);
   const [attachedEstimate, setAttachedEstimate] = useState(null);
+  const [attachedMockup, setAttachedMockup] = useState(null);
 
   // Safe no-ops to eliminate e-commerce cart/basket states entirely
   const inquiryBasket = [];
@@ -38,6 +39,13 @@ export function RFQProvider({ children }) {
 
   const clearAttachedEstimate = () => setAttachedEstimate(null);
 
+  // Attach AI Mockup Prototype to RFQ
+  const attachMockupToRFQ = (mockup) => {
+    setAttachedMockup(mockup);
+  };
+
+  const clearAttachedMockup = () => setAttachedMockup(null);
+
   return (
     <RFQContext.Provider value={{
       inquiryBasket,
@@ -56,7 +64,10 @@ export function RFQProvider({ children }) {
       clearAttachedColors,
       attachedEstimate,
       attachEstimateToRFQ,
-      clearAttachedEstimate
+      clearAttachedEstimate,
+      attachedMockup,
+      attachMockupToRFQ,
+      clearAttachedMockup
     }}>
       {children}
     </RFQContext.Provider>

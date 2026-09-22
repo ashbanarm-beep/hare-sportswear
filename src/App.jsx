@@ -26,6 +26,7 @@ import ToolsHubPage from './pages/ToolsHubPage';
 import PantoneMatcherPage from './pages/PantoneMatcherPage';
 import PaletteGeneratorPage from './pages/PaletteGeneratorPage';
 import CostEstimatorPage from './pages/CostEstimatorPage';
+import AIMockupGeneratorPage from './pages/AIMockupGeneratorPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 
@@ -86,6 +87,8 @@ function MainAppShell() {
 
             {/* Digital Manufacturing & Color Tools */}
             <Route path="/tools" element={<ToolsHubPage />} />
+            <Route path="/tools/ai-mockup-generator" element={<AIMockupGeneratorPage />} />
+            <Route path="/ai-mockup-generator" element={<Navigate to="/tools/ai-mockup-generator" replace />} />
             <Route path="/tools/pantone-matcher" element={<PantoneMatcherPage />} />
             <Route path="/pantone-matcher" element={<Navigate to="/tools/pantone-matcher" replace />} />
             <Route path="/tools/palette-generator" element={<PaletteGeneratorPage />} />

@@ -17,6 +17,7 @@ const availablePages = [
   { id: 'about', name: 'About Us (/about)', path: '/about' },
   { id: 'contact', name: 'Contact & RFQ (/contact)', path: '/contact' },
   { id: 'tools', name: 'Digital Tools Hub (/tools)', path: '/tools' },
+  { id: 'ai-mockup-generator', name: 'AI Mockup Generator (/tools/ai-mockup-generator)', path: '/tools/ai-mockup-generator' },
   { id: 'blog', name: 'Blog & Technical Articles (/blog)', path: '/blog' },
   { id: 'usa-hub', name: 'USA Distribution Hub (/sports-wear-manufacturer-usa)', path: '/sports-wear-manufacturer-usa' },
   { id: 'fabric-glossary', name: 'Fabric Glossary Hub (/fabric-glossary)', path: '/fabric-glossary' },

@@ -9,6 +9,24 @@ import DynamicPageContent from '../components/cms/DynamicPageContent';
 export default function ToolsHubPage() {
   const tools = [
     {
+      id: 'ai-mockup-generator',
+      title: 'AI Sportswear Mockup & Prototype Generator',
+      badge: 'Google Gemini AI Powered',
+      description: 'Generate photorealistic custom sportswear mockups, apparel prototypes, and Pantone color BOM specifications directly with Google Gemini AI. Instant 1600px PNG downloads and direct RFQ quote attachment.',
+      icon: Sparkles,
+      color: 'from-purple-600 via-pink-600 to-orange-500',
+      textColor: 'text-purple-600',
+      bgColor: 'bg-purple-50',
+      borderColor: 'border-purple-200',
+      link: '/tools/ai-mockup-generator',
+      features: [
+        'Soccer jerseys, wrestling singlets, hoodies & combat wear',
+        'Front & back view vector studio with dynamic fabric drape',
+        'Calibrated Pantone TCX colorway matching & sublimation formulas',
+        'Direct 1-click RFQ attachment for Sialkot physical sampling'
+      ]
+    },
+    {
       id: 'pantone-matcher',
       title: 'Pantone Color Matcher & Swatches',
       badge: 'Digital Color Lab',
