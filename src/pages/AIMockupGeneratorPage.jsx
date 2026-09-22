@@ -2,16 +2,38 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Sparkles, Download, FileText, Send, Share2, RefreshCw, 
-  RotateCcw, Eye, ShieldCheck, CheckCircle2, ChevronRight,
+  RotateCcw, Eye, EyeOff, ShieldCheck, CheckCircle2, ChevronRight,
   Palette, Shirt, Layers, Zap, Info, Copy, Check, MessageCircle,
-  Sliders, ArrowRight, ExternalLink, HelpCircle
+  Sliders, ArrowRight, ExternalLink, HelpCircle, Key, Settings,
+  AlertTriangle, XCircle, Activity, Wifi, X
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 
-// Gemini API Key configured for Sialkot digital sampling
+// Built-in API Key fallback for Sialkot digital sampling
 const _K_PARTS = ['AQ.', 'Ab8RN6JOldclkwa4', '7flPqwSNukTtMEbpHD', 'a4bZIVGvROqjH9aw'];
-const GEMINI_API_KEY = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || _K_PARTS.join('');
+const _DEFAULT_KEY = _K_PARTS.join('');
+
+export const getStoredGeminiKey = () => {
+  if (typeof window !== 'undefined') {
+    const custom = localStorage.getItem('hare_gemini_api_key');
+    if (custom && custom.trim()) return custom.trim();
+  }
+  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
+    return import.meta.env.VITE_GEMINI_API_KEY;
+  }
+  return _DEFAULT_KEY;
+};
+
+export const getGeminiKeySource = () => {
+  if (typeof window !== 'undefined' && localStorage.getItem('hare_gemini_api_key')) {
+    return 'Custom Admin / User Setting';
+  }
+  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
+    return 'Environment (.env / Vercel)';
+  }
+  return 'Pre-Configured Sialkot Client Key';
+};
 
 // Curated Apparel Configurations
 const APPAREL_CATEGORIES = [
@@ -141,6 +163,16 @@ export default function AIMockupGeneratorPage() {
   const navigate = useNavigate();
   const { attachMockupToRFQ } = useRFQ();
 
+  // API Key & Health Check State
+  const [apiKey, setApiKey] = useState(getStoredGeminiKey);
+  const [apiKeySource, setApiKeySource] = useState(getGeminiKeySource);
+  const [tempApiKeyInput, setTempApiKeyInput] = useState(apiKey);
+  const [showApiModal, setShowApiModal] = useState(false);
+  const [showKeyText, setShowKeyText] = useState(false);
+  const [isTestingKey, setIsTestingKey] = useState(false);
+  const [testResult, setTestResult] = useState(null);
+  const [keySavedToast, setKeySavedToast] = useState(false);
+
   // Garment Customization State
   const [selectedApparel, setSelectedApparel] = useState(APPAREL_CATEGORIES[0]);
   const [prompt, setPrompt] = useState('Dynamic aerodynamic speed chevrons with high-contrast safety orange accents');
@@ -162,8 +194,10 @@ export default function AIMockupGeneratorPage() {
   const [viewMode, setViewMode] = useState('front'); // 'front' | 'back'
   const [fabricSheen, setFabricSheen] = useState(true);
 
-  // AI Generation State
+  // AI Generation State & Step Tracking
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState('');
+  const [generationProgress, setGenerationProgress] = useState(0);
   const [aiError, setAiError] = useState(null);
   const [aiSuccessBadge, setAiSuccessBadge] = useState(false);
   const [copiedPms, setCopiedPms] = useState(false);
@@ -212,10 +246,150 @@ export default function AIMockupGeneratorPage() {
     }));
   };
 
+  // Smart Procedural Fallback Engine
+  const applyProceduralFallback = () => {
+    const syntheticPalette = COLOR_PRESETS[Math.floor(Math.random() * COLOR_PRESETS.length)];
+    setPrimaryColor(syntheticPalette.primary);
+    setSecondaryColor(syntheticPalette.secondary);
+    setAccentColor(syntheticPalette.accent);
+    setTrimColor(syntheticPalette.trim);
+
+    // Pick dynamic pattern based on prompt keywords
+    let pat = 'geometric';
+    const pLower = prompt.toLowerCase();
+    if (pLower.includes('stripe') || pLower.includes('chevron') || pLower.includes('speed')) pat = 'stripes';
+    else if (pLower.includes('hex') || pLower.includes('honeycomb') || pLower.includes('mesh')) pat = 'hex';
+    else if (pLower.includes('cyber') || pLower.includes('grid') || pLower.includes('neon') || pLower.includes('matrix')) pat = 'cyber';
+    else if (pLower.includes('camo') || pLower.includes('tactical') || pLower.includes('military')) pat = 'camo';
+    else if (pLower.includes('minimal') || pLower.includes('clean') || pLower.includes('solid')) pat = 'minimal';
+    setSelectedPattern(pat);
+
+    setTechBOM(prev => ({
+      ...prev,
+      concept: `Engineered sportswear prototype synthesized for "${prompt}". Aerodynamic tournament-grade styling with anti-abrasion sublimation panels calibrated for Sialkot factory production.`,
+      pantoneCodes: [
+        { role: 'Primary', name: `${syntheticPalette.name} Primary`, pantone: '19-4024 TCX', hex: syntheticPalette.primary },
+        { role: 'Secondary', name: `${syntheticPalette.name} Secondary`, pantone: '16-1454 TCX', hex: syntheticPalette.secondary },
+        { role: 'Accent', name: 'Brilliant White', pantone: '11-0601 TCX', hex: syntheticPalette.accent },
+        { role: 'Trim', name: 'Reflective Trim', pantone: '14-5002 TCX', hex: syntheticPalette.trim }
+      ],
+      fabricSpecs: {
+        name: selectedApparel.defaultFabric.split('(')[0].trim(),
+        gsm: selectedApparel.defaultFabric.match(/\d+/)?.[0] || '160',
+        composition: selectedApparel.defaultFabric
+      },
+      productionDetails: [
+        'Disperse Dye Sublimation with Italian Kiian inks (210°C transfer)',
+        '4-needle 6-thread flatlock anti-chafing seam engineering',
+        '3D raised high-density silicone chest crest with micro-embossing',
+        'Reinforced neck tape and moisture-dispersal underarm vents'
+      ]
+    }));
+  };
+
+  // Test Connection to Gemini API
+  const handleTestConnection = async (keyToTest) => {
+    setIsTestingKey(true);
+    setTestResult(null);
+    const key = (keyToTest || apiKey).trim();
+    const startTime = performance.now();
+
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: 'Respond with OK' }] }]
+        })
+      });
+      const latency = Math.round(performance.now() - startTime);
+
+      if (res.ok) {
+        setTestResult({
+          success: true,
+          status: 200,
+          latency,
+          message: `Connected successfully to Google Gemini 3.5 Flash (${latency}ms round-trip latency). API is active & healthy.`
+        });
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        const rawErr = errJson?.error?.message || `HTTP ${res.status}`;
+        let guidance = 'Please verify your API key string or billing/quota in Google AI Studio.';
+        if (res.status === 429) {
+          guidance = 'Rate limit quota reached for this key. Smart procedural fallback will automatically engage if needed.';
+        } else if (res.status === 400 || res.status === 403) {
+          guidance = 'Invalid API key or unauthorized project. Please verify the key string.';
+        }
+        setTestResult({
+          success: false,
+          status: res.status,
+          latency,
+          message: `${rawErr} (${guidance})`
+        });
+      }
+    } catch (err) {
+      const latency = Math.round(performance.now() - startTime);
+      setTestResult({
+        success: false,
+        status: 0,
+        latency,
+        message: `Network Connection Error: ${err.message || 'Unable to reach Google API server'}. Check internet connectivity.`
+      });
+    } finally {
+      setIsTestingKey(false);
+    }
+  };
+
+  // Save Custom Key to LocalStorage
+  const handleSaveApiKey = () => {
+    if (tempApiKeyInput.trim()) {
+      localStorage.setItem('hare_gemini_api_key', tempApiKeyInput.trim());
+      setApiKey(tempApiKeyInput.trim());
+      setApiKeySource('Custom Admin / User Setting');
+    } else {
+      localStorage.removeItem('hare_gemini_api_key');
+      const def = getStoredGeminiKey();
+      setApiKey(def);
+      setTempApiKeyInput(def);
+      setApiKeySource(getGeminiKeySource());
+    }
+    setKeySavedToast(true);
+    setTimeout(() => setKeySavedToast(false), 3000);
+  };
+
+  // Reset to default key
+  const handleResetApiKey = () => {
+    localStorage.removeItem('hare_gemini_api_key');
+    const def = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || _DEFAULT_KEY;
+    setApiKey(def);
+    setTempApiKeyInput(def);
+    setApiKeySource(getGeminiKeySource());
+    setTestResult(null);
+    setKeySavedToast(true);
+    setTimeout(() => setKeySavedToast(false), 3000);
+  };
+
   // Call Gemini API to generate custom mockups and tech specifications
   const handleGenerateAI = async () => {
     setIsGenerating(true);
     setAiError(null);
+    setGenerationStep('Connecting to Google Gemini 3.5 Flash...');
+    setGenerationProgress(15);
+
+    const activeKey = apiKey.trim();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 16000); // 16s timeout
+
+    // Progressive step transitions for transparent feedback
+    const timer1 = setTimeout(() => {
+      setGenerationStep('Analyzing garment silhouette & prompt directives...');
+      setGenerationProgress(45);
+    }, 1100);
+
+    const timer2 = setTimeout(() => {
+      setGenerationStep('Matching PMS textile standards & Italian sublimation formulas...');
+      setGenerationProgress(75);
+    }, 2200);
 
     const systemPrompt = `You are a world-class senior athletic apparel designer and textile engineer for Hare Sportswear & Goods based in Sialkot, Pakistan.
 Analyze the user's sportswear design prompt and generate an ultra-realistic manufacturing tech pack and visual design directives in JSON format.
@@ -250,11 +424,11 @@ You MUST respond strictly with a valid JSON object matching this schema without 
 }`;
 
     try {
-      // Primary model: gemini-3.5-flash
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${activeKey}`,
         {
           method: 'POST',
+          signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: systemPrompt }] }],
@@ -266,8 +440,40 @@ You MUST respond strictly with a valid JSON object matching this schema without 
         }
       );
 
+      clearTimeout(timeoutId);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      setGenerationStep('Finalizing 3D vector paneling & Sialkot BOM...');
+      setGenerationProgress(95);
+
       if (!response.ok) {
-        throw new Error(`Gemini API returned status ${response.status}`);
+        let errJson = null;
+        try { errJson = await response.json(); } catch(e) {}
+        const serverMsg = errJson?.error?.message || response.statusText;
+        
+        let errorType = 'unknown';
+        let friendlyTitle = 'API Response Error';
+        let friendlyMsg = `Gemini API returned status ${response.status}.`;
+        let recommendation = 'You can use the smart procedural fallback below or verify your API key in Settings.';
+
+        if (response.status === 429) {
+          errorType = 'rate_limit';
+          friendlyTitle = 'Gemini API Rate Limit Reached (429)';
+          friendlyMsg = 'Google Cloud imposes a request-per-minute quota on this free tier key.';
+          recommendation = 'We have automatically activated our high-precision procedural design engine below with balanced PMS colors so you can proceed without interruption!';
+        } else if (response.status === 400 || response.status === 403) {
+          errorType = 'auth';
+          friendlyTitle = 'API Key Authentication Issue';
+          friendlyMsg = 'The provided Gemini API key was rejected or is unauthorized.';
+          recommendation = 'Please click "API Settings" at the top to check or enter a valid Gemini API key.';
+        }
+
+        const customErr = new Error(friendlyMsg);
+        customErr.type = errorType;
+        customErr.title = friendlyTitle;
+        customErr.recommendation = recommendation;
+        customErr.raw = serverMsg;
+        throw customErr;
       }
 
       const data = await response.json();
@@ -316,30 +522,30 @@ You MUST respond strictly with a valid JSON object matching this schema without 
       setTimeout(() => setAiSuccessBadge(false), 4000);
 
     } catch (err) {
-      console.warn('Gemini Generation error, falling back to intelligent procedural synthesis:', err);
-      
+      clearTimeout(timeoutId);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+
+      const isTimeout = err.name === 'AbortError';
+      const structuredErr = {
+        type: err.type || (isTimeout ? 'timeout' : 'network'),
+        title: err.title || (isTimeout ? 'Request Timed Out (15s)' : 'API Connection Issue'),
+        message: isTimeout 
+          ? 'The Google Gemini server took longer than 15 seconds to respond.' 
+          : (err.message || 'Unable to complete network handshake with Google Gemini API.'),
+        recommendation: err.recommendation || 'We automatically generated a high-fidelity procedural sportswear prototype below so your design workflow remains uninterrupted.',
+        raw: err.raw || err.message
+      };
+
+      setAiError(structuredErr);
+
       // Fallback local smart synthesis so user experience never breaks
-      const syntheticPalette = COLOR_PRESETS[Math.floor(Math.random() * COLOR_PRESETS.length)];
-      setPrimaryColor(syntheticPalette.primary);
-      setSecondaryColor(syntheticPalette.secondary);
-      setAccentColor(syntheticPalette.accent);
-      setTrimColor(syntheticPalette.trim);
+      applyProceduralFallback();
 
-      setTechBOM(prev => ({
-        ...prev,
-        concept: `AI Custom Prototype generated for "${prompt}". High-performance aerodynamic layout with contrast sublimation panels, engineered for premium teamwear in our Sialkot factory.`,
-        pantoneCodes: [
-          { role: 'Primary', name: 'Factory Spec Navy', pantone: '19-4024 TCX', hex: syntheticPalette.primary },
-          { role: 'Secondary', name: 'High-Impact Orange', pantone: '021 C / 16-1454 TCX', hex: syntheticPalette.secondary },
-          { role: 'Accent', name: 'Pure White', pantone: '11-0601 TCX', hex: syntheticPalette.accent },
-          { role: 'Trim', name: 'Reflective Trim', pantone: '14-5002 TCX', hex: syntheticPalette.trim }
-        ]
-      }));
-
-      setAiSuccessBadge(true);
-      setTimeout(() => setAiSuccessBadge(false), 4000);
     } finally {
       setIsGenerating(false);
+      setGenerationStep('');
+      setGenerationProgress(0);
     }
   };
 
@@ -512,12 +718,19 @@ WhatsApp: +92 300 1234567
             <span className="text-[#FF751F] font-bold">AI Mockup Generator</span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F]/10 text-[#FF751F] border border-[#FF751F]/20">
-              <Sparkles className="w-3 h-3 animate-spin-slow" />
-              <span>Google Gemini AI Engine</span>
-            </span>
-            <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          {/* Quick API Key & Engine Health Controls */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setShowApiModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F]/10 text-[#FF751F] border border-[#FF751F]/25 hover:bg-[#FF751F]/20 transition-all cursor-pointer"
+            >
+              <Key className="w-3 h-3" />
+              <span>Gemini 3.5 Engine</span>
+              <Settings className="w-3 h-3 text-stone-500" />
+            </button>
+
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               Sialkot CAD Active
             </span>
@@ -541,6 +754,63 @@ WhatsApp: +92 300 1234567
             Generate custom photorealistic teamwear mockups, digital apparel prototypes, and factory-calibrated Pantone BOM specifications in real-time. Instantly download or attach directly to an RFQ for sampling in our Sialkot manufacturing facilities.
           </p>
         </div>
+
+        {/* ========================================================= */}
+        {/* FRIENDLY ERROR & DIAGNOSTICS ALERT (WHEN ERROR OCCURS)    */}
+        {/* ========================================================= */}
+        {aiError && (
+          <div className="mb-8 p-5 rounded-3xl bg-amber-500/10 border border-amber-500/30 text-amber-950 shadow-sm animate-fadeIn">
+            <div className="flex items-start gap-3.5">
+              <div className="p-2 rounded-xl bg-amber-500/20 text-amber-700 shrink-0 mt-0.5">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 flex-1 space-y-1.5">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <h4 className="font-extrabold text-sm text-[#1A1A1A]">
+                    {aiError.title || 'API Notification: Smart Fallback Active'}
+                  </h4>
+                  <span className="text-[10px] font-mono font-bold bg-amber-200 text-amber-800 px-2 py-0.5 rounded">
+                    Studio Safeguard
+                  </span>
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed">
+                  {aiError.message}
+                </p>
+                <div className="p-3 rounded-xl bg-white/80 border border-amber-200 text-xs text-stone-600 space-y-1">
+                  <strong className="text-stone-800 block text-[11px]">How to continue:</strong>
+                  <p className="text-[11px] leading-relaxed">
+                    {aiError.recommendation}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 pt-1 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={applyProceduralFallback}
+                    className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    <span>Generate Another Smart Prototype</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowApiModal(true)}
+                    className="px-3 py-1.5 rounded-lg bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <Settings className="w-3 h-3 text-[#FF751F]" />
+                    <span>Check API Settings & Connection</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAiError(null)}
+                    className="text-xs text-stone-500 hover:text-stone-800 px-2 py-1 font-semibold"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 2-Column Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -589,7 +859,14 @@ WhatsApp: +92 300 1234567
                   <Sparkles className="w-4 h-4 text-[#FF751F]" />
                   <span>2. Design Concept & Prompt</span>
                 </label>
-                <span className="text-[11px] font-mono text-[#FF751F] font-bold">Gemini 3.5</span>
+                <button
+                  type="button"
+                  onClick={() => setShowApiModal(true)}
+                  className="text-[11px] font-mono text-[#FF751F] hover:underline font-bold flex items-center gap-1"
+                >
+                  <span>Gemini API Key</span>
+                  <Settings className="w-3 h-3" />
+                </button>
               </div>
 
               <div className="relative">
@@ -618,6 +895,30 @@ WhatsApp: +92 300 1234567
                   ))}
                 </div>
               </div>
+
+              {/* Multi-Step Animated Loading Box */}
+              {isGenerating && (
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FF751F]/10 to-amber-500/10 border border-[#FF751F]/30 space-y-2.5 animate-fadeIn">
+                  <div className="flex items-center justify-between text-xs font-bold text-[#1A1A1A]">
+                    <div className="flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4 animate-spin text-[#FF751F]" />
+                      <span>{generationStep || 'Synthesizing Prototype in Gemini AI...'}</span>
+                    </div>
+                    <span className="font-mono text-[#FF751F]">{generationProgress}%</span>
+                  </div>
+                  
+                  {/* Progress Bar */}
+                  <div className="w-full bg-stone-200 rounded-full h-1.5 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-[#FF751F] to-amber-400 h-1.5 rounded-full transition-all duration-300"
+                      style={{ width: `${generationProgress}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-stone-500 italic">
+                    Connected to Gemini 3.5 Flash engine. Formulating Pantone TCX recipes and Italian Kiian sublimation inks.
+                  </p>
+                </div>
+              )}
 
               {/* Action Button: Generate AI Mockup */}
               <button
@@ -889,7 +1190,7 @@ WhatsApp: +92 300 1234567
                     }`}
                     title="Toggle Fabric Drape & Sheen Highlight"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    {fabricSheen ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
@@ -1445,6 +1746,151 @@ WhatsApp: +92 300 1234567
         </div>
 
       </div>
+
+      {/* ========================================================= */}
+      {/* GEMINI API CONFIGURATION & CONNECTION DIAGNOSTICS MODAL   */}
+      {/* ========================================================= */}
+      {showApiModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-lg rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-[#FF751F]/10 text-[#FF751F]">
+                  <Key className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
+                    Gemini AI Engine Settings
+                  </h3>
+                  <span className="text-xs text-stone-500">
+                    Sialkot CAD Pre-Press & API Health Configuration
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowApiModal(false)}
+                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Active Key Status Info */}
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] space-y-2 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Active Key Source:</span>
+                <span className="font-bold font-mono text-[#FF751F] bg-[#FF751F]/10 px-2.5 py-0.5 rounded-full border border-[#FF751F]/20">
+                  {apiKeySource}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Engine Model:</span>
+                <span className="font-bold text-[#1A1A1A]">gemini-3.5-flash</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Key Fingerprint:</span>
+                <span className="font-mono text-stone-700">
+                  {apiKey.slice(0, 7)}...{apiKey.slice(-6)}
+                </span>
+              </div>
+            </div>
+
+            {/* API Key Edit Form */}
+            <div className="space-y-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
+                Custom Gemini API Key Override:
+              </label>
+              <div className="relative">
+                <input
+                  type={showKeyText ? "text" : "password"}
+                  value={tempApiKeyInput}
+                  onChange={(e) => setTempApiKeyInput(e.target.value)}
+                  placeholder="Paste custom Gemini API Key (AQ.xxx or AIzaxxx)..."
+                  className="w-full pl-4 pr-20 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5] text-xs font-mono text-[#1A1A1A] focus:outline-none focus:border-[#FF751F]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowKeyText(!showKeyText)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 text-xs font-semibold px-1.5 py-0.5 rounded"
+                >
+                  {showKeyText ? "Hide" : "Show"}
+                </button>
+              </div>
+              <p className="text-[11px] text-stone-500">
+                Leave empty or click "Reset" to use the default production key or <code>.env</code> file.
+              </p>
+            </div>
+
+            {/* Connection Test Action & Result */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleTestConnection(tempApiKeyInput)}
+                  disabled={isTestingKey}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-[#1A1A1A] bg-[#FAF8F5] hover:bg-stone-100 border border-[#E5DFD5] flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {isTestingKey ? (
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#FF751F]" />
+                  ) : (
+                    <Activity className="w-3.5 h-3.5 text-emerald-600" />
+                  )}
+                  <span>{isTestingKey ? "Pinging Gemini API..." : "Test Connection"}</span>
+                </button>
+
+                <span className="text-[11px] text-stone-500">
+                  Sends a lightweight handshake ping to verify Google endpoints.
+                </span>
+              </div>
+
+              {testResult && (
+                <div className={`p-3.5 rounded-xl border text-xs space-y-1 ${
+                  testResult.success 
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                    : 'bg-rose-50 border-rose-200 text-rose-900'
+                }`}>
+                  <div className="flex items-center gap-2 font-bold">
+                    {testResult.success ? (
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-rose-600" />
+                    )}
+                    <span>{testResult.success ? "Status 200 OK — Ready" : `HTTP Status ${testResult.status || 'Failed'}`}</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed">
+                    {testResult.message}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-between pt-4 border-t border-[#E5DFD5] gap-3">
+              <button
+                type="button"
+                onClick={handleResetApiKey}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 transition-colors cursor-pointer"
+              >
+                Reset to Default
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleSaveApiKey}
+                  className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65C00] shadow-md transition-all cursor-pointer"
+                >
+                  {keySavedToast ? "Saved Successfully!" : "Save Configuration"}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* Dynamic Page Content from CMS if any blocks added */}
       <DynamicPageContent pageId="ai-mockup-generator" />

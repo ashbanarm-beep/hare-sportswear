@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { 
   Layers, FileText, Search, HelpCircle, Sparkles, 
   ArrowRight, ShieldCheck, CheckCircle2, RefreshCw, 
-  Download, Upload, Eye, Zap, Database, Globe
+  Download, Upload, Eye, Zap, Database, Globe,
+  Key, Activity, XCircle, Check
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
@@ -31,6 +32,63 @@ export default function AdminDashboardOverview() {
     if (window.confirm('Are you sure you want to reset all CMS content to factory defaults? All custom blog drafts and changes will revert to defaults.')) {
       resetCMSToDefaults();
       alert('CMS reset to default datasets successfully!');
+    }
+  };
+
+  // Google Gemini API Settings State for Sialkot CAD Pre-Press
+  const _K_PARTS = ['AQ.', 'Ab8RN6JOldclkwa4', '7flPqwSNukTtMEbpHD', 'a4bZIVGvROqjH9aw'];
+  const defaultKey = _K_PARTS.join('');
+
+  const [geminiKey, setGeminiKey] = React.useState(() => {
+    return localStorage.getItem('hare_gemini_api_key') || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || defaultKey;
+  });
+  const [showKeyText, setShowKeyText] = React.useState(false);
+  const [isTestingKey, setIsTestingKey] = React.useState(false);
+  const [keyTestStatus, setKeyTestStatus] = React.useState(null);
+  const [savedKeyToast, setSavedKeyToast] = React.useState(false);
+
+  const handleSaveKey = () => {
+    if (geminiKey.trim()) {
+      localStorage.setItem('hare_gemini_api_key', geminiKey.trim());
+    } else {
+      localStorage.removeItem('hare_gemini_api_key');
+    }
+    setSavedKeyToast(true);
+    setTimeout(() => setSavedKeyToast(false), 2500);
+  };
+
+  const handleResetKey = () => {
+    localStorage.removeItem('hare_gemini_api_key');
+    const resetVal = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || defaultKey;
+    setGeminiKey(resetVal);
+    setKeyTestStatus(null);
+    setSavedKeyToast(true);
+    setTimeout(() => setSavedKeyToast(false), 2500);
+  };
+
+  const handleTestKey = async () => {
+    setIsTestingKey(true);
+    setKeyTestStatus(null);
+    const start = performance.now();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${geminiKey.trim()}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: 'ping' }] }]
+        })
+      });
+      const ms = Math.round(performance.now() - start);
+      if (res.ok) {
+        setKeyTestStatus({ success: true, message: `Connected! Google Gemini 3.5 Flash is active & healthy (${ms}ms round-trip).` });
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        setKeyTestStatus({ success: false, message: `HTTP ${res.status}: ${errJson?.error?.message || 'Error connecting to Gemini API endpoint.'}` });
+      }
+    } catch (err) {
+      setKeyTestStatus({ success: false, message: `Network Connection Error: ${err.message}` });
+    } finally {
+      setIsTestingKey(false);
     }
   };
 
@@ -218,6 +276,97 @@ export default function AdminDashboardOverview() {
           </Link>
 
         </div>
+      </div>
+
+      {/* Gemini AI Engine & API Key Integration Settings */}
+      <div className="p-6 rounded-2xl bg-[#141210] border border-white/10 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-[#FF751F]/15 text-[#FF751F]">
+              <Key className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-display font-bold text-sm text-white flex items-center gap-2">
+                <span>Google Gemini AI Engine &amp; API Key Configuration</span>
+                <span className="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                  gemini-3.5-flash
+                </span>
+              </h4>
+              <p className="text-xs text-stone-400 mt-0.5">
+                Powers the public AI Sportswear Mockup Generator (<Link to="/tools/ai-mockup-generator" className="text-[#FF751F] hover:underline">/tools/ai-mockup-generator</Link>) and automated Pantone BOM generation.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleTestKey}
+              disabled={isTestingKey}
+              className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-white border border-white/10 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              {isTestingKey ? <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#FF751F]" /> : <Activity className="w-3.5 h-3.5 text-emerald-400" />}
+              <span>{isTestingKey ? "Testing API..." : "Test Connection"}</span>
+            </button>
+          </div>
+        </div>
+
+        {keyTestStatus && (
+          <div className={`p-3 rounded-xl border text-xs flex items-center gap-2 ${
+            keyTestStatus.success 
+              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
+              : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+          }`}>
+            {keyTestStatus.success ? <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> : <XCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+            <span className="font-medium leading-relaxed">{keyTestStatus.message}</span>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <div className="md:col-span-8">
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+              Active Gemini API Key Override (Stored securely in browser / fallback to .env):
+            </label>
+            <div className="relative">
+              <input
+                type={showKeyText ? "text" : "password"}
+                value={geminiKey}
+                onChange={(e) => setGeminiKey(e.target.value)}
+                placeholder="Enter Gemini API Key (AQ.xxx or AIzaxxx)..."
+                className="w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-[#FF751F] pr-20"
+              />
+              <button
+                type="button"
+                onClick={() => setShowKeyText(!showKeyText)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 hover:text-white px-2 py-0.5 rounded bg-white/5"
+              >
+                {showKeyText ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          <div className="md:col-span-4 flex items-center gap-2 pt-2 md:pt-5">
+            <button
+              type="button"
+              onClick={handleSaveKey}
+              className="flex-1 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65C00] shadow-md transition cursor-pointer"
+            >
+              {savedKeyToast ? "Saved!" : "Save Key"}
+            </button>
+            <button
+              type="button"
+              onClick={handleResetKey}
+              className="px-3 py-2 rounded-xl text-xs font-semibold text-stone-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition cursor-pointer"
+              title="Reset to default environment key"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <p className="text-[11px] text-stone-400 leading-relaxed">
+          💡 <strong>Production Tip:</strong> For serverless cloud deployments on Vercel, you can also define <code>VITE_GEMINI_API_KEY</code> in your Vercel Project Settings &rarr; Environment Variables.
+        </p>
       </div>
 
       {/* Backup & System Controls */}
