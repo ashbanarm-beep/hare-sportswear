@@ -96,19 +96,22 @@ export default function MeetFounderSection() {
           <div className="lg:col-span-5">
             <div className="relative rounded-3xl bg-[#1B1917] border border-white/15 p-4 sm:p-6 shadow-2xl space-y-4 group hover:border-[#FF751F]/50 transition-all duration-300">
               
-              {/* Photo Frame Container */}
-              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-black/50 border border-white/10">
+              {/* Photo Frame Container with Original Extracted Cutout */}
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-b from-[#24201C] via-[#171513] to-[#0E0D0C] border border-white/10 flex items-end justify-center">
+                {/* Subtle Amber Spotlight Glow Behind Founder */}
+                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#FF751F]/15 rounded-full blur-2xl pointer-events-none" />
+
                 <img
-                  src="/images/founder/ashban-rafique.jpg"
+                  src="/images/founder/ashban-rafique.png"
                   alt="Ashban Rafique - Founder of Hare Sportswear & Goods"
-                  className="w-full h-full object-cover object-top group-hover:scale-102 transition-transform duration-700"
+                  className="w-full h-full object-contain object-bottom group-hover:scale-103 transition-transform duration-700 relative z-10 pt-4"
                 />
 
-                {/* Gradient Vignette at Bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+                {/* Gradient Vignette at Bottom for Name Readability */}
+                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none z-20" />
 
                 {/* Floating "Meet the Founder" Badge */}
-                <div className="absolute top-3 left-3 z-10">
+                <div className="absolute top-3 left-3 z-30">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-lg">
                     <Sparkles className="w-3.5 h-3.5 text-[#FF751F]" />
                     <span>Meet the Founder</span>
@@ -116,7 +119,7 @@ export default function MeetFounderSection() {
                 </div>
 
                 {/* Sialkot Plant Status Pill */}
-                <div className="absolute top-3 right-3 z-10">
+                <div className="absolute top-3 right-3 z-30">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/80 backdrop-blur-md text-emerald-400 text-[11px] font-semibold border border-emerald-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span>Sialkot Factory HQ</span>
@@ -124,7 +127,7 @@ export default function MeetFounderSection() {
                 </div>
 
                 {/* Name Overlay at Base of Photo */}
-                <div className="absolute bottom-4 left-4 right-4 z-10">
+                <div className="absolute bottom-4 left-4 right-4 z-30">
                   <p className="text-white font-display font-extrabold text-lg leading-tight">
                     Ashban Rafique
                   </p>
