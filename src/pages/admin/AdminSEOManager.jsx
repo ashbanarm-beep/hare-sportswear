@@ -1,33 +1,66 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Search, Globe, Check, Sparkles, Monitor, Smartphone, 
   ExternalLink, Save, ArrowRight, ShieldCheck, HelpCircle,
   Copy, RefreshCw, Layers, FileText
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { DOMAIN_PAGES } from '../../data/domainPagesData';
 
 export default function AdminSEOManager() {
   const { seoRegistry, updatePageSEO, blogPosts } = useCMS();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pathParam = searchParams.get('path');
 
-  // Combine static pages and blog posts into available SEO list
+  // Combine static pages, domain catalog, and blog posts into available SEO list
   const allRoutes = useMemo(() => {
-    const list = Object.keys(seoRegistry).map(path => {
-      let type = 'Core Page';
-      if (path.startsWith('/tools')) type = 'Digital Tool';
-      else if (path.startsWith('/sports-wear-manufacturer-') || path.startsWith('/global-reach')) type = 'Regional Hub';
-      else if (path.startsWith('/blog/')) type = 'Blog Post';
+    const list = [];
+    const seenPaths = new Set();
 
-      return {
-        path,
+    // 1. First add all defined domain pages
+    DOMAIN_PAGES.forEach(dp => {
+      seenPaths.add(dp.path);
+      let type = 'Core Page';
+      if (dp.group === 'tools') type = 'Digital Tool';
+      else if (dp.group === 'international') type = 'Regional Hub';
+      else if (dp.group === 'legal') type = 'Legal & Terms';
+      else if (dp.group === 'resources') type = 'Brand & Resources';
+
+      list.push({
+        path: dp.path,
         type,
-        ...(seoRegistry[path] || {})
-      };
+        ...(seoRegistry[dp.path] || {
+          title: `${dp.name} | Hare Sportswear Sialkot`,
+          description: dp.publicDesc,
+          keywords: `${dp.name.toLowerCase()}, sportswear manufacturer, sialkot export`,
+          canonical: `https://hare-sportswear.vercel.app${dp.path}`
+        })
+      });
     });
 
-    // Also include any published blog posts not yet explicitly in registry
+    // 2. Add any other registered SEO paths not yet in list
+    Object.keys(seoRegistry).forEach(path => {
+      if (!seenPaths.has(path) && !path.startsWith('/blog/')) {
+        seenPaths.add(path);
+        let type = 'Core Page';
+        if (path.startsWith('/tools')) type = 'Digital Tool';
+        else if (path.startsWith('/sports-wear-manufacturer-') || path.startsWith('/global-reach')) type = 'Regional Hub';
+        else if (path === '/terms' || path === '/privacy') type = 'Legal & Terms';
+
+        list.push({
+          path,
+          type,
+          ...(seoRegistry[path] || {})
+        });
+      }
+    });
+
+    // 3. Add published blog posts
     blogPosts.forEach(p => {
       const blogPath = `/blog/${p.slug}`;
-      if (!list.some(item => item.path === blogPath)) {
+      if (!seenPaths.has(blogPath)) {
+        seenPaths.add(blogPath);
         list.push({
           path: blogPath,
           type: 'Blog Post',
@@ -42,7 +75,17 @@ export default function AdminSEOManager() {
     return list;
   }, [seoRegistry, blogPosts]);
 
-  const [selectedPath, setSelectedPath] = useState('/');
+  const [selectedPath, setSelectedPath] = useState(() => {
+    if (pathParam) return pathParam;
+    return '/';
+  });
+
+  useEffect(() => {
+    if (pathParam && pathParam !== selectedPath) {
+      setSelectedPath(pathParam);
+    }
+  }, [pathParam]);
+
   const [filterType, setFilterType] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [previewDevice, setPreviewDevice] = useState('desktop'); // 'desktop' | 'mobile'
@@ -61,9 +104,14 @@ export default function AdminSEOManager() {
   const [formData, setFormData] = useState({ ...activeSEO });
 
   // Update formData when selectedPath changes
-  React.useEffect(() => {
+  useEffect(() => {
     setFormData({ ...activeSEO });
   }, [selectedPath, activeSEO]);
+
+  const handleSelectRoute = (path) => {
+    setSelectedPath(path);
+    setSearchParams({ path });
+  };
 
   // Filtered route list
   const filteredRoutes = useMemo(() => {
@@ -162,7 +210,7 @@ export default function AdminSEOManager() {
               </div>
 
               <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
-                {['All', 'Core Page', 'Digital Tool', 'Regional Hub', 'Blog Post'].map((t) => (
+                {['All', 'Core Page', 'Digital Tool', 'Regional Hub', 'Brand & Resources', 'Legal & Terms', 'Blog Post'].map((t) => (
                   <button
                     key={t}
                     onClick={() => setFilterType(t)}
@@ -187,7 +235,7 @@ export default function AdminSEOManager() {
               return (
                 <button
                   key={route.path}
-                  onClick={() => setSelectedPath(route.path)}
+                  onClick={() => handleSelectRoute(route.path)}
                   className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between gap-2 ${
                     isSelected 
                       ? 'bg-[#FF751F]/15 border border-[#FF751F]/40 text-white font-bold shadow-xs' 

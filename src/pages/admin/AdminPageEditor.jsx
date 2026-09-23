@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Layers, Plus, Trash2, ArrowUp, ArrowDown, Edit3, 
   Eye, Monitor, Tablet, Smartphone, Check, Sparkles, 
@@ -7,24 +8,7 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import DynamicPageContent from '../../components/cms/DynamicPageContent';
-
-const availablePages = [
-  { id: 'home', name: 'Homepage (Main / Sections)', path: '/' },
-  { id: 'home-top', name: 'Homepage (Top Hero Zone)', path: '/' },
-  { id: 'products', name: 'Products Catalog (/products)', path: '/products' },
-  { id: 'custom-manufacturing', name: 'Custom Manufacturing (/custom-manufacturing)', path: '/custom-manufacturing' },
-  { id: 'quality', name: 'Quality & Factory (/quality)', path: '/quality' },
-  { id: 'about', name: 'About Us (/about)', path: '/about' },
-  { id: 'contact', name: 'Contact & RFQ (/contact)', path: '/contact' },
-  { id: 'tools', name: 'Digital Tools Hub (/tools)', path: '/tools' },
-  { id: 'ai-mockup-generator', name: 'AI Mockup Generator (/tools/ai-mockup-generator)', path: '/tools/ai-mockup-generator' },
-  { id: 'blog', name: 'Blog & Technical Articles (/blog)', path: '/blog' },
-  { id: 'usa-hub', name: 'USA Distribution Hub (/sports-wear-manufacturer-usa)', path: '/sports-wear-manufacturer-usa' },
-  { id: 'fabric-glossary', name: 'Fabric Glossary Hub (/fabric-glossary)', path: '/fabric-glossary' },
-  { id: 'meet-hare', name: 'Meet Hurry the Hare (/meet-hare)', path: '/meet-hare' },
-  { id: 'terms', name: 'Terms & Conditions (/terms)', path: '/terms' },
-  { id: 'privacy', name: 'Privacy Policy (/privacy)', path: '/privacy' }
-];
+import { DOMAIN_PAGES, DOMAIN_PAGE_GROUPS } from '../../data/domainPagesData';
 
 export default function AdminPageEditor() {
   const { 
@@ -37,7 +21,23 @@ export default function AdminPageEditor() {
     toggleBlockActive 
   } = useCMS();
 
-  const [selectedPage, setSelectedPage] = useState('home');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+
+  const [selectedPage, setSelectedPage] = useState(() => {
+    if (pageParam && DOMAIN_PAGES.some(p => p.id === pageParam)) {
+      return pageParam;
+    }
+    return 'home';
+  });
+
+  useEffect(() => {
+    if (pageParam && DOMAIN_PAGES.some(p => p.id === pageParam) && pageParam !== selectedPage) {
+      setSelectedPage(pageParam);
+      setEditingBlockId(null);
+    }
+  }, [pageParam]);
+
   const [devicePreview, setDevicePreview] = useState('desktop'); // 'desktop' | 'tablet' | 'mobile'
   const [editingBlockId, setEditingBlockId] = useState(null);
   const [addBlockModalOpen, setAddBlockModalOpen] = useState(false);
@@ -66,7 +66,13 @@ export default function AdminPageEditor() {
     showToast();
   };
 
-  const activePageObj = availablePages.find(p => p.id === selectedPage) || availablePages[0];
+  const handlePageChange = (newPageId) => {
+    setSelectedPage(newPageId);
+    setEditingBlockId(null);
+    setSearchParams({ page: newPageId });
+  };
+
+  const activePageObj = DOMAIN_PAGES.find(p => p.id === selectedPage) || DOMAIN_PAGES[0];
 
   return (
     <div className="space-y-6">
@@ -82,7 +88,7 @@ export default function AdminPageEditor() {
             Page &amp; Content Block Editor
           </h1>
           <p className="text-xs sm:text-sm text-stone-400 mt-1">
-            Visually construct, edit, and reorder dynamic sections across any page without modifying source code.
+            Visually construct, edit, and reorder dynamic sections across all {DOMAIN_PAGES.length} domain pages without modifying source code.
           </p>
         </div>
 
@@ -92,17 +98,21 @@ export default function AdminPageEditor() {
             <span className="text-xs text-stone-400 font-semibold">Editing:</span>
             <select
               value={selectedPage}
-              onChange={(e) => {
-                setSelectedPage(e.target.value);
-                setEditingBlockId(null);
-              }}
+              onChange={(e) => handlePageChange(e.target.value)}
               className="px-3 py-2 rounded-xl bg-[#1A1815] border border-white/15 text-xs font-bold text-white focus:outline-none focus:border-[#FF751F] cursor-pointer"
             >
-              {availablePages.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
+              {DOMAIN_PAGE_GROUPS.filter(g => g.id !== 'all').map(grp => {
+                const grpPages = DOMAIN_PAGES.filter(p => p.group === grp.id);
+                return (
+                  <optgroup key={grp.id} label={`${grp.icon} ${grp.name}`} className="bg-[#1A1815] text-[#FF751F] font-bold">
+                    {grpPages.map(p => (
+                      <option key={p.id} value={p.id} className="text-white font-normal bg-[#141210]">
+                        {p.name} ({p.path})
+                      </option>
+                    ))}
+                  </optgroup>
+                );
+              })}
             </select>
           </div>
 

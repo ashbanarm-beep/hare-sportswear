@@ -4,6 +4,7 @@ import {
   Lock, ShieldCheck, ChevronRight, Eye, Server, 
   FileCheck, Clock, Mail, CheckCircle2, UserCheck, Database
 } from 'lucide-react';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function PrivacyPage() {
   useEffect(() => {
@@ -235,6 +236,9 @@ export default function PrivacyPage() {
 
         </div>
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="privacy" />
     </div>
   );
 }

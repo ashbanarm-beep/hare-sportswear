@@ -10,6 +10,7 @@ import {
   findNearestPantone 
 } from '../data/pantoneColors';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function PaletteGeneratorPage() {
   const navigate = useNavigate();
@@ -637,6 +638,9 @@ Guaranteed Sublimation Precision: Level 4.5+ Washfastness (Sialkot Factory Direc
 
         </div>
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="palette-generator" />
     </div>
   );
 }

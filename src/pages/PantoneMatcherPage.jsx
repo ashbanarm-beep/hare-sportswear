@@ -4,8 +4,8 @@ import {
   Pipette, Sparkles, Check, Copy, ArrowRight, ShieldCheck, 
   Layers, Search, Sliders, RefreshCw, Send, CheckCircle2, ChevronRight, Info
 } from 'lucide-react';
-import { pantoneLibrary, findNearestPantone, hexToRgb } from '../data/pantoneColors';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function PantoneMatcherPage() {
   const navigate = useNavigate();
@@ -431,6 +431,9 @@ export default function PantoneMatcherPage() {
           Request Physical Swatch Ring
         </Link>
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="pantone-matcher" />
 
     </div>
   );

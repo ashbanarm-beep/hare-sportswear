@@ -4,6 +4,7 @@ import {
   FileText, ShieldCheck, ChevronRight, Scale, Clock, 
   CheckCircle2, AlertCircle, Mail, Phone, Lock, ExternalLink 
 } from 'lucide-react';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 export default function TermsPage() {
   useEffect(() => {
@@ -300,6 +301,9 @@ export default function TermsPage() {
 
         </div>
       </div>
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="terms" />
     </div>
   );
 }

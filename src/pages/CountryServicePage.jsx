@@ -558,7 +558,17 @@ export default function CountryServicePage() {
       </section>
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
-      <DynamicPageContent pageId={country?.slug === 'sports-wear-manufacturer-usa' ? 'usa-hub' : `country-${country?.slug}`} />
+      <DynamicPageContent pageId={
+        country?.slug === 'sports-wear-manufacturer-usa' ? 'usa-hub' :
+        country?.slug === 'sports-wear-manufacturer-uk' ? 'uk-hub' :
+        country?.slug === 'sports-wear-manufacturer-australia' ? 'australia-hub' :
+        country?.slug === 'sports-wear-manufacturer-germany' ? 'germany-hub' :
+        country?.slug === 'sports-wear-manufacturer-canada' ? 'canada-hub' :
+        country?.slug === 'sports-wear-manufacturer-uae' ? 'uae-hub' :
+        country?.slug === 'sports-wear-manufacturer-france' ? 'france-hub' :
+        country?.slug === 'sports-wear-manufacturer-netherlands' ? 'netherlands-hub' :
+        (country?.id ? `${country.id}-hub` : 'usa-hub')
+      } />
 
     </div>
   );

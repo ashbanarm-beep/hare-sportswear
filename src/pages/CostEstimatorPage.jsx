@@ -7,6 +7,7 @@ import {
   Sliders, Award, RefreshCw, MessageSquare, Search, ChevronDown, X
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
+import DynamicPageContent from '../components/cms/DynamicPageContent';
 
 // -------------------------------------------------------------
 // PRODUCT CATEGORY FILTER GROUPS
@@ -2396,6 +2397,9 @@ export default function CostEstimatorPage() {
           </div>
         </div>
       )}
+
+      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
+      <DynamicPageContent pageId="cost-estimator" />
     </div>
   );
 }

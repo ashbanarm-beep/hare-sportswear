@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   HelpCircle, 
   Plus, 
@@ -17,23 +18,11 @@ import {
   Sparkles, 
   Info,
   Layers,
-  AlertCircle
+  AlertCircle,
+  ExternalLink
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
-
-const AVAILABLE_PAGES = [
-  { id: 'home', name: 'Homepage (Bottom Accordion)', path: '/' },
-  { id: 'products', name: 'Products Catalog', path: '/products' },
-  { id: 'custom-manufacturing', name: 'Custom Manufacturing (OEM/ODM)', path: '/custom-manufacturing' },
-  { id: 'quality', name: 'Quality & Testing Standards', path: '/quality' },
-  { id: 'about', name: 'About & Factory Ethics', path: '/about' },
-  { id: 'contact', name: 'Contact & Quote Page', path: '/contact' },
-  { id: 'tools', name: 'Digital Tools Hub', path: '/tools' },
-  { id: 'usa-hub', name: 'USA Distribution Hub', path: '/sports-wear-manufacturer-usa' },
-  { id: 'blog', name: 'Blog & Articles Hub', path: '/blog' },
-  { id: 'fabric-glossary', name: 'Fabric Glossary Hub', path: '/fabric-glossary' },
-  { id: 'meet-hare', name: 'Meet Hurry the Hare', path: '/meet-hare' }
-];
+import { DOMAIN_PAGES, DOMAIN_PAGE_GROUPS } from '../../data/domainPagesData';
 
 const PRESET_CATEGORIES = [
   'MOQ & Orders',
@@ -47,8 +36,21 @@ const PRESET_CATEGORIES = [
 
 export default function AdminFAQManager() {
   const { pageFAQs, getAllFAQsForPage, addFAQ, updateFAQ, deleteFAQ, reorderFAQs } = useCMS();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
 
-  const [selectedPageId, setSelectedPageId] = useState('home');
+  const [selectedPageId, setSelectedPageId] = useState(() => {
+    if (pageParam && DOMAIN_PAGES.some(p => p.id === pageParam)) return pageParam;
+    return 'home';
+  });
+
+  const [pageGroupFilter, setPageGroupFilter] = useState('all');
+
+  useEffect(() => {
+    if (pageParam && pageParam !== selectedPageId && DOMAIN_PAGES.some(p => p.id === pageParam)) {
+      setSelectedPageId(pageParam);
+    }
+  }, [pageParam]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [previewOpenId, setPreviewOpenId] = useState(null);
@@ -146,12 +148,19 @@ export default function AdminFAQManager() {
     reorderFAQs(selectedPageId, index, targetIndex);
   };
 
-  const toggleActive = (faq) => {
-    updateFAQ(selectedPageId, faq.id, { active: !faq.active });
-    showToast(`FAQ marked as ${!faq.active ? 'active' : 'hidden'}.`);
+  const handleSelectPage = (pageId) => {
+    setSelectedPageId(pageId);
+    setSearchParams({ page: pageId });
+    setSelectedCategory('All');
+    setSearchQuery('');
   };
 
-  const currentPageObj = AVAILABLE_PAGES.find(p => p.id === selectedPageId) || AVAILABLE_PAGES[0];
+  const filteredPages = useMemo(() => {
+    if (pageGroupFilter === 'all') return DOMAIN_PAGES;
+    return DOMAIN_PAGES.filter(p => p.group === pageGroupFilter);
+  }, [pageGroupFilter]);
+
+  const currentPageObj = DOMAIN_PAGES.find(p => p.id === selectedPageId) || DOMAIN_PAGES[0];
 
   return (
     <div className="space-y-8">
@@ -189,37 +198,88 @@ export default function AdminFAQManager() {
       </div>
 
       {/* Page Selector Tabs */}
-      <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#E5E0D8] shadow-sm">
-        <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-gray-100">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[#E5E0D8] shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-[#FF751F]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Select Target Page to Manage</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Select Target Domain Page</span>
           </div>
-          <span className="text-xs text-gray-500 font-mono">
-            {rawFaqs.length} FAQ{rawFaqs.length === 1 ? '' : 's'} on {currentPageObj.name.split(' ')[0]}
-          </span>
+
+          <div className="flex items-center gap-3">
+            {/* Quick Group Dropdown */}
+            <select
+              value={selectedPageId}
+              onChange={(e) => handleSelectPage(e.target.value)}
+              className="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-gray-50 focus:outline-none focus:border-[#FF751F]"
+            >
+              {DOMAIN_PAGE_GROUPS.map(g => (
+                <optgroup key={g.key} label={g.label}>
+                  {DOMAIN_PAGES.filter(p => p.group === g.key).map(p => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} ({(pageFAQs[p.id] || []).length} FAQs)
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+
+            <a
+              href={currentPageObj.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-600 hover:text-black hover:border-gray-300 transition"
+              title="Visit live page in new tab"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
+              <span className="hidden sm:inline">View Live</span>
+            </a>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {AVAILABLE_PAGES.map((page) => {
+        {/* Group Filter Tabs */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          <button
+            onClick={() => setPageGroupFilter('all')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition ${
+              pageGroupFilter === 'all'
+                ? 'bg-[#1A1A1A] text-white shadow-xs'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            All Domain Pages ({DOMAIN_PAGES.length})
+          </button>
+          {DOMAIN_PAGE_GROUPS.map((g) => (
+            <button
+              key={g.key}
+              onClick={() => setPageGroupFilter(g.key)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition ${
+                pageGroupFilter === g.key
+                  ? 'bg-[#FF751F] text-white shadow-xs'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {g.label} ({DOMAIN_PAGES.filter(p => p.group === g.key).length})
+            </button>
+          ))}
+        </div>
+
+        {/* Scrollable Page Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-1">
+          {filteredPages.map((page) => {
             const isSelected = selectedPageId === page.id;
             const count = (pageFAQs[page.id] || []).length;
             return (
               <button
                 key={page.id}
-                onClick={() => {
-                  setSelectedPageId(page.id);
-                  setSelectedCategory('All');
-                  setSearchQuery('');
-                }}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all border ${
+                onClick={() => handleSelectPage(page.id)}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${
                   isSelected
                     ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-sm'
                     : 'bg-[#F5F1E8]/50 text-gray-700 hover:bg-[#F5F1E8] border-transparent'
                 }`}
               >
                 <span>{page.name}</span>
-                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                   isSelected ? 'bg-[#FF751F] text-white' : 'bg-gray-200 text-gray-600'
                 }`}>
                   {count}

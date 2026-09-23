@@ -7,6 +7,7 @@ import {
   Menu, X
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { DOMAIN_PAGES } from '../../data/domainPagesData';
 
 export default function AdminLayout({ activeTab = 'overview', children }) {
   const location = useLocation();
@@ -15,7 +16,7 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Compute counts for badges
-  const totalPagesWithSEO = Object.keys(seoRegistry).length;
+  const totalDomainPages = DOMAIN_PAGES.length;
   const publishedBlogsCount = blogPosts.filter(p => p.status === 'published').length;
   const draftBlogsCount = blogPosts.filter(p => p.status === 'draft').length;
   const totalFAQsCount = Object.values(pageFAQs).reduce((acc, list) => acc + list.length, 0);
@@ -26,14 +27,14 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
       path: '/admin',
       label: 'Dashboard Overview',
       icon: LayoutDashboard,
-      badge: null
+      badge: `${totalDomainPages} Routes`
     },
     {
       id: 'pages',
       path: '/admin/pages',
       label: 'Page & Block Editor',
       icon: Layers,
-      badge: 'Elementor Style'
+      badge: `${totalDomainPages} Pages`
     },
     {
       id: 'blog',
@@ -47,7 +48,7 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
       path: '/admin/seo',
       label: 'SEO & Meta Tags',
       icon: Search,
-      badge: `${totalPagesWithSEO} Pages`
+      badge: `${totalDomainPages} SEO`
     },
     {
       id: 'faqs',
