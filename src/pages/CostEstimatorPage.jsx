@@ -682,8 +682,11 @@ export default function CostEstimatorPage() {
     });
   }, [activeCategoryFilter, productSearchQuery]);
 
-  const handleSelectProduct = (prod) => {
-    setKitMode(prod.id);
+  const handleSelectProduct = (prodOrId) => {
+    const id = typeof prodOrId === 'object' && prodOrId !== null ? prodOrId.id : prodOrId;
+    if (id) {
+      setKitMode(id);
+    }
     setShowProductModal(false);
   };
 
@@ -2252,8 +2255,14 @@ export default function CostEstimatorPage() {
 
       {/* Product Selection Modal */}
       {showProductModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] shadow-2xl flex flex-col overflow-hidden border border-stone-200">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150 cursor-pointer"
+          onClick={() => setShowProductModal(false)}
+        >
+          <div 
+            className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] shadow-2xl flex flex-col overflow-hidden border border-stone-200 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
             <div className="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between">
               <div>

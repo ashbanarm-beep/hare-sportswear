@@ -377,10 +377,15 @@ export default function AIMockupGeneratorPage() {
   const [collarStyle, setCollarStyle] = useState('v-neck');
 
   // Helper to select apparel from catalog and update collar defaults
-  const handleSelectApparel = (apparel) => {
-    setSelectedApparel(apparel);
-    if (apparel.collarStyles && apparel.collarStyles.length > 0) {
-      setCollarStyle(apparel.collarStyles[0]);
+  const handleSelectApparel = (apparelOrId) => {
+    const apparel = typeof apparelOrId === 'string'
+      ? APPAREL_CATEGORIES.find((a) => a.id === apparelOrId)
+      : apparelOrId;
+    if (apparel) {
+      setSelectedApparel(apparel);
+      if (apparel.collarStyles && apparel.collarStyles.length > 0) {
+        setCollarStyle(apparel.collarStyles[0]);
+      }
     }
     setShowProductModal(false);
   };
