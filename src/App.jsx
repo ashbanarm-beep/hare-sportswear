@@ -95,6 +95,8 @@ function MainAppShell() {
             <Route path="/palette-generator" element={<Navigate to="/tools/palette-generator" replace />} />
             <Route path="/tools/cost-estimator" element={<CostEstimatorPage />} />
             <Route path="/cost-estimator" element={<Navigate to="/tools/cost-estimator" replace />} />
+            <Route path="/tools/manufacturing-cost-calculator" element={<CostEstimatorPage />} />
+            <Route path="/manufacturing-cost-calculator" element={<Navigate to="/tools/cost-estimator" replace />} />
 
             {/* Fabric Glossary Hub & Aliases */}
             <Route path="/fabric-glossary" element={<FabricGlossaryPage />} />

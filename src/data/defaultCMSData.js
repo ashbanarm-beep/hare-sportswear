@@ -68,9 +68,15 @@ export const defaultSEORegistry = {
     canonical: 'https://hare-sportswear.vercel.app/tools/palette-generator'
   },
   '/tools/cost-estimator': {
-    title: 'Instant B2B Sportswear Production Cost & Landed Freight Estimator',
-    description: 'Calculate tiered volume factory pricing, sampling turnarounds, embellishment surcharges, and landed door-to-door DDP courier freight estimates in real-time.',
-    keywords: 'production cost estimator, apparel wholesale pricing calculator, landed shipping calculator',
+    title: 'Manufacturing Cost Calculator | Custom Jerseys, Shorts & Sports Apparel | Hare Sportswear',
+    description: 'Calculate live tiered factory manufacturing costs for custom sports jerseys, shorts, and full kits. Select fabric GSM, tackle twill vs sublimation, size curves, and DDP landed freight.',
+    keywords: 'manufacturing cost calculator, custom jerseys cost, sportswear manufacturing price, sublimation vs tackle twill pricing, sialkot factory direct',
+    canonical: 'https://hare-sportswear.vercel.app/tools/cost-estimator'
+  },
+  '/tools/manufacturing-cost-calculator': {
+    title: 'Manufacturing Cost Calculator | Custom Jerseys, Shorts & Sports Apparel | Hare Sportswear',
+    description: 'Calculate live tiered factory manufacturing costs for custom sports jerseys, shorts, and full kits. Select fabric GSM, tackle twill vs sublimation, size curves, and DDP landed freight.',
+    keywords: 'manufacturing cost calculator, custom jerseys cost, sportswear manufacturing price, sublimation vs tackle twill pricing, sialkot factory direct',
     canonical: 'https://hare-sportswear.vercel.app/tools/cost-estimator'
   },
   '/fabric-glossary': {

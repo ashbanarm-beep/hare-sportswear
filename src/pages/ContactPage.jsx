@@ -62,21 +62,23 @@ export default function ContactPage() {
     }
   }, [attachedColors]);
 
-  // Pre-fill attached estimate from Cost Estimator
+  // Pre-fill attached estimate from Manufacturing Cost Calculator
   useEffect(() => {
     if (attachedEstimate) {
-      const estNotes = `[Attached Instant Production Cost Estimate]:\n` +
-        `• Category: ${attachedEstimate.category}\n` +
+      const estNotes = `[Attached Manufacturing Cost Calculator Specification & Quote]:\n` +
+        `• Product / Kit: ${attachedEstimate.category}\n` +
         `• Quantity: ${attachedEstimate.quantity} Units\n` +
         `• Estimated Factory Price: ${attachedEstimate.unitPriceRange}\n` +
         `• Landed Unit Est (DDP): ${attachedEstimate.landedUnitEst}\n` +
         `• Grand Total Projected: ${attachedEstimate.totalEst}\n` +
-        `• Timeline: ${attachedEstimate.leadTimeDays}\n` +
+        `• Production & Lead Time: ${attachedEstimate.leadTimeDays}\n` +
         `• Freight Mode: ${attachedEstimate.shipping}` +
-        (attachedEstimate.embellishments?.length ? `\n• Embellishments: ${attachedEstimate.embellishments.join(', ')}` : '');
+        (attachedEstimate.garmentSpecs ? `\n• Garment Specifications:\n  ${attachedEstimate.garmentSpecs}` : '') +
+        (attachedEstimate.sizeCurve ? `\n• Size Curve Breakdown: ${attachedEstimate.sizeCurve}` : '') +
+        (attachedEstimate.embellishments?.length ? `\n• Custom Embellishments: ${attachedEstimate.embellishments.join(', ')}` : '');
 
       setFormData(prev => {
-        if (!prev.message.includes('[Attached Instant Production Cost Estimate]')) {
+        if (!prev.message.includes('[Attached Manufacturing Cost Calculator') && !prev.message.includes('[Attached Instant Production Cost Estimate]')) {
           return {
             ...prev,
             quantity: `${attachedEstimate.quantity}`,
@@ -612,7 +614,7 @@ export default function ContactPage() {
                       <div className="flex items-center gap-2">
                         <Calculator className="w-4 h-4 text-emerald-600" />
                         <span className="text-xs font-bold text-[#1A1A1A]">
-                          Attached Instant Production Cost & Lead Time Estimate
+                          Attached Manufacturing Cost Calculator Specification & Quote
                         </span>
                       </div>
                       <button

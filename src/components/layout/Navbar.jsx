@@ -143,10 +143,10 @@ export default function Navbar() {
       color: 'text-blue-600 bg-blue-50'
     },
     {
-      name: 'Instant Cost & Lead Time Estimator',
+      name: 'Manufacturing Cost Calculator',
       path: '/tools/cost-estimator',
-      desc: 'Model tiered MOQ factory pricing, sample lead times & DDP shipping landed quotes',
-      badge: 'Live Pricing',
+      desc: 'Configure Jerseys & Shorts kits, fabric GSM, tackle twill vs sublimation & tiered factory pricing',
+      badge: 'B2B Quotes',
       icon: Calculator,
       color: 'text-emerald-600 bg-emerald-50'
     }

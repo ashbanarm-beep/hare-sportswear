@@ -205,7 +205,7 @@ export default function Footer() {
               <li>
                 <Link to="/tools/cost-estimator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
                   <span>⚡</span>
-                  <span>Production Cost Estimator</span>
+                  <span>Manufacturing Cost Calculator</span>
                 </Link>
               </li>
               <li>

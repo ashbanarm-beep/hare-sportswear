@@ -64,9 +64,9 @@ export default function ToolsHubPage() {
     },
     {
       id: 'cost-estimator',
-      title: 'Production Cost & Lead Time Estimator',
+      title: 'Manufacturing Cost Calculator',
       badge: 'Factory Direct Pricing',
-      description: 'Calculate tiered volume factory pricing, sampling turnarounds, embellishment surcharges, and landed door-to-door DDP courier freight estimates in real-time.',
+      description: 'Configure matching Jerseys & Shorts kits, fabric GSM specs, tackle twill vs sublimation, size curves, and real-time tiered Sialkot factory pricing.',
       icon: Calculator,
       color: 'from-emerald-600 to-teal-700',
       textColor: 'text-emerald-600',
@@ -74,10 +74,10 @@ export default function ToolsHubPage() {
       borderColor: 'border-emerald-200',
       link: '/tools/cost-estimator',
       features: [
-        'MOQ tiered factory price curves (25 to 2,500+ pcs)',
-        '3D silicone badge & custom embellishment modeling',
-        'Express Air vs Consolidated Ocean Freight calculations',
-        'Seamless export directly to official RFQ form'
+        'Multi-part kit configuration (Jerseys, Shorts, Matching Sets)',
+        'Technical GSM fabric weights & Tackle Twill vs Sublimation',
+        'MOQ tiered volume breaks (25 to 1,000+ pcs) & live size curves',
+        'Landed DDP freight & 1-click export to official Factory RFQ'
       ]
     },
     {
