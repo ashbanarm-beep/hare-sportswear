@@ -16,7 +16,20 @@ export default function AdminDashboardOverview() {
   const totalPagesWithSEO = Object.keys(seoRegistry).length;
   const publishedBlogs = blogPosts.filter(p => p.status === 'published');
   const draftBlogs = blogPosts.filter(p => p.status === 'draft');
-  const totalFAQs = Object.values(pageFAQs).reduce((acc, list) => acc + list.length, 0);
+  const totalFAQs = useMemo(() => {
+    let count = 0;
+    const countedKeys = new Set();
+    Object.entries(pageFAQs).forEach(([key, list]) => {
+      count += list.length;
+      countedKeys.add(key);
+    });
+    blogPosts.forEach(p => {
+      if (!countedKeys.has(`blog-${p.slug}`)) {
+        count += (p.faqs?.length || 0);
+      }
+    });
+    return count;
+  }, [pageFAQs, blogPosts]);
   const totalCustomBlocks = Object.values(pageBlocks).reduce((acc, list) => acc + list.length, 0);
 
   // Domain Pages Directory State

@@ -5,7 +5,7 @@ import {
   Clock, Calendar, ArrowLeft, Share2, MessageCircle, 
   Copy, Check, FileText, ArrowRight, User, Sparkles, 
   ListOrdered, ChevronRight, ChevronDown, Bookmark, 
-  ShieldCheck, Zap, ThumbsUp, Box, Layers
+  ShieldCheck, Zap, ThumbsUp, Box, Layers, HelpCircle
 } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 import { LinkedInIcon, TwitterIcon } from '../components/common/SocialIcons';
@@ -23,6 +23,7 @@ export default function BlogPostPage() {
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const [claps, setClaps] = useState(28);
   const [hasClapped, setHasClapped] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   const articleRef = useRef(null);
 
@@ -30,6 +31,46 @@ export default function BlogPostPage() {
   const post = useMemo(() => {
     return getBlogPostBySlug(slug) || blogPosts.find(p => p.slug === slug) || blogPosts[0];
   }, [slug, getBlogPostBySlug, blogPosts]);
+
+  // Extract FAQs from post
+  const postFaqs = useMemo(() => {
+    return Array.isArray(post?.faqs) ? post.faqs : [];
+  }, [post]);
+
+  const toggleFaq = (idx) => {
+    setOpenFaqIndex(prev => prev === idx ? null : idx);
+  };
+
+  // Inject Google FAQPage JSON-LD schema into head
+  useEffect(() => {
+    if (!postFaqs || postFaqs.length === 0 || !post?.slug) return;
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": postFaqs.map(f => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer
+        }
+      }))
+    };
+    const scriptId = `faq-schema-${post.slug}`;
+    let script = document.getElementById(scriptId);
+    if (!script) {
+      script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.id = scriptId;
+      document.head.appendChild(script);
+    }
+    script.innerHTML = JSON.stringify(schema);
+
+    return () => {
+      const el = document.getElementById(scriptId);
+      if (el) el.remove();
+    };
+  }, [postFaqs, post?.slug]);
 
   // Related posts (excluding current post)
   const relatedPosts = useMemo(() => {
@@ -60,8 +101,15 @@ export default function BlogPostPage() {
       }
     });
 
+    if (postFaqs.length > 0) {
+      h2s.push({
+        id: 'frequently-asked-questions',
+        title: 'Frequently Asked Questions'
+      });
+    }
+
     return h2s;
-  }, [post]);
+  }, [post, postFaqs]);
 
   // Scroll listener for reading progress & scroll-spy TOC active state
   useEffect(() => {
@@ -594,6 +642,94 @@ export default function BlogPostPage() {
                 </a>
               </div>
             </div>
+
+            {/* ========================================================= */}
+            {/* TECHNICAL FAQs SECTION (Page & SEO Schema Accordion) */}
+            {/* ========================================================= */}
+            {postFaqs.length > 0 && (
+              <section id="frequently-asked-questions" className="space-y-4 pt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#E5DFD5]">
+                  <div className="flex items-center gap-2">
+                    <span className="p-1.5 rounded-lg bg-[#FF751F]/15 text-[#FF751F]">
+                      <HelpCircle className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-display font-extrabold text-[#1A1A1A]">
+                        Frequently Asked Questions
+                      </h2>
+                      <span className="text-[11px] text-[#59554E]">
+                        Technical manufacturing and procurement answers for this guide
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] bg-[#FF751F]/10 px-2.5 py-1 rounded-full self-start sm:self-auto">
+                    {postFaqs.length} Technical Q&amp;As
+                  </span>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  {postFaqs.map((faq, idx) => {
+                    const isOpen = openFaqIndex === idx;
+                    return (
+                      <div
+                        key={idx}
+                        className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                          isOpen
+                            ? 'bg-white border-[#FF751F]/40 shadow-sm'
+                            : 'bg-white/80 border-[#E5DFD5] hover:border-[#FF751F]/30 hover:bg-white'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => toggleFaq(idx)}
+                          className="w-full p-4 sm:p-5 text-left flex items-start justify-between gap-3 cursor-pointer"
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className={`w-6 h-6 rounded-lg text-[11px] font-mono font-bold flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                              isOpen ? 'bg-[#FF751F] text-white' : 'bg-[#F5F1E8] text-[#59554E]'
+                            }`}>
+                              Q{idx + 1}
+                            </span>
+                            <span className="font-display font-bold text-sm sm:text-base text-[#1A1A1A] leading-snug">
+                              {faq.question}
+                            </span>
+                          </div>
+
+                          <div className={`p-1 rounded-lg transition-transform duration-200 shrink-0 ${
+                            isOpen ? 'rotate-180 text-[#FF751F]' : 'text-stone-400'
+                          }`}>
+                            <ChevronDown className="w-4 h-4" />
+                          </div>
+                        </button>
+
+                        {isOpen && (
+                          <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-xs sm:text-sm text-[#59554E] leading-relaxed border-t border-[#E5DFD5]/50 mt-1">
+                            <p className="pt-3">{faq.answer}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* FAQ Technical Help / Inquiries Banner */}
+                <div className="p-4 rounded-xl bg-gradient-to-r from-[#FFF8F2] to-[#FAF5EC] border border-[#FF751F]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-[#FF751F] animate-pulse"></span>
+                    <span className="text-[#3A352F]">
+                      Have a specific question not covered here? Consult our Sialkot garment engineers.
+                    </span>
+                  </div>
+                  <button
+                    onClick={openTechPackModal}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FF751F] text-white font-bold hover:bg-[#e06214] transition-colors shrink-0 cursor-pointer shadow-xs text-[11px]"
+                  >
+                    <span>Ask An Engineer</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </section>
+            )}
 
             {/* Author Bio Box */}
             <div className="p-6 rounded-2xl bg-white border border-[#E5DFD5] flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-sm">

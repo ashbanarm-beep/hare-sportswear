@@ -35,19 +35,19 @@ const PRESET_CATEGORIES = [
 ];
 
 export default function AdminFAQManager() {
-  const { pageFAQs, getAllFAQsForPage, addFAQ, updateFAQ, deleteFAQ, reorderFAQs } = useCMS();
+  const { pageFAQs, getAllFAQsForPage, addFAQ, updateFAQ, deleteFAQ, reorderFAQs, blogPosts } = useCMS();
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParam = searchParams.get('page');
 
   const [selectedPageId, setSelectedPageId] = useState(() => {
-    if (pageParam && DOMAIN_PAGES.some(p => p.id === pageParam)) return pageParam;
+    if (pageParam) return pageParam;
     return 'home';
   });
 
   const [pageGroupFilter, setPageGroupFilter] = useState('all');
 
   useEffect(() => {
-    if (pageParam && pageParam !== selectedPageId && DOMAIN_PAGES.some(p => p.id === pageParam)) {
+    if (pageParam && pageParam !== selectedPageId) {
       setSelectedPageId(pageParam);
     }
   }, [pageParam]);
@@ -155,12 +155,26 @@ export default function AdminFAQManager() {
     setSearchQuery('');
   };
 
-  const filteredPages = useMemo(() => {
-    if (pageGroupFilter === 'all') return DOMAIN_PAGES;
-    return DOMAIN_PAGES.filter(p => p.group === pageGroupFilter);
-  }, [pageGroupFilter]);
+  const allSelectablePages = useMemo(() => {
+    const list = [...DOMAIN_PAGES];
+    (blogPosts || []).forEach(p => {
+      list.push({
+        id: `blog-${p.slug}`,
+        name: `Blog: ${p.title}`,
+        path: `/blog/${p.slug}`,
+        group: 'blog',
+        category: p.category || 'Blog Article'
+      });
+    });
+    return list;
+  }, [blogPosts]);
 
-  const currentPageObj = DOMAIN_PAGES.find(p => p.id === selectedPageId) || DOMAIN_PAGES[0];
+  const filteredPages = useMemo(() => {
+    if (pageGroupFilter === 'all') return allSelectablePages;
+    return allSelectablePages.filter(p => p.group === pageGroupFilter);
+  }, [pageGroupFilter, allSelectablePages]);
+
+  const currentPageObj = allSelectablePages.find(p => p.id === selectedPageId) || allSelectablePages[0];
 
   return (
     <div className="space-y-8">
@@ -181,7 +195,7 @@ export default function AdminFAQManager() {
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A]">Page-Specific FAQ Manager</h1>
           <p className="text-sm text-gray-500 mt-1 max-w-2xl">
-            Configure dynamic, collapsible FAQ sections for any page across Hare Sportswear. 
+            Configure dynamic, collapsible FAQ sections for any page or blog post across Hare Sportswear. 
             All changes update in real time with SEO schema-friendly formatting.
           </p>
         </div>
@@ -202,7 +216,7 @@ export default function AdminFAQManager() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-[#FF751F]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Select Target Domain Page</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Select Target Domain Page or Blog</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -210,17 +224,26 @@ export default function AdminFAQManager() {
             <select
               value={selectedPageId}
               onChange={(e) => handleSelectPage(e.target.value)}
-              className="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-gray-50 focus:outline-none focus:border-[#FF751F]"
+              className="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-gray-50 focus:outline-none focus:border-[#FF751F] max-w-xs truncate"
             >
               {DOMAIN_PAGE_GROUPS.map(g => (
                 <optgroup key={g.key} label={g.label}>
                   {DOMAIN_PAGES.filter(p => p.group === g.key).map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.name} ({(pageFAQs[p.id] || []).length} FAQs)
+                      {p.name} ({(getAllFAQsForPage(p.id)).length} FAQs)
                     </option>
                   ))}
                 </optgroup>
               ))}
+              {(blogPosts || []).length > 0 && (
+                <optgroup label="Blog Post Articles">
+                  {blogPosts.map(p => (
+                    <option key={`blog-${p.slug}`} value={`blog-${p.slug}`}>
+                      Blog: {p.title} ({(getAllFAQsForPage(`blog-${p.slug}`)).length} FAQs)
+                    </option>
+                  ))}
+                </optgroup>
+              )}
             </select>
 
             <a
@@ -246,7 +269,7 @@ export default function AdminFAQManager() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            All Domain Pages ({DOMAIN_PAGES.length})
+            All ({allSelectablePages.length})
           </button>
           {DOMAIN_PAGE_GROUPS.map((g) => (
             <button
@@ -261,13 +284,25 @@ export default function AdminFAQManager() {
               {g.label} ({DOMAIN_PAGES.filter(p => p.group === g.key).length})
             </button>
           ))}
+          {(blogPosts || []).length > 0 && (
+            <button
+              onClick={() => setPageGroupFilter('blog')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition ${
+                pageGroupFilter === 'blog'
+                  ? 'bg-[#FF751F] text-white shadow-xs'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Blog Articles ({blogPosts.length})
+            </button>
+          )}
         </div>
 
         {/* Scrollable Page Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-1">
           {filteredPages.map((page) => {
             const isSelected = selectedPageId === page.id;
-            const count = (pageFAQs[page.id] || []).length;
+            const count = (getAllFAQsForPage(page.id)).length;
             return (
               <button
                 key={page.id}
@@ -278,7 +313,7 @@ export default function AdminFAQManager() {
                     : 'bg-[#F5F1E8]/50 text-gray-700 hover:bg-[#F5F1E8] border-transparent'
                 }`}
               >
-                <span>{page.name}</span>
+                <span className="truncate max-w-[200px]">{page.name}</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                   isSelected ? 'bg-[#FF751F] text-white' : 'bg-gray-200 text-gray-600'
                 }`}>

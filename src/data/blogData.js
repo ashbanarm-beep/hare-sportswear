@@ -60,7 +60,25 @@ Screen display RGB and CMYK printed paper do not correlate directly to textile d
 ## How to Fast-Track Your 7-Day Sampling Run in Sialkot
 
 At **Hare Sportswear & Goods**, our in-house engineering team provides free tech pack auditing for all incoming RFQs. If you are launching a new athletics label or transitioning from another vendor, you can use our downloadable template on our Custom Manufacturing page to fast-track your 7-day physical prototype run.
-    `
+    `,
+    faqs: [
+      {
+        question: "What file formats does Hare Sportswear require for tech pack submissions?",
+        answer: "We prefer vector files in Adobe Illustrator (.AI), editable PDF, or Adobe InDesign formats with all typography outlined. If you have CAD DXF pattern files or 3D CLO/Optitex assets, our pattern engineering team can import them directly into our laser cutting system."
+      },
+      {
+        question: "Can I submit an RFQ without a complete tech pack?",
+        answer: "Yes. If you only have conceptual sketches, physical reference samples, or reference photos with rough measurements, our in-house garment development team can draft a complete production-grade technical specification sheet for your approval during the 7-day sampling phase."
+      },
+      {
+        question: "What is an acceptable manufacturing tolerance for athletic wear sizing?",
+        answer: "Standard commercial athletic tolerances are ±1.0 cm (0.39 inches) for high-impact measurements like chest circumference, body length, and sleeve inseams. For four-way stretch compression wear, acceptable elasticity variation under relaxed tension is typically ±0.75 cm."
+      },
+      {
+        question: "How should I specify Pantone colors for dye sublimation on polyester?",
+        answer: "Always specify Pantone Fashion, Home + Interiors (FHI) Polyester TSX or Cotton TCX color codes. Avoid standard RGB, CMYK, or screen HEX values because disperse sublimation inks shift depending on polyester filament cross-sections and heat press dwell times."
+      }
+    ]
   },
   {
     slug: 'sublimation-vs-screen-printing-vs-dtg-cost-breakdown',
@@ -106,7 +124,25 @@ When calculating your landed cost per unit (LDP), match your fabric selection to
 - For performance kits: Choose **Dye Sublimation** on 140–180 GSM Interlock.
 - For luxury streetwear: Choose **Screen Printing** with High-Density silicone on 380+ GSM French Terry.
 - For high-stretch compression: Choose **3D Silicone Heat Transfers** for sharp dimensional club badges.
-    `
+    `,
+    faqs: [
+      {
+        question: "Why is sublimation preferred over screen printing for teamwear?",
+        answer: "All-over dye sublimation embeds disperse dyes directly into synthetic polyester fibers at 205°C, resulting in zero ink hand-feel. This means moisture-wicking pores remain 100% open and colors never crack, peel, or fade, regardless of laundry cycles or player sweat."
+      },
+      {
+        question: "At what order volume does screen printing become cheaper than sublimation?",
+        answer: "Screen printing typically achieves superior unit economics on single- or two-color designs once order quantities exceed 300 to 500 units, because upfront screen setup and film separation costs are amortized over high volume. For complex multi-color designs, sublimation remains more cost-effective even at lower tiers."
+      },
+      {
+        question: "Can dye sublimation be performed on 100% cotton garments?",
+        answer: "No. Disperse sublimation dyes only bond to synthetic polymer chains (polyester, nylon, and elastane). For 100% cotton garments like heavy French Terry hoodies and lifestyle tees, we utilize high-density plastisol screen printing, water-based discharge printing, or direct-to-garment (DTG)."
+      },
+      {
+        question: "What type of embellishment is recommended for raised silicone badges on jerseys?",
+        answer: "We recommend 3D high-build silicone heat transfers. These provide a premium raised rubberized texture, crisp dimensional edges, and survive rigorous 40°C machine washing without delamination when applied via industrial pneumatic heat sealers."
+      }
+    ]
   },
   {
     slug: 'selecting-performance-gsm-interlock-to-french-terry',
@@ -145,7 +181,25 @@ Different knitting machines create distinct structural surface profiles:
 ## Physical Swatch Inspection Before Bulk Production
 
 Never commit to bulk fabric purchasing based on photos alone. At Hare Sportswear, we provide 30+ physical swatch portfolios delivered in 3-5 days so you can test stretch memory, hand feel, and recovery in person.
-    `
+    `,
+    faqs: [
+      {
+        question: "What does GSM stand for in athletic textile manufacturing?",
+        answer: "GSM stands for Grams per Square Meter, representing the physical weight and density of a knitted or woven fabric bolt. A higher GSM indicates a denser, heavier textile, while a lower GSM indicates an ultra-lightweight, airy fabric structure."
+      },
+      {
+        question: "What GSM is recommended for match jerseys to prevent transparency?",
+        answer: "For professional match soccer and athletic jerseys, we recommend 160 to 180 GSM micro-interlock polyester. This weight strikes the optimal balance between high breathability, rapid evaporative drying, and complete visual opacity under stadium floodlights."
+      },
+      {
+        question: "What is the difference between Interlock and Pique knitting weaves?",
+        answer: "Interlock is a double-knit construction that presents a smooth, flat surface on both front and back faces, making it ideal for high-definition dye sublimation. Pique has a distinctive geometric waffle or honeycomb texture that enhances airflow and is the classic choice for tennis and golf polo shirts."
+      },
+      {
+        question: "How do I choose between 2-end and 3-end French Terry for gym hoodies?",
+        answer: "2-end French Terry (280–320 GSM) is lighter and ideal for spring warmups and athletic pump covers. 3-end French Terry (380–480 GSM) features a heavyweight ground yarn, tie yarn, and back loop, producing the luxury heavyweight drape and structured hood preferred by premium streetwear and gymwear brands."
+      }
+    ]
   },
   {
     slug: 'inside-sialkot-sports-manufacturing-heartland',
@@ -183,7 +237,25 @@ From hand-sewn leather panels to automated laser pattern nesting, our manufactur
 ## Flexible MOQs for Tomorrow's Category Leaders
 
 This tightly integrated ecosystem allows us to offer **MOQs starting at just 30-50 pieces** for custom brand launches, while scaling to **150,000 units per month** for major sports retailers worldwide.
-    `
+    `,
+    faqs: [
+      {
+        question: "Why is Sialkot recognized globally as the capital of athletic manufacturing?",
+        answer: "Sialkot manufactures over 70% of the world's hand-stitched and thermal-bonded soccer balls and supplies premier athletic brands globally. The region boasts over a century of precision metalworking, leathercraft, and technical textile clusters with complete localized supply chains within a 15-kilometer radius."
+      },
+      {
+        question: "How does Hare Sportswear manage international freight logistics from Sialkot?",
+        answer: "We offer both express DDP (Delivered Duty Paid) air freight (3–5 business days to the USA, UK, Canada, and Europe via DHL/FedEx) and ocean container shipping via Sialkot Dry Port to Karachi Port (20–25 days transit for full container loads)."
+      },
+      {
+        question: "What are the minimum order quantities (MOQs) at your Sialkot factory?",
+        answer: "Our standard MOQ starts at just 25 to 50 pieces per design, allowing startup brands and athletic clubs to launch without burdensome inventory risk. We also possess the capacity to scale to 150,000 units monthly for institutional tournament contracts."
+      },
+      {
+        question: "Can international brand owners visit the factory in Sialkot?",
+        answer: "Absolutely. We welcome brand directors, sourcing heads, and procurement teams for in-person plant walkthroughs, physical line inspections, and hands-on material testing at our Sialkot manufacturing facilities. We also offer live Zoom video audits."
+      }
+    ]
   },
   {
     slug: 'aql-2-5-quality-inspection-guarantee',
@@ -206,7 +278,7 @@ For overseas sports brands and institutional teamwear suppliers, receiving a shi
 
 ## Our 4-Stage Factory Quality Gate System
 
-1. **Raw Material Inspection**: Every fabric bolt is tested for color fastness against chlorinated water and perspiration (Grade 4+ on ISO 105), shrinkage testing under $60^\circ\text{C}$ tumble wash, and GSM verification.
+1. **Raw Material Inspection**: Every fabric bolt is tested for color fastness against chlorinated water and perspiration (Grade 4+ on ISO 105), shrinkage testing under $60^\\circ\\text{C}$ tumble wash, and GSM verification.
 2. **Pre-Production Pattern Calibration**: Automated CAD marker grading ensures fabric grain line alignment, minimizing panel torque and seam skewing.
 3. **Inline Stitching Checkpoints**: Every 10 sewing operators are monitored by a roaming QA inspector checking seam tension, SPI (Stitches Per Inch), and bar-tack security.
 4. **End-of-Line Needle Scan & Packaging**: 100% of finished garments pass through high-sensitivity conveyorized metal detectors to verify zero broken needle fragments remain in the textile before individual polybagging and carton moisture barrier sealing.
@@ -218,6 +290,24 @@ All high-stretch seams undergo pneumatic burst testing and tensile elongation ch
 ## Transparent Inspection Reports for International Clients
 
 Before any air or sea cargo leaves our Sialkot warehouse, we provide a complete photo-documented quality inspection dossier including dimensional measurements, barcode verification, and carton gross weights.
-    `
+    `,
+    faqs: [
+      {
+        question: "What does AQL 2.5 Major / 4.0 Minor mean in apparel manufacturing?",
+        answer: "AQL (Acceptance Quality Limit) 2.5 Level II is the international statistical sampling protocol (ISO 2859-1). It defines the strictest commercially acceptable percentage of defects in an export shipment. AQL 2.5 Major means that statistically over 97.5% of production is entirely defect-free, guaranteeing zero major structural failures in retail distribution."
+      },
+      {
+        question: "What happens during end-of-line metal detector needle scans?",
+        answer: "Every completed garment passes through a high-frequency conveyorized metal detector (calibrated to 1.0 mm ferrous ball detection). This guarantees that no broken sewing machine needle tips or metallic fragments are embedded in garments before polybag sealing, ensuring athlete and child safety."
+      },
+      {
+        question: "How do you test seam strength and stitch durability on activewear?",
+        answer: "We perform pneumatic diaphragm burst strength tests (ASTM D3786) and constant-rate-of-extension tensile elongation checks (ASTM D5034) on sample seams. For compression wear, seams must withstand a minimum of 250 Newtons of lateral tension without thread snapping."
+      },
+      {
+        question: "Do clients receive a formal quality inspection certificate before shipping?",
+        answer: "Yes. Every export shipment includes a signed AQL 2.5 Factory Inspection Certificate detailing dimensional measurements across the size curve, bar-tack security, barcode scan audits, and gross carton weights with high-resolution photographic proof."
+      }
+    ]
   }
 ];

@@ -1,11 +1,10 @@
-import React, { useState, useMemo, useRef } from 'react';
 import { 
   FileText, Plus, Edit3, Trash2, Eye, Power, Sparkles, 
   Search, Check, Table, Heading1, Heading2, Heading3, 
   Heading4, Bold, Italic, List, ListOrdered, Quote, 
   Image as ImageIcon, Link as LinkIcon, X, Calendar, 
   Clock, User, Tag, ArrowRight, ExternalLink, ShieldCheck,
-  CheckCircle2, AlertCircle
+  CheckCircle2, AlertCircle, HelpCircle, ArrowUp, ArrowDown
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
@@ -64,9 +63,73 @@ export default function AdminBlogManager() {
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
       },
       image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80',
-      content: '## Overview & Engineering Scope\n\nEnter article content here...\n\n### Technical Specifications\n\nDetail the material specifications here.'
+      content: '## Overview & Engineering Scope\n\nEnter article content here...\n\n### Technical Specifications\n\nDetail the material specifications here.',
+      faqs: [
+        {
+          question: '',
+          answer: ''
+        }
+      ]
     });
     setEditorTab('write');
+  };
+
+  const handleAddFaq = () => {
+    setEditingPost(prev => ({
+      ...prev,
+      faqs: [...(prev.faqs || []), { question: '', answer: '' }]
+    }));
+  };
+
+  const handleUpdateFaq = (index, field, value) => {
+    setEditingPost(prev => {
+      const list = [...(prev.faqs || [])];
+      list[index] = { ...list[index], [field]: value };
+      return { ...prev, faqs: list };
+    });
+  };
+
+  const handleDeleteFaq = (index) => {
+    setEditingPost(prev => {
+      const list = (prev.faqs || []).filter((_, i) => i !== index);
+      return { ...prev, faqs: list };
+    });
+  };
+
+  const handleMoveFaq = (index, direction) => {
+    setEditingPost(prev => {
+      const list = [...(prev.faqs || [])];
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= list.length) return prev;
+      const [item] = list.splice(index, 1);
+      list.splice(targetIndex, 0, item);
+      return { ...prev, faqs: list };
+    });
+  };
+
+  const handleAutoSuggestFaqs = () => {
+    const title = editingPost?.title?.trim() || 'Custom Sportswear Manufacturing';
+    const category = editingPost?.category || 'Manufacturing Guides';
+
+    const suggestions = [
+      {
+        question: `What are the minimum order quantities (MOQs) for products covered in "${title}"?`,
+        answer: `At Hare Sportswear & Goods, production orders start at 25 to 50 pieces per style with rapid 7-day physical pre-production sampling before full manufacturing runs.`
+      },
+      {
+        question: `How does Hare Sportswear ensure strict quality control for ${category.toLowerCase()}?`,
+        answer: `All production adheres to ISO 2859-1 (AQL 2.5 Major) standards with 4-stage inline checkpoints, digital laser pattern cut tolerances (±1mm), and automated needle detector scans before packaging.`
+      },
+      {
+        question: `What is the standard production and shipping lead time from Sialkot?`,
+        answer: `Physical sample strike-offs are completed in 5–7 business days. Bulk production takes 14–21 business days, followed by 3–5 day express DDP air cargo delivery directly to your facility via DHL or FedEx.`
+      }
+    ];
+
+    setEditingPost(prev => ({
+      ...prev,
+      faqs: [...(prev.faqs || []).filter(f => f.question && f.question.trim()), ...suggestions]
+    }));
   };
 
   const handleSave = (e) => {
@@ -84,9 +147,18 @@ export default function AdminBlogManager() {
         .replace(/(^-|-$)/g, '');
     }
 
+    // Clean up empty FAQs
+    const sanitizedFaqs = (editingPost.faqs || [])
+      .filter(f => f.question && f.question.trim().length > 0)
+      .map(f => ({
+        question: f.question.trim(),
+        answer: (f.answer || '').trim()
+      }));
+
     saveBlogPost({
       ...editingPost,
-      slug
+      slug,
+      faqs: sanitizedFaqs
     });
 
     setEditingPost(null);
@@ -283,11 +355,16 @@ export default function AdminBlogManager() {
                         </div>
                       </td>
 
-                      {/* Category */}
+                      {/* Category & FAQ count */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <span className="text-[11px] px-2 py-0.5 rounded bg-white/10 text-stone-300 font-semibold">
-                          {post.category}
-                        </span>
+                        <div className="flex flex-col gap-1 items-start">
+                          <span className="text-[11px] px-2 py-0.5 rounded bg-white/10 text-stone-300 font-semibold">
+                            {post.category}
+                          </span>
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#FF751F]/15 text-[#FF751F] border border-[#FF751F]/30 font-bold">
+                            {(post.faqs || []).length} FAQ{(post.faqs || []).length === 1 ? '' : 's'}
+                          </span>
+                        </div>
                       </td>
 
                       {/* Status Badge */}
@@ -327,9 +404,9 @@ export default function AdminBlogManager() {
 
                           {/* Edit Post */}
                           <button
-                            onClick={() => setEditingPost({ ...post })}
+                            onClick={() => setEditingPost({ ...post, faqs: post.faqs ? [...post.faqs] : [] })}
                             className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-stone-300 hover:text-white"
-                            title="Edit Article Content"
+                            title="Edit Article Content & FAQs"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                           </button>
@@ -772,6 +849,164 @@ export default function AdminBlogManager() {
                   </div>
                 )}
 
+              </div>
+
+              {/* ========================================================= */}
+              {/* ARTICLE FAQs BUILDER (Interactive CMS Accordion Manager) */}
+              {/* ========================================================= */}
+              <div className="space-y-3 pt-4 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#191715] p-3.5 rounded-2xl border border-white/10">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-xl bg-[#FF751F]/15 text-[#FF751F]">
+                      <HelpCircle className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-white uppercase tracking-wider">
+                          Article FAQs Builder
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#FF751F]/20 text-[#FF751F] border border-[#FF751F]/30">
+                          {(editingPost.faqs || []).length} Question{(editingPost.faqs || []).length === 1 ? '' : 's'}
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-stone-400 block mt-0.5">
+                        These FAQs render in the blog post accordion and inject Google FAQPage schema for rich search results.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 self-end sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={handleAutoSuggestFaqs}
+                      className="px-3 py-1.5 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                      title="Generate technical questions tailored to this article"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                      <span>Auto-Suggest FAQs</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleAddFaq}
+                      className="px-3 py-1.5 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Question</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* FAQs List */}
+                <div className="space-y-3">
+                  {(!editingPost.faqs || editingPost.faqs.length === 0) ? (
+                    <div className="p-8 rounded-2xl bg-[#141210] border border-dashed border-white/15 text-center space-y-3">
+                      <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto text-stone-400">
+                        <HelpCircle className="w-5 h-5 text-stone-400" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="text-xs font-bold text-white">No FAQs Added for this Article Yet</h4>
+                        <p className="text-[11px] text-stone-400 max-w-md mx-auto">
+                          Add frequently asked questions to help buyers understand your manufacturing tolerances, sampling lead times, and materials.
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={handleAutoSuggestFaqs}
+                          className="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs font-bold border border-purple-500/30 transition flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Generate 3 Auto Suggestions</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleAddFaq}
+                          className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Add Blank Question</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    editingPost.faqs.map((faq, idx) => (
+                      <div
+                        key={idx}
+                        className="p-4 rounded-2xl bg-[#181614] border border-white/10 space-y-3 shadow-xs transition hover:border-white/20"
+                      >
+                        {/* FAQ Card Header */}
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-[#FF751F]/20 text-[#FF751F] border border-[#FF751F]/30 text-[11px] font-mono font-bold flex items-center justify-center shrink-0">
+                              Q{idx + 1}
+                            </span>
+                            <span className="text-xs font-bold text-stone-300">
+                              Question #{idx + 1}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleMoveFaq(idx, -1)}
+                              disabled={idx === 0}
+                              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none text-stone-300 hover:text-white transition"
+                              title="Move Up"
+                            >
+                              <ArrowUp className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleMoveFaq(idx, 1)}
+                              disabled={idx === editingPost.faqs.length - 1}
+                              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none text-stone-300 hover:text-white transition"
+                              title="Move Down"
+                            >
+                              <ArrowDown className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteFaq(idx)}
+                              className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition"
+                              title="Delete FAQ"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Question Input */}
+                        <div>
+                          <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">
+                            Question *
+                          </label>
+                          <input
+                            type="text"
+                            value={faq.question || ''}
+                            onChange={(e) => handleUpdateFaq(idx, 'question', e.target.value)}
+                            placeholder="e.g. What is the standard MOQ for this apparel category?"
+                            className="w-full px-3.5 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs font-semibold focus:outline-none focus:border-[#FF751F]"
+                          />
+                        </div>
+
+                        {/* Answer Textarea */}
+                        <div>
+                          <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">
+                            Detailed Answer *
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={faq.answer || ''}
+                            onChange={(e) => handleUpdateFaq(idx, 'answer', e.target.value)}
+                            placeholder="Provide a clear, technical, and helpful explanation for brand buyers..."
+                            className="w-full p-3 rounded-xl bg-black/40 border border-white/10 text-stone-200 text-xs leading-relaxed focus:outline-none focus:border-[#FF751F]"
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
 
             </div>

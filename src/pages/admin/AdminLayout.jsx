@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Layers, FileText, Search, HelpCircle, 
@@ -19,7 +19,20 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
   const totalDomainPages = DOMAIN_PAGES.length;
   const publishedBlogsCount = blogPosts.filter(p => p.status === 'published').length;
   const draftBlogsCount = blogPosts.filter(p => p.status === 'draft').length;
-  const totalFAQsCount = Object.values(pageFAQs).reduce((acc, list) => acc + list.length, 0);
+  const totalFAQsCount = useMemo(() => {
+    let count = 0;
+    const countedKeys = new Set();
+    Object.entries(pageFAQs).forEach(([key, list]) => {
+      count += list.length;
+      countedKeys.add(key);
+    });
+    blogPosts.forEach(p => {
+      if (!countedKeys.has(`blog-${p.slug}`)) {
+        count += (p.faqs?.length || 0);
+      }
+    });
+    return count;
+  }, [pageFAQs, blogPosts]);
 
   const navItems = [
     {

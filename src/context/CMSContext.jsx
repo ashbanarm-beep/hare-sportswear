@@ -17,7 +17,18 @@ export function CMSProvider({ children }) {
   const [blogPosts, setBlogPosts] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.BLOG_POSTS);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return parsed.map(p => {
+          const init = initialBlogPosts.find(ip => ip.slug === p.slug);
+          return {
+            ...p,
+            status: p.status || 'published',
+            updatedAt: p.updatedAt || p.date,
+            faqs: (p.faqs && p.faqs.length > 0) ? p.faqs : (init?.faqs || [])
+          };
+        });
+      }
     } catch (e) {
       console.warn('Failed to load blog posts from storage', e);
     }
@@ -25,7 +36,8 @@ export function CMSProvider({ children }) {
     return initialBlogPosts.map(p => ({
       ...p,
       status: p.status || 'published',
-      updatedAt: p.updatedAt || p.date
+      updatedAt: p.updatedAt || p.date,
+      faqs: p.faqs || []
     }));
   });
 
@@ -120,14 +132,15 @@ export function CMSProvider({ children }) {
   };
 
   const saveBlogPost = (postData) => {
+    const postWithMeta = {
+      ...postData,
+      faqs: Array.isArray(postData.faqs) ? postData.faqs : [],
+      status: postData.status || 'published',
+      updatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+    };
+
     setBlogPosts(prev => {
       const existingIndex = prev.findIndex(p => p.slug === postData.slug);
-      const postWithMeta = {
-        ...postData,
-        status: postData.status || 'published',
-        updatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
-      };
-
       if (existingIndex >= 0) {
         const updated = [...prev];
         updated[existingIndex] = postWithMeta;
@@ -136,6 +149,20 @@ export function CMSProvider({ children }) {
         return [postWithMeta, ...prev];
       }
     });
+
+    // Also sync FAQs to pageFAQs under `blog-${postData.slug}`
+    if (postWithMeta.faqs && postWithMeta.faqs.length > 0) {
+      setPageFAQs(prev => ({
+        ...prev,
+        [`blog-${postData.slug}`]: postWithMeta.faqs.map((f, idx) => ({
+          id: f.id || `faq-blog-${postData.slug}-${idx}-${Date.now()}`,
+          question: f.question,
+          answer: f.answer,
+          category: postData.category || 'Blog Technical Q&A',
+          active: f.active !== false
+        }))
+      }));
+    }
 
     // Also register default SEO for this blog post if not present
     const blogPath = `/blog/${postData.slug}`;
@@ -210,12 +237,29 @@ export function CMSProvider({ children }) {
   // ============================================================
   // DYNAMIC PAGE-SPECIFIC FAQ METHODS
   // ============================================================
-  const getFAQs = (pageId = 'home') => {
-    return (pageFAQs[pageId] || []).filter(f => f.active !== false);
+  const getAllFAQsForPage = (pageId = 'home') => {
+    if (pageFAQs[pageId] && pageFAQs[pageId].length > 0) {
+      return pageFAQs[pageId];
+    }
+    // If it's a blog post page, check blogPosts state for faqs
+    if (pageId.startsWith('blog-')) {
+      const slug = pageId.replace(/^blog-/, '');
+      const post = blogPosts.find(p => p.slug === slug);
+      if (post && post.faqs && post.faqs.length > 0) {
+        return post.faqs.map((f, idx) => ({
+          id: f.id || `faq-blog-${slug}-${idx}`,
+          question: f.question,
+          answer: f.answer,
+          category: post.category || 'Blog Technical Q&A',
+          active: f.active !== false
+        }));
+      }
+    }
+    return pageFAQs[pageId] || [];
   };
 
-  const getAllFAQsForPage = (pageId = 'home') => {
-    return pageFAQs[pageId] || [];
+  const getFAQs = (pageId = 'home') => {
+    return getAllFAQsForPage(pageId).filter(f => f.active !== false);
   };
 
   const addFAQ = (pageId, faq) => {
@@ -227,31 +271,60 @@ export function CMSProvider({ children }) {
       active: faq.active !== undefined ? faq.active : true
     };
 
-    setPageFAQs(prev => ({
-      ...prev,
-      [pageId]: [...(prev[pageId] || []), newFaq]
-    }));
+    setPageFAQs(prev => {
+      const existing = prev[pageId] || (pageId.startsWith('blog-') ? getAllFAQsForPage(pageId) : []);
+      const updatedList = [...existing, newFaq];
+      if (pageId.startsWith('blog-')) {
+        const slug = pageId.replace(/^blog-/, '');
+        setBlogPosts(bPrev => bPrev.map(p => p.slug === slug ? { ...p, faqs: updatedList } : p));
+      }
+      return {
+        ...prev,
+        [pageId]: updatedList
+      };
+    });
   };
 
   const updateFAQ = (pageId, faqId, updatedFields) => {
-    setPageFAQs(prev => ({
-      ...prev,
-      [pageId]: (prev[pageId] || []).map(f => f.id === faqId ? { ...f, ...updatedFields } : f)
-    }));
+    setPageFAQs(prev => {
+      const existing = prev[pageId] || (pageId.startsWith('blog-') ? getAllFAQsForPage(pageId) : []);
+      const updatedList = existing.map(f => f.id === faqId ? { ...f, ...updatedFields } : f);
+      if (pageId.startsWith('blog-')) {
+        const slug = pageId.replace(/^blog-/, '');
+        setBlogPosts(bPrev => bPrev.map(p => p.slug === slug ? { ...p, faqs: updatedList } : p));
+      }
+      return {
+        ...prev,
+        [pageId]: updatedList
+      };
+    });
   };
 
   const deleteFAQ = (pageId, faqId) => {
-    setPageFAQs(prev => ({
-      ...prev,
-      [pageId]: (prev[pageId] || []).filter(f => f.id !== faqId)
-    }));
+    setPageFAQs(prev => {
+      const existing = prev[pageId] || (pageId.startsWith('blog-') ? getAllFAQsForPage(pageId) : []);
+      const updatedList = existing.filter(f => f.id !== faqId);
+      if (pageId.startsWith('blog-')) {
+        const slug = pageId.replace(/^blog-/, '');
+        setBlogPosts(bPrev => bPrev.map(p => p.slug === slug ? { ...p, faqs: updatedList } : p));
+      }
+      return {
+        ...prev,
+        [pageId]: updatedList
+      };
+    });
   };
 
   const reorderFAQs = (pageId, fromIndex, toIndex) => {
     setPageFAQs(prev => {
-      const list = [...(prev[pageId] || [])];
+      const existing = prev[pageId] || (pageId.startsWith('blog-') ? getAllFAQsForPage(pageId) : []);
+      const list = [...existing];
       const [moved] = list.splice(fromIndex, 1);
       list.splice(toIndex, 0, moved);
+      if (pageId.startsWith('blog-')) {
+        const slug = pageId.replace(/^blog-/, '');
+        setBlogPosts(bPrev => bPrev.map(p => p.slug === slug ? { ...p, faqs: list } : p));
+      }
       return {
         ...prev,
         [pageId]: list
