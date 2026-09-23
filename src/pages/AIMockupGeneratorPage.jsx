@@ -5,7 +5,7 @@ import {
   RotateCcw, Eye, EyeOff, ShieldCheck, CheckCircle2, ChevronRight,
   Palette, Shirt, Layers, Zap, Info, Copy, Check, MessageCircle,
   Sliders, ArrowRight, ExternalLink, HelpCircle, Key, Settings,
-  AlertTriangle, XCircle, Activity, Wifi, X, BookOpen, Lightbulb
+  AlertTriangle, XCircle, Activity, Wifi, X, BookOpen, Lightbulb, Search, ChevronDown
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
@@ -35,61 +35,214 @@ export const getGeminiKeySource = () => {
   return 'Pre-Configured Sialkot Client Key';
 };
 
-// Curated Apparel Configurations
-const APPAREL_CATEGORIES = [
+// Curated Category Division Filter Groups
+export const APPAREL_GROUPS = [
+  { id: 'all', name: 'All Garments', icon: '✨' },
+  { id: 'teamwear', name: 'Teamwear & Kits', icon: '⚽' },
+  { id: 'womens', name: "Sports Bras & Women's", icon: '🧘' },
+  { id: 'activewear', name: "Men's Activewear", icon: '🏃' },
+  { id: 'compression', name: 'Compression', icon: '⚡' },
+  { id: 'combat', name: 'Combat & Martial Arts', icon: '🥊' }
+];
+
+// Complete Sportswear & Athletic Apparel Catalog Database
+export const APPAREL_CATEGORIES = [
+  // 1. Teamwear & Match Uniforms
   {
     id: 'soccer-jersey',
-    name: 'Sublimated Soccer Jersey',
+    name: 'Sublimated Soccer / Football Jersey',
     category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
     defaultFabric: '160 GSM Performance Poly Interlock',
     collarStyles: ['v-neck', 'crew', 'mandarin'],
     silhouette: 'Athletic Slim Match Cut',
-    icon: '⚽'
+    icon: '⚽',
+    isBottom: false
   },
   {
     id: 'basketball-uniform',
-    name: 'Pro Mesh Basketball Jersey',
+    name: 'Pro Mesh Basketball Uniform Tank',
     category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
     defaultFabric: '180 GSM Diamond Dri-Fit Poly Mesh',
     collarStyles: ['v-neck', 'crew'],
     silhouette: 'Sleeveless Wide-Shoulder Cut',
-    icon: '🏀'
+    icon: '🏀',
+    isBottom: false
+  },
+  {
+    id: 'rugby-jersey',
+    name: 'Heavy Contact Rugby Match Jersey',
+    category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
+    defaultFabric: '280 GSM Heavy Spun Poly-Twill',
+    collarStyles: ['crew', 'mandarin'],
+    silhouette: 'Reinforced Bar-Tack Placket Cut',
+    icon: '🏉',
+    isBottom: false
+  },
+  {
+    id: 'cricket-jersey',
+    name: 'T20 Sublimated Cricket Kit Top',
+    category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
+    defaultFabric: '160 GSM Pinhole Eyelet Breathable Mesh',
+    collarStyles: ['mandarin', 'v-neck'],
+    silhouette: 'Performance Athletic Polo Cut',
+    icon: '🏏',
+    isBottom: false
+  },
+  {
+    id: 'baseball-jersey',
+    name: 'Classic Button-Down Baseball Jersey',
+    category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
+    defaultFabric: '220 GSM Pro Stretch Knit with Piping',
+    collarStyles: ['v-neck', 'crew'],
+    silhouette: 'Button-Down Placket with Piping',
+    icon: '⚾',
+    isBottom: false
+  },
+  {
+    id: 'hockey-jersey',
+    name: 'Sublimated Ice / Field Hockey Jersey',
+    category: 'Teamwear & Custom Kits',
+    group: 'teamwear',
+    defaultFabric: '240 GSM Airknit Mesh with Elbow Reinforcement',
+    collarStyles: ['v-neck'],
+    silhouette: 'Oversized Sweaters with Drop Shoulders',
+    icon: '🏒',
+    isBottom: false
+  },
+
+  // 2. Sports Bras & Women's Activewear
+  {
+    id: 'sports-bra',
+    name: 'High-Impact Racerback Sports Bra',
+    category: "Sports Bras & Women's Activewear",
+    group: 'womens',
+    defaultFabric: '280 GSM 75/25 Nylon-Spandex High-Support Knit',
+    collarStyles: ['scoop', 'racerback'],
+    silhouette: 'Supportive Underbust Band & Ergonomic Princess Seams',
+    icon: '🧘',
+    isBottom: false,
+    isCropped: true
+  },
+  {
+    id: 'performance-leggings',
+    name: 'Seamless High-Waist Performance Leggings',
+    category: "Sports Bras & Women's Activewear",
+    group: 'womens',
+    defaultFabric: '300 GSM Squat-Proof 4-Way Stretch Interlock',
+    collarStyles: ['waistband'],
+    silhouette: 'High-Waist Compression Tummy-Control Panel',
+    icon: '🩱',
+    isBottom: true
+  },
+  {
+    id: 'training-tee',
+    name: 'Ultralight Seamless Training Gym Tee',
+    category: "Sports Bras & Women's Activewear",
+    group: 'womens',
+    defaultFabric: '140 GSM Featherweight Aerolite Jacquard',
+    collarStyles: ['crew', 'v-neck'],
+    silhouette: 'Feminine Athletic Contour Cut',
+    icon: '👚',
+    isBottom: false
+  },
+
+  // 3. Men's Activewear & Streetwear
+  {
+    id: 'fleece-hoodie',
+    name: 'Heavyweight Tech Fleece Pullover Hoodie',
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    defaultFabric: '380 GSM Organic Cotton/Poly French Terry Fleece',
+    collarStyles: ['hooded'],
+    silhouette: 'Relaxed Drop-Shoulder Streetwear with Kangaroo Pocket',
+    icon: '🧥',
+    isBottom: false
+  },
+  {
+    id: 'tracksuit-jacket',
+    name: 'Full-Zip Tracksuit Windbreaker Jacket',
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    defaultFabric: '140 GSM DWR Micro-Ripstop with Mesh Lining',
+    collarStyles: ['mandarin', 'crew'],
+    silhouette: 'Full-Front Zipper Wind Jacket with Raglan Sleeves',
+    icon: '🏃',
+    isBottom: false
+  },
+  {
+    id: 'joggers-trackpants',
+    name: 'Tapered Athletic French Terry Joggers',
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    defaultFabric: '320 GSM Cotton-Poly French Terry with Cuffed Rib',
+    collarStyles: ['waistband'],
+    silhouette: 'Tapered Ankle Rib Leg with Metal Eyelet Drawstrings',
+    icon: '👖',
+    isBottom: true
+  },
+
+  // 4. Compression Wear & Baselayers
+  {
+    id: 'compression-top',
+    name: 'Pro Athletic Compression Rashguard',
+    category: 'Compression & Baselayers',
+    group: 'compression',
+    defaultFabric: '220 GSM 85/15 Poly-Spandex Anti-Chafing Knit',
+    collarStyles: ['crew'],
+    silhouette: 'Second-Skin Raglan Panel with Flatlock Seams',
+    icon: '⚡',
+    isBottom: false
+  },
+  {
+    id: 'compression-tights',
+    name: 'Pro Compression Spats / Baselayer Tights',
+    category: 'Compression & Baselayers',
+    group: 'compression',
+    defaultFabric: '240 GSM 4-Way Stretch Compression Lycra',
+    collarStyles: ['waistband'],
+    silhouette: 'Full-Length Ergonomic Muscle Stabilization Tights',
+    icon: '🦵',
+    isBottom: true
+  },
+
+  // 5. Combat Sports & Martial Arts
+  {
+    id: 'combat-shorts',
+    name: 'Muay Thai & MMA Fight Shorts',
+    category: 'Wrestling & Combat Gear',
+    group: 'combat',
+    defaultFabric: '140 GSM Micro-Satin & Ripstop Side Splits',
+    collarStyles: ['waistband'],
+    silhouette: 'High-Movement Split Hem with Shirred Elastic Band',
+    icon: '🥊',
+    isBottom: true
   },
   {
     id: 'wrestling-singlet',
     name: 'Elite Wrestling Singlet',
     category: 'Wrestling & Combat Gear',
+    group: 'combat',
     defaultFabric: '260 GSM Heavyweight Lycra-Spandex (4-Way Stretch)',
     collarStyles: ['scoop', 'racerback'],
-    silhouette: 'Anatomical Compression Contour',
-    icon: '🤼'
+    silhouette: 'Anatomical Compression Contour Bodysuit',
+    icon: '🤼',
+    isBottom: false
   },
   {
-    id: 'fleece-hoodie',
-    name: 'Heavyweight Fleece Hoodie',
-    category: "Men's Activewear & Training",
-    defaultFabric: '380 GSM Organic Cotton/Poly French Terry Fleece',
-    collarStyles: ['hooded'],
-    silhouette: 'Relaxed Drop-Shoulder Streetwear',
-    icon: '🧥'
-  },
-  {
-    id: 'compression-top',
-    name: 'Pro Compression Rashguard',
-    category: 'Activewear & Training',
-    defaultFabric: '220 GSM 85/15 Poly-Spandex Anti-Chafing Knit',
-    collarStyles: ['crew'],
-    silhouette: 'Second-Skin Raglan Panel',
-    icon: '⚡'
-  },
-  {
-    id: 'combat-shorts',
-    name: 'Muay Thai & MMA Shorts',
+    id: 'bjj-gi',
+    name: 'Competition Brazilian Jiu-Jitsu (BJJ) Gi',
     category: 'Wrestling & Combat Gear',
-    defaultFabric: '140 GSM Micro-Satin & Ripstop Side Splits',
-    collarStyles: ['waistband'],
-    silhouette: 'High-Movement Split Hem',
-    icon: '🥊'
+    group: 'combat',
+    defaultFabric: '450 GSM Pearl Weave Cotton Jacket with Ripstop Collar',
+    collarStyles: ['mandarin'],
+    silhouette: 'Kimono Cross-Lapel Jacket with Traditional Woven Belt',
+    icon: '🥋',
+    isBottom: false
   }
 ];
 
@@ -208,6 +361,11 @@ export default function AIMockupGeneratorPage() {
   const [showGuideModal, setShowGuideModal] = useState(false);
   const [showPromptTips, setShowPromptTips] = useState(false);
 
+  // Product Catalog Modal & Search Filter State
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [productSearchQuery, setProductSearchQuery] = useState('');
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState('all');
+
   // Garment Customization State
   const [selectedApparel, setSelectedApparel] = useState(APPAREL_CATEGORIES[0]);
   const [prompt, setPrompt] = useState('Dynamic aerodynamic speed chevrons with high-contrast safety orange accents');
@@ -217,6 +375,29 @@ export default function AIMockupGeneratorPage() {
   const [trimColor, setTrimColor] = useState('#D4AF37');
   const [selectedPattern, setSelectedPattern] = useState('stripes');
   const [collarStyle, setCollarStyle] = useState('v-neck');
+
+  // Helper to select apparel from catalog and update collar defaults
+  const handleSelectApparel = (apparel) => {
+    setSelectedApparel(apparel);
+    if (apparel.collarStyles && apparel.collarStyles.length > 0) {
+      setCollarStyle(apparel.collarStyles[0]);
+    }
+    setShowProductModal(false);
+  };
+
+  // Filtered apparel catalog by search term & active category tab
+  const filteredApparelList = useMemo(() => {
+    return APPAREL_CATEGORIES.filter((apparel) => {
+      const matchesGroup = activeCategoryFilter === 'all' || apparel.group === activeCategoryFilter;
+      const q = productSearchQuery.trim().toLowerCase();
+      const matchesSearch = !q || 
+        apparel.name.toLowerCase().includes(q) || 
+        apparel.category.toLowerCase().includes(q) ||
+        apparel.defaultFabric.toLowerCase().includes(q) ||
+        apparel.silhouette.toLowerCase().includes(q);
+      return matchesGroup && matchesSearch;
+    });
+  }, [activeCategoryFilter, productSearchQuery]);
   
   // Custom Graphics State
   const [teamName, setTeamName] = useState('HARE ATHLETICS');
@@ -811,7 +992,7 @@ WhatsApp: +92 300 1234567
                   1. Choose Apparel Type
                 </span>
                 <span className="text-[11px] text-stone-500 block truncate">
-                  6 Sialkot factory silhouettes
+                  {APPAREL_CATEGORIES.length} Sialkot factory silhouettes
                 </span>
               </div>
             </div>
@@ -909,35 +1090,100 @@ WhatsApp: +92 300 1234567
           {/* ========================================================= */}
           <div className="lg:col-span-5 space-y-6">
             
-            {/* 1. Apparel Silhouette Selection */}
+            {/* 1. Apparel Silhouette Selection with Choose Product Dropdown */}
             <div className="p-6 rounded-3xl bg-white border border-[#E5DFD5] shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-2">
                   <Shirt className="w-4 h-4 text-[#FF751F]" />
                   <span>1. Choose Apparel Type</span>
                 </label>
-                <span className="text-[11px] font-mono text-stone-400">6 Silhouettes</span>
+                <span className="text-[11px] font-mono text-stone-500">
+                  {APPAREL_CATEGORIES.length} Factory Silhouettes
+                </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {APPAREL_CATEGORIES.map((apparel) => {
-                  const isSelected = selectedApparel.id === apparel.id;
-                  return (
-                    <button
-                      key={apparel.id}
-                      type="button"
-                      onClick={() => setSelectedApparel(apparel)}
-                      className={`p-3 rounded-2xl text-left transition-all border text-xs font-semibold flex flex-col justify-between min-h-[82px] cursor-pointer ${
-                        isSelected
-                          ? 'bg-[#FF751F] text-white border-[#FF751F] shadow-md shadow-[#FF751F]/20 scale-[1.02]'
-                          : 'bg-[#FAF8F5] text-stone-700 border-[#E5DFD5] hover:border-[#FF751F]/50 hover:bg-white'
-                      }`}
-                    >
-                      <span className="text-lg mb-1">{apparel.icon}</span>
-                      <span className="leading-snug">{apparel.name}</span>
-                    </button>
-                  );
-                })}
+              {/* Dynamic "Choose Product" Dropdown Button */}
+              <button
+                type="button"
+                id="btn-choose-product"
+                onClick={() => setShowProductModal(true)}
+                className="w-full p-4 rounded-2xl border-2 border-[#E5DFD5] hover:border-[#FF751F] bg-gradient-to-r from-[#FAF8F5] to-white hover:bg-white text-left transition-all shadow-xs hover:shadow-md flex items-center justify-between group cursor-pointer"
+              >
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-12 h-12 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/20 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+                    {selectedApparel.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] bg-[#FF751F]/10 px-2 py-0.5 rounded-full">
+                        {selectedApparel.category}
+                      </span>
+                      <span className="text-[10px] text-stone-400 font-mono hidden sm:inline">
+                        {selectedApparel.silhouette}
+                      </span>
+                    </div>
+                    <h3 className="font-extrabold text-sm sm:text-base text-[#1A1A1A] truncate mt-0.5 group-hover:text-[#FF751F] transition-colors">
+                      {selectedApparel.name}
+                    </h3>
+                    <span className="text-[11px] text-stone-500 truncate block">
+                      Default Fabric: <strong className="text-stone-700">{selectedApparel.defaultFabric}</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0 ml-3">
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1A1A1A] text-white text-xs font-bold group-hover:bg-[#FF751F] transition-colors shadow-xs">
+                    <span>Choose Product</span>
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  </span>
+                  <span className="sm:hidden p-2 rounded-xl bg-stone-100 text-stone-700">
+                    <ChevronDown className="w-4 h-4" />
+                  </span>
+                </div>
+              </button>
+
+              {/* Popular Quick Picks Row */}
+              <div className="space-y-1.5 pt-1">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-stone-500 uppercase tracking-wider">Popular Quick Picks:</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowProductModal(true)}
+                    className="text-[#FF751F] font-bold hover:underline"
+                  >
+                    View All ({APPAREL_CATEGORIES.length}) →
+                  </button>
+                </div>
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                  {[
+                    'soccer-jersey',
+                    'sports-bra',
+                    'performance-leggings',
+                    'compression-top',
+                    'fleece-hoodie',
+                    'tracksuit-jacket',
+                    'combat-shorts'
+                  ].map((popId) => {
+                    const popApparel = APPAREL_CATEGORIES.find((a) => a.id === popId);
+                    if (!popApparel) return null;
+                    const isSel = selectedApparel.id === popId;
+                    return (
+                      <button
+                        key={popId}
+                        type="button"
+                        onClick={() => handleSelectApparel(popApparel)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition cursor-pointer flex items-center gap-1.5 ${
+                          isSel
+                            ? 'bg-[#1A1A1A] text-white shadow-xs'
+                            : 'bg-[#FAF8F5] text-stone-700 hover:bg-stone-200 border border-[#E5DFD5]'
+                        }`}
+                      >
+                        <span>{popApparel.icon}</span>
+                        <span>{popApparel.name.split(' ')[0]} {popApparel.name.split(' ')[1] || ''}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
@@ -2009,67 +2255,693 @@ WhatsApp: +92 300 1234567
                     </g>
                   )}
 
+                  {/* 7. HEAVY CONTACT RUGBY MATCH JERSEY */}
+                  {selectedApparel.id === 'rugby-jersey' && (
+                    <g id="rugbyJerseyGroup">
+                      {/* Left Sleeve */}
+                      <path d="M 165 100 L 70 165 L 105 220 L 175 165 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="70,165 60,178 95,233 105,220" fill={trimColor} />
+
+                      {/* Right Sleeve */}
+                      <path d="M 335 100 L 430 165 L 395 220 L 325 165 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="430,165 440,178 405,233 395,220" fill={trimColor} />
+
+                      {/* Torso Body */}
+                      <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <path d="M 165 100 Q 250 115 335 100 L 340 170 Q 328 285 342 422 Q 250 435 158 422 Q 172 285 160 170 Z" fill="url(#patCamo)" />}
+
+                      {/* Iconic Rugby Horizontal Chest Hoops */}
+                      <path d="M 162 205 L 338 205 L 336 265 L 164 265 Z" fill={secondaryColor} />
+                      <line x1="162" y1="210" x2="338" y2="210" stroke={trimColor} strokeWidth="2.5" />
+                      <line x1="164" y1="260" x2="336" y2="260" stroke={trimColor} strokeWidth="2.5" />
+
+                      {/* Underarm Reinforced Bar-Tacks */}
+                      <path d="M 160 170 Q 175 230 166 265" fill="none" stroke={trimColor} strokeWidth="2" strokeDasharray="3,2" />
+                      <path d="M 340 170 Q 325 230 334 265" fill="none" stroke={trimColor} strokeWidth="2" strokeDasharray="3,2" />
+
+                      {/* Rugby Heavy Twill Placket Collar */}
+                      <polygon points="215,95 250,140 240,144 208,105" fill={accentColor} stroke="#222" strokeWidth="1" />
+                      <polygon points="285,95 250,140 260,144 292,105" fill={accentColor} stroke="#222" strokeWidth="1" />
+                      <line x1="238" y1="142" x2="262" y2="142" stroke={secondaryColor} strokeWidth="3" />
+                    </g>
+                  )}
+
+                  {/* 8. T20 SUBLIMATED CRICKET KIT TOP */}
+                  {selectedApparel.id === 'cricket-jersey' && (
+                    <g id="cricketJerseyGroup">
+                      {/* Left Raglan Sleeve */}
+                      <path d="M 195 92 L 95 155 L 125 210 L 175 165 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="95,155 85,166 115,221 125,210" fill={trimColor} />
+
+                      {/* Right Raglan Sleeve */}
+                      <path d="M 305 92 L 405 155 L 375 210 L 325 165 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="405,155 415,166 385,221 375,210" fill={trimColor} />
+
+                      {/* Main Torso Body */}
+                      <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <path d="M 195 92 Q 250 110 305 92 L 335 165 Q 322 285 338 422 Q 250 435 162 422 Q 178 285 165 165 Z" fill="url(#patCamo)" />}
+
+                      {/* Dynamic Curved T20 Swoop Flanks */}
+                      <path d="M 165 165 Q 205 280 172 422 L 162 422 Q 178 285 165 165 Z" fill={secondaryColor} />
+                      <path d="M 335 165 Q 295 280 328 422 L 338 422 Q 322 285 335 165 Z" fill={secondaryColor} />
+                      <path d="M 172 422 Q 205 280 165 165" fill="none" stroke={trimColor} strokeWidth="1.5" />
+                      <path d="M 328 422 Q 295 280 335 165" fill="none" stroke={trimColor} strokeWidth="1.5" />
+
+                      {/* Cricket Polo Collar & Button Placket */}
+                      <path d="M 215 90 Q 250 110 285 90 L 295 78 Q 250 90 205 78 Z" fill={trimColor} stroke="#222" strokeWidth="1" />
+                      <rect x="245" y="96" width="10" height="54" fill={trimColor} stroke={secondaryColor} strokeWidth="1" />
+                      <circle cx="250" cy="110" r="2.2" fill={accentColor} />
+                      <circle cx="250" cy="132" r="2.2" fill={accentColor} />
+                    </g>
+                  )}
+
+                  {/* 9. CLASSIC BUTTON-DOWN BASEBALL JERSEY */}
+                  {selectedApparel.id === 'baseball-jersey' && (
+                    <g id="baseballJerseyGroup">
+                      {/* Left Sleeve with Double Striping */}
+                      <path d="M 165 105 L 80 165 L 110 220 L 175 168 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <line x1="88" y1="180" x2="118" y2="235" stroke={secondaryColor} strokeWidth="3" />
+                      <line x1="94" y1="188" x2="124" y2="243" stroke={trimColor} strokeWidth="2" />
+
+                      {/* Right Sleeve with Double Striping */}
+                      <path d="M 335 105 L 420 165 L 390 220 L 325 168 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <line x1="412" y1="180" x2="382" y2="235" stroke={secondaryColor} strokeWidth="3" />
+                      <line x1="406" y1="188" x2="376" y2="243" stroke={trimColor} strokeWidth="2" />
+
+                      {/* Torso Body with Baseball Shirt-Tail Hem */}
+                      <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <path d="M 165 105 Q 250 120 335 105 L 340 170 Q 326 280 342 415 Q 250 445 158 415 Q 174 280 160 170 Z" fill="url(#patCamo)" />}
+
+                      {/* Full-Length Contrast Baseball Button Placket */}
+                      <rect x="245" y="98" width="10" height="332" fill={primaryColor} stroke={secondaryColor} strokeWidth="1.5" />
+                      <line x1="244" y1="98" x2="244" y2="430" stroke={trimColor} strokeWidth="1.5" />
+                      <line x1="256" y1="98" x2="256" y2="430" stroke={trimColor} strokeWidth="1.5" />
+
+                      {/* 6 Baseball Stitched Buttons */}
+                      {[120, 168, 220, 275, 330, 385].map((btnY) => (
+                        <g key={btnY}>
+                          <circle cx="250" cy={btnY} r="3.2" fill={accentColor} stroke="#222" strokeWidth="0.8" />
+                          <circle cx="250" cy={btnY} r="1" fill="#444" />
+                        </g>
+                      ))}
+
+                      {/* Neck Piping */}
+                      <path d="M 215 102 Q 250 135 285 102" fill="none" stroke={trimColor} strokeWidth="2.5" />
+                    </g>
+                  )}
+
+                  {/* 10. SUBLIMATED ICE / FIELD HOCKEY SWEATER */}
+                  {selectedApparel.id === 'hockey-jersey' && (
+                    <g id="hockeyJerseyGroup">
+                      {/* Oversized Left Drop Sleeve with Elbow Reinforcement */}
+                      <path d="M 150 95 L 45 160 L 80 235 L 170 175 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="85,145 60,195 85,215 105,170" fill={secondaryColor} opacity="0.8" />
+                      <polygon points="45,160 65,165 95,230 80,235" fill={trimColor} />
+
+                      {/* Oversized Right Drop Sleeve with Elbow Reinforcement */}
+                      <path d="M 350 95 L 455 160 L 420 235 L 330 175 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="415,145 440,195 415,215 395,170" fill={secondaryColor} opacity="0.8" />
+                      <polygon points="455,160 435,165 405,230 420,235" fill={trimColor} />
+
+                      {/* Wide Oversized Torso */}
+                      <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <path d="M 150 95 Q 250 115 350 95 L 358 175 L 360 425 L 140 425 L 142 175 Z" fill="url(#patCamo)" />}
+
+                      {/* Authentic Lower Horizontal Hockey Stripes */}
+                      <rect x="140" y="365" width="220" height="20" fill={secondaryColor} />
+                      <rect x="140" y="388" width="220" height="8" fill={trimColor} />
+                      <rect x="140" y="399" width="220" height="26" fill={primaryColor} />
+
+                      {/* Hockey V-Neck with Authentic Lace-Up Strings */}
+                      <polygon points="210,95 290,95 250,158" fill="#18181B" stroke={trimColor} strokeWidth="2" />
+                      <line x1="236" y1="108" x2="264" y2="120" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                      <line x1="264" y1="108" x2="236" y2="120" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                      <line x1="239" y1="126" x2="261" y2="138" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                      <line x1="261" y1="126" x2="239" y2="138" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                      <line x1="246" y1="138" x2="244" y2="155" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                      <line x1="254" y1="138" x2="256" y2="155" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+                    </g>
+                  )}
+
+                  {/* 11. HIGH-IMPACT RACERBACK SPORTS BRA */}
+                  {selectedApparel.id === 'sports-bra' && (
+                    <g id="sportsBraGroup">
+                      {viewMode === 'front' ? (
+                        <>
+                          {/* Front Silhouette: Scoop Neck & Supportive Bust Shell */}
+                          <path
+                            d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z"
+                            fill={primaryColor}
+                            stroke="#222"
+                            strokeWidth="2"
+                          />
+
+                          {/* Pattern Overlay */}
+                          {selectedPattern === 'geometric' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patGeometric)" />}
+                          {selectedPattern === 'stripes' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patStripes)" />}
+                          {selectedPattern === 'hex' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patHex)" />}
+                          {selectedPattern === 'cyber' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patCyber)" />}
+                          {selectedPattern === 'camo' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patCamo)" />}
+
+                          {/* Deep Front Scoop Neck Binding */}
+                          <path d="M 195 110 Q 250 165 305 110 Q 250 148 195 110 Z" fill={trimColor} stroke={secondaryColor} strokeWidth="1.5" />
+
+                          {/* Ergonomic Princess Seams / Removable Pad Molding */}
+                          <path d="M 215 125 Q 208 195 230 268" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="3,2" />
+                          <path d="M 285 125 Q 292 195 270 268" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="3,2" />
+
+                          {/* Center Mesh Breather Vent */}
+                          <polygon points="242,160 258,160 250,188" fill={secondaryColor} opacity="0.75" />
+
+                          {/* Supportive High-Tension Underbust Band */}
+                          <path d="M 178 268 Q 250 278 322 268 L 320 298 Q 250 308 180 298 Z" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
+                          <line x1="184" y1="283" x2="316" y2="283" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+                        </>
+                      ) : (
+                        <>
+                          {/* Back View: High-Impact Racerback Y-Strap Silhouette */}
+                          <path
+                            d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z"
+                            fill={primaryColor}
+                            stroke="#222"
+                            strokeWidth="2"
+                          />
+                          {/* Scapula Blade Cutouts */}
+                          <path d="M 195 110 L 235 185 L 235 268 L 178 268 Q 185 210 168 155 Z" fill="#FAF8F5" stroke="#222" strokeWidth="1" />
+                          <path d="M 305 110 L 265 185 L 265 268 L 322 268 Q 315 210 332 155 Z" fill="#FAF8F5" stroke="#222" strokeWidth="1" />
+
+                          {/* Central Racerback Spine */}
+                          <path d="M 235 185 L 235 268 L 265 268 L 265 185 Q 250 160 235 185 Z" fill={secondaryColor} stroke={trimColor} strokeWidth="1.5" />
+                          <line x1="250" y1="180" x2="250" y2="268" stroke={accentColor} strokeWidth="2" strokeDasharray="3,2" />
+
+                          {/* Supportive High-Tension Underbust Band */}
+                          <path d="M 178 268 Q 250 278 322 268 L 320 298 Q 250 308 180 298 Z" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
+                          <line x1="184" y1="283" x2="316" y2="283" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+                        </>
+                      )}
+                    </g>
+                  )}
+
+                  {/* 12. SEAMLESS HIGH-WAIST PERFORMANCE LEGGINGS */}
+                  {selectedApparel.id === 'performance-leggings' && (
+                    <g id="performanceLeggingsGroup">
+                      {/* High-Rise 4-inch Waistband */}
+                      <path d="M 175 120 Q 250 110 325 120 L 328 160 Q 250 152 172 160 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      <path d="M 172 160 Q 250 152 328 160" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" fill="none" />
+
+                      {/* Left Leg */}
+                      <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      {/* Right Leg */}
+                      <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      {/* Crotch Diamond Flex Gusset */}
+                      <polygon points="246,230 250,220 254,230 250,242" fill={secondaryColor} />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && (
+                        <g opacity="0.35">
+                          <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill="url(#patGeometric)" />
+                          <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill="url(#patGeometric)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <g opacity="0.35">
+                          <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill="url(#patStripes)" />
+                          <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill="url(#patStripes)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <g opacity="0.35">
+                          <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill="url(#patHex)" />
+                          <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill="url(#patHex)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <g opacity="0.35">
+                          <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill="url(#patCyber)" />
+                          <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill="url(#patCyber)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <g opacity="0.35">
+                          <path d="M 172 160 Q 155 240 168 340 L 180 458 L 220 458 L 236 340 L 246 230 Z" fill="url(#patCamo)" />
+                          <path d="M 328 160 Q 345 240 332 340 L 320 458 L 280 458 L 264 340 L 254 230 Z" fill="url(#patCamo)" />
+                        </g>
+                      )}
+
+                      {/* Front: Quad & IT-Band Flatlock Seams */}
+                      {viewMode === 'front' ? (
+                        <>
+                          <path d="M 172 160 Q 192 250 202 335 L 198 458" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+                          <path d="M 328 160 Q 308 250 298 335 L 302 458" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+                          <circle cx="200" cy="335" r="9" fill="none" stroke={trimColor} strokeWidth="1.2" opacity="0.7" />
+                          <circle cx="300" cy="335" r="9" fill="none" stroke={trimColor} strokeWidth="1.2" opacity="0.7" />
+                        </>
+                      ) : (
+                        /* Back: Distinctive Glute-Contour V-Yoke */
+                        <>
+                          <path d="M 172 160 Q 212 150 250 176 Q 288 150 328 160" fill="none" stroke={secondaryColor} strokeWidth="2.5" strokeDasharray="4,2" />
+                          <path d="M 250 176 L 250 225" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+                          <path d="M 195 240 Q 190 320 200 458" fill="none" stroke={trimColor} strokeWidth="1.5" strokeDasharray="3,2" />
+                          <path d="M 305 240 Q 310 320 300 458" fill="none" stroke={trimColor} strokeWidth="1.5" strokeDasharray="3,2" />
+                        </>
+                      )}
+
+                      {/* Ankle Compression Cuffs */}
+                      <rect x="180" y="446" width="40" height="12" fill={trimColor} />
+                      <rect x="280" y="446" width="40" height="12" fill={trimColor} />
+                    </g>
+                  )}
+
+                  {/* 13. ULTRALIGHT SEAMLESS TRAINING TEE */}
+                  {selectedApparel.id === 'training-tee' && (
+                    <g id="trainingTeeGroup">
+                      {/* Left Sleeve */}
+                      <path d="M 180 96 L 100 155 L 125 205 L 175 162 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="100,155 92,164 117,214 125,205" fill={trimColor} />
+
+                      {/* Right Sleeve */}
+                      <path d="M 320 96 L 400 155 L 375 205 L 325 162 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="400,155 408,164 383,214 375,205" fill={trimColor} />
+
+                      {/* Contoured Torso */}
+                      <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <path d="M 180 96 Q 250 115 320 96 L 332 162 Q 312 270 334 415 Q 250 430 166 415 Q 188 270 168 162 Z" fill="url(#patCamo)" />}
+
+                      {/* Laser-Perforated Micro-Mesh Flank Panels */}
+                      <path d="M 168 162 Q 188 270 166 415 L 180 415 Q 200 270 182 162 Z" fill={secondaryColor} opacity="0.85" />
+                      <path d="M 332 162 Q 312 270 334 415 L 320 415 Q 300 270 318 162 Z" fill={secondaryColor} opacity="0.85" />
+
+                      {/* Ergonomic Athletic Collar */}
+                      <path d="M 215 95 Q 250 128 285 95 Q 250 112 215 95 Z" fill={trimColor} stroke={secondaryColor} strokeWidth="1.5" />
+                    </g>
+                  )}
+
+                  {/* 14. FULL-ZIP TRACKSUIT WINDBREAKER JACKET */}
+                  {selectedApparel.id === 'tracksuit-jacket' && (
+                    <g id="tracksuitJacketGroup">
+                      {/* Stand-Up Wind Collar */}
+                      <path d="M 210 92 L 210 68 Q 250 78 290 68 L 290 92 Q 250 102 210 92 Z" fill={trimColor} stroke="#222" strokeWidth="1.5" />
+
+                      {/* Raglan Sleeves with Elasticized Cuffs */}
+                      <path d="M 210 92 L 65 175 L 90 230 L 165 180 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="65,175 58,185 83,240 90,230" fill={trimColor} />
+
+                      <path d="M 290 92 L 435 175 L 410 230 L 335 180 Z" fill={primaryColor} stroke="#222" strokeWidth="1.5" />
+                      <polygon points="435,175 442,185 417,240 410,230" fill={trimColor} />
+
+                      {/* Main Torso */}
+                      <path d="M 210 92 Q 250 102 290 92 L 335 180 L 345 405 L 155 405 L 165 180 Z" fill={primaryColor} stroke="#222" strokeWidth="2" />
+
+                      {/* Contrast Upper Chest Chevron Color-Block */}
+                      <polygon points="210,92 290,92 335,180 250,215 165,180" fill={secondaryColor} opacity="0.9" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && <polygon points="165,180 250,215 335,180 345,405 155,405" fill="url(#patGeometric)" />}
+                      {selectedPattern === 'stripes' && <polygon points="165,180 250,215 335,180 345,405 155,405" fill="url(#patStripes)" />}
+                      {selectedPattern === 'hex' && <polygon points="165,180 250,215 335,180 345,405 155,405" fill="url(#patHex)" />}
+                      {selectedPattern === 'cyber' && <polygon points="165,180 250,215 335,180 345,405 155,405" fill="url(#patCyber)" />}
+                      {selectedPattern === 'camo' && <polygon points="165,180 250,215 335,180 345,405 155,405" fill="url(#patCamo)" />}
+
+                      {/* Diagonal Welt Zipper Side Pockets */}
+                      <line x1="175" y1="340" x2="205" y2="365" stroke={trimColor} strokeWidth="3" strokeLinecap="round" />
+                      <line x1="325" y1="340" x2="295" y2="365" stroke={trimColor} strokeWidth="3" strokeLinecap="round" />
+
+                      {/* Center Front Zipper Line (Front View) */}
+                      {viewMode === 'front' && (
+                        <g>
+                          <line x1="250" y1="68" x2="250" y2="425" stroke={accentColor} strokeWidth="2.5" strokeDasharray="3,2" />
+                          {/* Zipper Puller Slider */}
+                          <rect x="246" y="135" width="8" height="12" rx="1.5" fill="#333" stroke={accentColor} strokeWidth="0.8" />
+                          <polygon points="248,147 252,147 253,162 247,162" fill={trimColor} />
+                        </g>
+                      )}
+
+                      {/* Elastic Bottom Hem Band */}
+                      <rect x="155" y="405" width="190" height="20" fill={trimColor} stroke="#222" strokeWidth="1.5" />
+                    </g>
+                  )}
+
+                  {/* 15. TAPERED ATHLETIC FRENCH TERRY JOGGERS */}
+                  {selectedApparel.id === 'joggers-trackpants' && (
+                    <g id="joggersTrackpantsGroup">
+                      {/* Ribbed Elastic Waistband */}
+                      <rect x="165" y="125" width="170" height="35" rx="5" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      <line x1="165" y1="136" x2="335" y2="136" stroke={secondaryColor} strokeWidth="1.5" opacity="0.6" />
+                      <line x1="165" y1="148" x2="335" y2="148" stroke={secondaryColor} strokeWidth="1.5" opacity="0.6" />
+
+                      {/* Front Eyelets & Hanging Drawstrings */}
+                      {viewMode === 'front' && (
+                        <g>
+                          <circle cx="242" cy="142" r="2.5" fill="#222" stroke={accentColor} strokeWidth="0.8" />
+                          <circle cx="258" cy="142" r="2.5" fill="#222" stroke={accentColor} strokeWidth="0.8" />
+                          {/* Drawstring Cords with Metal Aglets */}
+                          <line x1="242" y1="144" x2="238" y2="195" stroke={accentColor} strokeWidth="2.2" strokeLinecap="round" />
+                          <rect x="236.5" y="195" width="3" height="8" fill={trimColor} />
+                          <line x1="258" y1="144" x2="262" y2="195" stroke={accentColor} strokeWidth="2.2" strokeLinecap="round" />
+                          <rect x="260.5" y="195" width="3" height="8" fill={trimColor} />
+                        </g>
+                      )}
+
+                      {/* Left Leg */}
+                      <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      {/* Right Leg */}
+                      <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      <polygon points="248,245 250,235 252,245 250,258" fill={secondaryColor} />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && (
+                        <g opacity="0.35">
+                          <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill="url(#patGeometric)" />
+                          <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill="url(#patGeometric)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <g opacity="0.35">
+                          <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill="url(#patStripes)" />
+                          <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill="url(#patStripes)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <g opacity="0.35">
+                          <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill="url(#patHex)" />
+                          <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill="url(#patHex)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <g opacity="0.35">
+                          <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill="url(#patCyber)" />
+                          <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill="url(#patCyber)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <g opacity="0.35">
+                          <path d="M 165 160 Q 148 270 170 380 L 180 445 L 222 445 L 240 300 L 248 245 Z" fill="url(#patCamo)" />
+                          <path d="M 335 160 Q 352 270 330 380 L 320 445 L 278 445 L 260 300 L 252 245 Z" fill="url(#patCamo)" />
+                        </g>
+                      )}
+
+                      {/* Curved Slanted Pockets */}
+                      <path d="M 165 175 Q 192 205 186 248" fill="none" stroke={secondaryColor} strokeWidth="2.5" />
+                      <path d="M 335 175 Q 308 205 314 248" fill="none" stroke={secondaryColor} strokeWidth="2.5" />
+
+                      {/* Ribbed Ankle Cuffs */}
+                      <rect x="180" y="445" width="42" height="22" rx="2" fill={trimColor} stroke="#18181B" strokeWidth="1" />
+                      <rect x="278" y="445" width="42" height="22" rx="2" fill={trimColor} stroke="#18181B" strokeWidth="1" />
+                    </g>
+                  )}
+
+                  {/* 16. PRO COMPRESSION SPATS / BASELAYER TIGHTS */}
+                  {selectedApparel.id === 'compression-tights' && (
+                    <g id="compressionTightsGroup">
+                      {/* Compression Elastic Waistband */}
+                      <rect x="170" y="125" width="160" height="28" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
+                      <line x1="172" y1="139" x2="328" y2="139" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+
+                      {/* Left Leg */}
+                      <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      {/* Right Leg */}
+                      <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && (
+                        <g opacity="0.35">
+                          <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill="url(#patGeometric)" />
+                          <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill="url(#patGeometric)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <g opacity="0.35">
+                          <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill="url(#patStripes)" />
+                          <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill="url(#patStripes)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <g opacity="0.35">
+                          <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill="url(#patHex)" />
+                          <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill="url(#patHex)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <g opacity="0.35">
+                          <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill="url(#patCyber)" />
+                          <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill="url(#patCyber)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <g opacity="0.35">
+                          <path d="M 170 153 Q 155 240 166 340 L 178 458 L 218 458 L 235 340 L 246 235 Z" fill="url(#patCamo)" />
+                          <path d="M 330 153 Q 345 240 334 340 L 322 458 L 282 458 L 265 340 L 254 235 Z" fill="url(#patCamo)" />
+                        </g>
+                      )}
+
+                      {/* 4-Needle 6-Thread Anatomical Seams */}
+                      <path d="M 170 153 Q 190 250 200 335 L 196 458" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+                      <path d="M 330 153 Q 310 250 300 335 L 304 458" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+
+                      {/* Silicone Ankle Gripper Bands */}
+                      <rect x="178" y="446" width="40" height="12" fill={trimColor} />
+                      <rect x="282" y="446" width="40" height="12" fill={trimColor} />
+                    </g>
+                  )}
+
+                  {/* 17. COMPETITION BRAZILIAN JIU-JITSU (BJJ) GI */}
+                  {selectedApparel.id === 'bjj-gi' && (
+                    <g id="bjjGiGroup">
+                      {/* Kimono Wide Sleeves with Heavy Reinforcements */}
+                      <path d="M 175 100 L 70 170 L 105 245 L 180 185 Z" fill={primaryColor} stroke="#111" strokeWidth="2" />
+                      <line x1="70" y1="170" x2="105" y2="245" stroke={trimColor} strokeWidth="3.5" />
+
+                      <path d="M 325 100 L 430 170 L 395 245 L 320 185 Z" fill={primaryColor} stroke="#111" strokeWidth="2" />
+                      <line x1="430" y1="170" x2="395" y2="245" stroke={trimColor} strokeWidth="3.5" />
+
+                      {/* Kimono Torso Body */}
+                      <path d="M 175 100 Q 250 115 325 100 L 340 185 L 345 390 L 155 390 L 160 185 Z" fill={primaryColor} stroke="#111" strokeWidth="2" />
+
+                      {/* Pearl Weave Micro Texture */}
+                      <path d="M 175 100 Q 250 115 325 100 L 340 185 L 345 390 L 155 390 L 160 185 Z" fill="url(#patHex)" opacity="0.25" />
+
+                      {/* Traditional Heavy Cross-Lapel Collar (EVA Foam Core) */}
+                      <polygon points="215,95 325,275 305,285 195,105" fill={secondaryColor} stroke="#111" strokeWidth="1.5" />
+                      <polygon points="285,95 175,275 195,285 305,105" fill={secondaryColor} stroke="#111" strokeWidth="1.5" />
+
+                      {/* Lapel Row Stitching Lines */}
+                      <line x1="210" y1="99" x2="318" y2="277" stroke={trimColor} strokeWidth="1.2" strokeDasharray="3,2" />
+                      <line x1="290" y1="99" x2="182" y2="277" stroke={trimColor} strokeWidth="1.2" strokeDasharray="3,2" />
+
+                      {/* Tied BJJ Rank Belt */}
+                      <rect x="155" y="275" width="190" height="18" fill="#18181B" stroke="#000" strokeWidth="1" />
+                      {/* Belt Knot */}
+                      <rect x="242" y="271" width="16" height="26" rx="2" fill="#18181B" stroke="#000" strokeWidth="1" />
+                      {/* Left Belt Tail */}
+                      <rect x="238" y="294" width="12" height="65" fill="#18181B" stroke="#000" strokeWidth="0.8" />
+                      {/* Right Belt Tail with Red Rank Sleeve */}
+                      <rect x="252" y="294" width="12" height="75" fill="#18181B" stroke="#000" strokeWidth="0.8" />
+                      <rect x="252" y="325" width="12" height="26" fill="#D32F2F" />
+                      <rect x="252" y="342" width="12" height="3" fill="#FFFFFF" />
+                    </g>
+                  )}
+
                   {/* =================================================== */}
                   {/* GRAPHICS & EMBELLISHMENTS: FRONT VIEW              */}
                   {/* =================================================== */}
                   {viewMode === 'front' && (
                     <g id="frontGraphics">
-                      {/* Club Shield Crest (Left Chest) */}
-                      {hasFrontCrest && selectedApparel.id !== 'combat-shorts' && (
-                        <g transform="translate(195, 160)">
-                          <polygon points="0,0 26,0 30,22 13,36 -4,22" fill={trimColor} stroke={primaryColor} strokeWidth="1.5" />
-                          <polygon points="3,3 23,3 26,20 13,32 0,20" fill={secondaryColor} />
-                          <text x="13" y="18" textAnchor="middle" fill={accentColor} fontSize="9" fontWeight="900" fontFamily="sans-serif">H</text>
-                        </g>
+                      {selectedApparel.isBottom ? (
+                        /* BOTTOMS / PANTS GRAPHICS */
+                        <>
+                          {/* Club Crest on Left Thigh */}
+                          {hasFrontCrest && (
+                            <g transform="translate(192, 240)">
+                              <polygon points="0,0 22,0 25,18 11,30 -3,18" fill={trimColor} stroke={primaryColor} strokeWidth="1.2" />
+                              <polygon points="2,2 20,2 22,17 11,27 0,17" fill={secondaryColor} />
+                              <text x="11" y="16" textAnchor="middle" fill={accentColor} fontSize="8" fontWeight="900" fontFamily="sans-serif">H</text>
+                            </g>
+                          )}
+
+                          {/* Manufacturer Badge on Right Thigh */}
+                          <g transform="translate(285, 246)">
+                            <polygon points="0,0 10,0 14,12 4,12" fill={accentColor} />
+                            <polygon points="5,-3 15,-3 19,9 9,9" fill={secondaryColor} />
+                            <text x="10" y="20" textAnchor="middle" fill={accentColor} fontSize="5" fontWeight="bold" fontFamily="monospace">HARE</text>
+                          </g>
+
+                          {/* Vertical Leg Team Typography */}
+                          <g transform="translate(182, 345) rotate(-90)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="13"
+                              fontWeight="900"
+                              letterSpacing="3"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="0.8"
+                            >
+                              {teamName.toUpperCase()}
+                            </text>
+                          </g>
+
+                          {/* Sponsor Text on Lower Quad */}
+                          {sponsorText && (
+                            <g transform="translate(318, 345) rotate(90)">
+                              <text
+                                x="0"
+                                y="0"
+                                textAnchor="middle"
+                                fill={trimColor}
+                                fontSize="10"
+                                fontWeight="800"
+                                letterSpacing="2"
+                                fontFamily="monospace"
+                              >
+                                {sponsorText.toUpperCase()}
+                              </text>
+                            </g>
+                          )}
+                        </>
+                      ) : selectedApparel.isCropped ? (
+                        /* CROPPED / SPORTS BRA GRAPHICS */
+                        <>
+                          {/* Left Cup Mini Crest */}
+                          {hasFrontCrest && (
+                            <g transform="translate(198, 178)">
+                              <polygon points="0,0 20,0 23,16 10,27 -3,16" fill={trimColor} stroke={primaryColor} strokeWidth="1.2" />
+                              <polygon points="2,2 18,2 20,15 10,24 0,15" fill={secondaryColor} />
+                              <text x="10" y="14" textAnchor="middle" fill={accentColor} fontSize="7" fontWeight="900" fontFamily="sans-serif">H</text>
+                            </g>
+                          )}
+
+                          {/* Right Cup Badge */}
+                          <g transform="translate(282, 184)">
+                            <polygon points="0,0 10,0 14,12 4,12" fill={accentColor} />
+                            <polygon points="5,-3 15,-3 19,9 9,9" fill={secondaryColor} />
+                            <text x="10" y="20" textAnchor="middle" fill={accentColor} fontSize="5" fontWeight="bold" fontFamily="monospace">HARE</text>
+                          </g>
+
+                          {/* Center Underbust Brand Typography */}
+                          <g transform="translate(250, 235)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="13"
+                              fontWeight="900"
+                              letterSpacing="2"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="0.8"
+                            >
+                              {teamName.toUpperCase()}
+                            </text>
+
+                            {sponsorText && (
+                              <text
+                                x="0"
+                                y="16"
+                                textAnchor="middle"
+                                fill={trimColor}
+                                fontSize="8.5"
+                                fontWeight="800"
+                                letterSpacing="2"
+                                fontFamily="monospace"
+                              >
+                                {sponsorText.toUpperCase()}
+                              </text>
+                            )}
+                          </g>
+                        </>
+                      ) : (
+                        /* STANDARD TOPS & JERSEYS GRAPHICS */
+                        <>
+                          {/* Club Shield Crest (Left Chest) */}
+                          {hasFrontCrest && (
+                            <g transform="translate(195, 160)">
+                              <polygon points="0,0 26,0 30,22 13,36 -4,22" fill={trimColor} stroke={primaryColor} strokeWidth="1.5" />
+                              <polygon points="3,3 23,3 26,20 13,32 0,20" fill={secondaryColor} />
+                              <text x="13" y="18" textAnchor="middle" fill={accentColor} fontSize="9" fontWeight="900" fontFamily="sans-serif">H</text>
+                            </g>
+                          )}
+
+                          {/* Manufacturer Badge (Right Chest) */}
+                          <g transform="translate(280, 168)">
+                            <polygon points="0,0 12,0 16,14 4,14" fill={accentColor} />
+                            <polygon points="6,-4 18,-4 22,10 10,10" fill={secondaryColor} />
+                            <text x="11" y="24" textAnchor="middle" fill={accentColor} fontSize="6" fontWeight="bold" fontFamily="monospace">HARE</text>
+                          </g>
+
+                          {/* Center Front Team / Sponsor Typography */}
+                          <g transform="translate(250, 245)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="18"
+                              fontWeight="900"
+                              letterSpacing="2"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="0.8"
+                            >
+                              {teamName.toUpperCase()}
+                            </text>
+
+                            {sponsorText && (
+                              <text
+                                x="0"
+                                y="22"
+                                textAnchor="middle"
+                                fill={trimColor}
+                                fontSize="11"
+                                fontWeight="800"
+                                letterSpacing="3"
+                                fontFamily="monospace"
+                              >
+                                {sponsorText.toUpperCase()}
+                              </text>
+                            )}
+                          </g>
+
+                          {/* Official Authenticity Hem Tag */}
+                          <g transform="translate(305, 395)">
+                            <rect width="22" height="12" fill="#111" rx="2" stroke={trimColor} strokeWidth="0.8" />
+                            <text x="11" y="8" textAnchor="middle" fill="#FF751F" fontSize="4.5" fontWeight="bold" fontFamily="monospace">AUTHENTIC</text>
+                          </g>
+                        </>
                       )}
-
-                      {/* Manufacturer Badge (Right Chest) */}
-                      {selectedApparel.id !== 'combat-shorts' && (
-                        <g transform="translate(280, 168)">
-                          <polygon points="0,0 12,0 16,14 4,14" fill={accentColor} />
-                          <polygon points="6,-4 18,-4 22,10 10,10" fill={secondaryColor} />
-                          <text x="11" y="24" textAnchor="middle" fill={accentColor} fontSize="6" fontWeight="bold" fontFamily="monospace">HARE</text>
-                        </g>
-                      )}
-
-                      {/* Center Front Team / Sponsor Typography */}
-                      <g transform="translate(250, 245)">
-                        <text
-                          x="0"
-                          y="0"
-                          textAnchor="middle"
-                          fill={accentColor}
-                          fontSize="18"
-                          fontWeight="900"
-                          letterSpacing="2"
-                          fontFamily="sans-serif"
-                          stroke={primaryColor}
-                          strokeWidth="0.8"
-                        >
-                          {teamName.toUpperCase()}
-                        </text>
-
-                        {sponsorText && (
-                          <text
-                            x="0"
-                            y="22"
-                            textAnchor="middle"
-                            fill={trimColor}
-                            fontSize="11"
-                            fontWeight="800"
-                            letterSpacing="3"
-                            fontFamily="monospace"
-                          >
-                            {sponsorText.toUpperCase()}
-                          </text>
-                        )}
-                      </g>
-
-                      {/* Official Authenticity Hem Tag */}
-                      <g transform="translate(305, 395)">
-                        <rect width="22" height="12" fill="#111" rx="2" stroke={trimColor} strokeWidth="0.8" />
-                        <text x="11" y="8" textAnchor="middle" fill="#FF751F" fontSize="4.5" fontWeight="bold" fontFamily="monospace">AUTHENTIC</text>
-                      </g>
                     </g>
                   )}
 
@@ -2078,54 +2950,157 @@ WhatsApp: +92 300 1234567
                   {/* =================================================== */}
                   {viewMode === 'back' && (
                     <g id="backGraphics">
-                      {/* Player Name */}
-                      <g transform="translate(250, 180)">
-                        <text
-                          x="0"
-                          y="0"
-                          textAnchor="middle"
-                          fill={accentColor}
-                          fontSize="20"
-                          fontWeight="900"
-                          letterSpacing="4"
-                          fontFamily="sans-serif"
-                          stroke={primaryColor}
-                          strokeWidth="1"
-                        >
-                          {playerName.toUpperCase()}
-                        </text>
-                      </g>
+                      {selectedApparel.isBottom ? (
+                        /* BOTTOMS / PANTS BACK GRAPHICS */
+                        <>
+                          {/* Back Waistband Logo Badge */}
+                          <circle cx="250" cy="144" r="7" fill={trimColor} stroke={primaryColor} strokeWidth="1" />
+                          <text x="250" y="147" textAnchor="middle" fill={primaryColor} fontSize="6" fontWeight="bold">🐰</text>
 
-                      {/* Large Squad Number */}
-                      <g transform="translate(250, 275)">
-                        <text
-                          x="0"
-                          y="0"
-                          textAnchor="middle"
-                          fill={secondaryColor}
-                          fontSize="84"
-                          fontWeight="900"
-                          fontFamily="sans-serif"
-                          stroke={accentColor}
-                          strokeWidth="2.5"
-                        >
-                          {playerNumber}
-                        </text>
-                      </g>
+                          {/* Player Name across Upper Waist / Hip */}
+                          <g transform="translate(250, 172)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="12"
+                              fontWeight="900"
+                              letterSpacing="3"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="0.8"
+                            >
+                              {playerName.toUpperCase()}
+                            </text>
+                          </g>
 
-                      {/* Back Nape Logo */}
-                      <circle cx="250" cy="120" r="8" fill={trimColor} stroke={primaryColor} strokeWidth="1" />
-                      <text x="250" y="123" textAnchor="middle" fill={primaryColor} fontSize="7" fontWeight="bold">🐰</text>
+                          {/* Calf Squad Number */}
+                          <g transform="translate(295, 400)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={secondaryColor}
+                              fontSize="32"
+                              fontWeight="900"
+                              fontFamily="sans-serif"
+                              stroke={accentColor}
+                              strokeWidth="1.5"
+                            >
+                              {playerNumber}
+                            </text>
+                          </g>
+                        </>
+                      ) : selectedApparel.isCropped ? (
+                        /* CROPPED / SPORTS BRA BACK GRAPHICS */
+                        <>
+                          {/* Back Nape Logo on Racerback */}
+                          <circle cx="250" cy="155" r="7" fill={trimColor} stroke={primaryColor} strokeWidth="1" />
+                          <text x="250" y="158" textAnchor="middle" fill={primaryColor} fontSize="6" fontWeight="bold">🐰</text>
+
+                          {/* Compact Player Name */}
+                          <g transform="translate(250, 195)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="12"
+                              fontWeight="900"
+                              letterSpacing="3"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="0.8"
+                            >
+                              {playerName.toUpperCase()}
+                            </text>
+                          </g>
+
+                          {/* Squad Number */}
+                          <g transform="translate(250, 245)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={secondaryColor}
+                              fontSize="40"
+                              fontWeight="900"
+                              fontFamily="sans-serif"
+                              stroke={accentColor}
+                              strokeWidth="1.8"
+                            >
+                              {playerNumber}
+                            </text>
+                          </g>
+                        </>
+                      ) : (
+                        /* STANDARD TOPS & JERSEYS BACK GRAPHICS */
+                        <>
+                          {/* Player Name */}
+                          <g transform="translate(250, 180)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={accentColor}
+                              fontSize="20"
+                              fontWeight="900"
+                              letterSpacing="4"
+                              fontFamily="sans-serif"
+                              stroke={primaryColor}
+                              strokeWidth="1"
+                            >
+                              {playerName.toUpperCase()}
+                            </text>
+                          </g>
+
+                          {/* Large Squad Number */}
+                          <g transform="translate(250, 275)">
+                            <text
+                              x="0"
+                              y="0"
+                              textAnchor="middle"
+                              fill={secondaryColor}
+                              fontSize="84"
+                              fontWeight="900"
+                              fontFamily="sans-serif"
+                              stroke={accentColor}
+                              strokeWidth="2.5"
+                            >
+                              {playerNumber}
+                            </text>
+                          </g>
+
+                          {/* Back Nape Logo */}
+                          <circle cx="250" cy="120" r="8" fill={trimColor} stroke={primaryColor} strokeWidth="1" />
+                          <text x="250" y="123" textAnchor="middle" fill={primaryColor} fontSize="7" fontWeight="bold">🐰</text>
+                        </>
+                      )}
                     </g>
                   )}
 
                   {/* Fabric Drape & Sheen Highlight Layer */}
                   {fabricSheen && (
-                    <path
-                      d="M 160 100 Q 250 120 340 100 L 350 425 Q 250 440 150 425 Z"
-                      fill="url(#fabricSheen)"
-                      pointerEvents="none"
-                    />
+                    selectedApparel.isBottom ? (
+                      <path
+                        d="M 165 145 Q 250 155 335 145 L 315 450 Q 250 460 185 450 Z"
+                        fill="url(#fabricSheen)"
+                        pointerEvents="none"
+                      />
+                    ) : selectedApparel.isCropped ? (
+                      <path
+                        d="M 180 130 Q 250 145 320 130 L 310 298 Q 250 308 190 298 Z"
+                        fill="url(#fabricSheen)"
+                        pointerEvents="none"
+                      />
+                    ) : (
+                      <path
+                        d="M 160 100 Q 250 120 340 100 L 350 425 Q 250 440 150 425 Z"
+                        fill="url(#fabricSheen)"
+                        pointerEvents="none"
+                      />
+                    )
                   )}
                 </svg>
 
@@ -2361,7 +3336,7 @@ WhatsApp: +92 300 1234567
                     </span>
                   </div>
                   <p className="text-xs text-stone-600 leading-relaxed">
-                    Select your target garment from 6 Sialkot factory-direct silhouettes (Sublimated Soccer Jersey, Basketball Uniform, Wrestling Singlet, Heavyweight Hoodie, Compression Rashguard, or Combat Shorts). Each is pre-calibrated with factory fabric weights (140 to 380 GSM) and athletic stitch patterns.
+                    Click <strong>"Choose Product"</strong> to browse Hare Sportswear's complete catalog of {APPAREL_CATEGORIES.length} factory silhouettes across Teamwear, Sports Bras, Performance Leggings, Compression Wear, Tracksuits, Hoodies, and Combat Gear. Filter by category or search by sport/fabric to select your garment with pre-calibrated fabric weights (140 to 450 GSM).
                   </p>
                 </div>
               </div>
@@ -2449,6 +3424,207 @@ WhatsApp: +92 300 1234567
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* "CHOOSE PRODUCT" MODAL / CATALOG SELECTOR                */}
+      {/* ========================================================= */}
+      {showProductModal && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn"
+          onClick={() => setShowProductModal(false)}
+        >
+          <div 
+            className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-[#E5DFD5] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-5 sm:p-6 border-b border-[#E5DFD5] flex items-center justify-between gap-4 bg-[#FAF8F5]">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/20 flex items-center justify-center text-2xl shrink-0">
+                  {selectedApparel.icon}
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-[#1A1A1A] flex items-center gap-2">
+                    <span>Choose Apparel Product</span>
+                    <span className="text-xs font-mono font-bold bg-[#FF751F]/10 text-[#FF751F] px-2.5 py-0.5 rounded-full">
+                      {APPAREL_CATEGORIES.length} Silhouettes
+                    </span>
+                  </h3>
+                  <p className="text-xs text-stone-500 mt-0.5">
+                    Select from Hare Sportswear's complete catalog of Sialkot-calibrated athletic apparel
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowProductModal(false)}
+                className="w-9 h-9 rounded-full bg-white border border-[#E5DFD5] hover:bg-stone-100 text-stone-600 hover:text-stone-900 flex items-center justify-center transition cursor-pointer shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Search Bar & Category Filter Tabs */}
+            <div className="p-4 sm:p-5 border-b border-[#E5DFD5] bg-white space-y-3 shrink-0">
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={productSearchQuery}
+                  onChange={(e) => setProductSearchQuery(e.target.value)}
+                  placeholder="Search products by sport, name, or fabric (e.g., bra, leggings, hoodie, rugby, bjj)..."
+                  className="w-full pl-10 pr-10 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-300 focus:border-[#FF751F] focus:ring-2 focus:ring-[#FF751F]/20 outline-none bg-stone-50/50 transition"
+                  autoFocus
+                />
+                {productSearchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setProductSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Category Filter Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                {APPAREL_GROUPS.map((grp) => {
+                  const isActive = activeCategoryFilter === grp.id;
+                  const count = grp.id === 'all'
+                    ? APPAREL_CATEGORIES.length
+                    : APPAREL_CATEGORIES.filter((a) => a.group === grp.id).length;
+
+                  return (
+                    <button
+                      key={grp.id}
+                      type="button"
+                      onClick={() => setActiveCategoryFilter(grp.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 cursor-pointer ${
+                        isActive
+                          ? 'bg-[#1A1A1A] text-white shadow-xs'
+                          : 'bg-[#FAF8F5] text-stone-700 hover:bg-stone-200 border border-[#E5DFD5]'
+                      }`}
+                    >
+                      <span>{grp.icon}</span>
+                      <span>{grp.name}</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        isActive ? 'bg-white/20 text-white' : 'bg-stone-200 text-stone-600'
+                      }`}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Scrollable Garment Cards Grid */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+              {filteredApparelList.length === 0 ? (
+                <div className="text-center py-12 px-4 space-y-3">
+                  <div className="w-14 h-14 mx-auto rounded-full bg-stone-100 flex items-center justify-center text-2xl">
+                    🔍
+                  </div>
+                  <h4 className="font-bold text-sm text-[#1A1A1A]">No Garments Matched</h4>
+                  <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                    No products matched "{productSearchQuery}". Try clearing your search or switching categories.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProductSearchQuery('');
+                      setActiveCategoryFilter('all');
+                    }}
+                    className="px-4 py-2 rounded-xl bg-[#1A1A1A] text-white text-xs font-bold hover:bg-[#FF751F] transition"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {filteredApparelList.map((apparel) => {
+                    const isSelected = selectedApparel.id === apparel.id;
+                    return (
+                      <button
+                        key={apparel.id}
+                        type="button"
+                        onClick={() => handleSelectApparel(apparel)}
+                        className={`p-3.5 rounded-2xl border-2 text-left transition-all flex flex-col justify-between group cursor-pointer relative ${
+                          isSelected
+                            ? 'border-[#FF751F] bg-[#FF751F]/5 shadow-md shadow-[#FF751F]/10'
+                            : 'border-[#E5DFD5] bg-white hover:border-[#FF751F]/60 hover:bg-stone-50/80 shadow-2xs'
+                        }`}
+                      >
+                        {isSelected && (
+                          <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#FF751F] text-white flex items-center justify-center shadow-xs">
+                            <Check className="w-3 h-3 stroke-[3]" />
+                          </div>
+                        )}
+
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-10 h-10 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                              {apparel.icon}
+                            </span>
+                            <div className="min-w-0 pr-5">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block truncate">
+                                {apparel.category}
+                              </span>
+                              <h4 className="font-extrabold text-xs sm:text-sm text-[#1A1A1A] leading-snug group-hover:text-[#FF751F] transition-colors">
+                                {apparel.name}
+                              </h4>
+                            </div>
+                          </div>
+
+                          <div className="pt-2 border-t border-stone-100 space-y-1">
+                            <div className="text-[11px] text-stone-600 line-clamp-1">
+                              <span className="text-stone-400">Fabric: </span>
+                              <strong className="text-stone-800">{apparel.defaultFabric}</strong>
+                            </div>
+                            <div className="text-[10px] text-stone-500 font-mono truncate">
+                              Cut: {apparel.silhouette}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-dashed border-stone-200 flex items-center justify-between text-[11px]">
+                          <span className="text-stone-400">
+                            {apparel.collarStyles?.join(', ') || 'Custom Cut'}
+                          </span>
+                          <span className={`font-bold transition-colors ${
+                            isSelected ? 'text-[#FF751F]' : 'text-stone-400 group-hover:text-[#FF751F]'
+                          }`}>
+                            {isSelected ? 'Selected' : 'Select →'}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 border-t border-[#E5DFD5] bg-[#FAF8F5] flex items-center justify-between flex-wrap gap-3 shrink-0">
+              <div className="flex items-center gap-2 text-xs text-stone-500">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Showing <strong>{filteredApparelList.length}</strong> of {APPAREL_CATEGORIES.length} garments</span>
+                <span className="hidden sm:inline text-stone-300">•</span>
+                <span className="hidden sm:inline">OEM / ODM Custom Pattern Drafting Available</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowProductModal(false)}
+                className="px-5 py-2 rounded-xl bg-[#1A1A1A] hover:bg-[#FF751F] text-white text-xs font-bold transition cursor-pointer"
+              >
+                Close Catalog
+              </button>
+            </div>
           </div>
         </div>
       )}
