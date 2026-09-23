@@ -203,17 +203,10 @@ export default function AIMockupGeneratorPage() {
   const navigate = useNavigate();
   const { attachMockupToRFQ } = useRFQ();
 
-  // API Key & Health Check State
-  const [apiKey, setApiKey] = useState(getStoredGeminiKey);
-  const [apiKeySource, setApiKeySource] = useState(getGeminiKeySource);
-  const [tempApiKeyInput, setTempApiKeyInput] = useState(apiKey);
-  const [showApiModal, setShowApiModal] = useState(false);
+  // Prototyping & Guide State
+  const [apiKey] = useState(getStoredGeminiKey);
   const [showGuideModal, setShowGuideModal] = useState(false);
   const [showPromptTips, setShowPromptTips] = useState(false);
-  const [showKeyText, setShowKeyText] = useState(false);
-  const [isTestingKey, setIsTestingKey] = useState(false);
-  const [testResult, setTestResult] = useState(null);
-  const [keySavedToast, setKeySavedToast] = useState(false);
 
   // Garment Customization State
   const [selectedApparel, setSelectedApparel] = useState(APPAREL_CATEGORIES[0]);
@@ -369,83 +362,6 @@ export default function AIMockupGeneratorPage() {
         'Reinforced neck tape and moisture-dispersal underarm vents'
       ]
     }));
-  };
-
-  // Test Connection to Gemini API
-  const handleTestConnection = async (keyToTest) => {
-    setIsTestingKey(true);
-    setTestResult(null);
-    const key = (keyToTest || apiKey || '').trim() || _DEFAULT_KEY;
-    const startTime = performance.now();
-    const candidateModels = ['gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.5-flash'];
-    let lastError = null;
-
-    for (const m of candidateModels) {
-      try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: 'Respond with OK' }] }]
-          })
-        });
-        const latency = Math.round(performance.now() - startTime);
-
-        if (res.ok) {
-          setTestResult({
-            success: true,
-            status: 200,
-            latency,
-            message: `Connected successfully to Google Gemini (${m}, ${latency}ms latency). API is active & healthy.`
-          });
-          setIsTestingKey(false);
-          return;
-        } else {
-          const errJson = await res.json().catch(() => ({}));
-          lastError = errJson?.error?.message || `HTTP ${res.status}`;
-        }
-      } catch (err) {
-        lastError = err.message || 'Unable to connect to Google API';
-      }
-    }
-
-    const latency = Math.round(performance.now() - startTime);
-    setTestResult({
-      success: false,
-      status: 0,
-      latency,
-      message: `Connection status: ${lastError || 'Network handshake failed'}. Procedural fallback is always enabled.`
-    });
-    setIsTestingKey(false);
-  };
-
-  // Save Custom Key to LocalStorage
-  const handleSaveApiKey = () => {
-    if (tempApiKeyInput.trim()) {
-      localStorage.setItem('hare_gemini_api_key', tempApiKeyInput.trim());
-      setApiKey(tempApiKeyInput.trim());
-      setApiKeySource('Custom Admin / User Setting');
-    } else {
-      localStorage.removeItem('hare_gemini_api_key');
-      const def = getStoredGeminiKey();
-      setApiKey(def);
-      setTempApiKeyInput(def);
-      setApiKeySource(getGeminiKeySource());
-    }
-    setKeySavedToast(true);
-    setTimeout(() => setKeySavedToast(false), 3000);
-  };
-
-  // Reset to default key
-  const handleResetApiKey = () => {
-    localStorage.removeItem('hare_gemini_api_key');
-    const def = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || _DEFAULT_KEY;
-    setApiKey(def);
-    setTempApiKeyInput(def);
-    setApiKeySource(getGeminiKeySource());
-    setTestResult(null);
-    setKeySavedToast(true);
-    setTimeout(() => setKeySavedToast(false), 3000);
   };
 
   // Call Gemini API to generate custom mockups and tech specifications
@@ -829,7 +745,7 @@ WhatsApp: +92 300 1234567
             <span className="text-[#FF751F] font-bold">AI Mockup Generator</span>
           </div>
 
-          {/* Quick API Key & Engine Health Controls */}
+          {/* Sialkot CAD Engine Controls */}
           <div className="flex items-center gap-2 flex-wrap">
             {/* "How It Works" Guide Button */}
             <button
@@ -842,17 +758,7 @@ WhatsApp: +92 300 1234567
               <span>How It Works</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setShowApiModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F]/10 text-[#FF751F] border border-[#FF751F]/25 hover:bg-[#FF751F]/20 transition-all cursor-pointer"
-            >
-              <Key className="w-3 h-3" />
-              <span>Gemini 3.5 Engine</span>
-              <Settings className="w-3 h-3 text-stone-500" />
-            </button>
-
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               Sialkot CAD Active
             </span>
@@ -984,14 +890,6 @@ WhatsApp: +92 300 1234567
                   </button>
                   <button
                     type="button"
-                    onClick={() => setShowApiModal(true)}
-                    className="px-3 py-1.5 rounded-lg bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5"
-                  >
-                    <Settings className="w-3 h-3 text-[#FF751F]" />
-                    <span>Check API Settings & Connection</span>
-                  </button>
-                  <button
-                    type="button"
                     onClick={() => setAiError(null)}
                     className="text-xs text-stone-500 hover:text-stone-800 px-2 py-1 font-semibold"
                   >
@@ -1059,15 +957,6 @@ WhatsApp: +92 300 1234567
                   >
                     <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
                     <span>{showPromptTips ? 'Hide Tips' : 'Prompt Tips'}</span>
-                  </button>
-                  <span className="text-stone-300">|</span>
-                  <button
-                    type="button"
-                    onClick={() => setShowApiModal(true)}
-                    className="text-[11px] font-mono text-[#FF751F] hover:underline font-bold flex items-center gap-1"
-                  >
-                    <span>Gemini API Key</span>
-                    <Settings className="w-3 h-3" />
                   </button>
                 </div>
               </div>
@@ -1683,24 +1572,440 @@ WhatsApp: +92 300 1234567
                     </g>
                   )}
 
-                  {/* 5. COMPRESSION TOP / COMBAT SHORTS FALLBACK */}
-                  {(selectedApparel.id === 'compression-top' || selectedApparel.id === 'combat-shorts') && (
-                    <g id="compressionGroup">
+                  {/* 5. PRO COMPRESSION RASHGUARD (High-Performance Athletic Second-Skin) */}
+                  {selectedApparel.id === 'compression-top' && (
+                    <g id="proCompressionRashguardGroup">
+                      {/* Left Raglan Compression Sleeve */}
                       <path
-                        d="M 170 100 Q 250 115 330 100 L 340 170 Q 320 280 335 425 Q 250 435 165 425 Q 180 280 160 170 Z"
+                        d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z"
                         fill={primaryColor}
-                        stroke="#1A1A1A"
+                        stroke="#151515"
+                        strokeWidth="1.5"
+                      />
+                      {/* Left Sleeve Pattern */}
+                      {selectedPattern === 'geometric' && (
+                        <path d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z" fill="url(#patGeometric)" />
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <path d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z" fill="url(#patStripes)" />
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <path d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z" fill="url(#patHex)" />
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <path d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z" fill="url(#patCyber)" />
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <path d="M 215 90 Q 175 88 140 115 L 70 195 L 98 228 L 165 175 Q 192 130 215 90 Z" fill="url(#patCamo)" />
+                      )}
+                      {/* Left Bicep Compression Cuff Band */}
+                      <polygon points="70,195 62,205 90,238 98,228" fill={trimColor} stroke={secondaryColor} strokeWidth="1" />
+                      {/* Left Deltoid Accent Seam */}
+                      <path d="M 140 115 Q 170 145 165 175" fill="none" stroke={secondaryColor} strokeWidth="1.5" strokeDasharray="3,2" />
+
+                      {/* Right Raglan Compression Sleeve */}
+                      <path
+                        d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z"
+                        fill={primaryColor}
+                        stroke="#151515"
+                        strokeWidth="1.5"
+                      />
+                      {/* Right Sleeve Pattern */}
+                      {selectedPattern === 'geometric' && (
+                        <path d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z" fill="url(#patGeometric)" />
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <path d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z" fill="url(#patStripes)" />
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <path d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z" fill="url(#patHex)" />
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <path d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z" fill="url(#patCyber)" />
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <path d="M 285 90 Q 325 88 360 115 L 430 195 L 402 228 L 335 175 Q 308 130 285 90 Z" fill="url(#patCamo)" />
+                      )}
+                      {/* Right Bicep Compression Cuff Band */}
+                      <polygon points="430,195 438,205 410,238 402,228" fill={trimColor} stroke={secondaryColor} strokeWidth="1" />
+                      {/* Right Deltoid Accent Seam */}
+                      <path d="M 360 115 Q 330 145 335 175" fill="none" stroke={secondaryColor} strokeWidth="1.5" strokeDasharray="3,2" />
+
+                      {/* Main Anatomical V-Taper Compression Torso Body */}
+                      <path
+                        d={
+                          viewMode === 'front'
+                            ? "M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                            : "M 215 90 Q 250 98 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                        }
+                        fill={primaryColor}
+                        stroke="#151515"
                         strokeWidth="2"
                       />
+
+                      {/* Sublimated Pattern Overlay on Main Body */}
+                      {selectedPattern === 'geometric' && (
+                        <path
+                          d="M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                          fill="url(#patGeometric)"
+                        />
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <path
+                          d="M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                          fill="url(#patStripes)"
+                        />
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <path
+                          d="M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                          fill="url(#patHex)"
+                        />
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <path
+                          d="M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                          fill="url(#patCyber)"
+                        />
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <path
+                          d="M 215 90 Q 250 115 285 90 Q 308 130 335 175 Q 318 290 332 418 Q 250 430 168 418 Q 182 290 165 175 Q 192 130 215 90 Z"
+                          fill="url(#patCamo)"
+                        />
+                      )}
+
+                      {/* Underarm Breathable Lateral Flex Panels (Micro-Mesh) */}
                       <path
-                        d="M 170 100 Q 250 115 330 100 L 340 170 Q 320 280 335 425 Q 250 435 165 425 Q 180 280 160 170 Z"
-                        fill="url(#patCyber)"
+                        d="M 165 175 Q 182 290 168 418 L 184 418 Q 196 290 182 175 Z"
+                        fill={secondaryColor}
+                        opacity="0.9"
+                        stroke={trimColor}
+                        strokeWidth="1"
                       />
-                      {/* Ergonomic Flatlock Seams */}
-                      <path d="M 195 105 Q 215 250 185 425" fill="none" stroke={secondaryColor} strokeWidth="2.5" strokeDasharray="4,2" />
-                      <path d="M 305 105 Q 285 250 315 425" fill="none" stroke={secondaryColor} strokeWidth="2.5" strokeDasharray="4,2" />
-                      {/* Crew Collar */}
-                      <path d="M 215 95 Q 250 125 285 95" fill="none" stroke={trimColor} strokeWidth="5" />
+                      <path
+                        d="M 335 175 Q 318 290 332 418 L 316 418 Q 304 290 318 175 Z"
+                        fill={secondaryColor}
+                        opacity="0.9"
+                        stroke={trimColor}
+                        strokeWidth="1"
+                      />
+
+                      {/* 4-Needle 6-Thread Flatlock Seams: Raglan Lines */}
+                      <path
+                        d="M 215 90 Q 192 130 165 175"
+                        fill="none"
+                        stroke={secondaryColor}
+                        strokeWidth="2.5"
+                        strokeDasharray="4,2"
+                      />
+                      <path
+                        d="M 285 90 Q 308 130 335 175"
+                        fill="none"
+                        stroke={secondaryColor}
+                        strokeWidth="2.5"
+                        strokeDasharray="4,2"
+                      />
+
+                      {/* Anatomical Seamlines: FRONT VIEW */}
+                      {viewMode === 'front' && (
+                        <g id="rashguardFrontSeams">
+                          {/* Upper Clavicle Compression Seam */}
+                          <path
+                            d="M 205 138 Q 250 150 295 138"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.5"
+                            opacity="0.75"
+                            strokeDasharray="3,2"
+                          />
+
+                          {/* Pectoral Muscle Contours */}
+                          <path
+                            d="M 182 195 Q 215 224 250 215 Q 285 224 318 195"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="4,2"
+                          />
+
+                          {/* Central Core Stabilization Seam */}
+                          <path
+                            d="M 250 215 L 250 375"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="4,2"
+                          />
+
+                          {/* Intercostal & Abdominal Contour Guides */}
+                          <path
+                            d="M 194 270 Q 220 284 240 280"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.2"
+                            opacity="0.65"
+                            strokeDasharray="3,2"
+                          />
+                          <path
+                            d="M 306 270 Q 280 284 260 280"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.2"
+                            opacity="0.65"
+                            strokeDasharray="3,2"
+                          />
+                          <path
+                            d="M 190 320 Q 220 334 242 330"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.2"
+                            opacity="0.65"
+                            strokeDasharray="3,2"
+                          />
+                          <path
+                            d="M 310 320 Q 280 334 258 330"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.2"
+                            opacity="0.65"
+                            strokeDasharray="3,2"
+                          />
+                        </g>
+                      )}
+
+                      {/* Anatomical Seamlines: BACK VIEW */}
+                      {viewMode === 'back' && (
+                        <g id="rashguardBackSeams">
+                          {/* Trapezius / Scapula Flatlock Arch */}
+                          <path
+                            d="M 195 145 Q 250 168 305 145"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="4,2"
+                          />
+
+                          {/* Dorsal Spine Compression Seam */}
+                          <path
+                            d="M 250 102 L 250 395"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2.5"
+                            strokeDasharray="4,2"
+                          />
+
+                          {/* Latissimus Wing Curves */}
+                          <path
+                            d="M 180 185 Q 220 250 240 335"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.8"
+                            opacity="0.8"
+                            strokeDasharray="4,2"
+                          />
+                          <path
+                            d="M 320 185 Q 280 250 260 335"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="1.8"
+                            opacity="0.8"
+                            strokeDasharray="4,2"
+                          />
+                        </g>
+                      )}
+
+                      {/* Ergonomic Crew Compression Collar */}
+                      {viewMode === 'front' ? (
+                        <g id="rashguardFrontCollar">
+                          {/* Collar Band */}
+                          <path
+                            d="M 213 89 Q 250 118 287 89 Q 250 101 213 89 Z"
+                            fill={trimColor}
+                            stroke={secondaryColor}
+                            strokeWidth="1.5"
+                          />
+                          {/* Inner Neck Taping */}
+                          <path
+                            d="M 218 89 Q 250 97 282 89"
+                            fill="none"
+                            stroke={accentColor}
+                            strokeWidth="2"
+                          />
+                        </g>
+                      ) : (
+                        <g id="rashguardBackCollar">
+                          {/* High Back Collar */}
+                          <path
+                            d="M 213 89 Q 250 102 287 89 Q 250 94 213 89 Z"
+                            fill={trimColor}
+                            stroke={secondaryColor}
+                            strokeWidth="1.5"
+                          />
+                        </g>
+                      )}
+
+                      {/* Silicone Anti-Ride-Up Grip Waistband (Bottom Hem) */}
+                      <g id="rashguardSiliconeHem">
+                        <path
+                          d="M 167 406 Q 250 418 333 406 L 332 422 Q 250 434 168 422 Z"
+                          fill="#18181B"
+                          stroke={trimColor}
+                          strokeWidth="1"
+                        />
+                        {/* Silicone Grip Micro-Nodes */}
+                        <line
+                          x1="178"
+                          y1="414"
+                          x2="322"
+                          y2="414"
+                          stroke={secondaryColor}
+                          strokeWidth="3.5"
+                          strokeDasharray="6,4"
+                          strokeLinecap="round"
+                        />
+                        {/* Technical Label */}
+                        <text
+                          x="250"
+                          y="420"
+                          textAnchor="middle"
+                          fill="#FFFFFF"
+                          fontSize="4"
+                          fontWeight="900"
+                          fontFamily="monospace"
+                          letterSpacing="1.2"
+                        >
+                          ANTI-SLIP SILICONE GRIP
+                        </text>
+                      </g>
+                    </g>
+                  )}
+
+                  {/* 6. MUAY THAI & MMA COMBAT SHORTS */}
+                  {selectedApparel.id === 'combat-shorts' && (
+                    <g id="combatShortsGroup">
+                      {/* Wide Shirred Elastic Waistband */}
+                      <rect
+                        x="150"
+                        y="155"
+                        width="200"
+                        height="38"
+                        rx="4"
+                        fill={primaryColor}
+                        stroke="#111111"
+                        strokeWidth="2"
+                      />
+                      {/* Waistband Elastic Gather Lines */}
+                      <line x1="150" y1="164" x2="350" y2="164" stroke={secondaryColor} strokeWidth="1.5" opacity="0.6" />
+                      <line x1="150" y1="174" x2="350" y2="174" stroke={secondaryColor} strokeWidth="1.5" opacity="0.6" />
+                      <line x1="150" y1="184" x2="350" y2="184" stroke={secondaryColor} strokeWidth="1.5" opacity="0.6" />
+
+                      {/* Center Waistband Patch */}
+                      <rect
+                        x="228"
+                        y="158"
+                        width="44"
+                        height="32"
+                        rx="3"
+                        fill={secondaryColor}
+                        stroke={trimColor}
+                        strokeWidth="1.5"
+                      />
+                      <text
+                        x="250"
+                        y="178"
+                        textAnchor="middle"
+                        fill={accentColor}
+                        fontSize="8"
+                        fontWeight="900"
+                        fontFamily="sans-serif"
+                      >
+                        HARE
+                      </text>
+
+                      {/* Left Leg with High Mobility Side Split */}
+                      <path
+                        d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z"
+                        fill={primaryColor}
+                        stroke="#111111"
+                        strokeWidth="2"
+                      />
+                      {/* Left Side Split Curve */}
+                      <path
+                        d="M 125 365 Q 148 310 142 270"
+                        fill="none"
+                        stroke={trimColor}
+                        strokeWidth="3"
+                      />
+
+                      {/* Right Leg with High Mobility Side Split */}
+                      <path
+                        d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z"
+                        fill={primaryColor}
+                        stroke="#111111"
+                        strokeWidth="2"
+                      />
+                      {/* Right Side Split Curve */}
+                      <path
+                        d="M 375 365 Q 352 310 358 270"
+                        fill="none"
+                        stroke={trimColor}
+                        strokeWidth="3"
+                      />
+
+                      {/* High-Stretch Lycra Flex Crotch Gusset */}
+                      <polygon
+                        points="240,365 250,285 260,365"
+                        fill={secondaryColor}
+                        stroke={trimColor}
+                        strokeWidth="1.5"
+                      />
+
+                      {/* Contrast Leg Hem Bindings */}
+                      <path
+                        d="M 125 365 Q 165 385 240 365"
+                        fill="none"
+                        stroke={trimColor}
+                        strokeWidth="4"
+                      />
+                      <path
+                        d="M 375 365 Q 335 385 260 365"
+                        fill="none"
+                        stroke={trimColor}
+                        strokeWidth="4"
+                      />
+
+                      {/* Sublimation Pattern on Legs */}
+                      {selectedPattern === 'geometric' && (
+                        <g opacity="0.35">
+                          <path d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z" fill="url(#patGeometric)" />
+                          <path d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z" fill="url(#patGeometric)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <g opacity="0.35">
+                          <path d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z" fill="url(#patStripes)" />
+                          <path d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z" fill="url(#patStripes)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <g opacity="0.35">
+                          <path d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z" fill="url(#patHex)" />
+                          <path d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z" fill="url(#patHex)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <g opacity="0.35">
+                          <path d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z" fill="url(#patCyber)" />
+                          <path d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z" fill="url(#patCyber)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <g opacity="0.35">
+                          <path d="M 150 193 L 125 365 Q 165 385 240 365 L 245 285 L 180 193 Z" fill="url(#patCamo)" />
+                          <path d="M 350 193 L 375 365 Q 335 385 260 365 L 255 285 L 320 193 Z" fill="url(#patCamo)" />
+                        </g>
+                      )}
                     </g>
                   )}
 
@@ -1710,7 +2015,7 @@ WhatsApp: +92 300 1234567
                   {viewMode === 'front' && (
                     <g id="frontGraphics">
                       {/* Club Shield Crest (Left Chest) */}
-                      {hasFrontCrest && (
+                      {hasFrontCrest && selectedApparel.id !== 'combat-shorts' && (
                         <g transform="translate(195, 160)">
                           <polygon points="0,0 26,0 30,22 13,36 -4,22" fill={trimColor} stroke={primaryColor} strokeWidth="1.5" />
                           <polygon points="3,3 23,3 26,20 13,32 0,20" fill={secondaryColor} />
@@ -1719,11 +2024,13 @@ WhatsApp: +92 300 1234567
                       )}
 
                       {/* Manufacturer Badge (Right Chest) */}
-                      <g transform="translate(280, 168)">
-                        <polygon points="0,0 12,0 16,14 4,14" fill={accentColor} />
-                        <polygon points="6,-4 18,-4 22,10 10,10" fill={secondaryColor} />
-                        <text x="11" y="24" textAnchor="middle" fill={accentColor} fontSize="6" fontWeight="bold" fontFamily="monospace">HARE</text>
-                      </g>
+                      {selectedApparel.id !== 'combat-shorts' && (
+                        <g transform="translate(280, 168)">
+                          <polygon points="0,0 12,0 16,14 4,14" fill={accentColor} />
+                          <polygon points="6,-4 18,-4 22,10 10,10" fill={secondaryColor} />
+                          <text x="11" y="24" textAnchor="middle" fill={accentColor} fontSize="6" fontWeight="bold" fontFamily="monospace">HARE</text>
+                        </g>
+                      )}
 
                       {/* Center Front Team / Sponsor Typography */}
                       <g transform="translate(250, 245)">
@@ -2140,151 +2447,6 @@ WhatsApp: +92 300 1234567
               >
                 Got It, Start Prototyping
               </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================= */}
-      {/* GEMINI API CONFIGURATION & CONNECTION DIAGNOSTICS MODAL   */}
-      {/* ========================================================= */}
-      {showApiModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="w-full max-w-lg rounded-3xl bg-white border border-[#E5DFD5] shadow-2xl p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
-            
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-[#FF751F]/10 text-[#FF751F]">
-                  <Key className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
-                    Gemini AI Engine Settings
-                  </h3>
-                  <span className="text-xs text-stone-500">
-                    Sialkot CAD Pre-Press & API Health Configuration
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowApiModal(false)}
-                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Active Key Status Info */}
-            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] space-y-2 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-stone-500">Active Key Source:</span>
-                <span className="font-bold font-mono text-[#FF751F] bg-[#FF751F]/10 px-2.5 py-0.5 rounded-full border border-[#FF751F]/20">
-                  {apiKeySource}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-stone-500">Engine Model:</span>
-                <span className="font-bold text-[#1A1A1A]">gemini-3.5-flash</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-stone-500">Key Fingerprint:</span>
-                <span className="font-mono text-stone-700">
-                  {apiKey.slice(0, 7)}...{apiKey.slice(-6)}
-                </span>
-              </div>
-            </div>
-
-            {/* API Key Edit Form */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
-                Custom Gemini API Key Override:
-              </label>
-              <div className="relative">
-                <input
-                  type={showKeyText ? "text" : "password"}
-                  value={tempApiKeyInput}
-                  onChange={(e) => setTempApiKeyInput(e.target.value)}
-                  placeholder="Paste custom Gemini API Key (AQ.xxx or AIzaxxx)..."
-                  className="w-full pl-4 pr-20 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5] text-xs font-mono text-[#1A1A1A] focus:outline-none focus:border-[#FF751F]"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowKeyText(!showKeyText)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 text-xs font-semibold px-1.5 py-0.5 rounded"
-                >
-                  {showKeyText ? "Hide" : "Show"}
-                </button>
-              </div>
-              <p className="text-[11px] text-stone-500">
-                Leave empty or click "Reset" to use the default production key or <code>.env</code> file.
-              </p>
-            </div>
-
-            {/* Connection Test Action & Result */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleTestConnection(tempApiKeyInput)}
-                  disabled={isTestingKey}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-[#1A1A1A] bg-[#FAF8F5] hover:bg-stone-100 border border-[#E5DFD5] flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
-                >
-                  {isTestingKey ? (
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#FF751F]" />
-                  ) : (
-                    <Activity className="w-3.5 h-3.5 text-emerald-600" />
-                  )}
-                  <span>{isTestingKey ? "Pinging Gemini API..." : "Test Connection"}</span>
-                </button>
-
-                <span className="text-[11px] text-stone-500">
-                  Sends a lightweight handshake ping to verify Google endpoints.
-                </span>
-              </div>
-
-              {testResult && (
-                <div className={`p-3.5 rounded-xl border text-xs space-y-1 ${
-                  testResult.success 
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
-                    : 'bg-rose-50 border-rose-200 text-rose-900'
-                }`}>
-                  <div className="flex items-center gap-2 font-bold">
-                    {testResult.success ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    ) : (
-                      <XCircle className="w-4 h-4 text-rose-600" />
-                    )}
-                    <span>{testResult.success ? "Status 200 OK — Ready" : `HTTP Status ${testResult.status || 'Failed'}`}</span>
-                  </div>
-                  <p className="text-[11px] leading-relaxed">
-                    {testResult.message}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Modal Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-[#E5DFD5] gap-3">
-              <button
-                type="button"
-                onClick={handleResetApiKey}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 transition-colors cursor-pointer"
-              >
-                Reset to Default
-              </button>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleSaveApiKey}
-                  className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65C00] shadow-md transition-all cursor-pointer"
-                >
-                  {keySavedToast ? "Saved Successfully!" : "Save Configuration"}
-                </button>
-              </div>
             </div>
 
           </div>
