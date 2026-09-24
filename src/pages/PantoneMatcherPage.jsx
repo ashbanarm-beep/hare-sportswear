@@ -5,6 +5,7 @@ import {
   Layers, Search, Sliders, RefreshCw, Send, CheckCircle2, ChevronRight, Info
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
+import { findNearestPantone, pantoneLibrary } from '../data/pantoneColors';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import PageFAQSection from '../components/common/PageFAQSection';
 

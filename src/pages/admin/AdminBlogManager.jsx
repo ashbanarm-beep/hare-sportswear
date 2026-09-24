@@ -1,3 +1,4 @@
+import React, { useState, useRef, useMemo } from 'react';
 import { 
   FileText, Plus, Edit3, Trash2, Eye, Power, Sparkles, 
   Search, Check, Table, Heading1, Heading2, Heading3, 

@@ -79,17 +79,11 @@ function MainAppShell() {
 
             {/* Admin CMS & Elementor-Style Page Builder Routes */}
             <Route path="/admin" element={<AdminLayout activeTab="overview"><AdminDashboardOverview /></AdminLayout>} />
-            <Route path="/admin/" element={<AdminLayout activeTab="overview"><AdminDashboardOverview /></AdminLayout>} />
             <Route path="/admin/pages" element={<AdminLayout activeTab="pages"><AdminPageEditor /></AdminLayout>} />
-            <Route path="/admin/pages/" element={<Navigate to="/admin/pages" replace />} />
             <Route path="/admin/blog" element={<AdminLayout activeTab="blog"><AdminBlogManager /></AdminLayout>} />
-            <Route path="/admin/blog/" element={<Navigate to="/admin/blog" replace />} />
             <Route path="/admin/seo" element={<AdminLayout activeTab="seo"><AdminSEOManager /></AdminLayout>} />
-            <Route path="/admin/seo/" element={<Navigate to="/admin/seo" replace />} />
             <Route path="/admin/faqs" element={<AdminLayout activeTab="faqs"><AdminFAQManager /></AdminLayout>} />
-            <Route path="/admin/faqs/" element={<Navigate to="/admin/faqs" replace />} />
             <Route path="/admin/settings" element={<AdminLayout activeTab="settings"><AdminDashboardOverview /></AdminLayout>} />
-            <Route path="/admin/settings/" element={<Navigate to="/admin/settings" replace />} />
 
             {/* Digital Manufacturing & Color Tools */}
             <Route path="/tools" element={<ToolsHubPage />} />
