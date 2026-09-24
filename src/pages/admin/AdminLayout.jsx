@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { DOMAIN_PAGES } from '../../data/domainPagesData';
+import { logoutAdmin } from '../../components/admin/AdminAuthGuard';
 
 export default function AdminLayout({ activeTab = 'overview', children }) {
   const location = useLocation();
@@ -189,13 +190,14 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
               </p>
             </div>
 
-            <Link
-              to="/"
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-stone-300 hover:text-white transition"
+            <button
+              type="button"
+              onClick={logoutAdmin}
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-xs text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Exit Admin to Storefront</span>
-            </Link>
+              <span>Lock &amp; Logout Admin</span>
+            </button>
           </div>
         </aside>
 

@@ -11,6 +11,23 @@ import { useCMS } from '../context/CMSContext';
 import { LinkedInIcon, TwitterIcon } from '../components/common/SocialIcons';
 import { useRFQ } from '../context/RFQContext';
 
+// Defense-in-depth: HTML entity escaping to eliminate DOM XSS when rendering formatted blog content
+function safeEscapeHtml(text) {
+  if (typeof text !== 'string') return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function safeMarkdownBoldToHtml(text) {
+  if (typeof text !== 'string') return '';
+  const escaped = safeEscapeHtml(text);
+  return escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
+
 export default function BlogPostPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -64,7 +81,7 @@ export default function BlogPostPage() {
       script.id = scriptId;
       document.head.appendChild(script);
     }
-    script.innerHTML = JSON.stringify(schema);
+    script.textContent = JSON.stringify(schema);
 
     return () => {
       const el = document.getElementById(scriptId);
@@ -533,7 +550,7 @@ export default function BlogPostPage() {
                               <tr key={rIdx} className="hover:bg-[#F5F1E8]/40 transition-colors">
                                 {cells.map((cell, cIdx) => (
                                   <td key={cIdx} className="px-4 py-3 text-gray-700 leading-relaxed">
-                                    <span dangerouslySetInnerHTML={{ __html: cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                                    <span dangerouslySetInnerHTML={{ __html: safeMarkdownBoldToHtml(cell) }} />
                                   </td>
                                 ))}
                               </tr>
@@ -555,8 +572,7 @@ export default function BlogPostPage() {
                           <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] mt-2 shrink-0" />
                             <span dangerouslySetInnerHTML={{ 
-                              __html: it.replace(/^[0-9]+\.\s*|-\s*/, '')
-                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                              __html: safeMarkdownBoldToHtml(it.replace(/^[0-9]+\.\s*|-\s*/, ''))
                             }} />
                           </li>
                         ))}
@@ -571,7 +587,7 @@ export default function BlogPostPage() {
                     key={i} 
                     className="leading-relaxed text-[#403D38]"
                     dangerouslySetInnerHTML={{ 
-                      __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                      __html: safeMarkdownBoldToHtml(trimmed)
                     }}
                   />
                 );

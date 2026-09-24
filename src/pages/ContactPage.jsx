@@ -140,46 +140,100 @@ export default function ContactPage() {
   }, [searchParams, selectedProductForInquiry]);
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [fileError, setFileError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referenceId, setReferenceId] = useState('');
 
+  const ALLOWED_EXTENSIONS = ['.pdf', '.ai', '.eps', '.png', '.jpg', '.jpeg', '.webp', '.zip', '.svg', '.psd'];
+  const BLOCKED_EXTENSIONS = ['.exe', '.bat', '.cmd', '.sh', '.vbs', '.js', '.mjs', '.php', '.phtml', '.html', '.htm', '.scr', '.msi', '.dll', '.com'];
+  const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB max per file
+
+  const validateAndProcessFiles = (fileList) => {
+    setFileError(null);
+    const valid = [];
+    const filesArray = Array.from(fileList);
+
+    if (uploadedFiles.length + filesArray.length > 5) {
+      setFileError('Maximum 5 tech pack / artwork files can be attached per RFQ inquiry.');
+      return;
+    }
+
+    for (const file of filesArray) {
+      const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+      
+      if (BLOCKED_EXTENSIONS.includes(ext)) {
+        setFileError(`Security Policy: Executable or script file "${file.name}" is strictly rejected.`);
+        return;
+      }
+      
+      if (!ALLOWED_EXTENSIONS.includes(ext)) {
+        setFileError(`Unsupported format "${file.name}". Please upload PDF, AI, EPS, PSD, PNG, JPG, or ZIP files.`);
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        setFileError(`File "${file.name}" exceeds the maximum 25 MB limit.`);
+        return;
+      }
+
+      valid.push({
+        name: file.name.replace(/[^a-zA-Z0-9._-]/g, '_'),
+        size: (file.size / 1024).toFixed(1) + ' KB',
+        type: file.type || 'Tech Pack Asset'
+      });
+    }
+
+    setUploadedFiles(prev => [...prev, ...valid]);
+  };
+
   const handleFileDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const newFiles = Array.from(e.dataTransfer.files).map(file => ({
-        name: file.name,
-        size: (file.size / 1024).toFixed(1) + ' KB',
-        type: file.type || 'Tech Pack Asset'
-      }));
-      setUploadedFiles(prev => [...prev, ...newFiles]);
+      validateAndProcessFiles(e.dataTransfer.files);
     }
   };
 
   const handleFileInput = (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files).map(file => ({
-        name: file.name,
-        size: (file.size / 1024).toFixed(1) + ' KB',
-        type: file.type || 'Tech Pack Asset'
-      }));
-      setUploadedFiles(prev => [...prev, ...newFiles]);
+      validateAndProcessFiles(e.target.files);
+      e.target.value = '';
     }
   };
 
   const handleRemoveFile = (index) => {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setFileError(null);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (fileError) return;
     setIsSubmitting(true);
 
     setTimeout(() => {
       const ref = 'RFQ-HSG-' + Math.floor(100000 + Math.random() * 900000);
       setReferenceId(ref);
+
+      // Audit log & save to customer session records
+      try {
+        const stored = JSON.parse(localStorage.getItem('hare_customer_rfqs') || '[]');
+        const entry = {
+          ref,
+          timestamp: new Date().toISOString(),
+          company: formData.companyName,
+          email: formData.email,
+          category: formData.category,
+          quantity: formData.quantity,
+          files: uploadedFiles.map(f => f.name)
+        };
+        localStorage.setItem('hare_customer_rfqs', JSON.stringify([entry, ...stored.slice(0, 19)]));
+      } catch (err) {
+        // Safe fallback
+      }
+
       setIsSubmitting(false);
       setIsSubmitted(true);
       setSelectedProductForInquiry(null);
@@ -511,7 +565,7 @@ export default function ContactPage() {
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5 flex items-center justify-between">
                     <span>Attach Tech Pack / Vector Logo / Mockup</span>
-                    <span className="text-[#8A847A] font-normal">Formats: AI, PDF, EPS, CDR, PNG (Up to 50MB)</span>
+                    <span className="text-[#8A847A] font-normal">PDF, AI, EPS, PSD, PNG, JPG, ZIP (Max 25MB, up to 5 files)</span>
                   </label>
 
                   <div
@@ -536,6 +590,7 @@ export default function ContactPage() {
                       type="file"
                       id="techPackInput"
                       multiple
+                      accept=".pdf,.ai,.eps,.psd,.png,.jpg,.jpeg,.webp,.zip,.svg"
                       onChange={handleFileInput}
                       className="hidden"
                     />
@@ -546,6 +601,14 @@ export default function ContactPage() {
                       Browse Files
                     </label>
                   </div>
+
+                  {/* File Error Alert */}
+                  {fileError && (
+                    <div className="mt-2.5 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                      <span>{fileError}</span>
+                    </div>
+                  )}
 
                   {/* Uploaded Files List */}
                   {uploadedFiles.length > 0 && (

@@ -67,55 +67,26 @@ export default function AdminDashboardOverview() {
     }
   };
 
-  // Google Gemini API Settings State for Sialkot CAD Pre-Press
-  const _K_PARTS = ['AQ.', 'Ab8RN6JOldclkwa4', '7flPqwSNukTtMEbpHD', 'a4bZIVGvROqjH9aw'];
-  const defaultKey = _K_PARTS.join('');
-
-  const [geminiKey, setGeminiKey] = React.useState(() => {
-    return localStorage.getItem('hare_gemini_api_key') || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || defaultKey;
-  });
-  const [showKeyText, setShowKeyText] = React.useState(false);
+  // Google Gemini AI Engine Settings State
   const [isTestingKey, setIsTestingKey] = React.useState(false);
   const [keyTestStatus, setKeyTestStatus] = React.useState(null);
-  const [savedKeyToast, setSavedKeyToast] = React.useState(false);
-
-  const handleSaveKey = () => {
-    if (geminiKey.trim()) {
-      localStorage.setItem('hare_gemini_api_key', geminiKey.trim());
-    } else {
-      localStorage.removeItem('hare_gemini_api_key');
-    }
-    setSavedKeyToast(true);
-    setTimeout(() => setSavedKeyToast(false), 2500);
-  };
-
-  const handleResetKey = () => {
-    localStorage.removeItem('hare_gemini_api_key');
-    const resetVal = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || defaultKey;
-    setGeminiKey(resetVal);
-    setKeyTestStatus(null);
-    setSavedKeyToast(true);
-    setTimeout(() => setSavedKeyToast(false), 2500);
-  };
 
   const handleTestKey = async () => {
     setIsTestingKey(true);
     setKeyTestStatus(null);
     const start = performance.now();
     try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${geminiKey.trim()}`, {
+      const res = await fetch('/api/generate-mockup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: 'ping' }] }]
-        })
+        body: JSON.stringify({ action: 'ping' })
       });
+      const data = await res.json().catch(() => ({}));
       const ms = Math.round(performance.now() - start);
-      if (res.ok) {
-        setKeyTestStatus({ success: true, message: `Connected! Google Gemini 3.5 Flash is active & healthy (${ms}ms round-trip).` });
+      if (res.ok && data.success) {
+        setKeyTestStatus({ success: true, message: `Connected! Secure Serverless AI Engine is active & healthy (${ms}ms round-trip). Model: ${data.model || 'gemini-2.5-flash'}` });
       } else {
-        const errJson = await res.json().catch(() => ({}));
-        setKeyTestStatus({ success: false, message: `HTTP ${res.status}: ${errJson?.error?.message || 'Error connecting to Gemini API endpoint.'}` });
+        setKeyTestStatus({ success: false, message: `Engine Status: ${data.error || 'Server returned HTTP ' + res.status}` });
       }
     } catch (err) {
       setKeyTestStatus({ success: false, message: `Network Connection Error: ${err.message}` });
@@ -589,50 +560,37 @@ export default function AdminDashboardOverview() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <div className="md:col-span-8">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
-              Active Gemini API Key Override (Stored securely in browser / fallback to .env):
-            </label>
-            <div className="relative">
-              <input
-                type={showKeyText ? "text" : "password"}
-                value={geminiKey}
-                onChange={(e) => setGeminiKey(e.target.value)}
-                placeholder="Enter Gemini API Key (AQ.xxx or AIzaxxx)..."
-                className="w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-[#FF751F] pr-20"
-              />
-              <button
-                type="button"
-                onClick={() => setShowKeyText(!showKeyText)}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 hover:text-white px-2 py-0.5 rounded bg-white/5"
-              >
-                {showKeyText ? "Hide" : "Show"}
-              </button>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Credential Storage</span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Server-Side Secure (.env)</span>
             </div>
+            <p className="text-[11px] text-stone-400">Key excluded from client JS bundle</p>
           </div>
 
-          <div className="md:col-span-4 flex items-center gap-2 pt-2 md:pt-5">
-            <button
-              type="button"
-              onClick={handleSaveKey}
-              className="flex-1 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#FF751F] hover:bg-[#E65C00] shadow-md transition cursor-pointer"
-            >
-              {savedKeyToast ? "Saved!" : "Save Key"}
-            </button>
-            <button
-              type="button"
-              onClick={handleResetKey}
-              className="px-3 py-2 rounded-xl text-xs font-semibold text-stone-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition cursor-pointer"
-              title="Reset to default environment key"
-            >
-              Reset
-            </button>
+          <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Serverless Proxy</span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-white">
+              <Zap className="w-3.5 h-3.5 text-[#FF751F]" />
+              <span>/api/generate-mockup</span>
+            </div>
+            <p className="text-[11px] text-stone-400">Restricted CORS &amp; Prompt Sanitization</p>
+          </div>
+
+          <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">Abuse Protection</span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-sky-400">
+              <Activity className="w-3.5 h-3.5" />
+              <span>10 req / min Rate Limit</span>
+            </div>
+            <p className="text-[11px] text-stone-400">Per-IP sliding window throttle</p>
           </div>
         </div>
 
         <p className="text-[11px] text-stone-400 leading-relaxed">
-          💡 <strong>Production Tip:</strong> For serverless cloud deployments on Vercel, you can also define <code>VITE_GEMINI_API_KEY</code> in your Vercel Project Settings &rarr; Environment Variables.
+          🔒 <strong>Production Security:</strong> To rotate your key, update <code>GEMINI_API_KEY</code> in your root <code>.env</code> file or within your <strong>Vercel Project Settings &rarr; Environment Variables</strong>. The serverless function automatically loads it in production without rebuilding the frontend.
         </p>
       </div>
 

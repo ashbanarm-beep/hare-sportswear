@@ -11,29 +11,20 @@ import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import PageFAQSection from '../components/common/PageFAQSection';
 
-// Built-in API Key fallback for Sialkot digital sampling
-const _K_PARTS = ['AQ.', 'Ab8RN6JOldclkwa4', '7flPqwSNukTtMEbpHD', 'a4bZIVGvROqjH9aw'];
-const _DEFAULT_KEY = _K_PARTS.join('');
-
+// Secure client key management for optional user override
 export const getStoredGeminiKey = () => {
   if (typeof window !== 'undefined') {
     const custom = localStorage.getItem('hare_gemini_api_key');
     if (custom && custom.trim()) return custom.trim();
   }
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
-    return import.meta.env.VITE_GEMINI_API_KEY;
-  }
-  return _DEFAULT_KEY;
+  return '';
 };
 
 export const getGeminiKeySource = () => {
   if (typeof window !== 'undefined' && localStorage.getItem('hare_gemini_api_key')) {
-    return 'Custom Admin / User Setting';
+    return 'User-Configured Custom Key';
   }
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
-    return 'Environment (.env / Vercel)';
-  }
-  return 'Pre-Configured Sialkot Client Key';
+  return 'Server-Side Managed Key';
 };
 
 // Curated Category Division Filter Groups
@@ -601,14 +592,20 @@ export default function AIMockupGeneratorPage() {
     let engineSource = '';
 
     try {
-      // 1. Attempt Serverless Backend Route (/api/generate-mockup)
+      // 1. Invoke Serverless Backend Route (/api/generate-mockup)
       try {
-        setGenerationStep('Calling backend AI mockup endpoint (/api/generate-mockup)...');
+        setGenerationStep('Engaging Sialkot CAD AI Design Engine (/api/generate-mockup)...');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000);
+
         const apiRes = await fetch('/api/generate-mockup', {
           method: 'POST',
+          signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+
+        clearTimeout(timeoutId);
 
         if (apiRes.ok) {
           const json = await apiRes.json();
@@ -616,87 +613,16 @@ export default function AIMockupGeneratorPage() {
             parsedData = json.data;
             engineSource = json.model || json.source || 'gemini-backend';
           }
+        } else if (apiRes.status === 429) {
+          throw new Error('AI generation rate limit reached. Please wait a moment before trying again.');
         } else {
           console.warn(`Backend /api/generate-mockup status: ${apiRes.status}`);
         }
       } catch (backendErr) {
-        console.warn('Backend route /api/generate-mockup unreachable directly, attempting client-side engine:', backendErr);
-      }
-
-      // 2. Attempt Direct Gemini Client-Side Fallback across candidate models
-      if (!parsedData) {
-        setGenerationStep('Engaging Google Gemini 3.5 Engine directly...');
-        const activeKey = (apiKey || '').trim() || _DEFAULT_KEY;
-        const candidateModels = ['gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.5-flash', 'gemini-3.6-flash'];
-
-        const systemPrompt = `You are a world-class senior athletic apparel designer and textile engineer for Hare Sportswear & Goods based in Sialkot, Pakistan.
-Analyze the user's sportswear design prompt and generate an ultra-realistic manufacturing tech pack and visual design directives in JSON format.
-
-User Garment Selection: ${selectedApparel.name} (${selectedApparel.category})
-User Design Concept / Theme: "${prompt}"
-Current Color Palette Hint: Primary ${primaryHint}, Secondary ${secondaryHint}, Accent ${accentHint}, Trim ${trimHint}
-Team / Club Name: "${teamName}"
-
-You MUST respond strictly with a valid JSON object matching this schema without any markdown wrapping or backticks:
-{
-  "concept": "A 2 to 3 sentence evocative, professional description of the aesthetic kit concept, detailing visual lines and athletic presence.",
-  "recommendedPattern": "geometric" | "stripes" | "hex" | "cyber" | "camo" | "minimal",
-  "recommendedCollar": "v-neck" | "crew" | "mandarin",
-  "pantoneCodes": [
-    { "role": "Primary", "name": "Color Name", "pantone": "19-XXXX TCX", "hex": "#HEXHEX" },
-    { "role": "Secondary", "name": "Color Name", "pantone": "16-XXXX TCX", "hex": "#HEXHEX" },
-    { "role": "Accent", "name": "Color Name", "pantone": "11-XXXX TCX", "hex": "#HEXHEX" },
-    { "role": "Trim", "name": "Color Name", "pantone": "14-XXXX TCX", "hex": "#HEXHEX" }
-  ],
-  "fabricSpecs": {
-    "name": "Engineered Performance Fabric Name",
-    "gsm": "140 to 380",
-    "composition": "e.g. 100% Recycled Poly Interlock or 88% Poly / 12% Spandex"
-  },
-  "productionDetails": [
-    "Specific Sialkot factory stitching instruction",
-    "Sublimation ink formulation & temperature requirement",
-    "Embellishment application method (e.g. 3D silicone, TPU heat seal, flatlock seam)",
-    "Laser-cut ventilation or reinforcement callout"
-  ]
-}`;
-
-        for (const mName of candidateModels) {
-          try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-            const directRes = await fetch(
-              `https://generativelanguage.googleapis.com/v1beta/models/${mName}:generateContent?key=${activeKey}`,
-              {
-                method: 'POST',
-                signal: controller.signal,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{ parts: [{ text: systemPrompt }] }],
-                  generationConfig: {
-                    responseMimeType: 'application/json',
-                    temperature: 0.7
-                  }
-                })
-              }
-            );
-
-            clearTimeout(timeoutId);
-
-            if (directRes.ok) {
-              const d = await directRes.json();
-              const rawText = d?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (rawText) {
-                const cleanedJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-                parsedData = JSON.parse(cleanedJson);
-                engineSource = mName;
-                break;
-              }
-            }
-          } catch (modelErr) {
-            console.warn(`Model ${mName} direct call error:`, modelErr.message);
-          }
+        if (backendErr.name === 'AbortError') {
+          console.warn('Backend generation timed out.');
+        } else {
+          console.warn('Backend generation error:', backendErr.message);
         }
       }
 
@@ -706,7 +632,7 @@ You MUST respond strictly with a valid JSON object matching this schema without 
       setGenerationProgress(95);
 
       if (!parsedData) {
-        throw new Error('API server temporarily busy. Activating Sialkot CAD Prompt-Calibrated Engine.');
+        throw new Error('AI service busy. Activating Sialkot CAD Algorithmic Prototype Engine.');
       }
 
       // Update State with AI Generated Specifications
