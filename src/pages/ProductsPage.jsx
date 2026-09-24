@@ -7,6 +7,7 @@ import {
 import { products, categories, equipmentSubcategories, activewearSubcategories, womensSubcategories, materialTypes } from '../data/products';
 import ProductDetailModal from '../components/products/ProductDetailModal';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -444,6 +445,13 @@ export default function ProductsPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="products" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="products" 
+        title="Frequently Asked Wholesale Product Questions" 
+        subtitle="Catalog & Manufacturing Inquiries" 
+      />
 
       {/* Product Detail Modal */}
       {activeModalProduct && (

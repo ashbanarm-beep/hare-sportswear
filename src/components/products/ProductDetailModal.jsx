@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   X, Check, ShieldCheck, Clock, Layers, Ruler, Sparkles, 
-  ArrowRight, Info, Award 
+  ArrowRight, Info, Award, HelpCircle 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useRFQ } from '../../context/RFQContext';
+import { useCMS } from '../../context/CMSContext';
 
 export default function ProductDetailModal({ product, onClose }) {
   const isSportsBra = product?.sizingType === 'sports-bra' || product?.name?.toLowerCase().includes('bra');
@@ -18,6 +19,14 @@ export default function ProductDetailModal({ product, onClose }) {
   const [unit, setUnit] = useState('cm'); // 'cm' or 'inches'
 
   const { setSelectedProductForInquiry } = useRFQ();
+  const { getFAQs } = useCMS();
+
+  const productFaqs = useMemo(() => {
+    if (!product?.id) return [];
+    const specific = getFAQs(`product-${product.id}`);
+    if (specific && specific.length > 0) return specific;
+    return getFAQs(product.id) || [];
+  }, [product, getFAQs]);
 
   if (!product) return null;
 
@@ -435,6 +444,34 @@ export default function ProductDetailModal({ product, onClose }) {
                     </p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Product-Specific Technical FAQs */}
+            {productFaqs.length > 0 && (
+              <div className="p-4 rounded-2xl bg-[#FAF8F3] border border-[#E5DFD5] space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5 font-display">
+                    <HelpCircle className="w-4 h-4 text-[#FF751F]" />
+                    Product Manufacturing FAQs ({productFaqs.length})
+                  </h4>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-orange-100 text-[#FF751F] border border-orange-200">
+                    Bespoke Specs
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {productFaqs.map((faq, fIdx) => (
+                    <div key={faq.id || fIdx} className="p-3 rounded-xl bg-white border border-[#E5DFD5] text-xs space-y-1">
+                      <div className="font-bold text-[#1A1A1A] flex items-start gap-1.5">
+                        <span className="text-[#FF751F] font-mono">Q:</span>
+                        <span>{faq.question}</span>
+                      </div>
+                      <div className="text-[#595856] pl-4 leading-relaxed">
+                        {faq.answer}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 

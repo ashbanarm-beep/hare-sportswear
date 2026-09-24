@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 // Built-in API Key fallback for Sialkot digital sampling
 const _K_PARTS = ['AQ.', 'Ab8RN6JOldclkwa4', '7flPqwSNukTtMEbpHD', 'a4bZIVGvROqjH9aw'];
@@ -3636,6 +3637,13 @@ WhatsApp: +92 300 1234567
 
       {/* Dynamic Page Content from CMS if any blocks added */}
       <DynamicPageContent pageId="ai-mockup-generator" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="ai-mockup-generator" 
+        title="AI Sportswear Mockup Generator FAQs" 
+        subtitle="Google Gemini Engine & Custom Renders" 
+      />
 
     </div>
   );

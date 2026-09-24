@@ -9,7 +9,8 @@ const STORAGE_KEYS = {
   BLOG_CATEGORIES: 'hare_cms_blog_categories_v1',
   SEO_REGISTRY: 'hare_cms_seo_registry_v1',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
-  PAGE_BLOCKS: 'hare_cms_page_blocks_v1'
+  PAGE_BLOCKS: 'hare_cms_page_blocks_v1',
+  CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1'
 };
 
 export function CMSProvider({ children }) {
@@ -64,11 +65,28 @@ export function CMSProvider({ children }) {
   const [pageFAQs, setPageFAQs] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.PAGE_FAQS);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultPageFAQs,
+          ...parsed
+        };
+      }
     } catch (e) {
       console.warn('Failed to load page FAQs from storage', e);
     }
     return defaultPageFAQs;
+  });
+
+  // 3b. Custom FAQ Target Pages/Sections Defined by Admin
+  const [customFAQTargets, setCustomFAQTargets] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.CUSTOM_FAQ_TARGETS);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to load custom FAQ targets', e);
+    }
+    return [];
   });
 
   // 4. Page Blocks State (Elementor-Style Visual Page Builder)
@@ -119,6 +137,12 @@ export function CMSProvider({ children }) {
       localStorage.setItem(STORAGE_KEYS.PAGE_BLOCKS, JSON.stringify(pageBlocks));
     } catch (e) {}
   }, [pageBlocks]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.CUSTOM_FAQ_TARGETS, JSON.stringify(customFAQTargets));
+    } catch (e) {}
+  }, [customFAQTargets]);
 
   // ============================================================
   // BLOG MANAGEMENT METHODS
@@ -332,6 +356,32 @@ export function CMSProvider({ children }) {
     });
   };
 
+  const duplicateFAQToPage = (sourcePageId, targetPageId, faqId) => {
+    const sourceFaqs = getAllFAQsForPage(sourcePageId);
+    const targetFaq = sourceFaqs.find(f => f.id === faqId);
+    if (!targetFaq) return;
+    const cloned = {
+      question: `${targetFaq.question} (Copy)`,
+      answer: targetFaq.answer,
+      category: targetFaq.category,
+      active: targetFaq.active !== false
+    };
+    addFAQ(targetPageId, cloned);
+  };
+
+  const addCustomFAQTarget = (target) => {
+    if (!target || !target.id) return;
+    setCustomFAQTargets(prev => {
+      const exists = prev.some(t => t.id === target.id);
+      if (exists) return prev.map(t => t.id === target.id ? { ...t, ...target } : t);
+      return [...prev, target];
+    });
+  };
+
+  const deleteCustomFAQTarget = (targetId) => {
+    setCustomFAQTargets(prev => prev.filter(t => t.id !== targetId));
+  };
+
   // ============================================================
   // ELEMENTOR-STYLE PAGE BLOCKS METHODS
   // ============================================================
@@ -400,6 +450,13 @@ export function CMSProvider({ children }) {
           ['Dye Sublimation', 'Kiian Italian Disperse', 'Kiian Italian Disperse', 'Monti Antonio Rotary'],
           ['Embellishments', 'Heat Transfer / Polybag', '3D Silicone / Woven Tag', 'Barcoded Hangtags Included']
         ]
+      };
+    } else if (blockType === 'faq_block') {
+      template = {
+        ...template,
+        title: 'Frequently Asked Questions',
+        subtitle: 'Factory Clarifications & Specifications',
+        targetPageId: pageId
       };
     }
 
@@ -513,6 +570,10 @@ export function CMSProvider({ children }) {
     updateFAQ,
     deleteFAQ,
     reorderFAQs,
+    duplicateFAQToPage,
+    customFAQTargets,
+    addCustomFAQTarget,
+    deleteCustomFAQTarget,
 
     // Blocks
     pageBlocks,

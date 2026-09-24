@@ -8,6 +8,7 @@ import {
 import confetti from 'canvas-confetti';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function MeetHarePage() {
   const { openTechPackModal } = useRFQ();
@@ -328,6 +329,13 @@ export default function MeetHarePage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="meet-hare" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="meet-hare" 
+        title="Meet Hurry the Hare Mascot FAQs" 
+        subtitle="Brand Heritage & Factory Spirit" 
+      />
 
     </div>
   );

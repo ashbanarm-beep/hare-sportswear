@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
@@ -767,6 +768,13 @@ export default function ContactPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="contact" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="contact" 
+        title="Quotation, RFQ & Direct Contact FAQs" 
+        subtitle="Response Times & Technical Support" 
+      />
 
     </div>
   );

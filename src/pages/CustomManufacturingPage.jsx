@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function CustomManufacturingPage() {
   const { setIsTechPackModalOpen } = useRFQ();
@@ -367,6 +368,13 @@ export default function CustomManufacturingPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="custom-manufacturing" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="custom-manufacturing" 
+        title="Custom OEM / ODM Manufacturing FAQs" 
+        subtitle="Tech Packs, Prototyping & Production" 
+      />
 
     </div>
   );

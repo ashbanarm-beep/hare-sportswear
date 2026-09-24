@@ -447,6 +447,70 @@ export const defaultPageFAQs = {
       category: 'Middle East Shipping',
       active: true
     }
+  ],
+  'france-hub': [
+    {
+      id: 'faq-fr1',
+      question: 'Livrez-vous directement en France avec dédouanement DDP inclus ?',
+      answer: 'Oui, nous proposons une expédition DDP (Delivered Duty Paid) complète vers toute la France. Toutes les formalités douanières, droits d’importation et TVA sont pris en charge avant la livraison à vos locaux.',
+      category: 'Expédition & Douane',
+      active: true
+    },
+    {
+      id: 'faq-fr2',
+      question: 'Fabriquez-vous des maillots de football et de rugby conformes aux normes FFF et FFR ?',
+      answer: 'Absolument. Nous concevons des tenues avec des coutures renforcées flatlock, du polyester respirant 160-280 GSM et une sublimation disperse italienne résistante aux lavages intensifs.',
+      category: 'Normes & Sports',
+      active: true
+    }
+  ],
+  'netherlands-hub': [
+    {
+      id: 'faq-nl1',
+      question: 'Hoe snel kunnen teamwear zendingen geleverd worden in Nederland?',
+      answer: 'Via onze directe DHL Express en FedEx luchtvrachtverbindingen worden afgewerkte sportkledingorders binnen 4 tot 6 werkdagen rechtstreeks bij uw club of magazijn in Nederland geleverd.',
+      category: 'Logistiek & Douane',
+      active: true
+    },
+    {
+      id: 'faq-nl2',
+      question: 'Leveren jullie ook duurzame en gerecyclede sportkleding voor Nederlandse merken?',
+      answer: 'Zeker. Wij produceren hoogwaardige sportkleding van GRS-gecertificeerd gerecycled polyester met OEKO-TEX milieuvriendelijke sublimatie-inkten.',
+      category: 'Duurzaamheid',
+      active: true
+    }
+  ],
+  blog: [
+    {
+      id: 'faq-bl1',
+      question: 'How often does Hare Sportswear publish technical apparel manufacturing guides?',
+      answer: 'Our senior garment engineers publish detailed technical deep-dives bi-weekly, covering sublimation science, moisture management, tech pack construction, and international supply chain economics.',
+      category: 'Editorial',
+      active: true
+    },
+    {
+      id: 'faq-bl2',
+      question: 'Can sportswear startup founders suggest topics or ask technical questions?',
+      answer: 'Yes! We actively source editorial topics from client RFQs and brand founder inquiries. You can submit questions via our Contact & Engineering consultation page.',
+      category: 'Community',
+      active: true
+    }
+  ],
+  'product-prod-01': [
+    {
+      id: 'faq-p01-1',
+      question: 'What is the Minimum Order Quantity for the Pro Elite Sublimated Football Kit?',
+      answer: 'Our standard MOQ is just 25 full kits (jersey + shorts) per custom design. Names, squad numbers, and sponsor logos are included with zero plate setup fees.',
+      category: 'MOQ & Pricing',
+      active: true
+    },
+    {
+      id: 'faq-p01-2',
+      question: 'What fabric composition is used in this match-grade football kit?',
+      answer: 'We utilize a 160 GSM 100% micro-polyester interlock with moisture-wicking and antibacterial finish, paired with 4-way stretch mesh side ventilation panels.',
+      category: 'Materials & Specs',
+      active: true
+    }
   ]
 };
 

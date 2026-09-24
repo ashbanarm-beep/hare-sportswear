@@ -5,6 +5,7 @@ import {
   ArrowRight, ShieldCheck, CheckCircle2, Factory, Zap, Clock, Globe
 } from 'lucide-react';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function ToolsHubPage() {
   const tools = [
@@ -249,6 +250,13 @@ export default function ToolsHubPage() {
 
         {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
         <DynamicPageContent pageId="tools" />
+
+        {/* Frequently Asked Questions */}
+        <PageFAQSection 
+          pageId="tools" 
+          title="Digital Tools & Color Engines FAQs" 
+          subtitle="Free Sportswear Engineering Utilities" 
+        />
       </div>
     </div>
   );

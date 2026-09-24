@@ -5,6 +5,7 @@ import { ShieldCheck, ArrowRight } from 'lucide-react';
 import QualityCertifications from '../components/quality/QualityCertifications';
 import ZeroDefectSection from '../components/quality/ZeroDefectSection';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function QualityPage() {
   return (
@@ -79,6 +80,13 @@ export default function QualityPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="quality" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="quality" 
+        title="Quality Assurance & Testing Standards FAQs" 
+        subtitle="AQL 2.5, Lab Testing & ISO Certifications" 
+      />
 
     </div>
   );

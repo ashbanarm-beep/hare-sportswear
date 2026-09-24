@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 // -------------------------------------------------------------
 // PRODUCT CATEGORY FILTER GROUPS
@@ -2400,6 +2401,13 @@ export default function CostEstimatorPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="cost-estimator" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="cost-estimator" 
+        title="Manufacturing Cost Calculator FAQs" 
+        subtitle="BOM Costing & DDP Freight Logistics" 
+      />
     </div>
   );
 }

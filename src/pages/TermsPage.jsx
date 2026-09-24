@@ -5,6 +5,7 @@ import {
   CheckCircle2, AlertCircle, Mail, Phone, Lock, ExternalLink 
 } from 'lucide-react';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function TermsPage() {
   useEffect(() => {
@@ -304,6 +305,13 @@ export default function TermsPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="terms" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="terms" 
+        title="Terms of Service & Manufacturing Contracts FAQs" 
+        subtitle="Payment Terms, Milestones & NDAs" 
+      />
     </div>
   );
 }

@@ -206,18 +206,21 @@ export default function AdminDashboardOverview() {
         </div>
 
         {/* Metric 5: Active FAQs */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-white/10 space-y-1.5 col-span-2 sm:col-span-1">
+        <Link 
+          to="/admin/faqs"
+          className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-white/10 hover:border-purple-400/50 transition-all space-y-1.5 col-span-2 sm:col-span-1 block group"
+        >
           <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
             <span>Dynamic FAQs</span>
-            <HelpCircle className="w-4 h-4 text-purple-400" />
+            <HelpCircle className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
           </div>
-          <p className="text-2xl sm:text-3xl font-display font-black text-white">
+          <p className="text-2xl sm:text-3xl font-display font-black text-white group-hover:text-purple-400 transition-colors">
             {totalFAQs}
           </p>
           <p className="text-[11px] text-stone-400">
-            Accordion Q&amp;As across pages
+            All pages, blogs &amp; products &rarr;
           </p>
-        </div>
+        </Link>
 
       </div>
 
@@ -299,27 +302,39 @@ export default function AdminDashboardOverview() {
           </Link>
 
           {/* Module 4: FAQ Manager */}
-          <Link
-            to="/admin/faqs"
-            className="group p-6 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col justify-between space-y-4 hover:shadow-xl"
+          {/* Module 4: Universal FAQ Engine */}
+          <div
+            className="p-6 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col justify-between space-y-4 hover:shadow-xl"
           >
             <div className="space-y-3">
               <div className="w-12 h-12 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center">
                 <HelpCircle className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-bold text-lg text-white group-hover:text-[#FF751F] transition-colors">
-                Dynamic Page-Specific FAQ Manager
+              <h3 className="font-display font-bold text-lg text-white">
+                Universal FAQ &amp; Accordion Engine
               </h3>
               <p className="text-xs text-stone-400 leading-relaxed">
-                Control the dedicated FAQ accordion section at the bottom of the homepage, plus assign custom niche questions and answers to any specific subpage (Products, Custom Manufacturing, Quality, etc.).
+                Add and edit as many FAQs as you want anywhere across the website. Manage questions for all 25 domain pages, 34 product styles, blog posts, or custom sections with automated Google FAQPage SEO schema.
               </p>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF751F] pt-2 border-t border-white/10">
-              <span>Edit Page FAQs</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <div className="flex items-center gap-2 pt-2 border-t border-white/10 flex-wrap">
+              <Link
+                to="/admin/faqs"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-xs transition"
+              >
+                <Globe className="w-3.5 h-3.5 text-purple-400" />
+                <span>Browse All FAQs ({totalFAQs})</span>
+              </Link>
+              <Link
+                to="/admin/faqs?action=new"
+                className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white font-bold text-xs transition shadow-glow-orange"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Add FAQ Anywhere</span>
+              </Link>
             </div>
-          </Link>
+          </div>
 
         </div>
       </div>
@@ -491,6 +506,13 @@ export default function AdminDashboardOverview() {
                       title="Edit FAQs for this page"
                     >
                       FAQs
+                    </Link>
+                    <Link
+                      to={`/admin/faqs?page=${page.id}&action=new`}
+                      className="px-1.5 py-1 rounded-lg bg-[#FF751F]/15 hover:bg-[#FF751F] text-[#FF751F] hover:text-white text-[10px] font-bold transition"
+                      title="Quick add FAQ to this page"
+                    >
+                      + FAQ
                     </Link>
                   </div>
 

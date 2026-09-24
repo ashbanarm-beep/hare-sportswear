@@ -11,6 +11,7 @@ import {
 } from '../data/pantoneColors';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function PaletteGeneratorPage() {
   const navigate = useNavigate();
@@ -641,6 +642,13 @@ Guaranteed Sublimation Precision: Level 4.5+ Washfastness (Sialkot Factory Direc
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="palette-generator" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="palette-generator" 
+        title="Uniform Palette Generator FAQs" 
+        subtitle="Contrast Ratios & Broadcast Compliance" 
+      />
     </div>
   );
 }

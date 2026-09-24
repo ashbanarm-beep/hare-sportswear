@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   HelpCircle, ChevronDown, Sparkles, MessageCircle, 
-  FileText, Search, ArrowRight, ShieldCheck, CheckCircle2 
+  FileText, Search, ArrowRight, ShieldCheck, CheckCircle2, Edit3 
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
@@ -19,6 +19,42 @@ export default function PageFAQSection({
   const [activeId, setActiveId] = useState(() => rawFaqs[0]?.id || null);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Dynamically inject Google SEO FAQPage structured data
+  useEffect(() => {
+    if (!rawFaqs || rawFaqs.length === 0) return;
+
+    const scriptId = `faq-schema-${pageId.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+    let script = document.getElementById(scriptId);
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": rawFaqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+
+    script.textContent = JSON.stringify(schemaData);
+
+    return () => {
+      const existing = document.getElementById(scriptId);
+      if (existing) {
+        existing.remove();
+      }
+    };
+  }, [rawFaqs, pageId]);
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -49,7 +85,7 @@ export default function PageFAQSection({
   };
 
   return (
-    <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10 ${className}`}>
+    <section id={`faq-section-${pageId}`} className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10 ${className}`}>
       
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">

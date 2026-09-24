@@ -5,6 +5,7 @@ import {
   FileCheck, Clock, Mail, CheckCircle2, UserCheck, Database
 } from 'lucide-react';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function PrivacyPage() {
   useEffect(() => {
@@ -239,6 +240,13 @@ export default function PrivacyPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="privacy" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="privacy" 
+        title="Privacy Policy & Intellectual Property FAQs" 
+        subtitle="Data Protection & NDAs" 
+      />
     </div>
   );
 }

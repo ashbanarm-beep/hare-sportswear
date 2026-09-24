@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function BlogPage() {
   const { getPublishedBlogPosts, blogCategories } = useCMS();
@@ -210,6 +211,13 @@ export default function BlogPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="blog" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="blog" 
+        title="Sportswear Manufacturing Knowledge Base FAQs" 
+        subtitle="Garment Engineering & Industry Standards" 
+      />
 
     </div>
   );

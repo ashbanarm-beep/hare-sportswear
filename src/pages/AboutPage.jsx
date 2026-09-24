@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import PrecisionManufacturingFloor from '../components/about/PrecisionManufacturingFloor';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function AboutPage() {
   const values = [
@@ -171,6 +172,13 @@ export default function AboutPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="about" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="about" 
+        title="About Hare Sportswear & Sialkot Heritage FAQs" 
+        subtitle="Factory Ethics, Solar Energy & Craftsmanship" 
+      />
 
     </div>
   );

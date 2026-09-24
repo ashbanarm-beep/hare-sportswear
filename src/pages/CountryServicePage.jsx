@@ -9,6 +9,7 @@ import {
 import { getCountryBySlug, countryServices } from '../data/countryServicesData';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function CountryServicePage() {
   const location = useLocation();
@@ -557,18 +558,30 @@ export default function CountryServicePage() {
         </div>
       </section>
 
-      {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
-      <DynamicPageContent pageId={
-        country?.slug === 'sports-wear-manufacturer-usa' ? 'usa-hub' :
-        country?.slug === 'sports-wear-manufacturer-uk' ? 'uk-hub' :
-        country?.slug === 'sports-wear-manufacturer-australia' ? 'australia-hub' :
-        country?.slug === 'sports-wear-manufacturer-germany' ? 'germany-hub' :
-        country?.slug === 'sports-wear-manufacturer-canada' ? 'canada-hub' :
-        country?.slug === 'sports-wear-manufacturer-uae' ? 'uae-hub' :
-        country?.slug === 'sports-wear-manufacturer-france' ? 'france-hub' :
-        country?.slug === 'sports-wear-manufacturer-netherlands' ? 'netherlands-hub' :
-        (country?.id ? `${country.id}-hub` : 'usa-hub')
-      } />
+      {/* Dynamic Visual Content Blocks & FAQ Accordion (Elementor Page Builder & FAQ Engine) */}
+      {(() => {
+        const countryPageId = 
+          country?.slug === 'sports-wear-manufacturer-usa' ? 'usa-hub' :
+          country?.slug === 'sports-wear-manufacturer-uk' ? 'uk-hub' :
+          country?.slug === 'sports-wear-manufacturer-australia' ? 'australia-hub' :
+          country?.slug === 'sports-wear-manufacturer-germany' ? 'germany-hub' :
+          country?.slug === 'sports-wear-manufacturer-canada' ? 'canada-hub' :
+          country?.slug === 'sports-wear-manufacturer-uae' ? 'uae-hub' :
+          country?.slug === 'sports-wear-manufacturer-france' ? 'france-hub' :
+          country?.slug === 'sports-wear-manufacturer-netherlands' ? 'netherlands-hub' :
+          (country?.id ? `${country.id}-hub` : 'usa-hub');
+
+        return (
+          <>
+            <DynamicPageContent pageId={countryPageId} />
+            <PageFAQSection 
+              pageId={countryPageId} 
+              title={`Frequently Asked Questions (${country?.name || 'Regional'} Direct Export)`} 
+              subtitle="Customs, Freight & Local Logistics" 
+            />
+          </>
+        );
+      })()}
 
     </div>
   );

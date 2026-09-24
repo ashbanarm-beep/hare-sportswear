@@ -4,7 +4,7 @@ import {
   Layers, Plus, Trash2, ArrowUp, ArrowDown, Edit3, 
   Eye, Monitor, Tablet, Smartphone, Check, Sparkles, 
   Copy, Power, Table, Type, Image as ImageIcon, MousePointerClick, 
-  Grid3X3, Save, X, ExternalLink
+  Grid3X3, Save, X, ExternalLink, HelpCircle
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import DynamicPageContent from '../../components/cms/DynamicPageContent';
@@ -464,6 +464,34 @@ export default function AdminPageEditor() {
                           </div>
                         )}
 
+                        {/* Specific Block Controls: FAQ ACCORDION */}
+                        {block.type === 'faq_block' && (
+                          <div className="space-y-3">
+                            <div>
+                              <label className="block text-[11px] font-bold text-stone-300 mb-1">
+                                Target Page FAQs Source
+                              </label>
+                              <select
+                                value={block.targetPageId || selectedPage}
+                                onChange={(e) => updateBlock(selectedPage, block.id, { targetPageId: e.target.value })}
+                                className="w-full px-3 py-1.5 rounded-xl bg-white/5 border border-white/15 text-white text-xs cursor-pointer focus:outline-none focus:border-[#FF751F]"
+                              >
+                                <option value={selectedPage} className="bg-[#1A1815] text-white">
+                                  Current Page ({selectedPage}) FAQs
+                                </option>
+                                {DOMAIN_PAGES.filter(p => p.id !== selectedPage).map(p => (
+                                  <option key={p.id} value={p.id} className="bg-[#1A1815] text-white">
+                                    {p.name} ({p.id})
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <p className="text-[10px] text-stone-400">
+                              This section dynamically displays the active FAQs configured in the FAQ Manager for this target page. You can edit the questions and answers anytime in the FAQ Manager.
+                            </p>
+                          </div>
+                        )}
+
                         <div className="flex justify-end pt-1">
                           <button
                             type="button"
@@ -649,7 +677,7 @@ export default function AdminPageEditor() {
               {/* Option 5: Data Table */}
               <button
                 onClick={() => handleAddBlockType('data_table')}
-                className="sm:col-span-2 p-4 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F] text-left transition group space-y-2 hover:bg-[#1D1A17]"
+                className="p-4 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F] text-left transition group space-y-2 hover:bg-[#1D1A17]"
               >
                 <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
                   <Table className="w-5 h-5" />
@@ -659,6 +687,22 @@ export default function AdminPageEditor() {
                 </h4>
                 <p className="text-[11px] text-stone-400">
                   Customizable specification or pricing matrix with zebra striping and responsive mobile scrolling.
+                </p>
+              </button>
+
+              {/* Option 6: FAQ Accordion */}
+              <button
+                onClick={() => handleAddBlockType('faq_block')}
+                className="p-4 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F] text-left transition group space-y-2 hover:bg-[#1D1A17]"
+              >
+                <div className="w-9 h-9 rounded-xl bg-[#FF751F]/15 text-[#FF751F] flex items-center justify-center">
+                  <HelpCircle className="w-5 h-5" />
+                </div>
+                <h4 className="font-bold text-sm text-white group-hover:text-[#FF751F]">
+                  FAQ Accordion Section
+                </h4>
+                <p className="text-[11px] text-stone-400">
+                  Embed an interactive, searchable FAQ accordion at this exact location on the page.
                 </p>
               </button>
 

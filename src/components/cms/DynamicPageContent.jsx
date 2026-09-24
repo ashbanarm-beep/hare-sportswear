@@ -6,6 +6,8 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
+import PageFAQSection from '../common/PageFAQSection';
+
 const iconMap = {
   Layers: Layers,
   Sparkles: Sparkles,
@@ -234,6 +236,19 @@ export default function DynamicPageContent({ pageId = 'home', className = '' }) 
                 </div>
               </div>
             </section>
+          );
+        }
+
+        // 6. Interactive FAQ Accordion Block (Embed FAQs Anywhere on Any Page)
+        if (block.type === 'faq_block') {
+          return (
+            <div key={block.id} className="w-full">
+              <PageFAQSection 
+                pageId={block.targetPageId || pageId}
+                title={block.title || undefined}
+                subtitle={block.subtitle || undefined}
+              />
+            </div>
           );
         }
 

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
+import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function PantoneMatcherPage() {
   const navigate = useNavigate();
@@ -434,6 +435,13 @@ export default function PantoneMatcherPage() {
 
       {/* Dynamic Visual Content Blocks (Elementor Page Builder) */}
       <DynamicPageContent pageId="pantone-matcher" />
+
+      {/* Frequently Asked Questions */}
+      <PageFAQSection 
+        pageId="pantone-matcher" 
+        title="Pantone PMS Color Matcher FAQs" 
+        subtitle="Kiian Hi-Pro Inks & Sublimation Matching" 
+      />
 
     </div>
   );
