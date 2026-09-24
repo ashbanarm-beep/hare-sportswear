@@ -5,7 +5,7 @@ import {
   ArrowRight, ShieldCheck, CheckCircle2, RefreshCw, 
   Download, Upload, Eye, Zap, Database, Globe,
   Key, Activity, XCircle, Check, ExternalLink, Sliders,
-  Compass, Calculator, Palette, X, Filter, ChevronRight
+  Compass, Calculator, Palette, X, Filter, ChevronRight, Plus
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { DOMAIN_PAGES, DOMAIN_PAGE_GROUPS } from '../../data/domainPagesData';
