@@ -5,13 +5,13 @@ import {
   ArrowRight, ShieldCheck, CheckCircle2, RefreshCw, 
   Download, Upload, Eye, Zap, Database, Globe,
   Key, Activity, XCircle, Check, ExternalLink, Sliders,
-  Compass, Calculator, Palette, X, Filter, ChevronRight, Plus
+  Compass, Calculator, Palette, X, Filter, ChevronRight, Plus, Award
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { DOMAIN_PAGES, DOMAIN_PAGE_GROUPS } from '../../data/domainPagesData';
 
 export default function AdminDashboardOverview() {
-  const { blogPosts, seoRegistry, pageFAQs, pageBlocks, exportCMSBackup, resetCMSToDefaults } = useCMS();
+  const { blogPosts, seoRegistry, pageFAQs, pageBlocks, caseStudies, exportCMSBackup, resetCMSToDefaults } = useCMS();
 
   const totalPagesWithSEO = Object.keys(seoRegistry).length;
   const publishedBlogs = blogPosts.filter(p => p.status === 'published');
@@ -117,7 +117,7 @@ export default function AdminDashboardOverview() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
         
         {/* Metric 1: Total Domain Routes */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-white/10 space-y-1.5">
@@ -189,7 +189,24 @@ export default function AdminDashboardOverview() {
             {totalFAQs}
           </p>
           <p className="text-[11px] text-stone-400">
-            All pages, blogs &amp; products &rarr;
+            All pages &amp; blogs &rarr;
+          </p>
+        </Link>
+
+        {/* Metric 6: Case Studies */}
+        <Link 
+          to="/admin/case-studies"
+          className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-white/10 hover:border-amber-400/50 transition-all space-y-1.5 col-span-2 sm:col-span-1 block group"
+        >
+          <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
+            <span>Case Studies</span>
+            <Award className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
+          </div>
+          <p className="text-2xl sm:text-3xl font-display font-black text-white group-hover:text-amber-400 transition-colors">
+            {caseStudies?.length || 4}
+          </p>
+          <p className="text-[11px] text-stone-400">
+            Homepage portfolio &rarr;
           </p>
         </Link>
 
@@ -306,6 +323,29 @@ export default function AdminDashboardOverview() {
               </Link>
             </div>
           </div>
+
+          {/* Module 5: Case Studies Manager */}
+          <Link
+            to="/admin/case-studies"
+            className="group p-6 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col justify-between space-y-4 hover:shadow-xl"
+          >
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white group-hover:text-[#FF751F] transition-colors">
+                Production Portfolio &amp; Case Studies Manager
+              </h3>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                Add and edit real factory deliveries, match kits, and equipment case studies shown on the homepage portfolio. Upload PNG/JPG visuals directly from your computer, configure technical fabric specs, turnaround times, and client countries.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF751F] pt-2 border-t border-white/10">
+              <span>Manage Case Studies ({caseStudies?.length || 4})</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
 
         </div>
       </div>

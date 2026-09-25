@@ -15,8 +15,11 @@ import PageFAQSection from '../components/common/PageFAQSection';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import MeetFounderSection from '../components/home/MeetFounderSection';
 
+import { useCMS } from '../context/CMSContext';
+
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
+  const { caseStudies } = useCMS();
 
   useEffect(() => {
     const pageTitle = "Hare Sportswear and Goods - Best sportswear manufacturer";
@@ -46,40 +49,8 @@ export default function HomePage() {
   const [calcQuantity, setCalcQuantity] = useState(100);
   const [calcTechnique, setCalcTechnique] = useState('All-Over Sublimation');
 
-  const portfolioItems = [
-    {
-      title: 'Real Atletico FC Match Kits',
-      category: 'Pro Soccer / Football',
-      client: 'Spanish Division 3 Club',
-      specs: '160 GSM Micro-Interlock • Kiian Sublimation • 3D Silicone Badge',
-      turnaround: '12 Days Production',
-      image: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Vanguard MMA Pro Rashguards',
-      category: 'Combat Sports & BJJ',
-      client: 'US Martial Arts Academy',
-      specs: '230 GSM Poly-Spandex • 6-Thread Flatlock • Anti-Slip Gel Hem',
-      turnaround: '10 Days Production',
-      image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Aura Athletics Seamless Gym Sets',
-      category: 'Activewear / Women',
-      client: 'UK Direct-to-Consumer Brand',
-      specs: '240 GSM Nylon-Elastane • Squat-Proof • Laser Cut Ventilation',
-      turnaround: '14 Days Production',
-      image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Championship Match Thermal Balls',
-      category: 'Sports Goods / Match Balls',
-      client: 'Nordic Youth Cup Tournament',
-      specs: '1.2mm Textured Japanese PU • Thermal-Bonded 32 Panels • FIFA Pro',
-      turnaround: '16 Days Production',
-      image: 'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=800&q=80'
-    }
-  ];
+  // Filter only active case studies from CMS
+  const activeCaseStudies = (caseStudies || []).filter(item => item.active !== false);
 
   return (
     <div className="space-y-24 pb-20">
@@ -533,9 +504,9 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {portfolioItems.map((item, idx) => (
+          {activeCaseStudies.map((item, idx) => (
             <div
-              key={idx}
+              key={item.id || idx}
               className="group rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-lg"
             >
               <div className="relative aspect-square overflow-hidden bg-[#1A1A1A]">

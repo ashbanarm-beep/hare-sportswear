@@ -1045,3 +1045,66 @@ export const defaultPageBlocks = {
   ]
 };
 
+export const defaultCaseStudies = [
+  {
+    id: 'case-1',
+    title: 'Real Atletico FC Match Kits',
+    category: 'Pro Soccer / Football',
+    client: 'Spanish Division 3 Club',
+    country: 'Spain',
+    specs: '160 GSM Micro-Interlock • Kiian Sublimation • 3D Silicone Badge',
+    turnaround: '12 Days Production',
+    moq: '250 Sets',
+    image: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=800&q=80',
+    description: 'Complete match day and training kit manufacturing for Real Atletico FC. Custom breathable micro-interlock fabric with UV protection, bespoke collar trims, and high-definition Kiian sublimation inks.',
+    featured: true,
+    active: true,
+    createdAt: '2025-01-15'
+  },
+  {
+    id: 'case-2',
+    title: 'Vanguard MMA Pro Rashguards',
+    category: 'Combat Sports & BJJ',
+    client: 'US Martial Arts Academy',
+    country: 'United States',
+    specs: '230 GSM Poly-Spandex • 6-Thread Flatlock • Anti-Slip Gel Hem',
+    turnaround: '10 Days Production',
+    moq: '500 Pieces',
+    image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80',
+    description: 'Competition-grade BJJ and MMA rashguards with reinforced flatlock stitching, non-slip internal silicone waistband grippers, and fully sublimated artwork that never cracks or peels.',
+    featured: true,
+    active: true,
+    createdAt: '2025-02-10'
+  },
+  {
+    id: 'case-3',
+    title: 'Aura Athletics Seamless Gym Sets',
+    category: 'Activewear / Women',
+    client: 'UK Direct-to-Consumer Brand',
+    country: 'United Kingdom',
+    specs: '240 GSM Nylon-Elastane • Squat-Proof • Laser Cut Ventilation',
+    turnaround: '14 Days Production',
+    moq: '300 Sets',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
+    description: 'High-waisted compression leggings and matching sports bra sets. Designed with body-contouring rib structures, squat-proof opacity testing, and custom silicone brand labeling.',
+    featured: true,
+    active: true,
+    createdAt: '2025-03-01'
+  },
+  {
+    id: 'case-4',
+    title: 'Championship Match Thermal Balls',
+    category: 'Sports Goods / Match Balls',
+    client: 'Nordic Youth Cup Tournament',
+    country: 'Sweden / Denmark',
+    specs: '1.2mm Textured Japanese PU • Thermal-Bonded 32 Panels • FIFA Pro',
+    turnaround: '16 Days Production',
+    moq: '1,200 Balls',
+    image: 'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=800&q=80',
+    description: 'Engineered for tournament play in wet Scandinavian conditions. Thermal bonded panels deliver 0% water absorption, true flight aerodynamic balance, and exceptional abrasion resistance.',
+    featured: true,
+    active: true,
+    createdAt: '2025-03-12'
+  }
+];
+

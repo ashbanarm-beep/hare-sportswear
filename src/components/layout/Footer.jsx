@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Mail, Phone, MapPin, MessageCircle, ArrowRight, ShieldCheck, 
-  Award, Globe, CheckCircle2, Send, Lock
+  Award, Globe, CheckCircle2, Send
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
 import { LinkedInIcon, TwitterIcon, InstagramIcon, FacebookIcon } from '../common/SocialIcons';
@@ -219,12 +219,6 @@ export default function Footer() {
                   <span>Meet Hurry the Hare</span>
                 </Link>
               </li>
-              <li>
-                <Link to="/admin" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 font-medium text-[#FF751F]">
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Admin Portal (CMS)</span>
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -360,11 +354,6 @@ export default function Footer() {
             <span>•</span>
             <Link to="/privacy" className="hover:text-[#FF751F] transition-colors">
               Privacy Policy
-            </Link>
-            <span>•</span>
-            <Link to="/admin" className="hover:text-[#FF751F] transition-colors flex items-center gap-1 text-[#C4BDAF]">
-              <Lock className="w-3 h-3 text-[#FF751F]" />
-              <span>Admin Portal</span>
             </Link>
           </div>
           <div className="flex items-center gap-6">

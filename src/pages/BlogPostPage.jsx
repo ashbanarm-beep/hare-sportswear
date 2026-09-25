@@ -518,6 +518,31 @@ export default function BlogPostPage() {
                   );
                 }
 
+                // Markdown Image Parsing: ![alt](url/base64)
+                const imageMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                if (imageMatch) {
+                  const altText = imageMatch[1];
+                  const imgSrc = imageMatch[2];
+                  return (
+                    <figure key={i} className="my-8 rounded-2xl overflow-hidden border border-[#E5DFD5] bg-[#FAF8F3] shadow-sm">
+                      <div className="max-h-[560px] overflow-hidden flex items-center justify-center bg-black/5">
+                        <img
+                          src={imgSrc}
+                          alt={altText || 'Article visual'}
+                          className="w-full h-full object-contain sm:object-cover mx-auto"
+                          loading="lazy"
+                        />
+                      </div>
+                      {altText && (
+                        <figcaption className="text-center text-xs text-[#7A756D] py-3 px-4 bg-[#FAF8F3] border-t border-[#E5DFD5] italic font-medium flex items-center justify-center gap-1.5">
+                          <span className="text-[#FF751F]">●</span>
+                          <span>{altText}</span>
+                        </figcaption>
+                      )}
+                    </figure>
+                  );
+                }
+
                 // Markdown Table Parsing
                 if (trimmed.startsWith('|') && trimmed.includes('\n|')) {
                   const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|'));

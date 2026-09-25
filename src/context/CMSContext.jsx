@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { blogPosts as initialBlogPosts, blogCategories as initialBlogCategories } from '../data/blogData';
-import { defaultSEORegistry, defaultPageFAQs, defaultPageBlocks } from '../data/defaultCMSData';
+import { defaultSEORegistry, defaultPageFAQs, defaultPageBlocks, defaultCaseStudies } from '../data/defaultCMSData';
 
 const CMSContext = createContext(null);
 
@@ -10,7 +10,8 @@ const STORAGE_KEYS = {
   SEO_REGISTRY: 'hare_cms_seo_registry_v1',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
   PAGE_BLOCKS: 'hare_cms_page_blocks_v1',
-  CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1'
+  CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1',
+  CASE_STUDIES: 'hare_cms_case_studies_v1'
 };
 
 export function CMSProvider({ children }) {
@@ -138,11 +139,28 @@ export function CMSProvider({ children }) {
     } catch (e) {}
   }, [pageBlocks]);
 
+  // 5. Case Studies State
+  const [caseStudies, setCaseStudies] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.CASE_STUDIES);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to load case studies from storage', e);
+    }
+    return defaultCaseStudies;
+  });
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEYS.CUSTOM_FAQ_TARGETS, JSON.stringify(customFAQTargets));
     } catch (e) {}
   }, [customFAQTargets]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.CASE_STUDIES, JSON.stringify(caseStudies));
+    } catch (e) {}
+  }, [caseStudies]);
 
   // ============================================================
   // BLOG MANAGEMENT METHODS
@@ -504,6 +522,40 @@ export function CMSProvider({ children }) {
   };
 
   // ============================================================
+  // CASE STUDIES MANAGEMENT METHODS
+  // ============================================================
+  const saveCaseStudy = (studyData) => {
+    const studyWithMeta = {
+      ...studyData,
+      id: studyData.id || `case-${Date.now()}`,
+      active: studyData.active !== undefined ? studyData.active : true,
+      updatedAt: new Date().toISOString()
+    };
+
+    setCaseStudies(prev => {
+      const index = prev.findIndex(s => s.id === studyWithMeta.id);
+      if (index >= 0) {
+        const updated = [...prev];
+        updated[index] = studyWithMeta;
+        return updated;
+      }
+      return [studyWithMeta, ...prev];
+    });
+  };
+
+  const deleteCaseStudy = (id) => {
+    setCaseStudies(prev => prev.filter(s => s.id !== id));
+  };
+
+  const toggleCaseStudyStatus = (id) => {
+    setCaseStudies(prev => prev.map(s => s.id === id ? { ...s, active: !s.active } : s));
+  };
+
+  const resetCaseStudies = () => {
+    setCaseStudies(defaultCaseStudies);
+  };
+
+  // ============================================================
   // BACKUP, RESTORE & RESET
   // ============================================================
   const exportCMSBackup = () => {
@@ -513,6 +565,7 @@ export function CMSProvider({ children }) {
       seoRegistry,
       pageFAQs,
       pageBlocks,
+      caseStudies,
       exportedAt: new Date().toISOString()
     };
     return JSON.stringify(data, null, 2);
@@ -526,6 +579,7 @@ export function CMSProvider({ children }) {
       if (parsed.seoRegistry) setSeoRegistry(parsed.seoRegistry);
       if (parsed.pageFAQs) setPageFAQs(parsed.pageFAQs);
       if (parsed.pageBlocks) setPageBlocks(parsed.pageBlocks);
+      if (parsed.caseStudies) setCaseStudies(parsed.caseStudies);
       return { success: true };
     } catch (e) {
       return { success: false, error: e.message };
@@ -538,11 +592,13 @@ export function CMSProvider({ children }) {
     setSeoRegistry(defaultSEORegistry);
     setPageFAQs(defaultPageFAQs);
     setPageBlocks(defaultPageBlocks);
+    setCaseStudies(defaultCaseStudies);
     localStorage.removeItem(STORAGE_KEYS.BLOG_POSTS);
     localStorage.removeItem(STORAGE_KEYS.BLOG_CATEGORIES);
     localStorage.removeItem(STORAGE_KEYS.SEO_REGISTRY);
     localStorage.removeItem(STORAGE_KEYS.PAGE_FAQS);
     localStorage.removeItem(STORAGE_KEYS.PAGE_BLOCKS);
+    localStorage.removeItem(STORAGE_KEYS.CASE_STUDIES);
   };
 
   const value = {
@@ -584,6 +640,13 @@ export function CMSProvider({ children }) {
     deleteBlock,
     reorderBlocks,
     toggleBlockActive,
+
+    // Case Studies
+    caseStudies,
+    saveCaseStudy,
+    deleteCaseStudy,
+    toggleCaseStudyStatus,
+    resetCaseStudies,
 
     // Backup
     exportCMSBackup,

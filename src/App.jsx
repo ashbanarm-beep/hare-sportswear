@@ -38,6 +38,7 @@ import AdminProductManager from './pages/admin/AdminProductManager';
 import AdminBlogManager from './pages/admin/AdminBlogManager';
 import AdminSEOManager from './pages/admin/AdminSEOManager';
 import AdminFAQManager from './pages/admin/AdminFAQManager';
+import AdminCaseStudiesManager from './pages/admin/AdminCaseStudiesManager';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminAuthGuard from './components/admin/AdminAuthGuard';
 
@@ -87,6 +88,7 @@ function MainAppShell() {
             <Route path="/admin" element={<AdminAuthGuard><AdminLayout activeTab="overview"><AdminDashboardOverview /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/pages" element={<AdminAuthGuard><AdminLayout activeTab="pages"><AdminPageEditor /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/products" element={<AdminAuthGuard><AdminLayout activeTab="products"><AdminProductManager /></AdminLayout></AdminAuthGuard>} />
+            <Route path="/admin/case-studies" element={<AdminAuthGuard><AdminLayout activeTab="case-studies"><AdminCaseStudiesManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/blog" element={<AdminAuthGuard><AdminLayout activeTab="blog"><AdminBlogManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/seo" element={<AdminAuthGuard><AdminLayout activeTab="seo"><AdminSEOManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/faqs" element={<AdminAuthGuard><AdminLayout activeTab="faqs"><AdminFAQManager /></AdminLayout></AdminAuthGuard>} />

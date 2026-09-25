@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Layers, FileText, Search, HelpCircle, 
   Settings, ExternalLink, ShieldCheck, Sparkles, LogOut,
   RefreshCw, Download, Upload, CheckCircle2, ChevronRight,
-  Menu, X, Package, UserCheck
+  Menu, X, Package, UserCheck, Award
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { DOMAIN_PAGES } from '../../data/domainPagesData';
@@ -13,7 +13,7 @@ import { logoutAdmin } from '../../components/admin/AdminAuthGuard';
 export default function AdminLayout({ activeTab = 'overview', children }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { blogPosts, seoRegistry, pageFAQs, pageBlocks } = useCMS();
+  const { blogPosts, seoRegistry, pageFAQs, pageBlocks, caseStudies } = useCMS();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Compute counts for badges
@@ -56,6 +56,13 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
       label: 'Product Catalog',
       icon: Package,
       badge: '34 Styles'
+    },
+    {
+      id: 'case-studies',
+      path: '/admin/case-studies',
+      label: 'Case Studies',
+      icon: Award,
+      badge: `${caseStudies?.length || 4} Cases`
     },
     {
       id: 'blog',

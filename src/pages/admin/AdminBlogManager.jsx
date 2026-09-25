@@ -5,9 +5,57 @@ import {
   Heading4, Bold, Italic, List, ListOrdered, Quote, 
   Image as ImageIcon, Link as LinkIcon, X, Calendar, 
   Clock, User, Tag, ArrowRight, ExternalLink, ShieldCheck,
-  CheckCircle2, AlertCircle, HelpCircle, ArrowUp, ArrowDown
+  CheckCircle2, AlertCircle, HelpCircle, ArrowUp, ArrowDown,
+  Upload, ImagePlus, FileSpreadsheet, LayoutGrid
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+
+const TABLE_TEMPLATES = [
+  {
+    name: 'Fabric GSM & Specs Matrix',
+    desc: 'Compare technical performance fabrics, weight, and applications',
+    headers: ['Fabric Style', 'GSM Weight', 'Composition', 'Key Athletic Use', 'Breathability'],
+    rows: [
+      ['Micro-Interlock Poly', '160 GSM', '100% Polyester', 'Sublimated Team Jerseys', 'High / Kiian Inks'],
+      ['Poly-Spandex Stretch', '230 GSM', '85% Poly, 15% Spandex', 'Combat & BJJ Rashguards', '4-Way Elastic'],
+      ['Contour Seamless Knit', '240 GSM', '90% Nylon, 10% Elastane', 'Women Activewear Sets', 'Squat-Proof / Soft'],
+      ['Heavy French Terry', '380 GSM', '100% Organic Cotton', 'Lifestyle Team Hoodies', 'Thermal Insulation']
+    ]
+  },
+  {
+    name: 'Apparel Size Chart (Inches)',
+    desc: 'Chest, length, and sleeve measurements across sizes S-2XL',
+    headers: ['Size', 'Chest (in)', 'Body Length', 'Sleeve Length', 'Fit Profile'],
+    rows: [
+      ['S', '36" - 38"', '28.0"', '32.5"', 'Athletic Trim'],
+      ['M', '39" - 41"', '29.0"', '33.5"', 'Standard Sport'],
+      ['L', '42" - 44"', '30.0"', '34.5"', 'Relaxed Regular'],
+      ['XL', '45" - 47"', '31.0"', '35.5"', 'Pro Team Fit'],
+      ['2XL', '48" - 50"', '32.0"', '36.5"', 'Oversized']
+    ]
+  },
+  {
+    name: 'MOQ & Tiered Wholesale Pricing',
+    desc: 'Manufacturing volume tiers, lead times, and sampling policies',
+    headers: ['Production Tier', 'Batch Volume', 'Estimated Unit Price', 'Strike-Off Sample', 'Lead Time'],
+    rows: [
+      ['Startup / Pilot', '25 – 99 Pcs', 'Tier 1 Wholesale', '7-Day Physical Proof', '14 Days'],
+      ['Club / Pro Squad', '100 – 499 Pcs', 'Tier 2 Discounted', 'Free Strike-Off Included', '12 Days'],
+      ['Bulk Commercial', '500+ Pcs', 'Direct Factory Floor', 'Master Spec Approval', '16–20 Days']
+    ]
+  },
+  {
+    name: 'Printing & Customization Specs',
+    desc: 'Sublimation vs DTF vs embroidery durability comparison',
+    headers: ['Method', 'Min Order', 'Durability', 'Color Range', 'Hand Feel'],
+    rows: [
+      ['All-Over Dye Sublimation', '25 Pcs', 'Permanent / No Crack', 'Full CMYK + Neon Fluorescent', 'Zero Hand Feel'],
+      ['3D Silicone Heat Crest', '50 Pcs', '100+ Wash Cycles', 'Custom Pantone PMS', 'Textured 3D Rubber'],
+      ['Direct-to-Film (DTF)', '25 Pcs', '50+ Wash Cycles', 'Photorealistic Multi-Color', 'Flexible Thin Film'],
+      ['Precision Embroidery', '50 Pcs', 'Lifetime Garment Durability', 'Madeira Polyester Threads', 'Dense Raised Stitch']
+    ]
+  }
+];
 
 export default function AdminBlogManager() {
   const { 
@@ -25,9 +73,28 @@ export default function AdminBlogManager() {
   const [editingPost, setEditingPost] = useState(null); // null or post object
   const [editorTab, setEditorTab] = useState('write'); // 'write' | 'preview'
   const [tableModalOpen, setTableModalOpen] = useState(false);
+  const [tableModalMode, setTableModalMode] = useState('custom'); // 'custom' | 'templates'
   const [tableCols, setTableCols] = useState(3);
   const [tableRows, setTableRows] = useState(3);
+  const [tableHeaders, setTableHeaders] = useState(['Column 1', 'Column 2', 'Column 3']);
+  const [tableMatrix, setTableMatrix] = useState([
+    ['Data 1A', 'Data 1B', 'Data 1C'],
+    ['Data 2A', 'Data 2B', 'Data 2C'],
+    ['Data 3A', 'Data 3B', 'Data 3C']
+  ]);
   const [savedToast, setSavedToast] = useState(false);
+
+  // File input refs for direct local PNG/JPG uploads (no external links needed)
+  const featuredImageInputRef = useRef(null);
+  const inlineImageInputRef = useRef(null);
+
+  // Inline Image Inserter Modal
+  const [inlineImageModalOpen, setInlineImageModalOpen] = useState(false);
+  const [inlineImageData, setInlineImageData] = useState({
+    src: '',
+    caption: '',
+    fileName: ''
+  });
 
   const textareaRef = useRef(null);
 
@@ -188,25 +255,117 @@ export default function AdminBlogManager() {
     }, 50);
   };
 
-  // Table Insertion Tool Generator
-  const handleInsertTable = () => {
-    let headers = [];
-    let divider = [];
-    for (let c = 1; c <= tableCols; c++) {
-      headers.push(`Header ${c}`);
-      divider.push('---');
+  // Featured Image File Upload Handler (PNG, JPG, WebP)
+  const handleFeaturedImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Featured image file is larger than 5MB. Please choose a file under 5MB.');
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setEditingPost(prev => ({
+        ...prev,
+        image: ev.target.result
+      }));
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
 
-    let rows = [];
-    for (let r = 1; r <= tableRows; r++) {
-      let cells = [];
-      for (let c = 1; c <= tableCols; c++) {
-        cells.push(`Data R${r}C${c}`);
+  // Inline Image File Upload Handler (Direct PNG/JPG insertion into blog body)
+  const handleInlineImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image file is larger than 5MB. Please choose an image file under 5MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const titleCaseName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+      setInlineImageData({
+        src: ev.target.result,
+        caption: titleCaseName,
+        fileName: file.name
+      });
+      setInlineImageModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const handleConfirmInlineImage = () => {
+    if (!inlineImageData.src) return;
+    const caption = inlineImageData.caption.trim() || 'Article Illustration';
+    const markdown = `\n\n![${caption}](${inlineImageData.src})\n\n`;
+    insertTextAtCursor(markdown);
+    setInlineImageModalOpen(false);
+    setInlineImageData({ src: '', caption: '', fileName: '' });
+  };
+
+  // Interactive Table Builder Handlers
+  const handleUpdateCols = (newCols) => {
+    const c = Math.max(2, Math.min(6, newCols));
+    setTableCols(c);
+    setTableHeaders(prev => {
+      const copy = [...prev];
+      while (copy.length < c) copy.push(`Column ${copy.length + 1}`);
+      return copy.slice(0, c);
+    });
+    setTableMatrix(prev => {
+      return prev.map(row => {
+        const copy = [...row];
+        while (copy.length < c) copy.push('');
+        return copy.slice(0, c);
+      });
+    });
+  };
+
+  const handleUpdateRows = (newRows) => {
+    const r = Math.max(1, Math.min(8, newRows));
+    setTableRows(r);
+    setTableMatrix(prev => {
+      const copy = [...prev];
+      while (copy.length < r) {
+        copy.push(new Array(tableCols).fill(''));
       }
-      rows.push(`| ${cells.join(' | ')} |`);
-    }
+      return copy.slice(0, r);
+    });
+  };
 
-    const tableMarkdown = `\n| ${headers.join(' | ')} |\n| ${divider.join(' | ')} |\n${rows.join('\n')}\n\n`;
+  const handleHeaderCellChange = (colIdx, val) => {
+    setTableHeaders(prev => {
+      const copy = [...prev];
+      copy[colIdx] = val;
+      return copy;
+    });
+  };
+
+  const handleDataCellChange = (rowIdx, colIdx, val) => {
+    setTableMatrix(prev => {
+      const copy = prev.map(row => [...row]);
+      copy[rowIdx][colIdx] = val;
+      return copy;
+    });
+  };
+
+  const handleApplyTemplate = (template) => {
+    setTableCols(template.headers.length);
+    setTableRows(template.rows.length);
+    setTableHeaders(template.headers);
+    setTableMatrix(template.rows);
+    setTableModalMode('custom');
+  };
+
+  const handleInsertCustomTable = () => {
+    const divider = tableHeaders.map(() => '---');
+    const headerStr = `| ${tableHeaders.join(' | ')} |`;
+    const divStr = `| ${divider.join(' | ')} |`;
+    const rowStrs = tableMatrix.map(row => `| ${row.map(cell => cell.trim() || '-').join(' | ')} |`);
+    const tableMarkdown = `\n\n${headerStr}\n${divStr}\n${rowStrs.join('\n')}\n\n`;
     insertTextAtCursor(tableMarkdown);
     setTableModalOpen(false);
   };
@@ -547,7 +706,7 @@ export default function AdminBlogManager() {
                   />
                 </div>
 
-                {/* Category & Featured Image */}
+                {/* Category & Author */}
                 <div className="sm:col-span-4">
                   <label className="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1">
                     Category
@@ -565,26 +724,139 @@ export default function AdminBlogManager() {
 
                 <div className="sm:col-span-8">
                   <label className="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1">
-                    Featured Image URL
+                    Author Details
                   </label>
-                  <div className="flex gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <input
                       type="text"
-                      value={editingPost.image || ''}
-                      onChange={(e) => setEditingPost({ ...editingPost, image: e.target.value })}
-                      placeholder="https://images.unsplash.com/..."
-                      className="flex-1 px-3.5 py-2 rounded-xl bg-white/5 border border-white/15 text-white font-mono text-xs focus:outline-none focus:border-[#FF751F]"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setEditingPost({
+                      value={editingPost.author?.name || ''}
+                      onChange={(e) => setEditingPost({
                         ...editingPost,
-                        image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80'
+                        author: { ...(editingPost.author || {}), name: e.target.value }
                       })}
-                      className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-[11px] font-bold text-stone-300"
-                    >
-                      Preset
-                    </button>
+                      placeholder="Author Name"
+                      className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/15 text-white text-xs focus:outline-none focus:border-[#FF751F]"
+                    />
+                    <input
+                      type="text"
+                      value={editingPost.author?.role || ''}
+                      onChange={(e) => setEditingPost({
+                        ...editingPost,
+                        author: { ...(editingPost.author || {}), role: e.target.value }
+                      })}
+                      placeholder="Author Title / Role"
+                      className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/15 text-white text-xs focus:outline-none focus:border-[#FF751F]"
+                    />
+                  </div>
+                </div>
+
+                {/* FEATURED IMAGE UPLOADER: DIRECT PNG / JPG UPLOAD OPTION */}
+                <div className="sm:col-span-12 p-4 rounded-2xl bg-[#141210] border border-white/10 space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <span className="text-[11px] font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                        <ImageIcon className="w-3.5 h-3.5 text-[#FF751F]" />
+                        Article Featured Image (PNG, JPG, WebP)
+                      </span>
+                      <span className="text-[10px] text-stone-400 block mt-0.5">
+                        Upload directly from your computer in PNG/JPG format (no links needed), or use an external link.
+                      </span>
+                    </div>
+
+                    {/* Direct Local PNG File Selector */}
+                    <div>
+                      <input
+                        type="file"
+                        ref={featuredImageInputRef}
+                        onChange={handleFeaturedImageUpload}
+                        accept="image/png, image/jpeg, image/webp"
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => featuredImageInputRef.current?.click()}
+                        className="px-3.5 py-1.5 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-sm"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Upload Featured Image (PNG/JPG)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                    {/* Visual Preview */}
+                    <div className="sm:col-span-4 aspect-video rounded-xl overflow-hidden bg-black/60 border border-white/15 relative group">
+                      {editingPost.image ? (
+                        <>
+                          <img
+                            src={editingPost.image}
+                            alt="Featured visual"
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setEditingPost({ ...editingPost, image: '' })}
+                            className="absolute top-2 right-2 p-1 rounded-lg bg-black/80 text-white hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                            title="Remove featured image"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </>
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-stone-500 text-[10px]">
+                          <ImageIcon className="w-6 h-6 mb-1 opacity-50" />
+                          <span>No featured image</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-8 space-y-2">
+                      <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                        Or Image URL / Base64 Data String
+                      </label>
+                      <input
+                        type="text"
+                        value={editingPost.image || ''}
+                        onChange={(e) => setEditingPost({ ...editingPost, image: e.target.value })}
+                        placeholder="https://images.unsplash.com/... or data:image/png;base64,..."
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/15 text-white font-mono text-xs focus:outline-none focus:border-[#FF751F]"
+                      />
+
+                      {/* Quick Presets */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-stone-400">Presets:</span>
+                        <button
+                          type="button"
+                          onClick={() => setEditingPost({
+                            ...editingPost,
+                            image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80'
+                          })}
+                          className="px-2.5 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 text-[10px] text-stone-300 border border-white/10"
+                        >
+                          Fabric Loom
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingPost({
+                            ...editingPost,
+                            image: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=1200&q=80'
+                          })}
+                          className="px-2.5 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 text-[10px] text-stone-300 border border-white/10"
+                        >
+                          Soccer Kits
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingPost({
+                            ...editingPost,
+                            image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1200&q=80'
+                          })}
+                          className="px-2.5 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 text-[10px] text-stone-300 border border-white/10"
+                        >
+                          MMA Combat
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -718,23 +990,41 @@ export default function AdminBlogManager() {
 
                       <div className="h-4 w-px bg-white/15 mx-1" />
 
-                      {/* TABLE INSERTION TOOL (KEY REQUIREMENT) */}
+                      {/* TABLE INSERTION TOOL (KEY REQUIREMENT: NOT THROUGH LINKS) */}
                       <button
                         type="button"
                         onClick={() => setTableModalOpen(true)}
-                        className="px-3 py-1 rounded-lg bg-[#FF751F]/20 hover:bg-[#FF751F]/30 text-[#FF751F] font-bold text-xs flex items-center gap-1.5 border border-[#FF751F]/40 transition shadow-xs"
-                        title="Insert Structured Data Table"
+                        className="px-3 py-1 rounded-lg bg-[#FF751F]/20 hover:bg-[#FF751F]/30 text-[#FF751F] font-bold text-xs flex items-center gap-1.5 border border-[#FF751F]/40 transition shadow-xs cursor-pointer"
+                        title="Insert Structured Data Table (No links needed)"
                       >
                         <Table className="w-3.5 h-3.5" />
                         <span>Insert Table Tool</span>
                       </button>
 
-                      {/* Image & Link */}
+                      {/* INLINE IMAGE UPLOADER (KEY REQUIREMENT: PNG/JPG DIRECT UPLOAD, NOT THROUGH LINKS) */}
+                      <button
+                        type="button"
+                        onClick={() => inlineImageInputRef.current?.click()}
+                        className="px-3 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold text-xs flex items-center gap-1.5 border border-emerald-500/40 transition shadow-xs cursor-pointer"
+                        title="Upload PNG or JPG image directly into article (No links needed)"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Insert Image (PNG/JPG)</span>
+                      </button>
+                      <input
+                        type="file"
+                        ref={inlineImageInputRef}
+                        onChange={handleInlineImageUpload}
+                        accept="image/png, image/jpeg, image/webp"
+                        className="hidden"
+                      />
+
+                      {/* Standard Markdown Image & Link Helpers */}
                       <button
                         type="button"
                         onClick={() => insertTextAtCursor('![Image description](', ')')}
                         className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-stone-300 hover:text-white"
-                        title="Insert Image"
+                        title="Insert Image Markdown Tag"
                       >
                         <ImageIcon className="w-3.5 h-3.5" />
                       </button>
@@ -810,6 +1100,25 @@ export default function AdminBlogManager() {
                             <h4 key={i} className="text-sm font-display font-bold text-[#595856] uppercase">
                               {trimmed.replace('#### ', '')}
                             </h4>
+                          );
+                        }
+
+                        // Inline Markdown Image Preview: ![alt](url/base64)
+                        const inlineImgMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                        if (inlineImgMatch) {
+                          return (
+                            <figure key={i} className="my-4 rounded-xl overflow-hidden border border-[#E5DFD5] bg-white shadow-xs">
+                              <img
+                                src={inlineImgMatch[2]}
+                                alt={inlineImgMatch[1] || 'Post visual'}
+                                className="w-full max-h-72 object-contain sm:object-cover mx-auto"
+                              />
+                              {inlineImgMatch[1] && (
+                                <figcaption className="p-2 text-center text-[11px] text-[#595856] bg-[#FAF8F3] border-t border-[#E5DFD5] italic font-medium">
+                                  ● {inlineImgMatch[1]}
+                                </figcaption>
+                              )}
+                            </figure>
                           );
                         }
                         if (trimmed.startsWith('|')) {
@@ -1041,18 +1350,91 @@ export default function AdminBlogManager() {
       )}
 
       {/* ========================================================= */}
-      {/* TABLE INSERTION TOOL MODAL (KEY FEATURE) */}
+      {/* INLINE IMAGE UPLOAD CONFIRMATION MODAL */}
       {/* ========================================================= */}
-      {tableModalOpen && (
+      {inlineImageModalOpen && (
         <div className="fixed inset-0 z-60 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#191715] border border-white/15 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl animate-fadeIn">
-            
+          <div className="bg-[#191715] border border-white/15 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-fadeIn">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Table className="w-5 h-5 text-[#FF751F]" />
+                <Upload className="w-5 h-5 text-emerald-400" />
                 <h4 className="font-display font-bold text-base text-white">
-                  Table Insertion Tool
+                  Insert Image into Article
                 </h4>
+              </div>
+              <button
+                onClick={() => setInlineImageModalOpen(false)}
+                className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-stone-400 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="aspect-video rounded-xl overflow-hidden bg-black/60 border border-white/15 relative">
+              <img
+                src={inlineImageData.src}
+                alt="Selected"
+                className="w-full h-full object-contain"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-stone-300 mb-1">
+                Image Caption / Alt Description (Optional)
+              </label>
+              <input
+                type="text"
+                value={inlineImageData.caption}
+                onChange={(e) => setInlineImageData({ ...inlineImageData, caption: e.target.value })}
+                placeholder="e.g. Kiian Sublimation Printing Floor in Sialkot"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-xs focus:outline-none focus:border-[#FF751F]"
+              />
+              <span className="text-[10px] text-stone-400 mt-1 block">
+                This image is embedded directly into the article body via local Base64 format (no external link required).
+              </span>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setInlineImageModalOpen(false)}
+                className="px-3.5 py-1.5 rounded-xl bg-white/10 text-xs text-stone-300 font-semibold"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmInlineImage}
+                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold shadow-md transition"
+              >
+                Insert into Article Body
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* INTERACTIVE TABLE BUILDER MODAL (NO LINKS NEEDED) */}
+      {/* ========================================================= */}
+      {tableModalOpen && (
+        <div className="fixed inset-0 z-60 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#191715] border border-white/15 rounded-3xl max-w-3xl w-full my-8 p-6 space-y-5 shadow-2xl animate-fadeIn max-h-[90vh] flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-[#FF751F]/20 text-[#FF751F]">
+                  <Table className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-display font-bold text-base text-white">
+                    Interactive Table Builder &amp; Data Inserter
+                  </h4>
+                  <p className="text-[11px] text-stone-400">
+                    Build structured comparison tables with live cell editing or 1-click industry factory templates.
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setTableModalOpen(false)}
@@ -1062,60 +1444,175 @@ export default function AdminBlogManager() {
               </button>
             </div>
 
-            <p className="text-xs text-stone-400">
-              Specify the dimensions of your structured data table (e.g. GSM fabric comparison, pricing tiers, or sizing specs).
-            </p>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-stone-300 mb-1">
-                  Columns ({tableCols})
-                </label>
-                <input
-                  type="number"
-                  min="2"
-                  max="6"
-                  value={tableCols}
-                  onChange={(e) => setTableCols(Math.max(2, Math.min(6, parseInt(e.target.value) || 2)))}
-                  className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/15 text-white font-bold text-sm text-center"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-stone-300 mb-1">
-                  Rows ({tableRows})
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  value={tableRows}
-                  onChange={(e) => setTableRows(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
-                  className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/15 text-white font-bold text-sm text-center"
-                />
-              </div>
-            </div>
-
-            {/* Visual Grid Preview */}
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center text-[10px] text-stone-400 font-mono">
-              Generating a {tableCols}x{tableRows} table ({tableCols * tableRows} cells) with markdown formatting
-            </div>
-
-            <div className="flex items-center justify-end gap-3 pt-2">
+            {/* Mode Switch: Custom Spreadsheet vs 1-Click Templates */}
+            <div className="flex items-center gap-2 border-b border-white/10 pb-3">
               <button
                 type="button"
-                onClick={() => setTableModalOpen(false)}
-                className="px-3 py-1.5 rounded-xl bg-white/10 text-xs text-stone-300 font-semibold"
+                onClick={() => setTableModalMode('custom')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                  tableModalMode === 'custom' 
+                    ? 'bg-[#FF751F] text-white shadow-sm' 
+                    : 'bg-white/5 text-stone-400 hover:text-white'
+                }`}
               >
-                Cancel
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Custom Table Grid ({tableCols}x{tableRows})</span>
               </button>
               <button
                 type="button"
-                onClick={handleInsertTable}
-                className="px-4 py-1.5 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white text-xs font-bold shadow-glow-orange transition"
+                onClick={() => setTableModalMode('templates')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                  tableModalMode === 'templates' 
+                    ? 'bg-[#FF751F] text-white shadow-sm' 
+                    : 'bg-white/5 text-stone-400 hover:text-white'
+                }`}
               >
-                Insert Table into Editor
+                <FileSpreadsheet className="w-3.5 h-3.5" />
+                <span>1-Click Factory Industry Templates</span>
               </button>
+            </div>
+
+            {/* Content: Mode 1 - Custom Editable Matrix */}
+            {tableModalMode === 'custom' && (
+              <div className="space-y-4 overflow-y-auto flex-1 pr-1">
+                {/* Controls */}
+                <div className="grid grid-cols-2 gap-4 bg-[#141210] p-3 rounded-2xl border border-white/10">
+                  <div>
+                    <label className="block text-[11px] font-bold text-stone-300 mb-1">
+                      Columns ({tableCols})
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="range"
+                        min="2"
+                        max="6"
+                        value={tableCols}
+                        onChange={(e) => handleUpdateCols(parseInt(e.target.value) || 2)}
+                        className="w-full accent-[#FF751F]"
+                      />
+                      <span className="text-xs font-mono font-bold text-[#FF751F] w-6">{tableCols}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-stone-300 mb-1">
+                      Rows ({tableRows})
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="range"
+                        min="1"
+                        max="8"
+                        value={tableRows}
+                        onChange={(e) => handleUpdateRows(parseInt(e.target.value) || 1)}
+                        className="w-full accent-[#FF751F]"
+                      />
+                      <span className="text-xs font-mono font-bold text-[#FF751F] w-6">{tableRows}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Editable Spreadsheet Grid */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
+                    Type column headers and cell values below:
+                  </span>
+                  <div className="overflow-x-auto rounded-2xl border border-white/15 bg-black/40 p-2">
+                    <table className="w-full text-xs border-collapse">
+                      <thead>
+                        <tr>
+                          {tableHeaders.map((header, cIdx) => (
+                            <th key={cIdx} className="p-1.5">
+                              <input
+                                type="text"
+                                value={header}
+                                onChange={(e) => handleHeaderCellChange(cIdx, e.target.value)}
+                                placeholder={`Header ${cIdx + 1}`}
+                                className="w-full px-2.5 py-1.5 rounded-lg bg-[#FF751F]/15 border border-[#FF751F]/40 text-[#FF751F] font-bold text-xs focus:outline-none focus:border-[#FF751F]"
+                              />
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableMatrix.map((row, rIdx) => (
+                          <tr key={rIdx}>
+                            {row.map((cell, cIdx) => (
+                              <td key={cIdx} className="p-1.5">
+                                <input
+                                  type="text"
+                                  value={cell}
+                                  onChange={(e) => handleDataCellChange(rIdx, cIdx, e.target.value)}
+                                  placeholder={`R${rIdx + 1} C${cIdx + 1}`}
+                                  className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-stone-200 text-xs focus:outline-none focus:border-[#FF751F]"
+                                />
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Content: Mode 2 - 1-Click Templates */}
+            {tableModalMode === 'templates' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto flex-1 pr-1">
+                {TABLE_TEMPLATES.map((tmpl, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-[#141210] border border-white/10 hover:border-[#FF751F]/50 transition space-y-3 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <FileSpreadsheet className="w-4 h-4 text-[#FF751F]" />
+                        <h5 className="font-bold text-white text-xs">
+                          {tmpl.name}
+                        </h5>
+                      </div>
+                      <p className="text-[11px] text-stone-400">
+                        {tmpl.desc}
+                      </p>
+                      <div className="mt-2 text-[10px] font-mono text-stone-400 bg-white/5 p-2 rounded-xl">
+                        Headers: {tmpl.headers.join(' • ')} ({tmpl.rows.length} rows)
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleApplyTemplate(tmpl)}
+                      className="w-full py-2 rounded-xl bg-white/10 hover:bg-[#FF751F] text-white font-bold text-xs transition"
+                    >
+                      Use &amp; Customize This Template
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between pt-3 border-t border-white/10">
+              <span className="text-[10px] text-stone-400 font-mono">
+                Markdown format: tables render natively on blog post without links
+              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setTableModalOpen(false)}
+                  className="px-3.5 py-1.5 rounded-xl bg-white/10 text-xs text-stone-300 font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertCustomTable}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] text-white text-xs font-bold shadow-glow-orange transition"
+                >
+                  Insert Table into Article
+                </button>
+              </div>
             </div>
 
           </div>
