@@ -34,9 +34,11 @@ import PrivacyPage from './pages/PrivacyPage';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboardOverview from './pages/admin/AdminDashboardOverview';
 import AdminPageEditor from './pages/admin/AdminPageEditor';
+import AdminProductManager from './pages/admin/AdminProductManager';
 import AdminBlogManager from './pages/admin/AdminBlogManager';
 import AdminSEOManager from './pages/admin/AdminSEOManager';
 import AdminFAQManager from './pages/admin/AdminFAQManager';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminAuthGuard from './components/admin/AdminAuthGuard';
 
 // Instant scroll to top on route change without blocking animations
@@ -78,13 +80,18 @@ function MainAppShell() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
 
+            {/* Dedicated Admin Login Route (Public within Admin Area) */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+
             {/* Admin CMS & Elementor-Style Page Builder Routes (Protected by AdminAuthGuard) */}
             <Route path="/admin" element={<AdminAuthGuard><AdminLayout activeTab="overview"><AdminDashboardOverview /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/pages" element={<AdminAuthGuard><AdminLayout activeTab="pages"><AdminPageEditor /></AdminLayout></AdminAuthGuard>} />
+            <Route path="/admin/products" element={<AdminAuthGuard><AdminLayout activeTab="products"><AdminProductManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/blog" element={<AdminAuthGuard><AdminLayout activeTab="blog"><AdminBlogManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/seo" element={<AdminAuthGuard><AdminLayout activeTab="seo"><AdminSEOManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/faqs" element={<AdminAuthGuard><AdminLayout activeTab="faqs"><AdminFAQManager /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/settings" element={<AdminAuthGuard><AdminLayout activeTab="settings"><AdminDashboardOverview /></AdminLayout></AdminAuthGuard>} />
+            <Route path="/admin/*" element={<AdminAuthGuard><Navigate to="/admin" replace /></AdminAuthGuard>} />
 
             {/* Digital Manufacturing & Color Tools */}
             <Route path="/tools" element={<ToolsHubPage />} />

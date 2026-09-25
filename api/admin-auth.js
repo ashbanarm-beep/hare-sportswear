@@ -40,13 +40,17 @@ const ALLOWED_ORIGINS = new Set([
   'http://localhost:3000'
 ]);
 
-function getExpectedSecret() {
-  return (process.env.ADMIN_SECRET_KEY || 'HareAdmin2026!SecureCMS').trim();
+function getExpectedCredentials() {
+  return {
+    username: (process.env.ADMIN_USERNAME || 'Ashban').trim(),
+    password: (process.env.ADMIN_PASSWORD || 'ashbana48dc2').trim(),
+    secret: (process.env.ADMIN_SECRET_KEY || 'HareAdmin2026!SecureCMS_Ashban').trim()
+  };
 }
 
 function generateSessionToken(secret) {
   const epochDay = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Valid for 24h cycle
-  return crypto.createHmac('sha256', secret).update(`admin-session-${epochDay}`).digest('hex');
+  return crypto.createHmac('sha256', secret).update(`admin-session-ashban-${epochDay}`).digest('hex');
 }
 
 export default async function handler(req, res) {
@@ -85,8 +89,8 @@ export default async function handler(req, res) {
       }
     }
 
-    const { action = 'verify', passkey, token } = body || {};
-    const adminSecret = getExpectedSecret();
+    const { action = 'verify', username, password, passkey, token } = body || {};
+    const { username: expectedUsername, password: expectedPassword, secret: adminSecret } = getExpectedCredentials();
     const validToken = generateSessionToken(adminSecret);
 
     // ACTION: VERIFY
@@ -95,7 +99,7 @@ export default async function handler(req, res) {
         const tokenBuf = Buffer.from(token);
         const validBuf = Buffer.from(validToken);
         if (tokenBuf.length === validBuf.length && crypto.timingSafeEqual(tokenBuf, validBuf)) {
-          return res.status(200).json({ authenticated: true });
+          return res.status(200).json({ authenticated: true, username: expectedUsername });
         }
       }
       return res.status(401).json({ authenticated: false, error: 'Invalid or expired admin session token.' });
@@ -110,24 +114,36 @@ export default async function handler(req, res) {
         });
       }
 
-      if (!passkey || typeof passkey !== 'string') {
+      let isAuthenticated = false;
+
+      if (username && password) {
+        const uInput = username.trim();
+        const uMatch = uInput.toLowerCase() === expectedUsername.toLowerCase();
+
+        const pInputBuf = Buffer.from(String(password));
+        const pExpBuf = Buffer.from(expectedPassword);
+        const pMatch = pInputBuf.length === pExpBuf.length &&
+                       crypto.timingSafeEqual(pInputBuf, pExpBuf);
+
+        isAuthenticated = uMatch && pMatch;
+      } else if (passkey) {
+        // Fallback passkey support
+        const pInputBuf = Buffer.from(String(passkey).trim());
+        const pExpBuf = Buffer.from(expectedPassword);
+        isAuthenticated = pInputBuf.length === pExpBuf.length &&
+                          crypto.timingSafeEqual(pInputBuf, pExpBuf);
+      } else {
         recordFailedAttempt(clientIp);
-        return res.status(400).json({ error: 'Passkey is required.' });
+        return res.status(400).json({ error: 'Username and password are required.' });
       }
 
-      // Timing-safe comparison to prevent timing attacks
-      const inputBuffer = Buffer.from(passkey.trim());
-      const expectedBuffer = Buffer.from(adminSecret);
-
-      const isMatch = inputBuffer.length === expectedBuffer.length &&
-                      crypto.timingSafeEqual(inputBuffer, expectedBuffer);
-
-      if (isMatch) {
+      if (isAuthenticated) {
         clearFailedAttempts(clientIp);
         return res.status(200).json({
           success: true,
           authenticated: true,
           token: validToken,
+          username: expectedUsername,
           message: 'Admin authorization successful.'
         });
       } else {
@@ -135,7 +151,7 @@ export default async function handler(req, res) {
         return res.status(401).json({
           success: false,
           authenticated: false,
-          error: 'Incorrect administrative passkey.'
+          error: 'Invalid administrative username or password.'
         });
       }
     }

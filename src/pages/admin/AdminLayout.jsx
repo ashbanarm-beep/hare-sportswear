@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Layers, FileText, Search, HelpCircle, 
   Settings, ExternalLink, ShieldCheck, Sparkles, LogOut,
   RefreshCw, Download, Upload, CheckCircle2, ChevronRight,
-  Menu, X
+  Menu, X, Package, UserCheck
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { DOMAIN_PAGES } from '../../data/domainPagesData';
@@ -49,6 +49,13 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
       label: 'Page & Block Editor',
       icon: Layers,
       badge: `${totalDomainPages} Pages`
+    },
+    {
+      id: 'products',
+      path: '/admin/products',
+      label: 'Product Catalog',
+      icon: Package,
+      badge: '34 Styles'
     },
     {
       id: 'blog',
@@ -111,23 +118,36 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
           </Link>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Active Admin User Badge */}
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-stone-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-stone-400">Admin:</span>
+            <strong className="text-white font-semibold">Ashban</strong>
+          </div>
+
           <Link
             to="/"
             target="_blank"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-xs text-stone-300 hover:text-white transition"
             title="Open Frontend Site in New Tab"
           >
-            <span>Live Website</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Live Website</span>
+            <ExternalLink className="w-3.5 h-3.5 text-[#FF751F]" />
           </Link>
 
           <div className="h-4 w-px bg-white/15 hidden sm:block"></div>
 
-          <div className="hidden sm:flex items-center gap-2 text-xs text-stone-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Live LocalStorage Persistence</span>
-          </div>
+          {/* Prominent Header Logout Button */}
+          <button
+            type="button"
+            onClick={logoutAdmin}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-bold text-red-400 hover:text-red-300 transition cursor-pointer"
+            title="Safely logout administrative session"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Logout</span>
+          </button>
         </div>
       </header>
 
@@ -181,22 +201,28 @@ export default function AdminLayout({ activeTab = 'overview', children }) {
 
           {/* Sidebar Footer */}
           <div className="pt-6 border-t border-white/10 space-y-3">
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1 text-xs">
-              <span className="text-[10px] uppercase font-bold text-[#FF751F] block">
-                Direct Export Ready
-              </span>
-              <p className="text-stone-400 text-[11px] leading-tight">
-                All edits take immediate effect on the live website and persist across restarts.
+            <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-[#FF751F] block">
+                  Active Session
+                </span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              </div>
+              <p className="text-white font-bold text-xs">
+                Ashban (Superadmin)
+              </p>
+              <p className="text-stone-400 text-[10px] leading-tight font-mono">
+                Full administrative access &amp; publishing rights
               </p>
             </div>
 
             <button
               type="button"
               onClick={logoutAdmin}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-xs text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-xs font-bold text-red-400 hover:text-red-300 border border-red-500/30 transition cursor-pointer shadow-sm"
             >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Lock &amp; Logout Admin</span>
+              <LogOut className="w-4 h-4" />
+              <span>Lock &amp; Logout (Ashban)</span>
             </button>
           </div>
         </aside>
