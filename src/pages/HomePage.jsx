@@ -22,8 +22,18 @@ export default function HomePage() {
   const { caseStudies } = useCMS();
 
   useEffect(() => {
-    const pageTitle = "Hare Sportswear and Goods - Best sportswear manufacturer";
+    const pageTitle = "Hare Sportswear: Best Sportswear Manufacturer In Sialkot";
+    const pageDescription = "Looking for a reliable sportswear manufacturer? Partner with Hare Sportswear for custom teamwear, activewear, and fitness gear direct from Sialkot. Get a quote today";
     document.title = pageTitle;
+
+    // Set meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('name', 'description');
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', pageDescription);
 
     // Set og:title meta tag
     let ogTitle = document.querySelector('meta[property="og:title"]');
@@ -34,6 +44,15 @@ export default function HomePage() {
     }
     ogTitle.setAttribute('content', pageTitle);
 
+    // Set og:description meta tag
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) {
+      ogDesc = document.createElement('meta');
+      ogDesc.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDesc);
+    }
+    ogDesc.setAttribute('content', pageDescription);
+
     // Set twitter:title meta tag
     let twitterTitle = document.querySelector('meta[name="twitter:title"]');
     if (!twitterTitle) {
@@ -42,6 +61,15 @@ export default function HomePage() {
       document.head.appendChild(twitterTitle);
     }
     twitterTitle.setAttribute('content', pageTitle);
+
+    // Set twitter:description meta tag
+    let twitterDesc = document.querySelector('meta[name="twitter:description"]');
+    if (!twitterDesc) {
+      twitterDesc = document.createElement('meta');
+      twitterDesc.setAttribute('name', 'twitter:description');
+      document.head.appendChild(twitterDesc);
+    }
+    twitterDesc.setAttribute('content', pageDescription);
   }, []);
 
   // Mini-calculator state for fast quote estimate

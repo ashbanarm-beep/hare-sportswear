@@ -2,10 +2,10 @@
 
 export const defaultSEORegistry = {
   '/': {
-    title: 'Hare Sportswear & Goods | Sialkot OEM/ODM Custom Sportswear Manufacturer',
-    description: 'Premier Sialkot direct athletic sportswear manufacturer. Specializing in sublimation teamwear kits, 4-way activewear, sports balls & combat gear with low MOQs.',
+    title: 'Hare Sportswear: Best Sportswear Manufacturer In Sialkot',
+    description: 'Looking for a reliable sportswear manufacturer? Partner with Hare Sportswear for custom teamwear, activewear, and fitness gear direct from Sialkot. Get a quote today',
     keywords: 'sportswear manufacturer sialkot, custom teamwear oem, sublimation jerseys wholesale, activewear factory direct, athletic goods manufacturer',
-    canonical: 'https://hare-sportswear.vercel.app/'
+    canonical: 'https://www.haresportswear.com/'
   },
   '/products': {
     title: 'Custom Sportswear & Athletic Goods Catalog | Hare Sportswear Sialkot',

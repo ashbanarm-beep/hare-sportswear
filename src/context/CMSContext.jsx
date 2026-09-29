@@ -7,7 +7,7 @@ const CMSContext = createContext(null);
 const STORAGE_KEYS = {
   BLOG_POSTS: 'hare_cms_blog_posts_v1',
   BLOG_CATEGORIES: 'hare_cms_blog_categories_v1',
-  SEO_REGISTRY: 'hare_cms_seo_registry_v1',
+  SEO_REGISTRY: 'hare_cms_seo_registry_v3',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
   PAGE_BLOCKS: 'hare_cms_page_blocks_v1',
   CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1',
@@ -250,10 +250,10 @@ export function CMSProvider({ children }) {
     if (seoRegistry[normalized]) return seoRegistry[normalized];
     // Fallback default
     return {
-      title: 'Hare Sportswear & Goods | Sialkot OEM/ODM Custom Sportswear Manufacturer',
-      description: 'Premier Sialkot direct athletic sportswear manufacturer. Sublimation teamwear kits, 4-way activewear, sports balls & combat gear with low MOQs.',
+      title: 'Hare Sportswear: Best Sportswear Manufacturer In Sialkot',
+      description: 'Looking for a reliable sportswear manufacturer? Partner with Hare Sportswear for custom teamwear, activewear, and fitness gear direct from Sialkot. Get a quote today',
       keywords: 'sportswear manufacturer sialkot, custom teamwear oem, sublimation jerseys wholesale',
-      canonical: `https://hare-sportswear.vercel.app${normalized}`
+      canonical: `https://www.haresportswear.com${normalized}`
     };
   };
 
