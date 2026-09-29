@@ -9,13 +9,15 @@ export const categories = [
 export const womensSubcategories = [
   { id: 'all-womens', name: "All Women's Collection" },
   { id: 'sports-bras', name: 'Sports Bras & Tops' },
-  { id: 'leggings-shorts', name: 'Seamless Leggings & Shorts' },
+  { id: 'leggings-shorts', name: 'Seamless Leggings & Biker Shorts' },
 ];
 
 export const activewearSubcategories = [
-  { id: 'all-activewear', name: 'All Activewear' },
-  { id: 'womens-activewear', name: "Sports Bras & Women's Activewear" },
-  { id: 'mens-activewear', name: "Men's Activewear & Training" },
+  { id: 'all-activewear', name: "All Men's Activewear" },
+  { id: 'mens-hoodies', name: 'Hoodies & Fleece' },
+  { id: 'mens-joggers', name: 'Joggers & Pants' },
+  { id: 'mens-tees', name: 'Gym Training Tees' },
+  { id: 'mens-compression', name: 'Compression Rashguards' },
 ];
 
 export const equipmentSubcategories = [
@@ -225,7 +227,7 @@ export const products = [
     id: 'prod-07',
     name: 'Pro Athletic Compression Rashguard',
     category: 'activewear',
-    subcategory: 'mens-activewear',
+    subcategory: 'mens-compression',
     gender: 'men',
     sport: 'MMA / BJJ / Crossfit',
     badge: '4-Way Stretch',
@@ -255,7 +257,7 @@ export const products = [
     id: 'prod-08',
     name: 'Heavyweight Tech Fleece Pullover Hoodie',
     category: 'activewear',
-    subcategory: 'mens-activewear',
+    subcategory: 'mens-hoodies',
     gender: 'men',
     sport: 'Lifestyle / Gym',
     badge: 'Premium Comfort',
@@ -285,7 +287,7 @@ export const products = [
     id: 'prod-09',
     name: 'Tapered Athletic French Terry Joggers',
     category: 'activewear',
-    subcategory: 'mens-activewear',
+    subcategory: 'mens-joggers',
     gender: 'men',
     sport: 'Gym / Warm-Up',
     badge: 'Pre-Shrunk',
@@ -380,7 +382,7 @@ export const products = [
     id: 'prod-12',
     name: 'Ultralight Seamless Training Gym Tee',
     category: 'activewear',
-    subcategory: 'mens-activewear',
+    subcategory: 'mens-tees',
     gender: 'men',
     sport: 'Gym / Crossfit',
     badge: 'Ultralight',
@@ -1112,9 +1114,9 @@ export const products = [
     gsm: '220 GSM (75% Nylon / 25% Spandex)',
     moq: '40 Pcs',
     leadTime: '12-14 Days',
-    image: '/images/products/product-11-sports-bra.jpg',
+    image: '/images/products/product-33-strappy-sports-bra.jpg',
     gallery: [
-      '/images/products/product-11-sports-bra.jpg'
+      '/images/products/product-33-strappy-sports-bra.jpg'
     ],
     description: 'Light-to-medium support active bra engineered for freedom of movement during yoga, pilates, and studio fitness. Multi-strap geometric back provides ventilation and aesthetic appeal with zero shoulder digging.',
     features: [
@@ -1145,9 +1147,9 @@ export const products = [
     gsm: '250 GSM (78% Polyester / 22% Spandex)',
     moq: '40 Pcs',
     leadTime: '12-15 Days',
-    image: '/images/products/product-10-seamless-leggings.jpg',
+    image: '/images/products/product-34-biker-shorts.jpg',
     gallery: [
-      '/images/products/product-10-seamless-leggings.jpg'
+      '/images/products/product-34-biker-shorts.jpg'
     ],
     description: 'Performance biker shorts with deep side drop-in pockets for smartphones and keys. Built with a high-rise tummy-control waistband, flatlock non-chafe seams, and raw-cut non-squeeze thigh leg openings.',
     features: [

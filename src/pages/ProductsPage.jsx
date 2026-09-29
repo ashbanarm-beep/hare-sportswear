@@ -53,21 +53,19 @@ export default function ProductsPage() {
         // STRICTLY WOMEN'S APPAREL - NO MEN'S PRODUCTS OR VARIANTS
         matchesCategory = (item.category === 'womens-activewear' || item.gender === 'women') && item.gender !== 'men';
       } else if (selectedCategory === 'activewear') {
-        if (selectedSubcategory === 'womens-activewear') {
-          // Strictly women's activewear subcategory
-          matchesCategory = (item.category === 'womens-activewear' || item.gender === 'women') && item.gender !== 'men';
-        } else if (selectedSubcategory === 'mens-activewear') {
-          // Strictly men's
-          matchesCategory = item.gender === 'men';
-        } else {
-          matchesCategory = item.category === 'activewear' || item.category === 'womens-activewear';
-        }
+        // STRICTLY MEN'S ACTIVEWEAR & TRAINING - NO WOMEN'S PRODUCTS OR VARIANTS
+        matchesCategory = (item.category === 'activewear' || item.gender === 'men') && item.gender !== 'women' && item.category !== 'womens-activewear';
       } else {
         matchesCategory = item.category === selectedCategory;
       }
 
       // Hard enforcement: If on Sports Bras & Women's Activewear category, strictly remove any men's styles
-      if (selectedCategory === 'womens-activewear' && item.gender === 'men') {
+      if (selectedCategory === 'womens-activewear' && (item.gender === 'men' || item.category === 'activewear')) {
+        return false;
+      }
+
+      // Hard enforcement: If on Men's Activewear & Training category, strictly remove any women's styles
+      if (selectedCategory === 'activewear' && (item.gender === 'women' || item.category === 'womens-activewear')) {
         return false;
       }
 
@@ -84,15 +82,10 @@ export default function ProductsPage() {
           selectedSubcategory === 'all' || 
           item.subcategory === selectedSubcategory;
       } else if (selectedCategory === 'activewear') {
-        if (selectedSubcategory === 'all-activewear' || selectedSubcategory === 'all') {
-          matchesSubcategory = true;
-        } else if (selectedSubcategory === 'womens-activewear') {
-          matchesSubcategory = item.gender === 'women';
-        } else if (selectedSubcategory === 'mens-activewear') {
-          matchesSubcategory = item.gender === 'men';
-        } else {
-          matchesSubcategory = item.subcategory === selectedSubcategory;
-        }
+        matchesSubcategory = 
+          selectedSubcategory === 'all-activewear' || 
+          selectedSubcategory === 'all' || 
+          item.subcategory === selectedSubcategory;
       }
 
       // 3. Material Matching
@@ -135,18 +128,24 @@ export default function ProductsPage() {
           <span>
             {selectedCategory === 'womens-activewear'
               ? "Women's Technical Apparel Line"
-              : "OEM / ODM Manufacturing Catalog"}
+              : selectedCategory === 'activewear'
+                ? "Men's Activewear & Training Line"
+                : "OEM / ODM Manufacturing Catalog"}
           </span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-[#1A1A1A]">
           {selectedCategory === 'womens-activewear'
             ? "Sports Bras & Women's Activewear"
-            : "Wholesale Products & Technical Apparel"}
+            : selectedCategory === 'activewear'
+              ? "Men's Activewear & Training"
+              : "Wholesale Products & Technical Apparel"}
         </h1>
         <p className="text-sm sm:text-base text-[#595856] max-w-3xl leading-relaxed">
           {selectedCategory === 'womens-activewear'
             ? "Engineered specifically for women's athletic silhouettes, high-impact bust support, and squat-proof compression. Strictly dedicated to women's apparel with bespoke tech pack grading, custom molded pads, and zero men's options."
-            : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
+            : selectedCategory === 'activewear'
+              ? "Engineered specifically for men's athletic training, heavy lifting, and gym streetwear. Strictly dedicated to men's cuts, reinforced bar-tacks, heavy French Terry, and compression rashguards with zero women's garments mixed in."
+              : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
         </p>
       </div>
 
@@ -247,28 +246,36 @@ export default function ProductsPage() {
 
       {/* Activewear Division Subcategories (Shown when Men's Activewear & Training is selected) */}
       {selectedCategory === 'activewear' && (
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none animate-fadeIn">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A847A] whitespace-nowrap mr-1">
-            Activewear Division:
-          </span>
-          {activewearSubcategories.map((sub) => (
-            <button
-              key={sub.id}
-              onClick={() => {
-                setSelectedSubcategory(sub.id);
-                const params = new URLSearchParams(searchParams);
-                params.set('sub', sub.id);
-                setSearchParams(params);
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedSubcategory === sub.id
-                  ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
-                  : 'bg-white border border-[#E5DFD5] text-[#595856] hover:text-[#1A1A1A] hover:bg-[#FAF8F3]'
-              }`}
-            >
-              {sub.name}
-            </button>
-          ))}
+        <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2 scrollbar-none animate-fadeIn flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A847A] whitespace-nowrap mr-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FF751F]"></span>
+              <span>Men's Line:</span>
+            </span>
+            {activewearSubcategories.map((sub) => (
+              <button
+                key={sub.id}
+                onClick={() => {
+                  setSelectedSubcategory(sub.id);
+                  const params = new URLSearchParams(searchParams);
+                  params.set('sub', sub.id);
+                  setSearchParams(params);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedSubcategory === sub.id
+                    ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
+                    : 'bg-white border border-[#E5DFD5] text-[#595856] hover:text-[#1A1A1A] hover:bg-[#FAF8F3]'
+                }`}
+              >
+                {sub.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200/80 font-medium">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+            <span>Strictly Dedicated Men's Athletic Patterns • Zero Women's Styles</span>
+          </div>
         </div>
       )}
 

@@ -259,127 +259,158 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           
           {/* Category 1: Teamwear */}
           <Link
             to="/products?category=teamwear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/teamwear-img.jpg"
                 alt="Custom Teamwear & Kits"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
                 Cricket • Basketball • Football
               </span>
             </div>
-            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Teamwear & Kits
                 </h3>
-                <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  All-over sublimated club match kits, reversible basketball singlets, rugby jerseys, and cricket whites engineered with moisture-wicking interlock fabrics.
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  All-over sublimated club match kits, reversible basketball singlets, rugby jerseys, and cricket whites.
                 </p>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
-                <span>Explore Teamwear Specs</span>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
+                <span>Explore Teamwear</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
 
-          {/* Category 2: Activewear */}
+          {/* Category 2: Sports Bras & Women's Activewear */}
           <Link
-            to="/products?category=activewear"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
+            to="/products?category=womens-activewear"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
-                src="/activewear-img.jpg"
-                alt="Activewear & Gym Essentials"
+                src="/images/products/product-10-seamless-leggings.jpg"
+                alt="Sports Bras & Women's Activewear"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
-                Hoodies • Leggings • Sports Bras
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Sports Bras • Leggings • Shorts
               </span>
             </div>
-            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
-                  Activewear & Gym Essentials
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                  Women's Activewear
                 </h3>
-                <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  Heavyweight French Terry hoodies, squat-proof seamless leggings, 4-way compression rashguards, and custom tapered performance joggers.
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  High-impact sports bras, squat-proof seamless leggings, and compression biker shorts strictly engineered for women.
                 </p>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
-                <span>Explore Activewear Specs</span>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
+                <span>Explore Women's Line</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
 
-          {/* Category 3: Sports Equipment */}
+          {/* Category 3: Men's Activewear & Training */}
+          <Link
+            to="/products?category=activewear"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
+          >
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+              <img
+                src="/activewear-img.jpg"
+                alt="Men's Activewear & Training"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              />
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Hoodies • Joggers • Rashguards
+              </span>
+            </div>
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
+              <div>
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                  Men's Activewear & Gym
+                </h3>
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  Heavyweight French Terry hoodies, 4-way compression rashguards, gym tees, and tapered performance joggers.
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
+                <span>Explore Men's Specs</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Category 4: Sports Equipment */}
           <Link
             to="/products?category=equipment"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/equipment-img.jpg"
                 alt="Sports Equipment & Goods"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
                 Rackets • Balls • Cues • Gear
               </span>
             </div>
-            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Sports Equipment & Goods
                 </h3>
-                <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  Toray carbon padel & badminton rackets, commercial hex dumbbells, eco TPE yoga mats, match balls, and high-altitude tents.
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  Toray carbon padel & badminton rackets, commercial dumbbells, eco TPE mats, and match balls.
                 </p>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
                 <span>Explore Equipment Specs</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
 
-          {/* Category 4: Wrestling & Combat Gear */}
+          {/* Category 5: Wrestling & Combat Gear */}
           <Link
-            to="/products?category=combat-sports"
-            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[440px] sm:min-h-[470px] h-auto shadow-sm hover:shadow-xl"
+            to="/products?category=equipment&sub=combat-sports"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
-            <div className="relative h-60 sm:h-64 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/images/products/product-29-championship-belt.jpg"
                 alt="Wrestling Equipment & Combat Gear"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
                 Belts • Dummies • Headgear • Boots
               </span>
             </div>
-            <div className="p-5 flex-1 flex flex-col justify-between bg-white">
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
               <div>
-                <h3 className="text-xl font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
                   Wrestling & Combat Gear
                 </h3>
-                <p className="text-xs text-[#595856] mt-2 line-clamp-2">
-                  Custom embossed championship title belts, 900 GSM synthetic leather grappling dummies, tournament headgear, and high-traction wrestling boots.
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  Championship title belts, 900 GSM grappling dummies, ear guards, and wrestling boots.
                 </p>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-4 border-t border-[#E5DFD5]">
-                <span>Explore Wrestling & Combat</span>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
+                <span>Explore Wrestling Gear</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>

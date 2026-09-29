@@ -32,7 +32,7 @@ export const APPAREL_GROUPS = [
   { id: 'all', name: 'All Garments', icon: '✨' },
   { id: 'teamwear', name: 'Teamwear & Kits', icon: '⚽' },
   { id: 'womens', name: "Sports Bras & Women's", icon: '🧘' },
-  { id: 'activewear', name: "Men's Activewear", icon: '🏃' },
+  { id: 'activewear', name: "Men's Activewear & Training", icon: '🏃' },
   { id: 'compression', name: 'Compression', icon: '⚡' },
   { id: 'combat', name: 'Combat & Martial Arts', icon: '🥊' }
 ];
@@ -45,6 +45,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Sublimated Soccer / Football Jersey',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-01-football-kit.jpg',
     defaultFabric: '160 GSM Performance Poly Interlock',
     collarStyles: ['v-neck', 'crew', 'mandarin'],
     silhouette: 'Athletic Slim Match Cut',
@@ -56,6 +57,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Pro Mesh Basketball Uniform Tank',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-02-basketball-uniform.jpg',
     defaultFabric: '180 GSM Diamond Dri-Fit Poly Mesh',
     collarStyles: ['v-neck', 'crew'],
     silhouette: 'Sleeveless Wide-Shoulder Cut',
@@ -67,6 +69,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Heavy Contact Rugby Match Jersey',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-03.jpg',
     defaultFabric: '280 GSM Heavy Spun Poly-Twill',
     collarStyles: ['crew', 'mandarin'],
     silhouette: 'Reinforced Bar-Tack Placket Cut',
@@ -78,6 +81,7 @@ export const APPAREL_CATEGORIES = [
     name: 'T20 Sublimated Cricket Kit Top',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-04.jpg',
     defaultFabric: '160 GSM Pinhole Eyelet Breathable Mesh',
     collarStyles: ['mandarin', 'v-neck'],
     silhouette: 'Performance Athletic Polo Cut',
@@ -89,6 +93,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Classic Button-Down Baseball Jersey',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-05.jpg',
     defaultFabric: '220 GSM Pro Stretch Knit with Piping',
     collarStyles: ['v-neck', 'crew'],
     silhouette: 'Button-Down Placket with Piping',
@@ -100,6 +105,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Sublimated Ice / Field Hockey Jersey',
     category: 'Teamwear & Custom Kits',
     group: 'teamwear',
+    image: '/images/products/product-06-hockey-jersey.jpg',
     defaultFabric: '240 GSM Airknit Mesh with Elbow Reinforcement',
     collarStyles: ['v-neck'],
     silhouette: 'Oversized Sweaters with Drop Shoulders',
@@ -113,6 +119,8 @@ export const APPAREL_CATEGORIES = [
     name: 'High-Impact Racerback Sports Bra',
     category: "Sports Bras & Women's Activewear",
     group: 'womens',
+    gender: 'women',
+    image: '/images/products/product-11-sports-bra.jpg',
     defaultFabric: '280 GSM 75/25 Nylon-Spandex High-Support Knit',
     collarStyles: ['scoop', 'racerback'],
     silhouette: 'Supportive Underbust Band & Ergonomic Princess Seams',
@@ -121,10 +129,26 @@ export const APPAREL_CATEGORIES = [
     isCropped: true
   },
   {
-    id: 'performance-leggings',
-    name: 'Seamless High-Waist Performance Leggings',
+    id: 'strappy-sports-bra',
+    name: 'Strappy Back Low-Impact Yoga Sports Bra',
     category: "Sports Bras & Women's Activewear",
     group: 'womens',
+    gender: 'women',
+    image: '/images/products/product-33-strappy-sports-bra.jpg',
+    defaultFabric: '220 GSM 75/25 Nylon-Spandex Buttery Soft Knit',
+    collarStyles: ['scoop', 'strappy'],
+    silhouette: 'Multi-Strap Criss-Cross Geometric Open Back',
+    icon: '🧘',
+    isBottom: false,
+    isCropped: true
+  },
+  {
+    id: 'performance-leggings',
+    name: 'Seamless High-Waist Women Leggings',
+    category: "Sports Bras & Women's Activewear",
+    group: 'womens',
+    gender: 'women',
+    image: '/images/products/product-10-seamless-leggings.jpg',
     defaultFabric: '300 GSM Squat-Proof 4-Way Stretch Interlock',
     collarStyles: ['waistband'],
     silhouette: 'High-Waist Compression Tummy-Control Panel',
@@ -132,23 +156,40 @@ export const APPAREL_CATEGORIES = [
     isBottom: true
   },
   {
-    id: 'training-tee',
-    name: 'Ultralight Seamless Training Gym Tee',
+    id: 'biker-shorts',
+    name: 'High-Waist Compression Biker Shorts with Pockets',
     category: "Sports Bras & Women's Activewear",
     group: 'womens',
-    defaultFabric: '140 GSM Featherweight Aerolite Jacquard',
-    collarStyles: ['crew', 'v-neck'],
-    silhouette: 'Feminine Athletic Contour Cut',
-    icon: '👚',
-    isBottom: false
+    gender: 'women',
+    image: '/images/products/product-34-biker-shorts.jpg',
+    defaultFabric: '250 GSM 78/22 Poly-Spandex Dual Pocket Interlock',
+    collarStyles: ['waistband'],
+    silhouette: 'Dual Drop-In Phone Pockets & Squat-Proof Tummy Band',
+    icon: '🩳',
+    isBottom: true
   },
 
   // 3. Men's Activewear & Streetwear
+  {
+    id: 'training-tee',
+    name: 'Ultralight Seamless Training Gym Tee',
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    gender: 'men',
+    image: '/images/products/product-12-training-tee.jpg',
+    defaultFabric: '140 GSM Featherweight Aerolite Jacquard',
+    collarStyles: ['crew', 'v-neck'],
+    silhouette: 'Athletic Slim Training Cut',
+    icon: '👕',
+    isBottom: false
+  },
   {
     id: 'fleece-hoodie',
     name: 'Heavyweight Tech Fleece Pullover Hoodie',
     category: "Men's Activewear & Training",
     group: 'activewear',
+    gender: 'men',
+    image: '/images/products/product-08-fleece-hoodie.jpg',
     defaultFabric: '380 GSM Organic Cotton/Poly French Terry Fleece',
     collarStyles: ['hooded'],
     silhouette: 'Relaxed Drop-Shoulder Streetwear with Kangaroo Pocket',
@@ -160,6 +201,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Full-Zip Tracksuit Windbreaker Jacket',
     category: "Men's Activewear & Training",
     group: 'activewear',
+    gender: 'men',
     defaultFabric: '140 GSM DWR Micro-Ripstop with Mesh Lining',
     collarStyles: ['mandarin', 'crew'],
     silhouette: 'Full-Front Zipper Wind Jacket with Raglan Sleeves',
@@ -171,6 +213,8 @@ export const APPAREL_CATEGORIES = [
     name: 'Tapered Athletic French Terry Joggers',
     category: "Men's Activewear & Training",
     group: 'activewear',
+    gender: 'men',
+    image: '/images/products/product-09-terry-joggers.jpg',
     defaultFabric: '320 GSM Cotton-Poly French Terry with Cuffed Rib',
     collarStyles: ['waistband'],
     silhouette: 'Tapered Ankle Rib Leg with Metal Eyelet Drawstrings',
@@ -184,6 +228,8 @@ export const APPAREL_CATEGORIES = [
     name: 'Pro Athletic Compression Rashguard',
     category: 'Compression & Baselayers',
     group: 'compression',
+    gender: 'men',
+    image: '/images/products/product-07-compression-rashguard.jpg',
     defaultFabric: '220 GSM 85/15 Poly-Spandex Anti-Chafing Knit',
     collarStyles: ['crew'],
     silhouette: 'Second-Skin Raglan Panel with Flatlock Seams',
@@ -195,6 +241,7 @@ export const APPAREL_CATEGORIES = [
     name: 'Pro Compression Spats / Baselayer Tights',
     category: 'Compression & Baselayers',
     group: 'compression',
+    gender: 'men',
     defaultFabric: '240 GSM 4-Way Stretch Compression Lycra',
     collarStyles: ['waistband'],
     silhouette: 'Full-Length Ergonomic Muscle Stabilization Tights',
@@ -1045,8 +1092,12 @@ WhatsApp: +92 314 4634183
                 className="w-full p-4 rounded-2xl border-2 border-[#E5DFD5] hover:border-[#FF751F] bg-gradient-to-r from-[#FAF8F5] to-white hover:bg-white text-left transition-all shadow-xs hover:shadow-md flex items-center justify-between group cursor-pointer"
               >
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="w-12 h-12 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/20 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                    {selectedApparel.icon}
+                  <div className="w-12 h-12 rounded-2xl bg-[#FF751F]/10 border border-[#FF751F]/20 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform shadow-xs overflow-hidden">
+                    {selectedApparel.image ? (
+                      <img src={selectedApparel.image} alt={selectedApparel.name} className="w-full h-full object-cover" />
+                    ) : (
+                      selectedApparel.icon
+                    )}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -2342,8 +2393,8 @@ WhatsApp: +92 314 4634183
                     </g>
                   )}
 
-                  {/* 11. HIGH-IMPACT RACERBACK SPORTS BRA */}
-                  {selectedApparel.id === 'sports-bra' && (
+                  {/* 11. HIGH-IMPACT RACERBACK & STRAPPY SPORTS BRA */}
+                  {(selectedApparel.id === 'sports-bra' || selectedApparel.id === 'strappy-sports-bra') && (
                     <g id="sportsBraGroup">
                       {viewMode === 'front' ? (
                         <>
@@ -2623,8 +2674,8 @@ WhatsApp: +92 314 4634183
                     </g>
                   )}
 
-                  {/* 12. SEAMLESS HIGH-WAIST PERFORMANCE LEGGINGS */}
-                  {selectedApparel.id === 'performance-leggings' && (
+                  {/* 12. SEAMLESS HIGH-WAIST LEGGINGS & BIKER SHORTS */}
+                  {(selectedApparel.id === 'performance-leggings' || selectedApparel.id === 'biker-shorts') && (
                     <g id="performanceLeggingsGroup">
                       {/* High-Rise 4-inch Waistband */}
                       <path d="M 175 120 Q 250 110 325 120 L 328 160 Q 250 152 172 160 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
@@ -3725,8 +3776,12 @@ WhatsApp: +92 314 4634183
 
                         <div className="space-y-2">
                           <div className="flex items-center gap-2.5">
-                            <span className="w-10 h-10 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
-                              {apparel.icon}
+                            <span className="w-12 h-12 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5] flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
+                              {apparel.image ? (
+                                <img src={apparel.image} alt={apparel.name} className="w-full h-full object-cover" />
+                              ) : (
+                                apparel.icon
+                              )}
                             </span>
                             <div className="min-w-0 pr-5">
                               <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block truncate">
