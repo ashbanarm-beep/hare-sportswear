@@ -78,7 +78,14 @@ export default function Footer() {
             </p>
             
             <div className="flex items-center gap-3 pt-2">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-white/5 hover:bg-[#FF751F]/20 hover:text-[#FF751F] transition-all border border-white/10 text-cream-300">
+              <a 
+                href="https://www.linkedin.com/company/hare-sportswear" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Hare Sportswear LinkedIn Company Page"
+                title="Follow Hare Sportswear on LinkedIn"
+                className="p-2.5 rounded-lg bg-white/5 hover:bg-[#FF751F]/20 hover:text-[#FF751F] transition-all border border-white/10 text-cream-300"
+              >
                 <LinkedInIcon className="w-4 h-4" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-white/5 hover:bg-pink-500/20 hover:text-pink-400 transition-all border border-white/10 text-cream-300">

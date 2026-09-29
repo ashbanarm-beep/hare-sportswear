@@ -8,6 +8,7 @@ import {
 import { useRFQ } from '../context/RFQContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import PageFAQSection from '../components/common/PageFAQSection';
+import { LinkedInIcon } from '../components/common/SocialIcons';
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
@@ -318,6 +319,27 @@ export default function ContactPage() {
                     className="inline-flex items-center gap-1.5 text-emerald-600 font-bold mt-1.5 hover:underline"
                   >
                     <span>Chat on Factory WhatsApp</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </li>
+
+              <li className="flex items-start gap-3.5">
+                <div className="w-5 h-5 text-[#0A66C2] shrink-0 mt-0.5 flex items-center justify-center">
+                  <LinkedInIcon className="w-4 h-4 fill-[#0A66C2]" />
+                </div>
+                <div>
+                  <strong className="text-[#1A1A1A] block text-sm">Official LinkedIn Company Page</strong>
+                  <span className="block mt-0.5 text-xs text-[#595856]">
+                    Corporate announcements, factory insights, customer case studies &amp; B2B export updates.
+                  </span>
+                  <a
+                    href="https://www.linkedin.com/company/hare-sportswear"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[#0A66C2] font-bold mt-1.5 hover:underline text-xs"
+                  >
+                    <span>Follow Hare Sportswear on LinkedIn</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>

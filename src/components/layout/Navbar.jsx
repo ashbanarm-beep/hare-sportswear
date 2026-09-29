@@ -6,6 +6,7 @@ import {
   Calculator, Shirt, Dumbbell, Trophy, Sparkles
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
+import { LinkedInIcon } from '../common/SocialIcons';
 import { countryServices } from '../../data/countryServicesData';
 
 export default function Navbar() {
@@ -172,6 +173,18 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4 shrink-0 text-[11px] sm:text-xs">
+            <a 
+              href="https://www.linkedin.com/company/hare-sportswear" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="Hare Sportswear LinkedIn Company Page"
+              title="Official LinkedIn Company Page"
+              className="hover:text-[#FF751F] transition-colors hidden md:flex items-center gap-1.5 text-cream-200"
+            >
+              <LinkedInIcon className="w-3.5 h-3.5 fill-[#0A66C2]" />
+              <span>LinkedIn</span>
+            </a>
+            <span className="text-white/20 hidden md:inline">•</span>
             <a href="mailto:export@haresportswear.com" className="hover:text-[#FF751F] transition-colors hidden sm:flex items-center gap-1.5 text-cream-200">
               <Mail className="w-3.5 h-3.5 text-[#FF751F]" />
               <span>export@haresportswear.com</span>
@@ -749,6 +762,16 @@ export default function Navbar() {
               >
                 <MessageCircle className="w-4 h-4 text-emerald-600" />
                 <span>Chat Directly on WhatsApp</span>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/company/hare-sportswear"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs text-[#0A66C2] bg-blue-50/70 border border-blue-200/60 hover:bg-blue-100 transition-colors"
+              >
+                <LinkedInIcon className="w-4 h-4 fill-[#0A66C2]" />
+                <span>Follow Hare Sportswear on LinkedIn</span>
               </a>
             </div>
           </div>
