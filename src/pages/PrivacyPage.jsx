@@ -221,11 +221,11 @@ export default function PrivacyPage() {
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-xs pt-2">
-                <a href="mailto:privacy@haresportswear.com" className="text-[#FF751F] font-bold hover:underline">
-                  privacy@haresportswear.com
+                <a href="mailto:export@haresportswear.com" className="text-[#FF751F] font-bold hover:underline">
+                  export@haresportswear.com
                 </a>
                 <span>•</span>
-                <span>Address: Small Industrial Estate, Defence Road, Sialkot 51310, Pakistan</span>
+                <span>Address: Paris Road, Sialkot, Pakistan</span>
                 <span>•</span>
                 <Link to="/contact" className="px-4 py-2 rounded-xl bg-[#FF751F] text-white font-bold hover:bg-[#E65E08] transition-colors ml-auto">
                   Contact Compliance Desk

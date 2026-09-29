@@ -241,7 +241,7 @@ export default function TermsPage() {
                 8. Defect Claims, Inspection Window & Remediation
               </h2>
               <p>
-                The Buyer is granted a <strong>14 calendar day inspection window</strong> upon commercial receipt of the shipment. In the rare event that items fall below agreed AQL 2.5 specifications or exhibit sewing defects, the Buyer must document the variance with photographic evidence and submit a claim to <a href="mailto:quality@haresportswear.com" className="text-[#FF751F] font-bold hover:underline">quality@haresportswear.com</a>.
+                The Buyer is granted a <strong>14 calendar day inspection window</strong> upon commercial receipt of the shipment. In the rare event that items fall below agreed AQL 2.5 specifications or exhibit sewing defects, the Buyer must document the variance with photographic evidence and submit a claim to <a href="mailto:export@haresportswear.com" className="text-[#FF751F] font-bold hover:underline">export@haresportswear.com</a>.
               </p>
               <p>
                 Upon verification, Hare Sportswear will promptly:
@@ -290,7 +290,7 @@ export default function TermsPage() {
                   export@haresportswear.com
                 </a>
                 <span>•</span>
-                <span>Phone: +92 (52) 355-8901</span>
+                <span>Phone: +92 314 4634183</span>
                 <span>•</span>
                 <Link to="/contact" className="px-4 py-2 rounded-xl bg-[#FF751F] text-white font-bold hover:bg-[#E65E08] transition-colors ml-auto">
                   Contact Legal Desk

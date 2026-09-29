@@ -2240,7 +2240,7 @@ export default function CostEstimatorPage() {
                 </h4>
               </div>
               <a
-                href="https://wa.me/923001234567?text=Hi%20Hare%20Sportswear,%20I%20configured%20a%20custom%20sportswear%20batch%20on%20your%20Manufacturing%20Cost%20Calculator%20and%20would%20like%20to%20review%20physical%20sampling."
+                href="https://wa.me/923144634183?text=Hi%20Hare%20Sportswear,%20I%20configured%20a%20custom%20sportswear%20batch%20on%20your%20Manufacturing%20Cost%20Calculator%20and%20would%20like%20to%20review%20physical%20sampling."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white flex items-center gap-1.5 transition shrink-0"

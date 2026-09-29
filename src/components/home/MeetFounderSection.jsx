@@ -139,15 +139,15 @@ export default function MeetFounderSection() {
 
               {/* Action Buttons: LinkedIn Profile & Direct WhatsApp */}
               <div className="space-y-2 pt-1">
-                {/* LinkedIn Company Profile Button */}
+                {/* Founder's Personal LinkedIn Profile Button */}
                 <a
-                  href="https://www.linkedin.com/company/hare-sportswear"
+                  href="https://www.linkedin.com/in/ashban-rafique-6909a1395/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0A66C2] hover:bg-[#084e96] shadow-md hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
                 >
                   <LinkedInIcon className="w-4 h-4 fill-white" />
-                  <span>Connect with Hare Sportswear on LinkedIn</span>
+                  <span>Connect with Ashban on LinkedIn</span>
                   <ExternalLink className="w-3.5 h-3.5 opacity-80" />
                 </a>
 

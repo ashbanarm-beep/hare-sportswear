@@ -73,7 +73,7 @@ SUBMISSION INSTRUCTIONS:
 Attach this filled document along with your vector artwork files (.AI / .PDF)
 to Hare Sportswear via the RFQ Portal:
 https://haresportswear.com/contact
-Or directly to engineering: export@haresportswear.com | WhatsApp: +92 300 1234567
+Or directly to engineering: export@haresportswear.com | WhatsApp: +92 314 4634183
 ========================================================================
 `;
 

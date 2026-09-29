@@ -187,7 +187,7 @@ Team / Club Name: "${teamName}"
 You MUST respond strictly with a valid JSON object matching this schema without any markdown wrapping or backticks:
 {
   "concept": "A 2 to 3 sentence evocative, professional description of the aesthetic kit concept, detailing visual lines and athletic presence.",
-  "recommendedPattern": "geometric" | "stripes" | "hex" | "cyber" | "camo" | "minimal",
+  "recommendedPattern": "plain" | "geometric" | "stripes" | "hex" | "cyber" | "camo" | "minimal",
   "recommendedCollar": "v-neck" | "crew" | "mandarin",
   "pantoneCodes": [
     { "role": "Primary", "name": "Color Name", "pantone": "19-XXXX TCX", "hex": "#HEXHEX" },

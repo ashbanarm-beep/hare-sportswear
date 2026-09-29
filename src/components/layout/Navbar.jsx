@@ -192,7 +192,7 @@ export default function Navbar() {
             <span className="text-white/20 hidden sm:inline">•</span>
             <a href="https://wa.me/message/PBVPZM3J7ETGH1" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1 sm:gap-1.5 font-medium text-white">
               <MessageCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="hidden xs:inline sm:inline">WhatsApp: +92 300 1234567</span>
+              <span className="hidden xs:inline sm:inline">WhatsApp: +92 314 4634183</span>
               <span className="inline xs:hidden sm:hidden">WhatsApp</span>
             </a>
           </div>
@@ -556,7 +556,7 @@ export default function Navbar() {
 
             {/* Mobile-Only WhatsApp Icon Button */}
             <a
-              href="https://wa.me/923001234567?text=Hello%20Hare%20Sportswear,%20inquiry%20from%20mobile"
+              href="https://wa.me/923144634183?text=Hello%20Hare%20Sportswear,%20inquiry%20from%20mobile"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 sm:hidden"

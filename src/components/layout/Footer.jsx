@@ -5,7 +5,7 @@ import {
   Award, Globe, CheckCircle2, Send
 } from 'lucide-react';
 import BrandLogo from '../common/BrandLogo';
-import { LinkedInIcon, TwitterIcon, InstagramIcon, FacebookIcon } from '../common/SocialIcons';
+import { LinkedInIcon, TikTokIcon, InstagramIcon, FacebookIcon } from '../common/SocialIcons';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -88,14 +88,35 @@ export default function Footer() {
               >
                 <LinkedInIcon className="w-4 h-4" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-white/5 hover:bg-pink-500/20 hover:text-pink-400 transition-all border border-white/10 text-cream-300">
+              <a 
+                href="https://www.instagram.com/hare_sportswear?stkn=dXRtb2V6a2czc2xm" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Hare Sportswear Instagram"
+                title="Follow Hare Sportswear on Instagram"
+                className="p-2.5 rounded-lg bg-white/5 hover:bg-pink-500/20 hover:text-pink-400 transition-all border border-white/10 text-cream-300"
+              >
                 <InstagramIcon className="w-4 h-4" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-white/5 hover:bg-blue-600/20 hover:text-blue-400 transition-all border border-white/10 text-cream-300">
+              <a 
+                href="https://www.facebook.com/share/1D9c3GCW41/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Hare Sportswear Facebook"
+                title="Follow Hare Sportswear on Facebook"
+                className="p-2.5 rounded-lg bg-white/5 hover:bg-blue-600/20 hover:text-blue-400 transition-all border border-white/10 text-cream-300"
+              >
                 <FacebookIcon className="w-4 h-4" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-white/5 hover:bg-sky-400/20 hover:text-sky-300 transition-all border border-white/10 text-cream-300">
-                <TwitterIcon className="w-4 h-4" />
+              <a 
+                href="https://tiktok.com/@hare.sportswear" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Hare Sportswear TikTok"
+                title="Follow Hare Sportswear on TikTok"
+                className="p-2.5 rounded-lg bg-white/5 hover:bg-[#FF751F]/20 hover:text-[#FF751F] transition-all border border-white/10 text-cream-300"
+              >
+                <TikTokIcon className="w-4 h-4" />
               </a>
             </div>
 
@@ -238,7 +259,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#FF751F] shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  Plots 42-45, Phase II, Small Industrial Estate, Defence Road, Sialkot 51310, Punjab, Pakistan
+                  Paris Road, Sialkot, Pakistan
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -250,7 +271,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#FF751F] shrink-0" />
                 <span>
-                  +92 (52) 355-8901 / 8902
+                  +92 314 4634183
                 </span>
               </li>
               <li className="flex items-center gap-3">

@@ -1,6 +1,17 @@
 import React from 'react';
 
 export const HARE_LINKEDIN_URL = "https://www.linkedin.com/company/hare-sportswear";
+export const HARE_TIKTOK_URL = "https://tiktok.com/@hare.sportswear";
+export const HARE_INSTAGRAM_URL = "https://www.instagram.com/hare_sportswear?stkn=dXRtb2V6a2czc2xm";
+export const HARE_FACEBOOK_URL = "https://www.facebook.com/share/1D9c3GCW41/";
+
+export function TikTokIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .58.04.85.12V9.32a6.34 6.34 0 0 0-.85-.06A6.33 6.33 0 0 0 3.1 15.6a6.34 6.34 0 0 0 10.86 4.43c.47-.47.85-1.02 1.11-1.63.26-.62.39-1.28.39-1.95V9.05a8.27 8.27 0 0 0 5.13 1.83V7.45a4.87 4.87 0 0 1-1-.76z"/>
+    </svg>
+  );
+}
 
 export function LinkedInIcon({ className = "w-4 h-4" }) {
   return (

@@ -296,6 +296,7 @@ const PROMPT_INSPIRATIONS = [
 
 // Pattern Types
 const PATTERN_OPTIONS = [
+  { id: 'plain', label: 'Plain / Solid' },
   { id: 'geometric', label: 'Geometric Shards' },
   { id: 'stripes', label: 'Speed Chevrons' },
   { id: 'hex', label: 'Honeycomb Hex' },
@@ -509,14 +510,16 @@ export default function AIMockupGeneratorPage() {
     setTrimColor(trmHex);
 
     // Pick dynamic pattern based on prompt keywords
-    let pat = 'geometric';
+    let pat = 'plain';
     const pLower = activePrompt.toLowerCase();
-    if (pLower.includes('geometric') || pLower.includes('shard') || pLower.includes('polygon') || pLower.includes('triangl')) pat = 'geometric';
+    if (pLower.includes('plain') || pLower.includes('solid') || pLower.includes('blank') || pLower.includes('simple')) pat = 'plain';
+    else if (pLower.includes('geometric') || pLower.includes('shard') || pLower.includes('polygon') || pLower.includes('triangl')) pat = 'geometric';
     else if (pLower.includes('stripe') || pLower.includes('chevron') || pLower.includes('speed') || pLower.includes('line')) pat = 'stripes';
     else if (pLower.includes('hex') || pLower.includes('honeycomb') || pLower.includes('mesh')) pat = 'hex';
     else if (pLower.includes('cyber') || pLower.includes('grid') || pLower.includes('neon') || pLower.includes('matrix')) pat = 'cyber';
     else if (pLower.includes('camo') || pLower.includes('tactical') || pLower.includes('military')) pat = 'camo';
-    else if (pLower.includes('minimal') || pLower.includes('clean') || pLower.includes('solid')) pat = 'minimal';
+    else if (pLower.includes('minimal') || pLower.includes('clean')) pat = 'minimal';
+    else pat = 'geometric';
     setSelectedPattern(pat);
 
     setTechBOM(prev => ({
@@ -832,7 +835,7 @@ CUSTOM BRANDING CALLOUTS:
 TO SUBMIT THIS SPECIFICATION FOR OFFICIAL QUOTE:
 Visit https://hare-sportswear.vercel.app/contact
 Email: export@haresportswear.com
-WhatsApp: +92 300 1234567
+WhatsApp: +92 314 4634183
 =====================================================`;
 
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -2344,55 +2347,277 @@ WhatsApp: +92 300 1234567
                     <g id="sportsBraGroup">
                       {viewMode === 'front' ? (
                         <>
-                          {/* Front Silhouette: Scoop Neck & Supportive Bust Shell */}
+                          {/* Front Silhouette: Defined Bra Straps, Deep Scoop Neck & Contoured Bust Shell */}
                           <path
-                            d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z"
+                            d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
                             fill={primaryColor}
-                            stroke="#222"
+                            stroke="#18181B"
                             strokeWidth="2"
                           />
 
-                          {/* Pattern Overlay */}
-                          {selectedPattern === 'geometric' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patGeometric)" />}
-                          {selectedPattern === 'stripes' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patStripes)" />}
-                          {selectedPattern === 'hex' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patHex)" />}
-                          {selectedPattern === 'cyber' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patCyber)" />}
-                          {selectedPattern === 'camo' && <path d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z" fill="url(#patCamo)" />}
+                          {/* Pattern Overlays (Sublimated onto front cup & torso) */}
+                          {selectedPattern === 'geometric' && (
+                            <path
+                              d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                              fill="url(#patGeometric)"
+                            />
+                          )}
+                          {selectedPattern === 'stripes' && (
+                            <path
+                              d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                              fill="url(#patStripes)"
+                            />
+                          )}
+                          {selectedPattern === 'hex' && (
+                            <path
+                              d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                              fill="url(#patHex)"
+                            />
+                          )}
+                          {selectedPattern === 'cyber' && (
+                            <path
+                              d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                              fill="url(#patCyber)"
+                            />
+                          )}
+                          {selectedPattern === 'camo' && (
+                            <path
+                              d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                              fill="url(#patCamo)"
+                            />
+                          )}
 
-                          {/* Deep Front Scoop Neck Binding */}
-                          <path d="M 195 110 Q 250 165 305 110 Q 250 148 195 110 Z" fill={trimColor} stroke={secondaryColor} strokeWidth="1.5" />
+                          {/* Fabric Sheen Layer for Realism */}
+                          <path
+                            d="M 186 100 L 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100 L 314 100 C 324 130, 334 160, 336 192 C 334 220, 330 250, 326 272 C 290 282, 210 282, 174 272 C 170 250, 166 220, 164 192 C 166 160, 176 130, 186 100 Z"
+                            fill="url(#fabricSheen)"
+                          />
 
-                          {/* Ergonomic Princess Seams / Removable Pad Molding */}
-                          <path d="M 215 125 Q 208 195 230 268" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="3,2" />
-                          <path d="M 285 125 Q 292 195 270 268" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="3,2" />
+                          {/* Anatomical 3D Bust Molding Highlights */}
+                          <ellipse cx="218" cy="220" rx="22" ry="25" fill="#FFFFFF" opacity="0.08" transform="rotate(-10 218 220)" />
+                          <ellipse cx="282" cy="220" rx="22" ry="25" fill="#FFFFFF" opacity="0.08" transform="rotate(10 282 220)" />
 
-                          {/* Center Mesh Breather Vent */}
-                          <polygon points="242,160 258,160 250,188" fill={secondaryColor} opacity="0.75" />
+                          {/* Structured Bra Straps: Top Bar-tack Seams & Reinforcement Lines */}
+                          <line x1="186" y1="100" x2="214" y2="100" stroke={secondaryColor} strokeWidth="3" strokeLinecap="round" />
+                          <line x1="286" y1="100" x2="314" y2="100" stroke={secondaryColor} strokeWidth="3" strokeLinecap="round" />
+                          <path d="M 200 101 L 200 138" stroke={secondaryColor} strokeWidth="1" strokeDasharray="3,2" opacity="0.65" />
+                          <path d="M 300 101 L 300 138" stroke={secondaryColor} strokeWidth="1" strokeDasharray="3,2" opacity="0.65" />
 
-                          {/* Supportive High-Tension Underbust Band */}
-                          <path d="M 178 268 Q 250 278 322 268 L 320 298 Q 250 308 180 298 Z" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
-                          <line x1="184" y1="283" x2="316" y2="283" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+                          {/* Deep Front Scoop Neck Elastic Binding & Coverstitch */}
+                          <path
+                            d="M 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M 214 100 C 220 145, 236 185, 250 185 C 264 185, 280 145, 286 100"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="1.2"
+                            strokeDasharray="3,2"
+                          />
+
+                          {/* Left & Right Armhole Clean Elastic Edge Binding */}
+                          <path
+                            d="M 186 100 C 176 130, 166 160, 164 192"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M 314 100 C 324 130, 334 160, 336 192"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                          />
+
+                          {/* Ergonomic Princess Seams / Removable Pad Pocket Stitching */}
+                          <path
+                            d="M 205 120 C 195 170, 203 226, 224 274"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="4,2"
+                          />
+                          <path
+                            d="M 295 120 C 305 170, 297 226, 276 274"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="4,2"
+                          />
+
+                          {/* Center Chest Breathable Perforated Mesh Panel */}
+                          <polygon points="244,196 256,196 250,222" fill={secondaryColor} opacity="0.8" />
+                          <line x1="250" y1="222" x2="250" y2="274" stroke={secondaryColor} strokeWidth="1.5" strokeDasharray="3,2" opacity="0.75" />
+
+                          {/* STRUCTURED WIDE COMPRESSION UNDERBUST BOTTOM BAND */}
+                          {/* Main Elastic Band Body */}
+                          <path
+                            d="M 174 272 C 210 282, 290 282, 326 272 L 324 306 C 290 316, 210 316, 176 306 Z"
+                            fill="#141416"
+                            stroke={trimColor}
+                            strokeWidth="1.5"
+                          />
+                          {/* Top Attachment Overlock Coverstitch */}
+                          <path
+                            d="M 174 272 C 210 282, 290 282, 326 272"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="2"
+                          />
+                          {/* Middle Compression Ribbing / Tension Stripe */}
+                          <path
+                            d="M 175 289 C 210 299, 290 299, 325 289"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="5,2"
+                          />
+                          {/* Bottom Edge Lockstitch Hem */}
+                          <path
+                            d="M 176 304 C 210 314, 290 314, 324 304"
+                            fill="none"
+                            stroke="#383838"
+                            strokeWidth="1.5"
+                          />
+                          {/* Center Silicone Brand Label on Band */}
+                          <rect x="238" y="281" width="24" height="15" rx="3" fill="#222" stroke={secondaryColor} strokeWidth="0.8" />
+                          <text x="250" y="291" textAnchor="middle" fill={accentColor} fontSize="7" fontWeight="bold" letterSpacing="0.8">HARE</text>
                         </>
                       ) : (
                         <>
-                          {/* Back View: High-Impact Racerback Y-Strap Silhouette */}
+                          {/* Back View: Realistic High-Impact Racerback Y-Strap Silhouette */}
+                          {/* 1. Racerback Y-Back Strap & Spine Column */}
                           <path
-                            d="M 195 110 Q 250 120 305 110 L 332 155 Q 315 210 322 268 Q 250 278 178 268 Q 185 210 168 155 Z"
+                            d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
                             fill={primaryColor}
-                            stroke="#222"
+                            stroke="#18181B"
                             strokeWidth="2"
                           />
-                          {/* Scapula Blade Cutouts */}
-                          <path d="M 195 110 L 235 185 L 235 268 L 178 268 Q 185 210 168 155 Z" fill="#FAF8F5" stroke="#222" strokeWidth="1" />
-                          <path d="M 305 110 L 265 185 L 265 268 L 322 268 Q 315 210 332 155 Z" fill="#FAF8F5" stroke="#222" strokeWidth="1" />
 
-                          {/* Central Racerback Spine */}
-                          <path d="M 235 185 L 235 268 L 265 268 L 265 185 Q 250 160 235 185 Z" fill={secondaryColor} stroke={trimColor} strokeWidth="1.5" />
-                          <line x1="250" y1="180" x2="250" y2="268" stroke={accentColor} strokeWidth="2" strokeDasharray="3,2" />
+                          {/* Pattern Overlay on Racerback Spine */}
+                          {selectedPattern === 'geometric' && (
+                            <path
+                              d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                              fill="url(#patGeometric)"
+                            />
+                          )}
+                          {selectedPattern === 'stripes' && (
+                            <path
+                              d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                              fill="url(#patStripes)"
+                            />
+                          )}
+                          {selectedPattern === 'hex' && (
+                            <path
+                              d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                              fill="url(#patHex)"
+                            />
+                          )}
+                          {selectedPattern === 'cyber' && (
+                            <path
+                              d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                              fill="url(#patCyber)"
+                            />
+                          )}
+                          {selectedPattern === 'camo' && (
+                            <path
+                              d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                              fill="url(#patCamo)"
+                            />
+                          )}
 
-                          {/* Supportive High-Tension Underbust Band */}
-                          <path d="M 178 268 Q 250 278 322 268 L 320 298 Q 250 308 180 298 Z" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
-                          <line x1="184" y1="283" x2="316" y2="283" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+                          {/* 2. Left Lateral Rib Panel */}
+                          <path
+                            d="M 164 192 C 166 220, 170 250, 174 272 L 195 272 C 188 245, 178 215, 164 192 Z"
+                            fill={primaryColor}
+                            stroke="#18181B"
+                            strokeWidth="1.5"
+                          />
+                          {/* 3. Right Lateral Rib Panel */}
+                          <path
+                            d="M 336 192 C 334 220, 330 250, 326 272 L 305 272 C 312 245, 322 215, 336 192 Z"
+                            fill={primaryColor}
+                            stroke="#18181B"
+                            strokeWidth="1.5"
+                          />
+
+                          {/* Fabric Sheen on Back */}
+                          <path
+                            d="M 186 100 L 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100 L 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272 L 222 272 C 228 262, 232 248, 234 226 L 234 175 C 228 155, 196 130, 186 100 Z"
+                            fill="url(#fabricSheen)"
+                          />
+
+                          {/* Back Shoulder Bar-tack Seams */}
+                          <line x1="186" y1="100" x2="214" y2="100" stroke={secondaryColor} strokeWidth="3" strokeLinecap="round" />
+                          <line x1="286" y1="100" x2="314" y2="100" stroke={secondaryColor} strokeWidth="3" strokeLinecap="round" />
+
+                          {/* Upper Back Neckline Binding */}
+                          <path
+                            d="M 214 100 C 224 122, 238 132, 250 132 C 262 132, 276 122, 286 100"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                          />
+
+                          {/* Racerback Scapula Open Cutout Edge Bindings */}
+                          <path
+                            d="M 186 100 C 196 130, 228 155, 234 175 L 234 226 C 232 248, 228 262, 222 272"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3"
+                          />
+                          <path
+                            d="M 314 100 C 304 130, 272 155, 266 175 L 266 226 C 268 248, 272 262, 278 272"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="3"
+                          />
+
+                          {/* Center Spine Contrast Flatlock Seam */}
+                          <line x1="250" y1="135" x2="250" y2="272" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+
+                          {/* Central Technical Mesh Vent / Oval Keyhole Insert */}
+                          <ellipse cx="250" cy="205" rx="9" ry="18" fill="#18181B" stroke={secondaryColor} strokeWidth="1.2" />
+                          <line x1="250" y1="192" x2="250" y2="218" stroke={accentColor} strokeWidth="1" strokeDasharray="2,2" opacity="0.8" />
+
+                          {/* STRUCTURED WIDE COMPRESSION UNDERBUST BOTTOM BAND (BACK) */}
+                          <path
+                            d="M 174 272 C 210 282, 290 282, 326 272 L 324 306 C 290 316, 210 316, 176 306 Z"
+                            fill="#141416"
+                            stroke={trimColor}
+                            strokeWidth="1.5"
+                          />
+                          {/* Top Attachment Overlock Coverstitch */}
+                          <path
+                            d="M 174 272 C 210 282, 290 282, 326 272"
+                            fill="none"
+                            stroke={trimColor}
+                            strokeWidth="2"
+                          />
+                          {/* Middle Compression Ribbing / Tension Stripe */}
+                          <path
+                            d="M 175 289 C 210 299, 290 299, 325 289"
+                            fill="none"
+                            stroke={secondaryColor}
+                            strokeWidth="2"
+                            strokeDasharray="5,2"
+                          />
+                          {/* Bottom Edge Lockstitch Hem */}
+                          <path
+                            d="M 176 304 C 210 314, 290 314, 324 304"
+                            fill="none"
+                            stroke="#383838"
+                            strokeWidth="1.5"
+                          />
+                          {/* Subtle Reflective Center Heat-Transfer Bar on Back Band */}
+                          <rect x="242" y="286" width="16" height="5" rx="2" fill={accentColor} opacity="0.9" />
                         </>
                       )}
                     </g>

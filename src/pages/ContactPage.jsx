@@ -275,7 +275,7 @@ export default function ContactPage() {
                 <div>
                   <strong className="text-[#1A1A1A] block text-sm">Factory Plant Location</strong>
                   <span className="leading-relaxed mt-0.5 block">
-                    Plots 42-45, Phase II, Small Industrial Estate, Defence Road, Sialkot 51310, Punjab, Pakistan
+                    Paris Road, Sialkot, Pakistan
                   </span>
                 </div>
               </li>
@@ -283,13 +283,10 @@ export default function ContactPage() {
               <li className="flex items-start gap-3.5">
                 <Mail className="w-5 h-5 text-[#FF751F] shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[#1A1A1A] block text-sm">Direct Commercial Emails</strong>
+                  <strong className="text-[#1A1A1A] block text-sm">Direct Commercial Email</strong>
                   <div className="space-y-0.5 mt-0.5">
                     <a href="mailto:export@haresportswear.com" className="text-[#FF751F] font-bold hover:underline block">
-                      export@haresportswear.com (Export Director)
-                    </a>
-                    <a href="mailto:sampling@haresportswear.com" className="hover:text-[#1A1A1A] block">
-                      sampling@haresportswear.com (Tech Pack & Sampling)
+                      export@haresportswear.com
                     </a>
                   </div>
                 </div>
@@ -300,7 +297,7 @@ export default function ContactPage() {
                 <div>
                   <strong className="text-[#1A1A1A] block text-sm">Telephone Desk</strong>
                   <span className="block mt-0.5">
-                    +92 (52) 355-8901 / 8902 (09:00 - 18:00 PKT / GMT+5)
+                    +92 314 4634183 (09:00 - 18:00 PKT / GMT+5)
                   </span>
                 </div>
               </li>
