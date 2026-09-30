@@ -221,6 +221,19 @@ export const APPAREL_CATEGORIES = [
     icon: '👖',
     isBottom: true
   },
+  {
+    id: 'mens-compression-shorts',
+    name: "Men's Compression Shorts",
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    gender: 'men',
+    image: '/images/products/product-35-mens-compression-shorts.jpg',
+    defaultFabric: '240 GSM 85/15 Poly-Spandex Anti-Chafing Stretch',
+    collarStyles: ['waistband'],
+    silhouette: 'Ergonomic Hamstring Compression with Jacquard Elastic Band',
+    icon: '🩳',
+    isBottom: true
+  },
 
   // 4. Compression Wear & Baselayers
   {
@@ -433,7 +446,25 @@ export default function AIMockupGeneratorPage() {
   // Filtered apparel catalog by search term & active category tab
   const filteredApparelList = useMemo(() => {
     return APPAREL_CATEGORIES.filter((apparel) => {
-      const matchesGroup = activeCategoryFilter === 'all' || apparel.group === activeCategoryFilter;
+      let matchesGroup = false;
+      if (activeCategoryFilter === 'all') {
+        matchesGroup = true;
+      } else if (activeCategoryFilter === 'activewear') {
+        matchesGroup = (apparel.group === 'activewear' || apparel.category.includes("Men's Activewear")) && apparel.gender !== 'women';
+      } else if (activeCategoryFilter === 'compression') {
+        matchesGroup = apparel.group === 'compression' || apparel.id === 'mens-compression-shorts';
+      } else {
+        matchesGroup = apparel.group === activeCategoryFilter;
+      }
+
+      // Hard enforcement: ensure no women's items cross into Men's Activewear & Training
+      if (activeCategoryFilter === 'activewear' && (apparel.gender === 'women' || apparel.group === 'womens')) {
+        return false;
+      }
+      if (activeCategoryFilter === 'womens' && (apparel.gender === 'men' || apparel.group === 'activewear')) {
+        return false;
+      }
+
       const q = productSearchQuery.trim().toLowerCase();
       const matchesSearch = !q || 
         apparel.name.toLowerCase().includes(q) || 
@@ -2976,6 +3007,66 @@ WhatsApp: +92 314 4634183
                       <rect x="252" y="294" width="12" height="75" fill="#18181B" stroke="#000" strokeWidth="0.8" />
                       <rect x="252" y="325" width="12" height="26" fill="#D32F2F" />
                       <rect x="252" y="342" width="12" height="3" fill="#FFFFFF" />
+                    </g>
+                  )}
+
+                  {/* 18. MEN'S COMPRESSION SHORTS */}
+                  {selectedApparel.id === 'mens-compression-shorts' && (
+                    <g id="mensCompressionShortsGroup">
+                      {/* Wide Jacquard Elastic Waistband */}
+                      <rect x="165" y="145" width="170" height="28" fill="#18181B" stroke={trimColor} strokeWidth="1.5" />
+                      <line x1="167" y1="159" x2="333" y2="159" stroke={secondaryColor} strokeWidth="2" strokeDasharray="5,3" />
+                      <text x="250" y="163" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="900" fontFamily="sans-serif" letterSpacing="1.5">
+                        HARE ATHLETICS
+                      </text>
+
+                      {/* Left Compression Leg (Mid-Thigh Cut) */}
+                      <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+                      {/* Right Compression Leg (Mid-Thigh Cut) */}
+                      <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill={primaryColor} stroke="#18181B" strokeWidth="2" />
+
+                      {/* Ergonomic Groin Support Gusset */}
+                      <polygon points="248,220 250,210 252,220 250,260" fill={secondaryColor} />
+
+                      {/* Sublimated Pattern Overlay */}
+                      {selectedPattern === 'geometric' && (
+                        <g opacity="0.35">
+                          <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill="url(#patGeometric)" />
+                          <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill="url(#patGeometric)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'stripes' && (
+                        <g opacity="0.35">
+                          <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill="url(#patStripes)" />
+                          <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill="url(#patStripes)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'hex' && (
+                        <g opacity="0.35">
+                          <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill="url(#patHex)" />
+                          <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill="url(#patHex)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'cyber' && (
+                        <g opacity="0.35">
+                          <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill="url(#patCyber)" />
+                          <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill="url(#patCyber)" />
+                        </g>
+                      )}
+                      {selectedPattern === 'camo' && (
+                        <g opacity="0.35">
+                          <path d="M 165 173 Q 152 230 160 330 L 222 330 L 242 270 L 248 220 Z" fill="url(#patCamo)" />
+                          <path d="M 335 173 Q 348 230 340 330 L 278 330 L 258 270 L 252 220 Z" fill="url(#patCamo)" />
+                        </g>
+                      )}
+
+                      {/* Ergonomic Flatlock Quad & Hamstring Seams */}
+                      <path d="M 165 173 Q 185 240 192 330" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+                      <path d="M 335 173 Q 315 240 308 330" fill="none" stroke={secondaryColor} strokeWidth="2" strokeDasharray="4,2" />
+
+                      {/* Anti-Slip Silicone Thigh Grip Hem Bands */}
+                      <rect x="160" y="322" width="62" height="10" fill={trimColor} />
+                      <rect x="278" y="322" width="62" height="10" fill={trimColor} />
                     </g>
                   )}
 

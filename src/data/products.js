@@ -1,8 +1,8 @@
 export const categories = [
-  { id: 'all', name: 'All Products', count: 34 },
+  { id: 'all', name: 'All Products', count: 35 },
   { id: 'teamwear', name: 'Teamwear', count: 6 },
   { id: 'womens-activewear', name: "Sports Bras & Women's Activewear", count: 4 },
-  { id: 'activewear', name: "Men's Activewear & Training", count: 4 },
+  { id: 'activewear', name: "Men's Activewear & Training", count: 5 },
   { id: 'equipment', name: 'Sports Equipment & Goods', count: 20 },
 ];
 
@@ -17,7 +17,7 @@ export const activewearSubcategories = [
   { id: 'mens-hoodies', name: 'Hoodies & Fleece' },
   { id: 'mens-joggers', name: 'Joggers & Pants' },
   { id: 'mens-tees', name: 'Gym Training Tees' },
-  { id: 'mens-compression', name: 'Compression Rashguards' },
+  { id: 'mens-compression', name: 'Compression Shorts & Rashguards' },
 ];
 
 export const equipmentSubcategories = [
@@ -1166,5 +1166,38 @@ export const products = [
       'Contrasting Flatlock Seam Threads'
     ],
     sizes: ['XS (US 0-2)', 'S (US 4-6)', 'M (US 8-10)', 'L (US 12-14)', 'XL (US 16)']
+  },
+  {
+    id: 'prod-35',
+    name: "Men's Compression Shorts",
+    category: 'activewear',
+    subcategory: 'mens-compression',
+    gender: 'men',
+    sizingType: 'men-bottoms',
+    sport: 'Training / Running / MMA',
+    badge: 'Core Support',
+    material: 'Poly-Spandex Stretch Blend',
+    gsm: '240 GSM (85% Polyester / 15% Spandex)',
+    moq: '40 Pcs',
+    leadTime: '10-12 Days',
+    image: '/images/products/product-35-mens-compression-shorts.jpg',
+    gallery: [
+      '/images/products/product-35-mens-compression-shorts.jpg'
+    ],
+    description: "Engineered specifically for men's athletic training, heavy lifting, and combat sports. Features targeted groin and hamstring compression, flatlock anti-chafe seams, and a wide non-slip jacquard waistband. Strictly tailored for men's anatomical athletic fit and comfort.",
+    features: [
+      'Graduated muscle support stabilizes quadriceps and hamstrings',
+      'Reinforced ergonomic flatlock stitching prevents friction and chafing',
+      'Heavy-duty 1.5-inch elastic waistband stays securely anchored',
+      'High-density 4-way stretch fabric with shape retention recovery',
+      "Strictly tailored for men's anatomical athletic fit and comfort"
+    ],
+    customizationOptions: [
+      'Custom Woven Jacquard Waistband with Brand Logo',
+      'Heat Transfer Vinyl or Silicone 3D Brand Emblems',
+      'Sublimated Side Compression Accent Panels',
+      'Optional Concealed Inner Smartphone Pocket'
+    ],
+    sizes: ['S (30-32")', 'M (32-34")', 'L (34-36")', 'XL (36-38")', '2XL (38-40")', '3XL (40-42")']
   }
 ];

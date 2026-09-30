@@ -332,6 +332,21 @@ export const PRODUCTS_CATALOG = [
     weightKgPer100: 20,
     baseProdDays: 12
   },
+  {
+    id: 'mens-compression-shorts',
+    name: "Men's Compression Shorts",
+    shortName: "Men's Compression Shorts",
+    category: "Men's Activewear & Training",
+    group: 'activewear',
+    subtitle: '240 GSM 4-way stretch poly-spandex with flatlock anti-chafe seams & jacquard elastic waistband',
+    icon: '🩳',
+    hasTop: false,
+    hasBottom: true,
+    isEquipment: false,
+    basePriceTiers: { 25: 11.20, 50: 9.60, 100: 8.20, 250: 7.00, 500: 6.10, 1000: 5.20 },
+    weightKgPer100: 19,
+    baseProdDays: 12
+  },
 
   // 4. Compression Wear & Baselayers
   {
@@ -674,7 +689,25 @@ export default function CostEstimatorPage() {
   // Filtered Products Catalog by search & group tab
   const filteredProductsList = useMemo(() => {
     return PRODUCTS_CATALOG.filter((prod) => {
-      const matchesGroup = activeCategoryFilter === 'all' || prod.group === activeCategoryFilter;
+      let matchesGroup = false;
+      if (activeCategoryFilter === 'all') {
+        matchesGroup = true;
+      } else if (activeCategoryFilter === 'activewear') {
+        matchesGroup = (prod.group === 'activewear' || prod.category.toLowerCase().includes("men's activewear")) && !prod.category.toLowerCase().includes("women");
+      } else if (activeCategoryFilter === 'compression') {
+        matchesGroup = prod.group === 'compression' || prod.id === 'mens-compression-shorts';
+      } else {
+        matchesGroup = prod.group === activeCategoryFilter;
+      }
+
+      // Hard enforcement: ensure no women's items cross into Men's Activewear & Training
+      if (activeCategoryFilter === 'activewear' && (prod.group === 'womens' || prod.category.toLowerCase().includes('women'))) {
+        return false;
+      }
+      if (activeCategoryFilter === 'womens' && (prod.group === 'activewear' || prod.category.toLowerCase().includes('men'))) {
+        return false;
+      }
+
       const q = productSearchQuery.trim().toLowerCase();
       const matchesSearch = !q ||
         prod.name.toLowerCase().includes(q) ||
