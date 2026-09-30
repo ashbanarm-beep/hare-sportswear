@@ -73,7 +73,7 @@ export default function ToolsHubPage() {
       textColor: 'text-emerald-600',
       bgColor: 'bg-emerald-50',
       borderColor: 'border-emerald-200',
-      link: '/tools/cost-estimator',
+      link: '/tools/manufacturing-cost-calculator',
       features: [
         'Multi-part kit configuration (Jerseys, Shorts, Matching Sets)',
         'Technical GSM fabric weights & Tackle Twill vs Sublimation',

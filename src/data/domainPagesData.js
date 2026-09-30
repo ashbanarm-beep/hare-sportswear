@@ -40,7 +40,7 @@ export const DOMAIN_PAGES = [
   {
     id: 'custom-manufacturing',
     name: 'Custom Manufacturing (OEM/ODM)',
-    path: '/custom-manufacturing',
+    path: '/custom-sportswear-manufacturer',
     group: 'core',
     category: 'Core Platform',
     icon: '✂️',
@@ -58,7 +58,7 @@ export const DOMAIN_PAGES = [
   {
     id: 'about',
     name: 'About Us & Sialkot Heritage',
-    path: '/about',
+    path: '/about-us',
     group: 'core',
     category: 'Core Platform',
     icon: '🏭',
@@ -96,7 +96,7 @@ export const DOMAIN_PAGES = [
   {
     id: 'cost-estimator',
     name: 'Manufacturing Cost Calculator',
-    path: '/tools/cost-estimator',
+    path: '/tools/manufacturing-cost-calculator',
     group: 'tools',
     category: 'Digital Tools',
     icon: '🧮',

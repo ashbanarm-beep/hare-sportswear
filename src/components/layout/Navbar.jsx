@@ -145,7 +145,7 @@ export default function Navbar() {
     },
     {
       name: 'Manufacturing Cost Calculator',
-      path: '/tools/cost-estimator',
+      path: '/tools/manufacturing-cost-calculator',
       desc: 'Configure Jerseys & Shorts kits, fabric GSM, tackle twill vs sublimation & tiered factory pricing',
       badge: 'B2B Quotes',
       icon: Calculator,
@@ -316,7 +316,7 @@ export default function Navbar() {
 
             {/* Custom Manufacturing */}
             <NavLink
-              to="/custom-manufacturing"
+              to="/custom-sportswear-manufacturer"
               className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
@@ -519,7 +519,7 @@ export default function Navbar() {
 
             {/* About Us */}
             <NavLink
-              to="/about"
+              to="/about-us"
               className={({ isActive }) => `px-2.5 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-semibold transition-all duration-200 ${
                 isActive 
                   ? 'text-[#FF751F] bg-[#FF751F]/10 border border-[#FF751F]/20 shadow-xs' 
@@ -631,7 +631,7 @@ export default function Navbar() {
 
             {/* Custom Manufacturing */}
             <NavLink
-              to="/custom-manufacturing"
+              to="/custom-sportswear-manufacturer"
               className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
                 isActive
                   ? 'bg-[#FF751F]/15 text-[#FF751F]'
@@ -721,7 +721,7 @@ export default function Navbar() {
 
             {/* About Us */}
             <NavLink
-              to="/about"
+              to="/about-us"
               className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
                 isActive
                   ? 'bg-[#FF751F]/15 text-[#FF751F]'

@@ -106,7 +106,7 @@ export default function FabricGlossaryPage() {
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#A8A196] mb-6">
             <Link to="/" className="hover:text-[#FF751F] transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/custom-manufacturing" className="hover:text-[#FF751F] transition-colors">Resources</Link>
+            <Link to="/custom-sportswear-manufacturer" className="hover:text-[#FF751F] transition-colors">Resources</Link>
             <span>/</span>
             <span className="text-[#FF751F]">Fabric & Technical Glossary</span>
           </div>
@@ -633,7 +633,7 @@ export default function FabricGlossaryPage() {
               <p className="text-[#59554E] mb-3 leading-relaxed">
                 Explore our full OEM/ODM manufacturing pipeline, cutting tables, Monti Antonio sublimation presses, and stitching floors.
               </p>
-              <Link to="/custom-manufacturing" className="text-[#FF751F] font-bold hover:underline inline-flex items-center gap-1">
+              <Link to="/custom-sportswear-manufacturer" className="text-[#FF751F] font-bold hover:underline inline-flex items-center gap-1">
                 <span>View OEM Capabilities</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>

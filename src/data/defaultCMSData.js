@@ -13,71 +13,83 @@ export const defaultSEORegistry = {
     keywords: 'custom jerseys wholesale, wholesale activewear catalog, sports equipment manufacturer, private label gym wear',
     canonical: 'https://hare-sportswear.vercel.app/products'
   },
+  '/custom-sportswear-manufacturer': {
+    title: 'Custom Sportswear Manufacturer - Hare Sportswear',
+    description: 'Partner with Hare Sportswear, a premier Sialkot-based manufacturer, for high-quality custom teamwear, activewear, and athletic apparel designed for global brands.',
+    keywords: 'custom sportswear manufacturer, private label apparel OEM, tech pack sampling, dye sublimation sialkot',
+    canonical: 'https://www.haresportswear.com/custom-sportswear-manufacturer'
+  },
   '/custom-manufacturing': {
-    title: 'B2B Custom Sportswear Manufacturing & Private Label OEM/ODM | Sialkot',
-    description: 'Direct factory tech pack development, rapid 7-day physical sampling, Kiian Italian sublimation printing, and automated CNC laser cutting in Sialkot, Pakistan.',
-    keywords: 'custom sportswear manufacturing, private label apparel OEM, tech pack sampling, dye sublimation sialkot',
-    canonical: 'https://hare-sportswear.vercel.app/custom-manufacturing'
+    title: 'Custom Sportswear Manufacturer - Hare Sportswear',
+    description: 'Partner with Hare Sportswear, a premier Sialkot-based manufacturer, for high-quality custom teamwear, activewear, and athletic apparel designed for global brands.',
+    keywords: 'custom sportswear manufacturer, private label apparel OEM, tech pack sampling, dye sublimation sialkot',
+    canonical: 'https://www.haresportswear.com/custom-sportswear-manufacturer'
   },
   '/quality': {
     title: 'AQL 2.5 Quality Assurance & Garment Lab Testing | Hare Sportswear',
     description: 'Comprehensive AQL 2.5 statistical audit inspections, ISO 9001 certified sewing floors, spectrophotometer color matching, and dual-needle metal detection.',
     keywords: 'AQL 2.5 inspection, sportswear quality control, garment testing sialkot, ISO 9001 apparel factory',
-    canonical: 'https://hare-sportswear.vercel.app/quality'
+    canonical: 'https://www.haresportswear.com/quality'
+  },
+  '/about-us': {
+    title: 'About Hare Sportswear',
+    description: 'Discover Hare Sportswear, a trusted Sialkot-based B2B manufacturer specializing in precision craftsmanship, rapid sampling, and global export of athletic goods.',
+    keywords: 'about hare sportswear, sialkot sports heritage, ethical garment factory pakistan, athletic wear history',
+    canonical: 'https://www.haresportswear.com/about-us'
   },
   '/about': {
-    title: 'About Hare Sportswear | 40+ Years Athletic Apparel Manufacturing Heritage',
-    description: 'Discover the craftsmanship heritage of Hare Sportswear & Goods. Ethically compliant workforce, renewable solar-powered plant, and global sports brand partner.',
+    title: 'About Hare Sportswear',
+    description: 'Discover Hare Sportswear, a trusted Sialkot-based B2B manufacturer specializing in precision craftsmanship, rapid sampling, and global export of athletic goods.',
     keywords: 'about hare sportswear, sialkot sports heritage, ethical garment factory pakistan, athletic wear history',
-    canonical: 'https://hare-sportswear.vercel.app/about'
+    canonical: 'https://www.haresportswear.com/about-us'
   },
   '/contact': {
     title: 'Request Bulk Quotation & Free Tech Pack Audit | Hare Sportswear B2B',
     description: 'Submit your tech pack or rough artwork. Our Sialkot garment engineers provide free BOM reviews, tiered factory pricing, and sampling schedules within 24 hours.',
     keywords: 'request sportswear quote, RFQ garment factory, tech pack audit, contact sialkot manufacturer',
-    canonical: 'https://hare-sportswear.vercel.app/contact'
+    canonical: 'https://www.haresportswear.com/contact'
   },
   '/blog': {
-    title: 'Sportswear Engineering, Tech Packs & Textile Intel Blog | Hare Sportswear',
-    description: 'Expert industry insights on constructing sportswear tech packs, GSM fabric selection, dye sublimation unit economics, and Sialkot supply chain dynamics.',
+    title: 'Blog Posts - Hare Sportswear',
+    description: 'Explore industry insights, sportswear manufacturing guides, B2B export trends, and expert tips from Hare Sportswear.',
     keywords: 'sportswear manufacturing blog, tech pack guide, dye sublimation vs screen print, fabric gsm guide',
-    canonical: 'https://hare-sportswear.vercel.app/blog'
+    canonical: 'https://www.haresportswear.com/blog'
   },
   '/tools': {
     title: 'Digital Sportswear Pre-Press & Manufacturing Engineering Suite | Tools',
     description: 'Explore our digital textile tools: Pantone PMS Color Matcher, 4-Color Athletic Palette & Jersey Simulator, and Instant Production Cost & Lead Time Estimator.',
     keywords: 'sportswear design tools, pantone color matcher, palette kit generator, apparel cost estimator',
-    canonical: 'https://hare-sportswear.vercel.app/tools'
+    canonical: 'https://www.haresportswear.com/tools'
   },
   '/tools/ai-mockup-generator': {
     title: 'AI Sportswear Mockup & Prototype Generator | Hare Sportswear Sialkot',
     description: 'Generate photorealistic custom sports mockups, digital apparel prototypes, and Pantone color BOM specifications with Google Gemini AI. Instant 1600px PNG downloads and RFQ quote attachment.',
     keywords: 'ai sportswear mockup, gemini apparel generator, custom jersey prototype, digital sportswear design, sialkot sports manufacturing',
-    canonical: 'https://hare-sportswear.vercel.app/tools/ai-mockup-generator'
+    canonical: 'https://www.haresportswear.com/tools/ai-mockup-generator'
   },
   '/tools/pantone-matcher': {
     title: 'Pantone PMS Color Matcher for Sublimation Inks | Hare Sportswear',
     description: 'Convert HEX & RGB artwork colors directly into official Pantone Textile (PMS) codes and Italian Kiian sublimation disperse ink formulations.',
     keywords: 'pantone color matcher, sublimation pantone tool, textile color converter, kiian ink formulation',
-    canonical: 'https://hare-sportswear.vercel.app/tools/pantone-matcher'
+    canonical: 'https://www.haresportswear.com/tools/pantone-matcher'
   },
   '/tools/palette-generator': {
-    title: 'Athletic Uniform Color Palette Generator & Live Kit Preview | Studio',
-    description: 'Generate high-contrast, broadcast-compliant uniform color harmonies with live vector kit previews and slot locking for your sports teamwear collection.',
+    title: 'Palette Generator',
+    description: 'Explore vibrant color palettes and Pantone-inspired shades tailored for custom activewear design, team jerseys, and sportswear branding.',
     keywords: 'athletic palette generator, team kit visualizer, uniform color scheme builder, jersey color designer',
-    canonical: 'https://hare-sportswear.vercel.app/tools/palette-generator'
-  },
-  '/tools/cost-estimator': {
-    title: 'Manufacturing Cost Calculator | Custom Jerseys, Shorts & Sports Apparel | Hare Sportswear',
-    description: 'Calculate live tiered factory manufacturing costs for custom sports jerseys, shorts, and full kits. Select fabric GSM, tackle twill vs sublimation, size curves, and DDP landed freight.',
-    keywords: 'manufacturing cost calculator, custom jerseys cost, sportswear manufacturing price, sublimation vs tackle twill pricing, sialkot factory direct',
-    canonical: 'https://hare-sportswear.vercel.app/tools/cost-estimator'
+    canonical: 'https://www.haresportswear.com/tools/palette-generator'
   },
   '/tools/manufacturing-cost-calculator': {
-    title: 'Manufacturing Cost Calculator | Custom Jerseys, Shorts & Sports Apparel | Hare Sportswear',
-    description: 'Calculate live tiered factory manufacturing costs for custom sports jerseys, shorts, and full kits. Select fabric GSM, tackle twill vs sublimation, size curves, and DDP landed freight.',
+    title: 'Manufacturing Cost Calculator',
+    description: 'Estimate your production expenses instantly using our professional sportswear manufacturing cost calculator. Tailored for OEM and B2B apparel brands.',
     keywords: 'manufacturing cost calculator, custom jerseys cost, sportswear manufacturing price, sublimation vs tackle twill pricing, sialkot factory direct',
-    canonical: 'https://hare-sportswear.vercel.app/tools/cost-estimator'
+    canonical: 'https://www.haresportswear.com/tools/manufacturing-cost-calculator'
+  },
+  '/tools/cost-estimator': {
+    title: 'Manufacturing Cost Calculator',
+    description: 'Estimate your production expenses instantly using our professional sportswear manufacturing cost calculator. Tailored for OEM and B2B apparel brands.',
+    keywords: 'manufacturing cost calculator, custom jerseys cost, sportswear manufacturing price, sublimation vs tackle twill pricing, sialkot factory direct',
+    canonical: 'https://www.haresportswear.com/tools/manufacturing-cost-calculator'
   },
   '/fabric-glossary': {
     title: 'Technical Sportswear Fabric Glossary & Material Specs | Hare Sportswear',

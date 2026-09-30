@@ -42,12 +42,21 @@ export default function SEOHead() {
         keywordsTag.setAttribute('content', seo.keywords);
       }
 
-      // 4. Update OpenGraph Tags
+      // 4. Update Meta Title & Social Tags
+      const metaTitle = document.querySelector('meta[name="title"]');
+      if (metaTitle && seo.title) metaTitle.setAttribute('content', seo.title);
+
       const ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) ogTitle.setAttribute('content', seo.title || document.title);
 
+      const twTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twTitle) twTitle.setAttribute('content', seo.title || document.title);
+
       const ogDesc = document.querySelector('meta[property="og:description"]');
       if (ogDesc) ogDesc.setAttribute('content', seo.description || '');
+
+      const twDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twDesc) twDesc.setAttribute('content', seo.description || '');
 
       const ogUrl = document.querySelector('meta[property="og:url"]');
       if (ogUrl) ogUrl.setAttribute('content', window.location.href);

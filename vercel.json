@@ -30,6 +30,28 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/custom-manufacturing",
+      "destination": "/custom-sportswear-manufacturer",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/tools/cost-estimator",
+      "destination": "/tools/manufacturing-cost-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/cost-estimator",
+      "destination": "/tools/manufacturing-cost-calculator",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",

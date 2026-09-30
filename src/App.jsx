@@ -74,9 +74,11 @@ function MainAppShell() {
             {/* Primary Customer Pages */}
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
-            <Route path="/custom-manufacturing" element={<CustomManufacturingPage />} />
+            <Route path="/custom-sportswear-manufacturer" element={<CustomManufacturingPage />} />
+            <Route path="/custom-manufacturing" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/quality" element={<QualityPage />} />
-            <Route path="/about" element={<AboutPage />} />
+            <Route path="/about-us" element={<AboutPage />} />
+            <Route path="/about" element={<Navigate to="/about-us" replace />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
@@ -103,10 +105,10 @@ function MainAppShell() {
             <Route path="/pantone-matcher" element={<Navigate to="/tools/pantone-matcher" replace />} />
             <Route path="/tools/palette-generator" element={<PaletteGeneratorPage />} />
             <Route path="/palette-generator" element={<Navigate to="/tools/palette-generator" replace />} />
-            <Route path="/tools/cost-estimator" element={<CostEstimatorPage />} />
-            <Route path="/cost-estimator" element={<Navigate to="/tools/cost-estimator" replace />} />
             <Route path="/tools/manufacturing-cost-calculator" element={<CostEstimatorPage />} />
-            <Route path="/manufacturing-cost-calculator" element={<Navigate to="/tools/cost-estimator" replace />} />
+            <Route path="/tools/cost-estimator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
+            <Route path="/cost-estimator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
+            <Route path="/manufacturing-cost-calculator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
 
             {/* Fabric Glossary Hub & Aliases */}
             <Route path="/fabric-glossary" element={<FabricGlossaryPage />} />
@@ -145,9 +147,9 @@ function MainAppShell() {
             {/* High-traffic standard B2B Aliases & Route Redirects */}
             <Route path="/sports-wear-manufacturer" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
             <Route path="/sports-wear-manufacturers" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
-            <Route path="/services" element={<Navigate to="/custom-manufacturing" replace />} />
-            <Route path="/oem" element={<Navigate to="/custom-manufacturing" replace />} />
-            <Route path="/manufacturing" element={<Navigate to="/custom-manufacturing" replace />} />
+            <Route path="/services" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/oem" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/manufacturing" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/factory" element={<Navigate to="/quality" replace />} />
             <Route path="/catalog" element={<Navigate to="/products" replace />} />
             <Route path="/rfq" element={<Navigate to="/contact" replace />} />

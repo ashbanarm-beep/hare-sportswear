@@ -197,7 +197,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/about-us" className="hover:text-[#FF751F] transition-colors">
                   Factory & Ethics
                 </Link>
               </li>
@@ -231,7 +231,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/tools/cost-estimator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
+                <Link to="/tools/manufacturing-cost-calculator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
                   <span>⚡</span>
                   <span>Manufacturing Cost Calculator</span>
                 </Link>
