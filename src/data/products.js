@@ -1,9 +1,17 @@
 export const categories = [
-  { id: 'all', name: 'All Products', count: 35 },
+  { id: 'all', name: 'All Products', count: 39 },
   { id: 'teamwear', name: 'Teamwear', count: 6 },
   { id: 'womens-activewear', name: "Sports Bras & Women's Activewear", count: 4 },
   { id: 'activewear', name: "Men's Activewear & Training", count: 5 },
-  { id: 'equipment', name: 'Sports Equipment & Goods', count: 20 },
+  { id: 'sports-caps', name: 'Sports Caps & Headwear', count: 3 },
+  { id: 'equipment', name: 'Sports Equipment & Goods', count: 21 },
+];
+
+export const sportsCapsSubcategories = [
+  { id: 'all-caps', name: 'All Caps & Headwear' },
+  { id: 'baseball-caps', name: 'Baseball & Performance Caps' },
+  { id: 'running-visors', name: 'Athletic Running Visors' },
+  { id: 'beanies', name: 'Athletic Beanies & Skull Caps' },
 ];
 
 export const womensSubcategories = [
@@ -51,7 +59,11 @@ export const materialTypes = [
   'Heavy-Duty Synthetic Leather & Alloy',
   'Reinforced High-Tensile PU & Vinyl',
   'High-Density EVA Foam & Polymer Shell',
-  'Honeycomb Mesh & Gum Rubber Sole'
+  'Honeycomb Mesh & Gum Rubber Sole',
+  'Breathable Poly-Cotton & Laser-Cut Mesh',
+  'Ultra-Lightweight Hydrophobic Poly Blend',
+  'Thermal Ribbed Acrylic / Elastane Knit',
+  'High-Impact Carbon Fiber & EVA Cushion'
 ];
 
 export const products = [
@@ -1199,5 +1211,177 @@ export const products = [
       'Optional Concealed Inner Smartphone Pocket'
     ],
     sizes: ['S (30-32")', 'M (32-34")', 'L (34-36")', 'XL (36-38")', '2XL (38-40")', '3XL (40-42")']
+  },
+  {
+    id: 'prod-36',
+    name: 'Performance Baseball Cap',
+    category: 'sports-caps',
+    subcategory: 'baseball-caps',
+    gender: 'unisex',
+    sizingType: 'headwear',
+    sport: 'Golf / Running / Athletic Training',
+    badge: 'Laser Perforated',
+    material: 'Breathable Poly-Cotton & Laser-Cut Mesh',
+    gsm: '180 GSM (Quick-Dry Poly / Elastane)',
+    moq: '50 Pcs',
+    leadTime: '7-10 Days',
+    image: '/images/products/performance-baseball-cap.webp',
+    gallery: [
+      '/images/products/performance-baseball-cap.webp',
+      '/images/products/Performance Baseball Cap_.webp',
+      '/images/products/product-36.webp'
+    ],
+    description: 'Custom manufactured high-performance rope snapback baseball caps featuring precision laser-cut perforated ventilation panels, structured 5-panel crown, quick-drying sweatband, and braided rope visor accent. Tailored for golf tournaments, marathon teams, and athletic lifestyle brands with 3D embroidery and rubber silicone crest support.',
+    features: [
+      'Laser-perforated side and rear panels for maximum airflow & thermoregulation',
+      'Anti-microbial, moisture-wicking internal sweatband prevents drip',
+      'Retro braided front visor rope trim with matching snapback closure',
+      'Structured 5-panel crown with reinforced buckram backing',
+      'Pre-curved water-repellent performance brim'
+    ],
+    gearSpecs: {
+      crownProfile: 'Structured 5-Panel with Buckram Reinforcement',
+      ventilation: 'Precision Laser-Perforated Side & Rear Panels',
+      visorAccent: 'Braided Retro Rope Cord with Matching Snapback',
+      sweatband: 'Moisture-Wicking Anti-Odor Terry Cushion',
+      embroidery: '3D High-Density Tajima Puff & Sonic-Welded Rubber Badges',
+      sizing: 'Adjustable Snapback (54 - 62 cm Circumference)'
+    },
+    customizationOptions: [
+      '3D Puff Embroidery, Flat Tajima Stitching, or Sonic-Welded Rubber Badges',
+      'Custom Printed or Jacquard Under-Brim Artwork',
+      'Laser-Etched Metal Buckle or Premium Snapback Enclosure',
+      'Custom Woven Internal Labeling & Seam Taping with Brand Logo'
+    ],
+    sizes: ['One Size Fits Most (Adjustable Snapback / Flex Strap 54-62cm)']
+  },
+  {
+    id: 'prod-37',
+    name: 'Running Visor',
+    category: 'sports-caps',
+    subcategory: 'running-visors',
+    gender: 'unisex',
+    sizingType: 'headwear',
+    sport: 'Running / Tennis / Triathlon / Pickleball',
+    badge: 'Featherlight',
+    material: 'Ultra-Lightweight Hydrophobic Poly Blend',
+    gsm: '140 GSM (100% Recycled Hydrophobic Poly)',
+    moq: '50 Pcs',
+    leadTime: '7-10 Days',
+    image: '/images/products/running-visor.webp',
+    gallery: [
+      '/images/products/running-visor.webp',
+      '/images/products/Running Visor_.webp',
+      '/images/products/product-37.webp'
+    ],
+    description: 'Ultra-lightweight aerodynamic athletic running visor engineered for endurance runners, tennis athletes, and outdoor sports. Features a curved glare-reducing brim, quick-drying absorbent terry forehead band, and a snag-free adjustable elastic hook-and-loop strap.',
+    features: [
+      'Curved ergonomic sun-shield bill with dark anti-glare under-visor',
+      'Plush moisture-absorbing microfiber terry sweatband along the brow',
+      'Open-crown design promotes maximum scalp heat dissipation during endurance training',
+      'Soft-touch snag-free micro hook-and-loop back strap for custom fit',
+      'Sublimation-ready front panels for vibrant custom club and event branding'
+    ],
+    gearSpecs: {
+      design: 'Aerodynamic Open-Crown Maximum Heat Dissipation',
+      visorPeak: 'Pre-Curved Glare-Reducing Dark Underbill',
+      innerBand: 'Absorbent Microfiber Terry Toweling Brow Cushion',
+      fastener: 'Snag-Free Elastic Micro Hook-and-Loop Adjustment Strap',
+      weight: 'Featherlight ~48g Ergonomic Construction',
+      customPrinting: 'Dye Sublimation, Heat Transfer & 3M Reflective Accents'
+    },
+    customizationOptions: [
+      'High-Density Screen Print, Heat-Transfer Reflective Logo, or Flat Embroidery',
+      'Custom All-Over Sublimation on Crown Band and Peak',
+      'Reflective 3M Piping along the Brim Edge for Night Running',
+      'Branded Elastic or Velcro Adjuster Straps'
+    ],
+    sizes: ['Adjustable Unisex Fit (52-60cm Head Circumference)']
+  },
+  {
+    id: 'prod-38',
+    name: 'Seamless Unisex Athletic Beanie',
+    category: 'sports-caps',
+    subcategory: 'beanies',
+    gender: 'unisex',
+    sizingType: 'headwear',
+    sport: 'Cold Weather Training / Winter Sports / Running',
+    badge: 'Thermal Comfort',
+    material: 'Thermal Ribbed Acrylic / Elastane Knit',
+    gsm: '220 GSM Seamless Fine-Gauge Knit',
+    moq: '50 Pcs',
+    leadTime: '8-12 Days',
+    image: '/images/products/seamless-unisex-athletic-beanie.jpg',
+    gallery: [
+      '/images/products/seamless-unisex-athletic-beanie.jpg',
+      '/images/products/Seamless Unisex Athletic Beanie_.jpg',
+      '/images/products/product-38.jpg'
+    ],
+    description: 'Engineered seamless thermal performance athletic beanie designed for winter workouts, running, cycling under-helmet wear, and training in low temperatures. Constructed with micro-mesh breathable crown knit for temperature regulation and snug folded cuff for ear protection.',
+    features: [
+      'Dual-texture seamless circular knit: dense earband with micro-vented crown',
+      'Thermal insulating yarn traps body heat while expelling excess perspiration',
+      'Low-profile snug fit suitable to wear independently or beneath ski/cycling helmets',
+      '4-way shape memory elasticity holds form after repetitive washing cycles',
+      'Skin-friendly hypoallergenic, anti-static acrylic/polyester fiber blend'
+    ],
+    gearSpecs: {
+      knitType: 'Seamless Circular Ribbed Knit with Crown Vent Zones',
+      thermalRating: 'Sub-Zero Cold Weather Insulation with Breathable Top',
+      fitProfile: 'Low-Bulk Skull Cap / Under-Helmet Compatible',
+      elasticity: '4-Way Shape-Memory Spandex Blend Yarn',
+      brandingOptions: 'Fold-Over Damask Woven Label or Direct Tajima Embroidery',
+      headCircumference: 'Unisex Stretch Retention (54 - 61 cm)'
+    },
+    customizationOptions: [
+      '3D Tajima Direct Embroidery or Fold-Over Branded Woven Damask Label',
+      'Laser-Cut Embossed Faux Leather or Silicon Rubber Patch',
+      'Jacquard Pattern Knit directly into the crown fabric',
+      'Reflective Safety Yarns or 3M Logo Printing'
+    ],
+    sizes: ['One Size Fits Most (High Stretch Retention 54-61cm)']
+  },
+  {
+    id: 'prod-39',
+    name: 'Pro-Shield Soccer Shin Pads',
+    category: 'equipment',
+    subcategory: 'team-sports',
+    gender: 'unisex',
+    sizingType: 'gear',
+    sport: 'Soccer / Football / Futsal',
+    badge: 'Carbon Tech',
+    material: 'High-Impact Carbon Fiber & EVA Cushion',
+    gsm: 'Multi-layer composite shell + 8mm EVA foam',
+    moq: '50 Pairs',
+    leadTime: '10-14 Days',
+    image: '/images/products/soccer-shin-pads.jpg',
+    gallery: [
+      '/images/products/soccer-shin-pads.jpg',
+      '/images/products/Soccer Shin Pads.jpg',
+      '/images/products/product-39.jpg'
+    ],
+    description: 'Tournament-ready lightweight carbon fiber texture soccer shin guards engineered for elite impact resistance. Backed with shock-dispersing high-density grooved EVA foam padding and accompanied by dual adjustable elastic retention straps for slip-free lock-in during intense 90-minute competitive matches.',
+    features: [
+      'High-rigidity contoured polypropylene shell with high-gloss carbon fiber weave finish',
+      '8mm perforated grooved EVA cushioning absorbs over 90% of direct kick impacts',
+      'Ergonomic asymmetrical anatomical curve for dedicated left and right leg fit',
+      'Detachable dual elastic hook-and-loop security straps prevent mid-match shifting',
+      'Breathable moisture-wicking back liner keeps shins cool and dry under soccer socks'
+    ],
+    gearSpecs: {
+      impactStandard: 'CE EN 13061 Certified Football Protection',
+      shellComposition: 'High-Rigidity Contoured Polypropylene with Carbon Weave Lamination',
+      cushioningBacking: '8mm Perforated Grooved Shock-Dispersing EVA Foam',
+      closureSystem: 'Dual Detachable Quick-Release Elastic Hook-and-Loop Fasteners',
+      ergonomicFit: 'Anatomical Left / Right Asymmetric Leg Contours',
+      weight: 'Approx. 85g per guard (Featherlight Competition Grade)'
+    },
+    customizationOptions: [
+      'Custom Club Crest & Sponsor Printing directly onto the carbon-textured shell',
+      'Custom Colored EVA Foam Backing (PMS Color Matching)',
+      'Branded Elastic Fastening Sleeves or Hook-and-Loop Straps',
+      'Custom Retail Presentation Box or Mesh Drawstring Carrier Pouch'
+    ],
+    sizes: ['XS (Kids <120cm)', 'S (Youth 120-140cm)', 'M (Adult 140-165cm)', 'L (Pro Adult 165-190cm)']
   }
 ];

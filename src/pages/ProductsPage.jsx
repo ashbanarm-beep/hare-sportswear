@@ -4,7 +4,7 @@ import {
   Search, Filter, SlidersHorizontal, Check, Eye, 
   ArrowRight, Sparkles, Layers, ShieldCheck, X 
 } from 'lucide-react';
-import { products, categories, equipmentSubcategories, activewearSubcategories, womensSubcategories, materialTypes } from '../data/products';
+import { products, categories, equipmentSubcategories, activewearSubcategories, womensSubcategories, sportsCapsSubcategories, materialTypes } from '../data/products';
 import ProductDetailModal from '../components/products/ProductDetailModal';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import PageFAQSection from '../components/common/PageFAQSection';
@@ -38,6 +38,7 @@ export default function ProductsPage() {
       if (cat === 'equipment') setSelectedSubcategory('all-equipment');
       else if (cat === 'womens-activewear') setSelectedSubcategory('all-womens');
       else if (cat === 'activewear') setSelectedSubcategory('all-activewear');
+      else if (cat === 'sports-caps') setSelectedSubcategory('all-caps');
       else setSelectedSubcategory('all');
     }
   }, [searchParams]);
@@ -86,6 +87,11 @@ export default function ProductsPage() {
           selectedSubcategory === 'all-activewear' || 
           selectedSubcategory === 'all' || 
           item.subcategory === selectedSubcategory;
+      } else if (selectedCategory === 'sports-caps') {
+        matchesSubcategory = 
+          selectedSubcategory === 'all-caps' || 
+          selectedSubcategory === 'all' || 
+          item.subcategory === selectedSubcategory;
       }
 
       // 3. Material Matching
@@ -106,6 +112,7 @@ export default function ProductsPage() {
     if (catId === 'equipment') defaultSub = 'all-equipment';
     else if (catId === 'womens-activewear') defaultSub = 'all-womens';
     else if (catId === 'activewear') defaultSub = 'all-activewear';
+    else if (catId === 'sports-caps') defaultSub = 'all-caps';
     setSelectedSubcategory(defaultSub);
 
     if (catId === 'all') {
@@ -130,7 +137,9 @@ export default function ProductsPage() {
               ? "Women's Technical Apparel Line"
               : selectedCategory === 'activewear'
                 ? "Men's Activewear & Training Line"
-                : "OEM / ODM Manufacturing Catalog"}
+                : selectedCategory === 'sports-caps'
+                  ? "Sports Caps & Athletic Headwear Division"
+                  : "OEM / ODM Manufacturing Catalog"}
           </span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-[#1A1A1A]">
@@ -138,14 +147,18 @@ export default function ProductsPage() {
             ? "Sports Bras & Women's Activewear"
             : selectedCategory === 'activewear'
               ? "Men's Activewear & Training"
-              : "Wholesale Products & Technical Apparel"}
+              : selectedCategory === 'sports-caps'
+                ? "Sports Caps & Athletic Headwear"
+                : "Wholesale Products & Technical Apparel"}
         </h1>
         <p className="text-sm sm:text-base text-[#595856] max-w-3xl leading-relaxed">
           {selectedCategory === 'womens-activewear'
             ? "Engineered specifically for women's athletic silhouettes, high-impact bust support, and squat-proof compression. Strictly dedicated to women's apparel with bespoke tech pack grading, custom molded pads, and zero men's options."
             : selectedCategory === 'activewear'
               ? "Engineered specifically for men's athletic training, heavy lifting, and gym streetwear. Strictly dedicated to men's cuts, reinforced bar-tacks, heavy French Terry, and compression rashguards with zero women's garments mixed in."
-              : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
+              : selectedCategory === 'sports-caps'
+                ? "OEM / ODM custom sports caps, athletic running visors, and thermal knit beanies. Manufactured with laser-cut perforations, quick-dry performance sweatbands, and precision 3D Tajima embroidery for athletic teams, tournaments, and lifestyle brands."
+                : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
         </p>
       </div>
 
@@ -275,6 +288,41 @@ export default function ProductsPage() {
           <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200/80 font-medium">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
             <span>Strictly Dedicated Men's Athletic Patterns • Zero Women's Styles</span>
+          </div>
+        </div>
+      )}
+
+      {/* Sports Caps Division Subcategories (Shown when Sports Caps & Headwear is selected) */}
+      {selectedCategory === 'sports-caps' && (
+        <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2 scrollbar-none animate-fadeIn flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A847A] whitespace-nowrap mr-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FF751F]"></span>
+              <span>Headwear Line:</span>
+            </span>
+            {sportsCapsSubcategories.map((sub) => (
+              <button
+                key={sub.id}
+                onClick={() => {
+                  setSelectedSubcategory(sub.id);
+                  const params = new URLSearchParams(searchParams);
+                  params.set('sub', sub.id);
+                  setSearchParams(params);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedSubcategory === sub.id
+                    ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
+                    : 'bg-white border border-[#E5DFD5] text-[#595856] hover:text-[#1A1A1A] hover:bg-[#FAF8F3]'
+                }`}
+              >
+                {sub.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-amber-700 bg-amber-50 px-3 py-1 rounded-xl border border-amber-200/80 font-medium">
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+            <span>Laser-Perforated &bull; 3D Tajima Embroidery &bull; Custom Snapback/Visor Sizing</span>
           </div>
         </div>
       )}

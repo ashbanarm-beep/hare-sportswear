@@ -19,6 +19,7 @@ export const PRODUCT_GROUPS = [
   { id: 'womens', name: "Sports Bras & Women's", icon: '🧘' },
   { id: 'activewear', name: "Men's Activewear", icon: '🏃' },
   { id: 'compression', name: 'Compression', icon: '⚡' },
+  { id: 'headwear', name: 'Sports Caps & Headwear', icon: '🧢' },
   { id: 'combat', name: 'Combat & Martial Arts', icon: '🥊' },
   { id: 'equipment', name: 'Sports Equipment & Goods', icon: '🏆' }
 ];
@@ -487,6 +488,66 @@ export const PRODUCTS_CATALOG = [
     basePriceTiers: { 25: 24.50, 50: 21.00, 100: 17.80, 250: 15.20, 500: 13.40, 1000: 11.80 },
     weightKgPer100: 55,
     baseProdDays: 16
+  },
+  {
+    id: 'soccer-shin-pads',
+    name: 'Pro-Shield Soccer Shin Pads',
+    shortName: 'Soccer Shin Pads',
+    category: 'Sports Equipment & Goods',
+    group: 'equipment',
+    subtitle: 'High-impact carbon fiber texture shell with 8mm shock-absorbing EVA backing & straps',
+    icon: '🛡️',
+    hasTop: false,
+    hasBottom: false,
+    isEquipment: true,
+    basePriceTiers: { 25: 7.90, 50: 6.80, 100: 5.80, 250: 4.90, 500: 4.20, 1000: 3.60 },
+    weightKgPer100: 17,
+    baseProdDays: 12
+  },
+  {
+    id: 'performance-cap',
+    name: 'Performance Baseball Cap (Rope Snapback)',
+    shortName: 'Performance Cap',
+    category: 'Sports Caps & Headwear',
+    group: 'headwear',
+    subtitle: 'Laser-perforated airflow panels with 3D Tajima embroidery and visor rope',
+    icon: '🧢',
+    hasTop: false,
+    hasBottom: false,
+    isEquipment: true,
+    basePriceTiers: { 25: 6.80, 50: 5.60, 100: 4.80, 250: 4.10, 500: 3.50, 1000: 2.95 },
+    weightKgPer100: 12,
+    baseProdDays: 10
+  },
+  {
+    id: 'running-visor',
+    name: 'Athletic Running Visor',
+    shortName: 'Running Visor',
+    category: 'Sports Caps & Headwear',
+    group: 'headwear',
+    subtitle: 'Ultra-lightweight aerodynamic open crown with anti-glare brim & terry sweatband',
+    icon: '🧢',
+    hasTop: false,
+    hasBottom: false,
+    isEquipment: true,
+    basePriceTiers: { 25: 5.90, 50: 4.90, 100: 4.20, 250: 3.60, 500: 3.10, 1000: 2.65 },
+    weightKgPer100: 9,
+    baseProdDays: 10
+  },
+  {
+    id: 'athletic-beanie',
+    name: 'Seamless Unisex Athletic Beanie',
+    shortName: 'Athletic Beanie',
+    category: 'Sports Caps & Headwear',
+    group: 'headwear',
+    subtitle: 'Seamless circular thermal knit with breathable micro-mesh crown and fold-over cuff',
+    icon: '🧶',
+    hasTop: false,
+    hasBottom: false,
+    isEquipment: true,
+    basePriceTiers: { 25: 6.20, 50: 5.10, 100: 4.40, 250: 3.75, 500: 3.25, 1000: 2.80 },
+    weightKgPer100: 11,
+    baseProdDays: 10
   }
 ];
 

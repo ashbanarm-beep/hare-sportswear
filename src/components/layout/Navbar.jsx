@@ -100,9 +100,17 @@ export default function Navbar() {
       color: 'text-blue-600 bg-blue-50'
     },
     {
+      name: 'Sports Caps & Headwear',
+      path: '/products?category=sports-caps',
+      desc: 'Laser-perforated baseball caps, athletic running visors & thermal beanies',
+      badge: 'Headwear Line',
+      icon: Sparkles,
+      color: 'text-amber-600 bg-amber-50'
+    },
+    {
       name: 'Sports Equipment & Goods',
       path: '/products?category=equipment',
-      desc: 'FIFA-spec match balls, padel/badminton rackets, snooker & camping',
+      desc: 'FIFA-spec match balls, carbon shin pads, padel/badminton rackets & gear',
       badge: 'Gear & Balls',
       icon: Trophy,
       color: 'text-emerald-600 bg-emerald-50'

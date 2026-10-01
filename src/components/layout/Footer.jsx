@@ -147,8 +147,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/products?category=sports-caps" className="hover:text-[#FF751F] transition-colors">
+                  Sports Caps &amp; Headwear
+                </Link>
+              </li>
+              <li>
                 <Link to="/products?category=equipment" className="hover:text-[#FF751F] transition-colors">
-                  Sports Equipment & Goods
+                  Sports Equipment &amp; Goods
                 </Link>
               </li>
               <li>

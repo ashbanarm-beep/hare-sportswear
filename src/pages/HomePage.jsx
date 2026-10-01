@@ -354,7 +354,38 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* Category 4: Sports Equipment */}
+          {/* Category 4: Sports Caps & Headwear (NEW) */}
+          <Link
+            to="/products?category=sports-caps"
+            className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
+          >
+            <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
+              <img
+                src="/images/products/performance-baseball-cap.webp"
+                alt="Sports Caps & Athletic Headwear"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              />
+              <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
+                Caps • Visors • Beanies
+              </span>
+            </div>
+            <div className="p-4 flex-1 flex flex-col justify-between bg-white">
+              <div>
+                <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
+                  Sports Caps &amp; Headwear
+                </h3>
+                <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
+                  Laser-perforated baseball caps, aerodynamic running visors, and thermal seamless rib-knit beanies with 3D Tajima embroidery.
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
+                <span>Explore Caps &amp; Headwear</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Category 5: Sports Equipment & Protective Goods */}
           <Link
             to="/products?category=equipment"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
@@ -362,20 +393,20 @@ export default function HomePage() {
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
               <img
                 src="/equipment-img.jpg"
-                alt="Sports Equipment & Goods"
+                alt="Sports Equipment, Balls & Shin Pads"
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
               <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md border border-[#E5DFD5] text-[#FF751F] shadow-sm">
-                Rackets • Balls • Cues • Gear
+                Balls • Shin Pads • Rackets • Gear
               </span>
             </div>
             <div className="p-4 flex-1 flex flex-col justify-between bg-white">
               <div>
                 <h3 className="text-lg font-display font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
-                  Sports Equipment & Goods
+                  Sports Equipment &amp; Goods
                 </h3>
                 <p className="text-xs text-[#595856] mt-1.5 line-clamp-2">
-                  Toray carbon padel & badminton rackets, commercial dumbbells, eco TPE mats, and match balls.
+                  FIFA-spec match balls, tournament-grade soccer shin pads, Toray carbon padel rackets, dumbbells, and gear.
                 </p>
               </div>
               <div className="flex items-center justify-between text-xs text-[#FF751F] font-bold pt-3 border-t border-[#E5DFD5]">
@@ -466,6 +497,7 @@ export default function HomePage() {
                   <option value="Teamwear & Jerseys" className="bg-[#1A1A1A] text-white">Teamwear & Match Jerseys</option>
                   <option value="Activewear & Compression" className="bg-[#1A1A1A] text-white">Activewear, Leggings & Compression</option>
                   <option value="Sports Bras & Women's Activewear" className="bg-[#1A1A1A] text-white">Sports Bras & Women's Activewear</option>
+                  <option value="Sports Caps & Headwear" className="bg-[#1A1A1A] text-white">Sports Caps, Running Visors &amp; Beanies</option>
                   <option value="Wrestling Equipment & Combat Gear" className="bg-[#1A1A1A] text-white">Wrestling Equipment & Combat Gear</option>
                   <option value="Streetwear & Hoodies" className="bg-[#1A1A1A] text-white">Heavyweight Hoodies & Joggers</option>
                   <option value="Sports Match Balls" className="bg-[#1A1A1A] text-white">Thermal-Bonded FIFA Soccer Balls</option>
