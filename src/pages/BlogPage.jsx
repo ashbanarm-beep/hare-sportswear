@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Search, BookOpen, Clock, Calendar, ArrowRight, User, 
-  Sparkles, Tag, ChevronRight, X 
+  Search, BookOpen, Clock, 
+  Sparkles, ChevronRight, X 
 } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
@@ -13,9 +13,6 @@ export default function BlogPage() {
   const blogPosts = getPublishedBlogPosts();
 
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Sticky featured article
-  const featuredPost = blogPosts.find(p => p.featured) || blogPosts[0];
 
   // Filtered articles (Unified single feed)
   const filteredPosts = useMemo(() => {
@@ -44,71 +41,6 @@ export default function BlogPage() {
           Actionable guides on sportswear tech packs, GSM fabric selection, dye sublimation economics, and Sialkot supply chain dynamics.
         </p>
       </div>
-
-      {/* Featured Sticky Post */}
-      {featuredPost && (
-        <div className="relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] p-2 sm:p-4 shadow-xl group">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <div className="lg:col-span-6 relative aspect-[16/9] rounded-2xl overflow-hidden bg-[#FAF8F3] border border-[#E5DFD5] flex items-center justify-center p-2 sm:p-3">
-              <img
-                src={featuredPost.image}
-                alt={featuredPost.title}
-                className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500 rounded-xl"
-              />
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
-                Featured Guide
-              </span>
-            </div>
-
-            <div className="lg:col-span-6 p-4 sm:p-6 space-y-4 bg-white">
-              <div className="flex items-center gap-3 text-xs text-[#595856]">
-                <span className="text-[#FF751F] font-bold uppercase tracking-wider">{featuredPost.category && featuredPost.category !== 'All Articles' ? featuredPost.category : 'Technical Guide'}</span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" /> {featuredPost.readTime}
-                </span>
-                <span>•</span>
-                <span>{featuredPost.date}</span>
-              </div>
-
-              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors leading-tight">
-                <Link to={`/blog/${featuredPost.slug}`}>
-                  {featuredPost.title}
-                </Link>
-              </h2>
-
-              <p className="text-xs sm:text-sm text-[#595856] leading-relaxed">
-                {featuredPost.excerpt}
-              </p>
-
-              <div className="pt-2 flex items-center justify-between border-t border-[#E5DFD5]">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={featuredPost.author.avatar}
-                    alt={featuredPost.author.name}
-                    className="w-9 h-9 rounded-full object-cover border border-[#E5DFD5]"
-                  />
-                  <div className="text-xs">
-                    <p className="font-bold text-[#1A1A1A]">{featuredPost.author.name}</p>
-                    <p className="text-[#8A847A] text-[11px]">{featuredPost.author.role}</p>
-                  </div>
-                </div>
-
-                <Link
-                  to={`/blog/${featuredPost.slug}`}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FF751F] hover:bg-[#E65E08] text-white font-bold text-xs transition-colors shadow-glow-orange"
-                >
-                  <span>Read Full Article</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {/* Unified Feed Bar and Search */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm">
@@ -149,9 +81,10 @@ export default function BlogPage() {
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredPosts.map((post) => (
-          <article
+          <Link
             key={post.slug}
-            className="group rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/40 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl"
+            to={`/blog/${post.slug}`}
+            className="group rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F] flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl cursor-pointer block text-left no-underline"
           >
             <div>
               <div className="relative aspect-[16/9] overflow-hidden bg-[#FAF8F3] border-b border-[#E5DFD5] flex items-center justify-center p-2">
@@ -173,9 +106,7 @@ export default function BlogPage() {
                 </div>
 
                 <h3 className="font-display font-bold text-lg text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors leading-snug">
-                  <Link to={`/blog/${post.slug}`}>
-                    {post.title}
-                  </Link>
+                  {post.title}
                 </h3>
 
                 <p className="text-xs text-[#595856] line-clamp-3 leading-relaxed">
@@ -186,19 +117,16 @@ export default function BlogPage() {
 
             <div className="p-6 pt-0 flex items-center justify-between border-t border-[#E5DFD5] mt-4">
               <div className="flex items-center gap-2 text-xs text-[#595856]">
-                <span className="font-bold text-[#1A1A1A]">{post.author.name}</span>
+                <span className="font-bold text-[#1A1A1A]">{post.author?.name || 'Haris Sheikh'}</span>
               </div>
 
-              <Link
-                to={`/blog/${post.slug}`}
-                className="text-xs font-bold text-[#FF751F] hover:text-[#E65E08] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-              >
-                <span>Read</span>
+              <span className="text-xs font-bold text-[#FF751F] group-hover:text-[#E65E08] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>Read Article</span>
                 <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
+              </span>
             </div>
 
-          </article>
+          </Link>
         ))}
       </div>
 

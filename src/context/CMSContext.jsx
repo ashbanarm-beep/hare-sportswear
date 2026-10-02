@@ -4,8 +4,16 @@ import { defaultSEORegistry, defaultPageFAQs, defaultPageBlocks, defaultCaseStud
 
 const CMSContext = createContext(null);
 
+const DUMMY_BLOG_SLUGS = [
+  'ultimate-tech-pack-guide-sportswear-brands',
+  'sublimation-vs-screen-printing-vs-dtg-cost-breakdown',
+  'selecting-performance-gsm-interlock-to-french-terry',
+  'inside-sialkot-sports-manufacturing-heartland',
+  'aql-2-5-quality-inspection-guarantee'
+];
+
 const STORAGE_KEYS = {
-  BLOG_POSTS: 'hare_cms_blog_posts_v1',
+  BLOG_POSTS: 'hare_cms_blog_posts_v3',
   BLOG_CATEGORIES: 'hare_cms_blog_categories_v1',
   SEO_REGISTRY: 'hare_cms_seo_registry_v4',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
@@ -18,10 +26,13 @@ export function CMSProvider({ children }) {
   // 1. Blog Posts State
   const [blogPosts, setBlogPosts] = useState(() => {
     try {
+      localStorage.removeItem('hare_cms_blog_posts_v1');
+      localStorage.removeItem('hare_cms_blog_posts_v2');
       const saved = localStorage.getItem(STORAGE_KEYS.BLOG_POSTS);
       if (saved) {
         const parsed = JSON.parse(saved);
-        const merged = parsed.map(p => {
+        const filtered = parsed.filter(p => !DUMMY_BLOG_SLUGS.includes(p.slug));
+        const merged = filtered.map(p => {
           const init = initialBlogPosts.find(ip => ip.slug === p.slug);
           if (!init) return p;
           return {
@@ -38,7 +49,7 @@ export function CMSProvider({ children }) {
           };
         });
         initialBlogPosts.forEach(init => {
-          if (!merged.some(p => p.slug === init.slug)) {
+          if (!merged.some(p => p.slug === init.slug) && !DUMMY_BLOG_SLUGS.includes(init.slug)) {
             merged.push({
               ...init,
               status: init.status || 'published',
@@ -47,18 +58,20 @@ export function CMSProvider({ children }) {
             });
           }
         });
-        return merged;
+        return merged.filter(p => !DUMMY_BLOG_SLUGS.includes(p.slug));
       }
     } catch (e) {
       console.warn('Failed to load blog posts from storage', e);
     }
     // Tag initial posts as 'published'
-    return initialBlogPosts.map(p => ({
-      ...p,
-      status: p.status || 'published',
-      updatedAt: p.updatedAt || p.date,
-      faqs: p.faqs || []
-    }));
+    return initialBlogPosts
+      .filter(p => !DUMMY_BLOG_SLUGS.includes(p.slug))
+      .map(p => ({
+        ...p,
+        status: p.status || 'published',
+        updatedAt: p.updatedAt || p.date,
+        faqs: p.faqs || []
+      }));
   });
 
   const [blogCategories, setBlogCategories] = useState(() => {
