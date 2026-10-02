@@ -30,6 +30,7 @@ export function CMSProvider({ children }) {
             content: init.content || p.content,
             excerpt: init.excerpt || p.excerpt,
             image: init.image || p.image,
+            hideTopImage: init.hideTopImage,
             category: 'All Articles',
             status: p.status || 'published',
             updatedAt: p.updatedAt || p.date,
@@ -61,6 +62,9 @@ export function CMSProvider({ children }) {
   });
 
   const [blogCategories, setBlogCategories] = useState(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.BLOG_CATEGORIES, JSON.stringify(initialBlogCategories));
+    } catch (e) {}
     return initialBlogCategories;
   });
 

@@ -90,10 +90,29 @@ export function htmlToMarkdownInline(html, linkCollector) {
   
   let text = html;
   
+  const EXCLUDED_URL_PATTERNS = [
+    'texpo.tdap.gov.pk',
+    'chiangraitimes.com',
+    'reddit.sentinel-team.org',
+    'cargolinked.com',
+    'propakistani.pk'
+  ];
+
   // Replace links <a href="...">...</a>
   text = text.replace(/<a\s+[^>]*href=\"([^\"]+)\"[^>]*>([\s\S]*?)<\/a>/gi, (match, rawHref, linkContent) => {
     const cleanHref = unwrapGoogleUrl(rawHref);
     const innerText = linkContent.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
+    
+    // Check if URL is blacklisted
+    const isExcluded = EXCLUDED_URL_PATTERNS.some(pat => cleanHref.includes(pat));
+    if (isExcluded) {
+      // If innerText is the URL itself, remove it completely; otherwise preserve inner text
+      if (!innerText || innerText.startsWith('http') || innerText === cleanHref) {
+        return '';
+      }
+      return innerText;
+    }
+
     if (!innerText || innerText === '&nbsp;') {
       if (linkCollector) linkCollector.push({ text: 'Reference', href: cleanHref });
       return ` [${cleanHref}](${cleanHref}) `;
@@ -318,11 +337,14 @@ export async function processGoogleDocToBlog(googleDocUrl, targetBlogUrlOrSlug) 
   const excerpt = textParas[0] || '10 essential questions every sportswear brand, club, and distributor must ask before placing an OEM or custom manufacturing order in Sialkot, Pakistan.';
 
   // Determine hero image
-  let heroImage = '/images/blog/the-sublimation-printer-at-haresportswear.png';
-  if (imageCollector.length > 1) {
-    heroImage = `/images/blog/${imageCollector[1].filename}`;
-  } else if (imageCollector.length > 0) {
-    heroImage = `/images/blog/${imageCollector[0].filename}`;
+  // Determine hero image
+  let heroImage = `/images/blog/${slug}-featured.png`;
+  if (!fs.existsSync(path.resolve(__dirname, `../public/images/blog/${slug}-featured.png`))) {
+    if (imageCollector.length > 1) {
+      heroImage = `/images/blog/${imageCollector[1].filename}`;
+    } else if (imageCollector.length > 0) {
+      heroImage = `/images/blog/${imageCollector[0].filename}`;
+    }
   }
 
   // 6. Update src/data/blogData.js
@@ -358,6 +380,7 @@ export async function processGoogleDocToBlog(googleDocUrl, targetBlogUrlOrSlug) 
     date: 'Oct 02, 2026',
     readTime: '9 min read',
     featured: true,
+    hideTopImage: true,
     author: {
       name: 'Haris Sheikh',
       role: 'Managing Director & Supply Chain Lead',
@@ -368,7 +391,7 @@ export async function processGoogleDocToBlog(googleDocUrl, targetBlogUrlOrSlug) 
     faqs: postFaqs
   };
 
-  const postSnippet = `  {\n    slug: ${JSON.stringify(newPostObject.slug)},\n    title: ${JSON.stringify(newPostObject.title)},\n    excerpt: ${JSON.stringify(newPostObject.excerpt)},\n    category: 'All Articles',\n    date: ${JSON.stringify(newPostObject.date)},\n    readTime: ${JSON.stringify(newPostObject.readTime)},\n    featured: true,\n    author: {\n      name: 'Haris Sheikh',\n      role: 'Managing Director & Supply Chain Lead',\n      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'\n    },\n    image: ${JSON.stringify(newPostObject.image)},\n    content: ${JSON.stringify(newPostObject.content)},\n    faqs: ${JSON.stringify(newPostObject.faqs, null, 6)}\n  }`;
+  const postSnippet = `  {\n    slug: ${JSON.stringify(newPostObject.slug)},\n    title: ${JSON.stringify(newPostObject.title)},\n    excerpt: ${JSON.stringify(newPostObject.excerpt)},\n    category: 'All Articles',\n    date: ${JSON.stringify(newPostObject.date)},\n    readTime: ${JSON.stringify(newPostObject.readTime)},\n    featured: true,\n    hideTopImage: true,\n    author: {\n      name: 'Haris Sheikh',\n      role: 'Managing Director & Supply Chain Lead',\n      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'\n    },\n    image: ${JSON.stringify(newPostObject.image)},\n    content: ${JSON.stringify(newPostObject.content)},\n    faqs: ${JSON.stringify(newPostObject.faqs, null, 6)}\n  }`;
 
   // Check if article already exists
   const slugRegex = new RegExp(`slug:\\s*['"]${slug}['"]`, 'i');

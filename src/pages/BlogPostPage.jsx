@@ -258,7 +258,7 @@ export default function BlogPostPage() {
         <header className="max-w-4xl space-y-5 pb-8 border-b border-[#E5DFD5]">
           <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#595856]">
             <span className="px-3 py-1 rounded-full bg-[#FF751F]/15 text-[#FF751F] font-bold uppercase tracking-wider text-[11px]">
-              {post.category}
+              {post.category && post.category !== 'All Articles' ? post.category : 'Technical Guide'}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
@@ -478,18 +478,20 @@ export default function BlogPostPage() {
           {/* ========================================================= */}
           <main ref={articleRef} className="lg:col-span-6 space-y-8">
             
-            {/* Featured Image */}
-            <div className="aspect-[16/9] rounded-3xl overflow-hidden bg-[#1A1A1A] border border-[#E5DFD5] shadow-md relative">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-black/70 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Sialkot Factory Direct Insights</span>
+            {/* Featured Image - Omitted for this specific post as requested */}
+            {!post.hideTopImage && post.slug !== 'questions-to-ask-sportswear-manufacturer' && post.image && (
+              <div className="aspect-[16/9] rounded-3xl overflow-hidden bg-[#1A1A1A] border border-[#E5DFD5] shadow-md relative">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-black/70 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Sialkot Factory Direct Insights</span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Article Content with Parsed H2, H3, Lists, and Text */}
             <div className="prose max-w-none text-[#403D38] space-y-6 text-sm sm:text-base leading-relaxed">
@@ -941,8 +943,8 @@ export default function BlogPostPage() {
                       to={`/blog/${rel.slug}`}
                       className="group block space-y-1 pb-2.5 border-b border-[#E5DFD5] last:border-0 last:pb-0"
                     >
-                      <span className="text-[10px] font-semibold text-[#FF751F] block uppercase">
-                        {rel.category}
+                      <span className="text-[10px] font-semibold text-[#FF751F] block uppercase tracking-wider">
+                        {rel.category && rel.category !== 'All Articles' ? rel.category : 'Technical Guide'}
                       </span>
                       <h5 className="text-xs font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors line-clamp-2 leading-snug">
                         {rel.title}

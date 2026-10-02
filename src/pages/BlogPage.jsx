@@ -50,11 +50,11 @@ export default function BlogPage() {
         <div className="relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] p-2 sm:p-4 shadow-xl group">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div className="lg:col-span-6 relative aspect-[16/10] lg:aspect-[4/3] rounded-2xl overflow-hidden bg-[#1A1A1A]">
+            <div className="lg:col-span-6 relative aspect-[16/9] rounded-2xl overflow-hidden bg-[#FAF8F3] border border-[#E5DFD5] flex items-center justify-center p-2 sm:p-3">
               <img
                 src={featuredPost.image}
                 alt={featuredPost.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500 rounded-xl"
               />
               <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-[#FF751F] text-white shadow">
                 Featured Guide
@@ -154,13 +154,13 @@ export default function BlogPage() {
             className="group rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/40 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl"
           >
             <div>
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#1A1A1A]">
+              <div className="relative aspect-[16/9] overflow-hidden bg-[#FAF8F3] border-b border-[#E5DFD5] flex items-center justify-center p-2">
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500 rounded-lg"
                 />
-                <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md bg-black/80 text-white backdrop-blur-sm uppercase tracking-wider">
+                <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md bg-black/80 text-white backdrop-blur-sm uppercase tracking-wider shadow-xs">
                   {post.category && post.category !== 'All Articles' ? post.category : 'Technical Guide'}
                 </span>
               </div>

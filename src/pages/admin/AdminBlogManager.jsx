@@ -120,7 +120,7 @@ export default function AdminBlogManager() {
       title: '',
       slug: '',
       excerpt: '',
-      category: blogCategories[1] || 'Manufacturing Guides',
+      category: blogCategories[0] || 'All Articles',
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
       readTime: '5 min read',
       featured: false,
@@ -177,7 +177,7 @@ export default function AdminBlogManager() {
 
   const handleAutoSuggestFaqs = () => {
     const title = editingPost?.title?.trim() || 'Custom Sportswear Manufacturing';
-    const category = editingPost?.category || 'Manufacturing Guides';
+    const category = editingPost?.category || 'All Articles';
 
     const suggestions = [
       {
@@ -712,7 +712,7 @@ export default function AdminBlogManager() {
                     Category
                   </label>
                   <select
-                    value={editingPost.category || 'Manufacturing Guides'}
+                    value={editingPost.category || 'All Articles'}
                     onChange={(e) => setEditingPost({ ...editingPost, category: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl bg-[#191715] border border-white/15 text-white text-xs focus:outline-none focus:border-[#FF751F]"
                   >
