@@ -22,11 +22,45 @@ function safeEscapeHtml(text) {
     .replace(/'/g, '&#039;');
 }
 
-function safeMarkdownBoldToHtml(text) {
+function safeMarkdownInlineToHtml(text) {
   if (typeof text !== 'string') return '';
-  const escaped = safeEscapeHtml(text);
-  return escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 1. Extract markdown links [text](url) to protect URLs and attributes
+  const linkTokens = [];
+  let processed = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    const token = `___MK_LINK_${linkTokens.length}___`;
+    linkTokens.push({ label, href });
+    return token;
+  });
+
+  // 2. Escape entities in the regular text
+  processed = safeEscapeHtml(processed);
+
+  // 3. Convert **bold** to <strong>
+  processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-[#1A1A1A]">$1</strong>');
+
+  // 4. Convert *italic* to <em>
+  processed = processed.replace(/(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)/g, '<em class="italic">$1</em>');
+
+  // 5. Restore markdown links with Hare Sportswear theme styling
+  linkTokens.forEach(({ label, href }, idx) => {
+    const token = `___MK_LINK_${idx}___`;
+    const safeLabel = safeEscapeHtml(label).replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>');
+    const cleanHref = href.trim();
+    const isSafe = /^(\/|https?:\/\/|mailto:)/i.test(cleanHref);
+    const validHref = isSafe ? cleanHref.replace(/"/g, '&quot;') : '#';
+    const isExternal = /^https?:\/\//i.test(validHref) && !validHref.includes('haresportswear.com');
+    const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+    
+    const anchorHtml = `<a href="${validHref}"${targetAttrs} class="text-[#FF751F] hover:text-[#E65E08] underline underline-offset-2 decoration-[#FF751F]/40 hover:decoration-[#FF751F] font-semibold transition-colors">${safeLabel}</a>`;
+    
+    processed = processed.replace(token, anchorHtml);
+  });
+
+  return processed;
 }
+
+const safeMarkdownBoldToHtml = safeMarkdownInlineToHtml;
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -109,7 +143,8 @@ export default function BlogPostPage() {
     lines.forEach((line) => {
       const trimmed = line.trim();
       if (trimmed.startsWith('## ')) {
-        const title = trimmed.replace(/^##\s+/, '');
+        const title = trimmed.replace(/^##\s+/, '').trim();
+        if (!title) return;
         const id = title
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
@@ -460,26 +495,30 @@ export default function BlogPostPage() {
             <div className="prose max-w-none text-[#403D38] space-y-6 text-sm sm:text-base leading-relaxed">
               {post.content.split('\n\n').map((para, i) => {
                 const trimmed = para.trim();
+                if (!trimmed || trimmed === '###' || trimmed === '##' || trimmed === '#') return null;
 
                 // H1 Heading Parsing
                 if (trimmed.startsWith('# ')) {
+                  const title = trimmed.replace('# ', '').trim();
+                  if (!title) return null;
                   return (
                     <h1 key={i} className="text-3xl sm:text-4xl font-display font-black text-[#1A1A1A] pt-6 pb-2">
-                      {trimmed.replace('# ', '')}
+                      {title}
                     </h1>
                   );
                 }
 
-                // H2 Heading Parsing
+                // H2 Heading Parsing (Strict document structure)
                 if (trimmed.startsWith('## ')) {
-                  const title = trimmed.replace('## ', '');
+                  const title = trimmed.replace(/^##\s+/, '').trim();
+                  if (!title) return null;
                   const id = title
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, '-')
                     .replace(/(^-|-$)/g, '');
                   return (
                     <div key={i} id={id} className="pt-8 scroll-mt-28 group">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1.5">
                         <span className="text-xs font-bold text-[#FF751F] uppercase tracking-wider font-mono">
                           // SECTION
                         </span>
@@ -500,42 +539,46 @@ export default function BlogPostPage() {
                   );
                 }
 
-                // H3 Subheading Parsing
+                // H3 Subheading Parsing (Strict document structure)
                 if (trimmed.startsWith('### ')) {
+                  const title = trimmed.replace(/^###\s+/, '').trim();
+                  if (!title) return null;
                   return (
-                    <h3 key={i} className="text-lg sm:text-xl font-display font-bold text-[#1A1A1A] pt-4 text-[#1A1A1A]">
-                      {trimmed.replace('### ', '')}
+                    <h3 key={i} className="text-lg sm:text-xl font-display font-bold text-[#1A1A1A] pt-4 border-l-2 border-[#FF751F] pl-3 leading-snug">
+                      {title}
                     </h3>
                   );
                 }
 
                 // H4 Subheading Parsing
                 if (trimmed.startsWith('#### ')) {
+                  const title = trimmed.replace(/^####\s+/, '').trim();
+                  if (!title) return null;
                   return (
                     <h4 key={i} className="text-base sm:text-lg font-display font-bold text-[#FF751F] pt-3">
-                      {trimmed.replace('#### ', '')}
+                      {title}
                     </h4>
                   );
                 }
 
-                // Markdown Image Parsing: ![alt](url/base64)
-                const imageMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                // Markdown Image & Infographic Parsing: ![alt](url)
+                const imageMatch = trimmed.match(/^!\[([\s\S]*?)\]\(([\s\S]*?)\)$/);
                 if (imageMatch) {
-                  const altText = imageMatch[1];
-                  const imgSrc = imageMatch[2];
+                  const altText = imageMatch[1].trim();
+                  const imgSrc = imageMatch[2].trim();
                   return (
-                    <figure key={i} className="my-8 rounded-2xl overflow-hidden border border-[#E5DFD5] bg-[#FAF8F3] shadow-sm">
-                      <div className="max-h-[560px] overflow-hidden flex items-center justify-center bg-black/5">
+                    <figure key={i} className="my-8 rounded-2xl overflow-hidden border border-[#E5DFD5] bg-white shadow-sm">
+                      <div className="p-3 sm:p-5 bg-gradient-to-b from-[#FAF8F3] to-white flex items-center justify-center">
                         <img
                           src={imgSrc}
-                          alt={altText || 'Article visual'}
-                          className="w-full h-full object-contain sm:object-cover mx-auto"
+                          alt={altText || post.title || 'Technical Article Visual'}
+                          className="w-full h-auto max-h-[620px] object-contain rounded-xl shadow-xs"
                           loading="lazy"
                         />
                       </div>
                       {altText && (
-                        <figcaption className="text-center text-xs text-[#7A756D] py-3 px-4 bg-[#FAF8F3] border-t border-[#E5DFD5] italic font-medium flex items-center justify-center gap-1.5">
-                          <span className="text-[#FF751F]">●</span>
+                        <figcaption className="text-center text-xs text-[#595856] py-3 px-4 bg-[#FAF8F3] border-t border-[#E5DFD5] italic font-medium flex items-center justify-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shrink-0" />
                           <span>{altText}</span>
                         </figcaption>
                       )}
@@ -543,61 +586,64 @@ export default function BlogPostPage() {
                   );
                 }
 
-                // Markdown Table Parsing
+                // Markdown Table Parsing (Designed to match website's custom theme perfectly)
                 if (trimmed.startsWith('|') && trimmed.includes('\n|')) {
                   const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|'));
                   const headerRow = rows[0];
                   const dataRows = rows.slice(1).filter(r => !r.includes('---'));
 
-                  const parseCells = (rowStr) => 
-                    rowStr.split('|')
-                      .map(c => c.trim())
-                      .filter((c, idx, arr) => (idx > 0 && idx < arr.length - 1) || (idx === 1 && arr.length === 3));
+                  const parseCells = (rowStr) => {
+                    const raw = rowStr.split('|');
+                    return raw.slice(1, -1).map(c => c.trim());
+                  };
 
                   const headers = parseCells(headerRow);
 
                   return (
-                    <div key={i} className="my-6 overflow-x-auto rounded-2xl border border-[#E5DFD5] bg-white shadow-xs">
-                      <table className="w-full text-left border-collapse text-xs sm:text-sm">
-                        <thead className="bg-[#FAF8F3] border-b border-[#E5DFD5]">
-                          <tr>
-                            {headers.map((h, hIdx) => (
-                              <th key={hIdx} className="px-4 py-3 font-bold text-[#1A1A1A] uppercase tracking-wider text-[11px]">
-                                {h.replace(/\*\*(.*?)\*\*/g, '$1')}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#E5DFD5]/60">
-                          {dataRows.map((rowStr, rIdx) => {
-                            const cells = parseCells(rowStr);
-                            return (
-                              <tr key={rIdx} className="hover:bg-[#F5F1E8]/40 transition-colors">
-                                {cells.map((cell, cIdx) => (
-                                  <td key={cIdx} className="px-4 py-3 text-gray-700 leading-relaxed">
-                                    <span dangerouslySetInnerHTML={{ __html: safeMarkdownBoldToHtml(cell) }} />
-                                  </td>
-                                ))}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+                    <div key={i} className="my-6 rounded-2xl border border-[#E5DFD5] bg-white shadow-sm overflow-hidden">
+                      <div className="h-1 bg-gradient-to-r from-[#FF751F] via-[#FF934F] to-[#FF751F]/40" />
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                          <thead className="bg-[#FAF8F3] border-b border-[#E5DFD5]">
+                            <tr>
+                              {headers.map((h, hIdx) => (
+                                <th key={hIdx} className="px-4 sm:px-5 py-3.5 font-display font-bold text-[#1A1A1A] uppercase tracking-wider text-[11px]">
+                                  <span dangerouslySetInnerHTML={{ __html: safeMarkdownInlineToHtml(h) }} />
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E5DFD5]/60">
+                            {dataRows.map((rowStr, rIdx) => {
+                              const cells = parseCells(rowStr);
+                              return (
+                                <tr key={rIdx} className="hover:bg-[#FAF8F3] transition-colors odd:bg-white even:bg-[#FAF8F3]/30">
+                                  {cells.map((cell, cIdx) => (
+                                    <td key={cIdx} className="px-4 sm:px-5 py-3.5 text-[#403D38] leading-relaxed align-top">
+                                      <span dangerouslySetInnerHTML={{ __html: safeMarkdownInlineToHtml(cell) }} />
+                                    </td>
+                                  ))}
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   );
                 }
 
                 // Bullet Lists or Numbered Lists
-                if (trimmed.startsWith('1. ') || trimmed.startsWith('- ')) {
-                  const items = trimmed.split('\n');
+                if (trimmed.startsWith('1. ') || trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                  const items = trimmed.split('\n').filter(Boolean);
                   return (
-                    <div key={i} className="my-4 bg-white/70 p-5 rounded-2xl border border-[#E0D7C6]">
-                      <ul className="space-y-2.5 text-xs sm:text-sm text-[#33302B]">
+                    <div key={i} className="my-4 bg-white/80 p-5 rounded-2xl border border-[#E5DFD5] shadow-xs">
+                      <ul className="space-y-2.5 text-xs sm:text-sm text-[#403D38]">
                         {items.map((it, idx) => (
                           <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] mt-2 shrink-0" />
                             <span dangerouslySetInnerHTML={{ 
-                              __html: safeMarkdownBoldToHtml(it.replace(/^[0-9]+\.\s*|-\s*/, ''))
+                              __html: safeMarkdownInlineToHtml(it.replace(/^[0-9]+\.\s*|^[-*]\s*/, ''))
                             }} />
                           </li>
                         ))}
@@ -612,7 +658,7 @@ export default function BlogPostPage() {
                     key={i} 
                     className="leading-relaxed text-[#403D38]"
                     dangerouslySetInnerHTML={{ 
-                      __html: safeMarkdownBoldToHtml(trimmed)
+                      __html: safeMarkdownInlineToHtml(trimmed)
                     }}
                   />
                 );

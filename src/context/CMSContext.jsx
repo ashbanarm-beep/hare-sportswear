@@ -21,15 +21,32 @@ export function CMSProvider({ children }) {
       const saved = localStorage.getItem(STORAGE_KEYS.BLOG_POSTS);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return parsed.map(p => {
+        const merged = parsed.map(p => {
           const init = initialBlogPosts.find(ip => ip.slug === p.slug);
+          if (!init) return p;
           return {
             ...p,
+            title: init.title || p.title,
+            content: init.content || p.content,
+            excerpt: init.excerpt || p.excerpt,
+            image: init.image || p.image,
+            category: 'All Articles',
             status: p.status || 'published',
             updatedAt: p.updatedAt || p.date,
-            faqs: (p.faqs && p.faqs.length > 0) ? p.faqs : (init?.faqs || [])
+            faqs: (init.faqs && init.faqs.length > 0) ? init.faqs : (p.faqs || [])
           };
         });
+        initialBlogPosts.forEach(init => {
+          if (!merged.some(p => p.slug === init.slug)) {
+            merged.push({
+              ...init,
+              status: init.status || 'published',
+              updatedAt: init.updatedAt || init.date,
+              faqs: init.faqs || []
+            });
+          }
+        });
+        return merged;
       }
     } catch (e) {
       console.warn('Failed to load blog posts from storage', e);
@@ -44,10 +61,6 @@ export function CMSProvider({ children }) {
   });
 
   const [blogCategories, setBlogCategories] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.BLOG_CATEGORIES);
-      if (saved) return JSON.parse(saved);
-    } catch (e) {}
     return initialBlogCategories;
   });
 
