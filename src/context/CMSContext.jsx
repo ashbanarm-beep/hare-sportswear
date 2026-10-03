@@ -38,6 +38,8 @@ export function CMSProvider({ children }) {
           return {
             ...p,
             title: init.title || p.title,
+            metaTitle: init.metaTitle || p.metaTitle,
+            metaDescription: init.metaDescription || p.metaDescription,
             content: init.content || p.content,
             excerpt: init.excerpt || p.excerpt,
             image: init.image || p.image,

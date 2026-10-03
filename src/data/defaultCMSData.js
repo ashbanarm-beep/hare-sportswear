@@ -55,6 +55,18 @@ export const defaultSEORegistry = {
     keywords: 'sportswear manufacturing blog, tech pack guide, dye sublimation vs screen print, fabric gsm guide',
     canonical: 'https://www.haresportswear.com/blog'
   },
+  '/blog/red-flags-choosing-clothing-manufacturer': {
+    title: '8 Red Flags When Choosing a Clothing Manufacturer',
+    description: 'Avoid costly mistakes when picking a clothing manufacturer. Learn 8 warning signs, from unverifiable addresses to unrealistic lead times, and how to check each one before you pay a deposit.',
+    keywords: 'clothing manufacturer red flags, warning signs clothing supplier, apparel manufacturing scams, verify clothing factory, sialkot sportswear manufacturer',
+    canonical: 'https://www.haresportswear.com/blog/red-flags-choosing-clothing-manufacturer'
+  },
+  '/blog/questions-to-ask-sportswear-manufacturer': {
+    title: '10 Questions to Ask Sportswear Manufacturer Before Placing an Order',
+    description: 'Essential questions every sportswear brand, club, and distributor must ask before placing an OEM or custom manufacturing order in Sialkot, Pakistan.',
+    keywords: 'questions to ask sportswear manufacturer, apparel manufacturing sialkot, sportswear OEM questions',
+    canonical: 'https://www.haresportswear.com/blog/questions-to-ask-sportswear-manufacturer'
+  },
   '/tools': {
     title: 'Digital Sportswear Pre-Press & Manufacturing Engineering Suite | Tools',
     description: 'Explore our digital textile tools: Pantone PMS Color Matcher, 4-Color Athletic Palette & Jersey Simulator, and Instant Production Cost & Lead Time Estimator.',

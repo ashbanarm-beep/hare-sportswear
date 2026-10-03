@@ -128,9 +128,24 @@ export default function BlogPostPage() {
     return blogPosts.filter(p => p.slug !== (post?.slug)).slice(0, 3);
   }, [blogPosts, post]);
 
-  // Set document title
+  // Set document title and meta description
   useEffect(() => {
-    document.title = `${post.title} | Hare Sportswear & Goods`;
+    if (post.metaTitle) {
+      document.title = post.metaTitle;
+    } else {
+      document.title = `${post.title} | Hare Sportswear & Goods`;
+    }
+
+    if (post.metaDescription) {
+      let descTag = document.querySelector('meta[name="description"]');
+      if (!descTag) {
+        descTag = document.createElement('meta');
+        descTag.setAttribute('name', 'description');
+        document.head.appendChild(descTag);
+      }
+      descTag.setAttribute('content', post.metaDescription);
+    }
+
     window.scrollTo(0, 0);
   }, [post]);
 
