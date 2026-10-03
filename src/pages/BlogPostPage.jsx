@@ -865,32 +865,35 @@ export default function BlogPostPage() {
           {/* ========================================================= */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start space-y-5">
             
-            {/* Clean Stable Mascot Companion Card */}
+            {/* Dedicated Author Sidebar Card */}
             <div className="p-5 rounded-2xl bg-white border border-[#E5DFD5] shadow-sm space-y-3.5 text-center">
               <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden border-2 border-[#FF751F] shadow-md bg-[#1A1A1A]">
                 <img
-                  src="/images/mascot/hurry-hero.jpg"
-                  alt="Hurry the Hare - Brand Mascot"
+                  src={post.author.avatar}
+                  alt={post.author.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF751F] block">
-                  Meet Hurry the Hare 🐰
+                  Article Author &amp; Leadership
                 </span>
                 <h4 className="font-bold text-sm text-[#1A1A1A] font-display">
-                  Need Custom Teamwear Samples?
+                  {post.author.name}
                 </h4>
+                <p className="text-[11px] text-[#FF751F] font-bold mt-0.5">
+                  {post.author.role}
+                </p>
                 <p className="text-[11px] text-[#59554E] leading-relaxed mt-1">
-                  Get direct Sialkot factory advice on tech packs, fabric weights (GSM), and 7-day rapid physical prototypes.
+                  Connect directly with factory leadership for custom manufacturing quotes, tech pack audits, and rapid physical prototypes.
                 </p>
               </div>
               <Link
-                to="/contact?source=blog-mascot-card"
+                to="/contact?source=blog-author-sidebar"
                 className="w-full py-2.5 px-3 rounded-xl bg-[#FF751F] hover:bg-[#e06214] text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
               >
-                <span>Request Factory Quote</span>
+                <span>Connect with {post.author.name.split(' ')[0]}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
