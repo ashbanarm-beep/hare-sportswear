@@ -49,6 +49,12 @@ export const defaultSEORegistry = {
     keywords: 'request sportswear quote, RFQ garment factory, tech pack audit, contact sialkot manufacturer',
     canonical: 'https://www.haresportswear.com/contact'
   },
+    '/blog/launch-private-label-activewear-line': {
+    title: '7 Steps to Launching a Private Label Activewear Line (2026 Guide)',
+    description: 'Want to launch your own activewear brand? Follow these 7 steps, from range planning and tech packs to sampling, MOQs and first production, with real timelines from a Sialkot factory.',
+    keywords: 'how to start activewear line, private label athletic wear, sportswear manufacturer tech pack, launch fitness brand sialkot',
+    canonical: 'https://www.haresportswear.com/blog/launch-private-label-activewear-line'
+  },
   '/blog': {
     title: 'Blog Posts - Hare Sportswear',
     description: 'Explore industry insights, sportswear manufacturing guides, B2B export trends, and expert tips from Hare Sportswear.',
