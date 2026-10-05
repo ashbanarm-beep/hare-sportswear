@@ -93,9 +93,11 @@ export default function BlogPage() {
                   alt={post.title}
                   className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500 rounded-lg"
                 />
-                <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md bg-black/80 text-white backdrop-blur-sm uppercase tracking-wider shadow-xs">
-                  {post.category && post.category !== 'All Articles' ? post.category : 'Technical Guide'}
-                </span>
+                {post.category && post.category !== 'All Articles' && post.category !== 'Technical Guide' && (
+                  <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md bg-black/80 text-white backdrop-blur-sm uppercase tracking-wider shadow-xs">
+                    {post.category}
+                  </span>
+                )}
               </div>
 
               <div className="p-6 space-y-3">

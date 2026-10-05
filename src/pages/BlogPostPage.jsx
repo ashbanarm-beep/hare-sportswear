@@ -272,10 +272,14 @@ export default function BlogPostPage() {
         {/* ------------------------------------------------------------- */}
         <header className="max-w-4xl space-y-5 pb-8 border-b border-[#E5DFD5]">
           <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#595856]">
-            <span className="px-3 py-1 rounded-full bg-[#FF751F]/15 text-[#FF751F] font-bold uppercase tracking-wider text-[11px]">
-              {post.category && post.category !== 'All Articles' ? post.category : 'Technical Guide'}
-            </span>
-            <span>•</span>
+            {post.category && post.category !== 'All Articles' && post.category !== 'Technical Guide' && (
+              <>
+                <span className="px-3 py-1 rounded-full bg-[#FF751F]/15 text-[#FF751F] font-bold uppercase tracking-wider text-[11px]">
+                  {post.category}
+                </span>
+                <span>•</span>
+              </>
+            )}
             <span className="flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-[#FF751F]" /> {post.readTime}
             </span>
@@ -961,9 +965,11 @@ export default function BlogPostPage() {
                       to={`/blog/${rel.slug}`}
                       className="group block space-y-1 pb-2.5 border-b border-[#E5DFD5] last:border-0 last:pb-0"
                     >
-                      <span className="text-[10px] font-semibold text-[#FF751F] block uppercase tracking-wider">
-                        {rel.category && rel.category !== 'All Articles' ? rel.category : 'Technical Guide'}
-                      </span>
+                      {rel.category && rel.category !== 'All Articles' && rel.category !== 'Technical Guide' && (
+                        <span className="text-[10px] font-semibold text-[#FF751F] block uppercase tracking-wider">
+                          {rel.category}
+                        </span>
+                      )}
                       <h5 className="text-xs font-bold text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors line-clamp-2 leading-snug">
                         {rel.title}
                       </h5>
