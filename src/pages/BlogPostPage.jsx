@@ -755,7 +755,8 @@ export default function BlogPostPage() {
             {/* TECHNICAL FAQs SECTION (Page & SEO Schema Accordion) */}
             {/* ========================================================= */}
             {postFaqs.length > 0 && (
-              <section id="frequently-asked-questions" className="space-y-4 pt-4">
+              <section id="frequently-asked-questions" className="space-y-4 pt-4 relative">
+                <div id="faq" className="absolute -top-24 pointer-events-none" />
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#E5DFD5]">
                   <div className="flex items-center gap-2">
                     <span className="p-1.5 rounded-lg bg-[#FF751F]/15 text-[#FF751F]">
