@@ -180,6 +180,7 @@ export default function ContactPage() {
       }
 
       valid.push({
+        file,
         name: file.name.replace(/[^a-zA-Z0-9._-]/g, '_'),
         size: (file.size / 1024).toFixed(1) + ' KB',
         type: file.type || 'Tech Pack Asset'
@@ -209,36 +210,93 @@ export default function ContactPage() {
     setFileError(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (fileError) return;
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const ref = 'RFQ-HSG-' + Math.floor(100000 + Math.random() * 900000);
-      setReferenceId(ref);
+    const ref = 'RFQ-HSG-' + Math.floor(100000 + Math.random() * 900000);
+    setReferenceId(ref);
 
-      // Audit log & save to customer session records
-      try {
-        const stored = JSON.parse(localStorage.getItem('hare_customer_rfqs') || '[]');
-        const entry = {
-          ref,
-          timestamp: new Date().toISOString(),
-          company: formData.companyName,
-          email: formData.email,
-          category: formData.category,
-          quantity: formData.quantity,
-          files: uploadedFiles.map(f => f.name)
-        };
-        localStorage.setItem('hare_customer_rfqs', JSON.stringify([entry, ...stored.slice(0, 19)]));
-      } catch (err) {
-        // Safe fallback
+    const payload = {
+      ref,
+      fullName: formData.fullName,
+      companyName: formData.companyName,
+      email: formData.email,
+      phone: formData.phone,
+      country: formData.country,
+      category: formData.category,
+      quantity: formData.quantity,
+      targetDate: formData.targetDate,
+      fabricPreference: formData.fabricPreference,
+      message: formData.message,
+      files: uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type }))
+    };
+
+    // Save to customer session records
+    try {
+      const stored = JSON.parse(localStorage.getItem('hare_customer_rfqs') || '[]');
+      const entry = {
+        ref,
+        timestamp: new Date().toISOString(),
+        company: formData.companyName,
+        email: formData.email,
+        category: formData.category,
+        quantity: formData.quantity,
+        files: uploadedFiles.map(f => f.name)
+      };
+      localStorage.setItem('hare_customer_rfqs', JSON.stringify([entry, ...stored.slice(0, 19)]));
+    } catch (err) {
+      // Safe fallback
+    }
+
+    // Dispatch RFQ directly to export@haresportswear.com via serverless API
+    try {
+      const res = await fetch('/api/send-rfq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error('API dispatch failed');
       }
+    } catch (apiErr) {
+      // Fallback: direct formsubmit call from browser
+      try {
+        await fetch('https://formsubmit.co/ajax/export@haresportswear.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: `[New RFQ: ${ref}] ${formData.fullName} - ${formData.companyName || 'Private Label'} (${formData.quantity})`,
+            _replyto: formData.email,
+            _template: 'table',
+            _captcha: 'false',
+            'Reference ID': ref,
+            'Full Name': formData.fullName,
+            'Company': formData.companyName || 'Private Label',
+            'Corporate Email': formData.email,
+            'Phone / WhatsApp': formData.phone,
+            'Country': formData.country,
+            'Product Category': formData.category,
+            'Order Quantity': formData.quantity,
+            'Target Deadline': formData.targetDate,
+            'Fabric Preference': formData.fabricPreference,
+            'Technical Specs': formData.message,
+            'Attached Files': uploadedFiles.map(f => f.name).join(', ') || 'None'
+          })
+        });
+      } catch (fallbackErr) {
+        console.warn('FormSubmit fallback completed or caught:', fallbackErr);
+      }
+    }
 
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setSelectedProductForInquiry(null);
-    }, 1200);
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setSelectedProductForInquiry(null);
   };
 
   return (
@@ -422,7 +480,9 @@ export default function ContactPage() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
                   <a
-                    href="https://wa.me/message/PBVPZM3J7ETGH1"
+                    href={`https://wa.me/923144634183?text=${encodeURIComponent(
+                      `Hi Hare Sportswear, I just submitted an RFQ on your website.\n\n• Ref: ${referenceId}\n• Name: ${formData.fullName}\n• Company: ${formData.companyName || 'Private Label'}\n• Category: ${formData.category}\n• Quantity: ${formData.quantity}\n• Email: ${formData.email}\n\nPlease check export@haresportswear.com for my complete technical specs.`
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition-all"
