@@ -429,6 +429,76 @@ export default function AIMockupGeneratorPage() {
   const [selectedPattern, setSelectedPattern] = useState('stripes');
   const [collarStyle, setCollarStyle] = useState('v-neck');
 
+  // Local editable text inputs for direct HEX typing
+  const [primaryInput, setPrimaryInput] = useState(primaryColor);
+  const [secondaryInput, setSecondaryInput] = useState(secondaryColor);
+  const [accentInput, setAccentInput] = useState(accentColor);
+  const [trimInput, setTrimInput] = useState(trimColor);
+
+  // Keep text inputs synced whenever colors change from AI or presets
+  useEffect(() => { setPrimaryInput(primaryColor); }, [primaryColor]);
+  useEffect(() => { setSecondaryInput(secondaryColor); }, [secondaryColor]);
+  useEffect(() => { setAccentInput(accentColor); }, [accentColor]);
+  useEffect(() => { setTrimInput(trimColor); }, [trimColor]);
+
+  // Normalize 3-hex or 6-hex codes
+  const normalizeHexCode = (input) => {
+    let val = (input || '').trim();
+    if (!val.startsWith('#') && val.length > 0) val = '#' + val;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) return val.toUpperCase();
+    if (/^#[0-9A-Fa-f]{3}$/.test(val)) {
+      return ('#' + val[1] + val[1] + val[2] + val[2] + val[3] + val[3]).toUpperCase();
+    }
+    return null;
+  };
+
+  const syncTechBOMColor = (roleName, hexVal, defaultName) => {
+    const dictMatch = COLOR_DICTIONARY.find(c => c.hex.toLowerCase() === hexVal.toLowerCase());
+    const pantone = dictMatch ? dictMatch.pantone : 'Custom PMS';
+    const name = dictMatch ? dictMatch.name : defaultName;
+
+    setTechBOM(prev => ({
+      ...prev,
+      pantoneCodes: (prev.pantoneCodes || []).map(p => {
+        if (p.role.toLowerCase() === roleName.toLowerCase()) {
+          return { ...p, hex: hexVal, pantone, name };
+        }
+        return p;
+      })
+    }));
+  };
+
+  const handleHexInputChange = (role, rawValue) => {
+    if (role === 'primary') setPrimaryInput(rawValue);
+    else if (role === 'secondary') setSecondaryInput(rawValue);
+    else if (role === 'accent') setAccentInput(rawValue);
+    else if (role === 'trim') setTrimInput(rawValue);
+
+    const validHex = normalizeHexCode(rawValue);
+    if (validHex) {
+      if (role === 'primary') {
+        setPrimaryColor(validHex);
+        syncTechBOMColor('Primary', validHex, 'Primary Body');
+      } else if (role === 'secondary') {
+        setSecondaryColor(validHex);
+        syncTechBOMColor('Secondary', validHex, 'Secondary Graphic');
+      } else if (role === 'accent') {
+        setAccentColor(validHex);
+        syncTechBOMColor('Accent', validHex, 'Accent Brand');
+      } else if (role === 'trim') {
+        setTrimColor(validHex);
+        syncTechBOMColor('Trim', validHex, 'Collar / Trim');
+      }
+    }
+  };
+
+  const handleHexInputBlur = (role) => {
+    if (role === 'primary') setPrimaryInput(primaryColor);
+    else if (role === 'secondary') setSecondaryInput(secondaryColor);
+    else if (role === 'accent') setAccentInput(accentColor);
+    else if (role === 'trim') setTrimInput(trimColor);
+  };
+
   // Helper to select apparel from catalog and update collar defaults
   const handleSelectApparel = (apparelOrId) => {
     const apparel = typeof apparelOrId === 'string'
@@ -1358,89 +1428,163 @@ WhatsApp: +92 314 4634183
               )}
             </div>
 
-            {/* 3. Colorways & Curated Palettes */}
+            {/* 3. Garment Colors (Primary Body, Collars & Trims) */}
             <div className="p-6 rounded-3xl bg-white border border-[#E5DFD5] shadow-xs space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-2">
-                  <Palette className="w-4 h-4 text-[#FF751F]" />
-                  <span>3. Color Scheme & Sublimation Palette</span>
-                </label>
-              </div>
-
-              {/* Curated Pro Sport Presets */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Pro Sportswear Presets:</span>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {COLOR_PRESETS.map((preset, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleApplyPreset(preset)}
-                      className="p-2 rounded-xl bg-[#FAF8F5] hover:bg-stone-100 border border-[#E5DFD5] text-left transition-all text-[11px] font-semibold space-y-1.5 cursor-pointer"
-                    >
-                      <div className="flex items-center gap-1">
-                        <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: preset.primary }} />
-                        <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: preset.secondary }} />
-                        <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: preset.accent }} />
-                        <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: preset.trim }} />
-                      </div>
-                      <span className="block truncate text-stone-700 text-[10px]">{preset.name}</span>
-                    </button>
-                  ))}
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-[#FF751F]" />
+                    <span>3. Garment Colors (Primary Body, Collars &amp; Trims)</span>
+                  </label>
+                  <p className="text-[11px] text-stone-500 mt-1">
+                    Insert your custom HEX color codes or pick colors for primary body, graphic panels, accent details, and collar/trim.
+                  </p>
                 </div>
               </div>
 
-              {/* Custom Individual Hex Pickers */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 block mb-1">Primary Body</label>
-                  <div className="flex items-center gap-1.5 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5]">
-                    <input
-                      type="color"
-                      value={primaryColor}
-                      onChange={(e) => setPrimaryColor(e.target.value)}
-                      className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
-                    />
-                    <span className="text-[10px] font-mono uppercase font-bold text-stone-700">{primaryColor}</span>
+              {/* Custom Editable Hex Code Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {/* Primary Body */}
+                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Primary Body</label>
+                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Main Panels</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                      <input
+                        type="color"
+                        value={primaryColor}
+                        onChange={(e) => {
+                          const val = e.target.value.toUpperCase();
+                          setPrimaryColor(val);
+                          setPrimaryInput(val);
+                          syncTechBOMColor('Primary', val, 'Primary Body');
+                        }}
+                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        title="Click to open color picker"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <input
+                        type="text"
+                        value={primaryInput}
+                        onChange={(e) => handleHexInputChange('primary', e.target.value)}
+                        onBlur={() => handleHexInputBlur('primary')}
+                        placeholder="#111215"
+                        maxLength={7}
+                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
+                      />
+                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 block mb-1">Secondary Graphic</label>
-                  <div className="flex items-center gap-1.5 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5]">
-                    <input
-                      type="color"
-                      value={secondaryColor}
-                      onChange={(e) => setSecondaryColor(e.target.value)}
-                      className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
-                    />
-                    <span className="text-[10px] font-mono uppercase font-bold text-stone-700">{secondaryColor}</span>
+                {/* Secondary Graphic */}
+                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Secondary Graphic</label>
+                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Artwork</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                      <input
+                        type="color"
+                        value={secondaryColor}
+                        onChange={(e) => {
+                          const val = e.target.value.toUpperCase();
+                          setSecondaryColor(val);
+                          setSecondaryInput(val);
+                          syncTechBOMColor('Secondary', val, 'Secondary Graphic');
+                        }}
+                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        title="Click to open color picker"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <input
+                        type="text"
+                        value={secondaryInput}
+                        onChange={(e) => handleHexInputChange('secondary', e.target.value)}
+                        onBlur={() => handleHexInputBlur('secondary')}
+                        placeholder="#FF751F"
+                        maxLength={7}
+                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
+                      />
+                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 block mb-1">Accent Brand</label>
-                  <div className="flex items-center gap-1.5 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5]">
-                    <input
-                      type="color"
-                      value={accentColor}
-                      onChange={(e) => setAccentColor(e.target.value)}
-                      className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
-                    />
-                    <span className="text-[10px] font-mono uppercase font-bold text-stone-700">{accentColor}</span>
+                {/* Accent Brand */}
+                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Accent Brand</label>
+                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Details</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                      <input
+                        type="color"
+                        value={accentColor}
+                        onChange={(e) => {
+                          const val = e.target.value.toUpperCase();
+                          setAccentColor(val);
+                          setAccentInput(val);
+                          syncTechBOMColor('Accent', val, 'Accent Brand');
+                        }}
+                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        title="Click to open color picker"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <input
+                        type="text"
+                        value={accentInput}
+                        onChange={(e) => handleHexInputChange('accent', e.target.value)}
+                        onBlur={() => handleHexInputBlur('accent')}
+                        placeholder="#FFFFFF"
+                        maxLength={7}
+                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
+                      />
+                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 block mb-1">Collar / Trim</label>
-                  <div className="flex items-center gap-1.5 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5DFD5]">
-                    <input
-                      type="color"
-                      value={trimColor}
-                      onChange={(e) => setTrimColor(e.target.value)}
-                      className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
-                    />
-                    <span className="text-[10px] font-mono uppercase font-bold text-stone-700">{trimColor}</span>
+                {/* Collar / Trim */}
+                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Collar / Trim</label>
+                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Rib &amp; Edge</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                      <input
+                        type="color"
+                        value={trimColor}
+                        onChange={(e) => {
+                          const val = e.target.value.toUpperCase();
+                          setTrimColor(val);
+                          setTrimInput(val);
+                          syncTechBOMColor('Trim', val, 'Collar / Trim');
+                        }}
+                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        title="Click to open color picker"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <input
+                        type="text"
+                        value={trimInput}
+                        onChange={(e) => handleHexInputChange('trim', e.target.value)}
+                        onBlur={() => handleHexInputBlur('trim')}
+                        placeholder="#D4AF37"
+                        maxLength={7}
+                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
+                      />
+                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    </div>
                   </div>
                 </div>
               </div>
