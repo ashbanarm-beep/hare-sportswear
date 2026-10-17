@@ -1442,16 +1442,16 @@ WhatsApp: +92 314 4634183
                 </div>
               </div>
 
-              {/* Custom Editable Hex Code Inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {/* Primary Body */}
-                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Primary Body</label>
-                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Main Panels</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+              {/* Custom Editable Hex Code Inputs - Arranged One Under the Other */}
+              <div className="space-y-2.5">
+                {/* 1. Primary Body */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-black/15 shadow-2xs cursor-pointer group"
+                      style={{ backgroundColor: primaryColor }}
+                      title="Click to open color picker"
+                    >
                       <input
                         type="color"
                         value={primaryColor}
@@ -1461,33 +1461,45 @@ WhatsApp: +92 314 4634183
                           setPrimaryInput(val);
                           syncTechBOMColor('Primary', val, 'Primary Body');
                         }}
-                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         title="Click to open color picker"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <input
-                        type="text"
-                        value={primaryInput}
-                        onChange={(e) => handleHexInputChange('primary', e.target.value)}
-                        onBlur={() => handleHexInputBlur('primary')}
-                        placeholder="#111215"
-                        maxLength={7}
-                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
-                      />
-                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs sm:text-sm font-bold text-[#1A1A1A] block truncate">Primary Body</label>
+                        <span className="text-[9px] font-semibold text-stone-500 uppercase tracking-wider bg-white border border-[#E5DFD5] px-1.5 py-0.5 rounded-md shrink-0">Main Panels</span>
+                      </div>
+                      <p className="text-[11px] text-stone-500 truncate mt-0.5">Main garment fabric &amp; base silhouette</p>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all shrink-0 w-28 sm:w-36">
+                    <span className="text-xs font-mono font-bold text-stone-400 select-none">#</span>
+                    <input
+                      type="text"
+                      value={primaryInput.replace(/^#/, '')}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+                        handleHexInputChange('primary', '#' + raw);
+                      }}
+                      onBlur={() => handleHexInputBlur('primary')}
+                      placeholder="111215"
+                      maxLength={6}
+                      className="w-full text-xs sm:text-sm font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none tracking-wider"
+                      title="Enter 6-digit hex color code"
+                    />
                   </div>
                 </div>
 
-                {/* Secondary Graphic */}
-                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Secondary Graphic</label>
-                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Artwork</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                {/* 2. Secondary Graphic */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-black/15 shadow-2xs cursor-pointer group"
+                      style={{ backgroundColor: secondaryColor }}
+                      title="Click to open color picker"
+                    >
                       <input
                         type="color"
                         value={secondaryColor}
@@ -1497,33 +1509,45 @@ WhatsApp: +92 314 4634183
                           setSecondaryInput(val);
                           syncTechBOMColor('Secondary', val, 'Secondary Graphic');
                         }}
-                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         title="Click to open color picker"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <input
-                        type="text"
-                        value={secondaryInput}
-                        onChange={(e) => handleHexInputChange('secondary', e.target.value)}
-                        onBlur={() => handleHexInputBlur('secondary')}
-                        placeholder="#FF751F"
-                        maxLength={7}
-                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
-                      />
-                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs sm:text-sm font-bold text-[#1A1A1A] block truncate">Secondary Graphic</label>
+                        <span className="text-[9px] font-semibold text-stone-500 uppercase tracking-wider bg-white border border-[#E5DFD5] px-1.5 py-0.5 rounded-md shrink-0">Artwork</span>
+                      </div>
+                      <p className="text-[11px] text-stone-500 truncate mt-0.5">Sleeves, sublimated pattern &amp; gradient graphics</p>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all shrink-0 w-28 sm:w-36">
+                    <span className="text-xs font-mono font-bold text-stone-400 select-none">#</span>
+                    <input
+                      type="text"
+                      value={secondaryInput.replace(/^#/, '')}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+                        handleHexInputChange('secondary', '#' + raw);
+                      }}
+                      onBlur={() => handleHexInputBlur('secondary')}
+                      placeholder="FF751F"
+                      maxLength={6}
+                      className="w-full text-xs sm:text-sm font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none tracking-wider"
+                      title="Enter 6-digit hex color code"
+                    />
                   </div>
                 </div>
 
-                {/* Accent Brand */}
-                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Accent Brand</label>
-                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Details</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                {/* 3. Accent Brand */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-black/15 shadow-2xs cursor-pointer group"
+                      style={{ backgroundColor: accentColor }}
+                      title="Click to open color picker"
+                    >
                       <input
                         type="color"
                         value={accentColor}
@@ -1533,33 +1557,45 @@ WhatsApp: +92 314 4634183
                           setAccentInput(val);
                           syncTechBOMColor('Accent', val, 'Accent Brand');
                         }}
-                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         title="Click to open color picker"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <input
-                        type="text"
-                        value={accentInput}
-                        onChange={(e) => handleHexInputChange('accent', e.target.value)}
-                        onBlur={() => handleHexInputBlur('accent')}
-                        placeholder="#FFFFFF"
-                        maxLength={7}
-                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
-                      />
-                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs sm:text-sm font-bold text-[#1A1A1A] block truncate">Accent Brand</label>
+                        <span className="text-[9px] font-semibold text-stone-500 uppercase tracking-wider bg-white border border-[#E5DFD5] px-1.5 py-0.5 rounded-md shrink-0">Details</span>
+                      </div>
+                      <p className="text-[11px] text-stone-500 truncate mt-0.5">Logos, numbers, crest borders &amp; brand marks</p>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all shrink-0 w-28 sm:w-36">
+                    <span className="text-xs font-mono font-bold text-stone-400 select-none">#</span>
+                    <input
+                      type="text"
+                      value={accentInput.replace(/^#/, '')}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+                        handleHexInputChange('accent', '#' + raw);
+                      }}
+                      onBlur={() => handleHexInputBlur('accent')}
+                      placeholder="FFFFFF"
+                      maxLength={6}
+                      className="w-full text-xs sm:text-sm font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none tracking-wider"
+                      title="Enter 6-digit hex color code"
+                    />
                   </div>
                 </div>
 
-                {/* Collar / Trim */}
-                <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-[#1A1A1A] block">Collar / Trim</label>
-                    <span className="text-[9px] font-semibold text-stone-400 uppercase tracking-wider">Rib &amp; Edge</span>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all">
-                    <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-black/10 shadow-2xs cursor-pointer">
+                {/* 4. Collar / Trim */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-colors gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="relative w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-black/15 shadow-2xs cursor-pointer group"
+                      style={{ backgroundColor: trimColor }}
+                      title="Click to open color picker"
+                    >
                       <input
                         type="color"
                         value={trimColor}
@@ -1569,22 +1605,34 @@ WhatsApp: +92 314 4634183
                           setTrimInput(val);
                           syncTechBOMColor('Trim', val, 'Collar / Trim');
                         }}
-                        className="absolute -inset-2 w-12 h-12 cursor-pointer border-0 p-0"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         title="Click to open color picker"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <input
-                        type="text"
-                        value={trimInput}
-                        onChange={(e) => handleHexInputChange('trim', e.target.value)}
-                        onBlur={() => handleHexInputBlur('trim')}
-                        placeholder="#D4AF37"
-                        maxLength={7}
-                        className="w-full text-xs font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none"
-                      />
-                      <span className="text-[9px] text-stone-400 block truncate">Hex color code</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs sm:text-sm font-bold text-[#1A1A1A] block truncate">Collar / Trim</label>
+                        <span className="text-[9px] font-semibold text-stone-500 uppercase tracking-wider bg-white border border-[#E5DFD5] px-1.5 py-0.5 rounded-md shrink-0">Rib &amp; Edge</span>
+                      </div>
+                      <p className="text-[11px] text-stone-500 truncate mt-0.5">Collar ribs, sleeve cuff bands &amp; waist hems</p>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl border border-[#E5DFD5] focus-within:border-[#FF751F] focus-within:ring-2 focus-within:ring-[#FF751F]/15 transition-all shrink-0 w-28 sm:w-36">
+                    <span className="text-xs font-mono font-bold text-stone-400 select-none">#</span>
+                    <input
+                      type="text"
+                      value={trimInput.replace(/^#/, '')}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+                        handleHexInputChange('trim', '#' + raw);
+                      }}
+                      onBlur={() => handleHexInputBlur('trim')}
+                      placeholder="D4AF37"
+                      maxLength={6}
+                      className="w-full text-xs sm:text-sm font-mono font-bold uppercase text-[#1A1A1A] bg-transparent border-0 p-0 focus:outline-none tracking-wider"
+                      title="Enter 6-digit hex color code"
+                    />
                   </div>
                 </div>
               </div>
