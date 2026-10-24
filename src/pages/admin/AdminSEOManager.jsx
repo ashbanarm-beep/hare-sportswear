@@ -34,7 +34,7 @@ export default function AdminSEOManager() {
           title: `${dp.name} | Hare Sportswear Sialkot`,
           description: dp.publicDesc,
           keywords: `${dp.name.toLowerCase()}, sportswear manufacturer, sialkot export`,
-          canonical: `https://hare-sportswear.vercel.app${dp.path}`
+          canonical: `https://www.haresportswear.com${dp.path}`
         })
       });
     });
@@ -67,7 +67,7 @@ export default function AdminSEOManager() {
           title: `${p.title} | Hare Sportswear Blog`,
           description: p.excerpt || p.title,
           keywords: `${p.category}, sportswear tech pack, textile guide, sialkot manufacturing`,
-          canonical: `https://hare-sportswear.vercel.app${blogPath}`
+          canonical: `https://www.haresportswear.com${blogPath}`
         });
       }
     });
@@ -97,7 +97,7 @@ export default function AdminSEOManager() {
       title: '',
       description: '',
       keywords: '',
-      canonical: `https://hare-sportswear.vercel.app${selectedPath}`
+      canonical: `https://www.haresportswear.com${selectedPath}`
     };
   }, [selectedPath, seoRegistry, allRoutes]);
 

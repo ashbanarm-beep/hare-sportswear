@@ -263,7 +263,7 @@ export default function HomePage() {
           
           {/* Category 1: Teamwear */}
           <Link
-            to="/products?category=teamwear"
+            to="/products/teamwear"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
@@ -294,7 +294,7 @@ export default function HomePage() {
 
           {/* Category 2: Sports Bras & Women's Activewear */}
           <Link
-            to="/products?category=womens-activewear"
+            to="/products/womens-activewear"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
@@ -325,7 +325,7 @@ export default function HomePage() {
 
           {/* Category 3: Men's Activewear & Training */}
           <Link
-            to="/products?category=activewear"
+            to="/products/activewear"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
@@ -356,7 +356,7 @@ export default function HomePage() {
 
           {/* Category 4: Sports Caps & Headwear (NEW) */}
           <Link
-            to="/products?category=sports-caps"
+            to="/products/sports-caps"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
@@ -387,7 +387,7 @@ export default function HomePage() {
 
           {/* Category 5: Sports Equipment & Protective Goods */}
           <Link
-            to="/products?category=equipment"
+            to="/products/equipment"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">
@@ -418,7 +418,7 @@ export default function HomePage() {
 
           {/* Category 5: Wrestling & Combat Gear */}
           <Link
-            to="/products?category=equipment&sub=combat-sports"
+            to="/products/equipment/combat-sports"
             className="group relative rounded-3xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/50 transition-all duration-300 flex flex-col min-h-[420px] h-auto shadow-sm hover:shadow-xl"
           >
             <div className="relative h-56 overflow-hidden bg-white p-4 flex items-center justify-center border-b border-[#E5DFD5]">

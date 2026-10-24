@@ -15,7 +15,7 @@ const DUMMY_BLOG_SLUGS = [
 const STORAGE_KEYS = {
   BLOG_POSTS: 'hare_cms_blog_posts_v3',
   BLOG_CATEGORIES: 'hare_cms_blog_categories_v1',
-  SEO_REGISTRY: 'hare_cms_seo_registry_v4',
+  SEO_REGISTRY: 'hare_cms_seo_registry_v5',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
   PAGE_BLOCKS: 'hare_cms_page_blocks_v1',
   CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1',
@@ -296,7 +296,7 @@ export function CMSProvider({ children }) {
       [path]: {
         ...(prev[path] || {}),
         ...data,
-        canonical: data.canonical || `https://hare-sportswear.vercel.app${path}`
+        canonical: data.canonical || `https://www.haresportswear.com${path}`
       }
     }));
   };

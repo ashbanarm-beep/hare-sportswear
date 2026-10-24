@@ -50,6 +50,60 @@
       "source": "/cost-estimator",
       "destination": "/tools/manufacturing-cost-calculator",
       "permanent": true
+    },
+    {
+      "source": "/products/womens",
+      "destination": "/products/womens-activewear",
+      "permanent": true
+    },
+    {
+      "source": "/products/mens-activewear",
+      "destination": "/products/activewear",
+      "permanent": true
+    },
+    {
+      "source": "/products/caps",
+      "destination": "/products/sports-caps",
+      "permanent": true
+    },
+    {
+      "source": "/products/headwear",
+      "destination": "/products/sports-caps",
+      "permanent": true
+    },
+    {
+      "source": "/products/accessories",
+      "destination": "/products/equipment",
+      "permanent": true
+    },
+    {
+      "source": "/products",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "(?<cat>[^/&]+)"
+        },
+        {
+          "type": "query",
+          "key": "sub",
+          "value": "(?<subcat>[^/&]+)"
+        }
+      ],
+      "destination": "/products/:cat/:subcat",
+      "permanent": true
+    },
+    {
+      "source": "/products",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "(?<cat>[^/&]+)"
+        }
+      ],
+      "destination": "/products/:cat",
+      "permanent": true
     }
   ],
   "rewrites": [

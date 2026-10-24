@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, useSearchParams, Link } from 'react-router-dom';
 import { 
   Search, Filter, SlidersHorizontal, Check, Eye, 
-  ArrowRight, Sparkles, Layers, ShieldCheck, X 
+  ArrowRight, Sparkles, Layers, ShieldCheck, X, ChevronRight, Home 
 } from 'lucide-react';
 import { products, categories, equipmentSubcategories, activewearSubcategories, womensSubcategories, sportsCapsSubcategories, materialTypes } from '../data/products';
 import ProductDetailModal from '../components/products/ProductDetailModal';
@@ -10,38 +10,47 @@ import DynamicPageContent from '../components/cms/DynamicPageContent';
 import PageFAQSection from '../components/common/PageFAQSection';
 
 export default function ProductsPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const rawCat = searchParams.get('category') || 'all';
-  const initialCat = rawCat === 'accessories' ? 'equipment' : rawCat;
-  const initialSub = searchParams.get('sub') || 'all';
+  const { category: routeCategory, sub: routeSub } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [selectedCategory, setSelectedCategory] = useState(initialCat);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(initialSub);
+  // Backward-compatibility: auto-redirect legacy ?category=... query parameters to clean path URLs
+  useEffect(() => {
+    const queryCat = searchParams.get('category');
+    const querySub = searchParams.get('sub');
+    if (queryCat && !routeCategory) {
+      const cleanCat = queryCat === 'accessories' ? 'equipment' : queryCat;
+      if (cleanCat === 'all') {
+        navigate('/products', { replace: true });
+      } else if (querySub && !querySub.startsWith('all-') && querySub !== 'all') {
+        navigate(`/products/${cleanCat}/${querySub}`, { replace: true });
+      } else {
+        navigate(`/products/${cleanCat}`, { replace: true });
+      }
+    }
+  }, [searchParams, routeCategory, navigate]);
+
+  // Normalize selected category from route path
+  const selectedCategory = useMemo(() => {
+    if (!routeCategory || routeCategory === 'all') return 'all';
+    if (routeCategory === 'accessories') return 'equipment';
+    return routeCategory;
+  }, [routeCategory]);
+
+  // Normalize selected subcategory from route path
+  const selectedSubcategory = useMemo(() => {
+    if (routeSub) return routeSub;
+    if (selectedCategory === 'equipment') return 'all-equipment';
+    if (selectedCategory === 'womens-activewear') return 'all-womens';
+    if (selectedCategory === 'activewear') return 'all-activewear';
+    if (selectedCategory === 'sports-caps') return 'all-caps';
+    return 'all';
+  }, [selectedCategory, routeSub]);
+
   const [selectedMaterial, setSelectedMaterial] = useState('All Materials');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalProduct, setActiveModalProduct] = useState(null);
-
-  useEffect(() => {
-    const cat = searchParams.get('category');
-    const sub = searchParams.get('sub');
-    if (cat === 'accessories') {
-      setSelectedCategory('equipment');
-    } else if (cat) {
-      setSelectedCategory(cat);
-    } else {
-      setSelectedCategory('all');
-    }
-
-    if (sub) {
-      setSelectedSubcategory(sub);
-    } else {
-      if (cat === 'equipment') setSelectedSubcategory('all-equipment');
-      else if (cat === 'womens-activewear') setSelectedSubcategory('all-womens');
-      else if (cat === 'activewear') setSelectedSubcategory('all-activewear');
-      else if (cat === 'sports-caps') setSelectedSubcategory('all-caps');
-      else setSelectedSubcategory('all');
-    }
-  }, [searchParams]);
 
   // Filter products based on category, subcategory, material, and search
   const filteredProducts = useMemo(() => {
@@ -106,59 +115,242 @@ export default function ProductsPage() {
     });
   }, [selectedCategory, selectedSubcategory, selectedMaterial, searchQuery]);
 
+  // Clean Path Navigation Handlers
   const handleCategoryChange = (catId) => {
-    setSelectedCategory(catId);
-    let defaultSub = 'all';
-    if (catId === 'equipment') defaultSub = 'all-equipment';
-    else if (catId === 'womens-activewear') defaultSub = 'all-womens';
-    else if (catId === 'activewear') defaultSub = 'all-activewear';
-    else if (catId === 'sports-caps') defaultSub = 'all-caps';
-    setSelectedSubcategory(defaultSub);
-
     if (catId === 'all') {
-      searchParams.delete('category');
-      searchParams.delete('sub');
-      setSearchParams(searchParams);
+      navigate('/products');
     } else {
-      setSearchParams({ category: catId });
+      navigate(`/products/${catId}`);
     }
   };
 
+  const handleSubcategoryChange = (subId) => {
+    const isAll = 
+      subId === 'all' || 
+      subId === 'all-equipment' || 
+      subId === 'all-womens' || 
+      subId === 'all-activewear' || 
+      subId === 'all-caps';
+
+    if (isAll) {
+      navigate(`/products/${selectedCategory}`);
+    } else {
+      navigate(`/products/${selectedCategory}/${subId}`);
+    }
+  };
+
+  const handleResetFilters = () => {
+    setSelectedMaterial('All Materials');
+    setSearchQuery('');
+    navigate('/products');
+  };
+
+  // Structured Data (JSON-LD) for Technical SEO, Crawlers & Search Engines
+  useEffect(() => {
+    const currentCatObj = categories.find(c => c.id === selectedCategory);
+    const categoryName = currentCatObj ? currentCatObj.name : 'All Products';
+
+    const allSubs = [
+      ...womensSubcategories,
+      ...activewearSubcategories,
+      ...sportsCapsSubcategories,
+      ...equipmentSubcategories
+    ];
+    const currentSubObj = allSubs.find(s => s.id === selectedSubcategory);
+    const subcategoryName = currentSubObj ? currentSubObj.name : '';
+
+    // 1. Breadcrumbs Schema
+    const breadcrumbItems = [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.haresportswear.com/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Products Catalog',
+        item: 'https://www.haresportswear.com/products'
+      }
+    ];
+
+    if (selectedCategory !== 'all') {
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 3,
+        name: categoryName,
+        item: `https://www.haresportswear.com/products/${selectedCategory}`
+      });
+
+      if (selectedSubcategory && !selectedSubcategory.startsWith('all-') && selectedSubcategory !== 'all') {
+        breadcrumbItems.push({
+          '@type': 'ListItem',
+          position: 4,
+          name: subcategoryName || selectedSubcategory,
+          item: `https://www.haresportswear.com/products/${selectedCategory}/${selectedSubcategory}`
+        });
+      }
+    }
+
+    const breadcrumbsScriptId = 'technical-seo-breadcrumbs-jsonld';
+    let breadcrumbsTag = document.getElementById(breadcrumbsScriptId);
+    if (!breadcrumbsTag) {
+      breadcrumbsTag = document.createElement('script');
+      breadcrumbsTag.id = breadcrumbsScriptId;
+      breadcrumbsTag.type = 'application/ld+json';
+      document.head.appendChild(breadcrumbsTag);
+    }
+    breadcrumbsTag.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems
+    });
+
+    // 2. ItemList Schema for Product Collection
+    const itemlistScriptId = 'technical-seo-itemlist-jsonld';
+    let itemlistTag = document.getElementById(itemlistScriptId);
+    if (!itemlistTag) {
+      itemlistTag = document.createElement('script');
+      itemlistTag.id = itemlistScriptId;
+      itemlistTag.type = 'application/ld+json';
+      document.head.appendChild(itemlistTag);
+    }
+
+    const productSchemaItems = filteredProducts.slice(0, 30).map((prod, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Product',
+        name: prod.name,
+        description: prod.description,
+        sku: prod.id,
+        image: prod.image.startsWith('http') ? prod.image : `https://www.haresportswear.com${prod.image}`,
+        brand: {
+          '@type': 'Brand',
+          name: 'Hare Sportswear'
+        },
+        manufacturer: {
+          '@type': 'Organization',
+          name: 'Hare Sportswear and Goods',
+          url: 'https://www.haresportswear.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Paris Road',
+            addressLocality: 'Sialkot',
+            postalCode: '51310',
+            addressCountry: 'PK'
+          }
+        },
+        offers: {
+          '@type': 'AggregateOffer',
+          priceCurrency: 'USD',
+          offerCount: prod.moq,
+          availability: 'https://schema.org/InStock',
+          seller: {
+            '@type': 'Organization',
+            name: 'Hare Sportswear'
+          }
+        }
+      }
+    }));
+
+    itemlistTag.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${categoryName} Wholesale Manufacturing Catalog - Hare Sportswear`,
+      numberOfItems: filteredProducts.length,
+      itemListElement: productSchemaItems
+    });
+
+    return () => {
+      const bTag = document.getElementById(breadcrumbsScriptId);
+      if (bTag) bTag.remove();
+      const iTag = document.getElementById(itemlistScriptId);
+      if (iTag) iTag.remove();
+    };
+  }, [selectedCategory, selectedSubcategory, filteredProducts]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
+      {/* Clean Technical SEO Breadcrumbs Navigation */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#8A847A] flex-wrap">
+        <Link to="/" className="hover:text-[#FF751F] transition-colors flex items-center gap-1 font-medium">
+          <Home className="w-3.5 h-3.5 text-[#8A847A]" />
+          <span>Home</span>
+        </Link>
+        <ChevronRight className="w-3 h-3 text-[#C4BDAF]" />
+        {selectedCategory === 'all' ? (
+          <span className="font-semibold text-[#1A1A1A]">Products Catalog</span>
+        ) : (
+          <>
+            <Link to="/products" className="hover:text-[#FF751F] transition-colors font-medium">
+              Products
+            </Link>
+            <ChevronRight className="w-3 h-3 text-[#C4BDAF]" />
+            {selectedSubcategory && !selectedSubcategory.startsWith('all-') && selectedSubcategory !== 'all' ? (
+              <>
+                <Link to={`/products/${selectedCategory}`} className="hover:text-[#FF751F] transition-colors font-medium">
+                  {categories.find(c => c.id === selectedCategory)?.name || selectedCategory}
+                </Link>
+                <ChevronRight className="w-3 h-3 text-[#C4BDAF]" />
+                <span className="font-semibold text-[#1A1A1A]">
+                  {[...womensSubcategories, ...activewearSubcategories, ...sportsCapsSubcategories, ...equipmentSubcategories].find(s => s.id === selectedSubcategory)?.name || selectedSubcategory}
+                </span>
+              </>
+            ) : (
+              <span className="font-semibold text-[#1A1A1A]">
+                {categories.find(c => c.id === selectedCategory)?.name || selectedCategory}
+              </span>
+            )}
+          </>
+        )}
+      </nav>
+
       {/* Page Header */}
       <div className="space-y-4">
         <div className="inline-flex items-center gap-2 text-xs font-bold text-[#FF751F] uppercase tracking-wider">
           <Layers className="w-3.5 h-3.5" />
           <span>
-            {selectedCategory === 'womens-activewear'
-              ? "Women's Technical Apparel Line"
-              : selectedCategory === 'activewear'
-                ? "Men's Activewear & Training Line"
-                : selectedCategory === 'sports-caps'
-                  ? "Sports Caps & Athletic Headwear Division"
-                  : "OEM / ODM Manufacturing Catalog"}
+            {selectedCategory === 'teamwear'
+              ? "Custom Sublimated Teamwear Division"
+              : selectedCategory === 'womens-activewear'
+                ? "Women's Technical Apparel Line"
+                : selectedCategory === 'activewear'
+                  ? "Men's Activewear & Training Line"
+                  : selectedCategory === 'sports-caps'
+                    ? "Sports Caps & Athletic Headwear Division"
+                    : selectedCategory === 'equipment'
+                      ? "Sports Equipment, Combat & Protective Goods"
+                      : "OEM / ODM Manufacturing Catalog"}
           </span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-[#1A1A1A]">
-          {selectedCategory === 'womens-activewear'
-            ? "Sports Bras & Women's Activewear"
-            : selectedCategory === 'activewear'
-              ? "Men's Activewear & Training"
-              : selectedCategory === 'sports-caps'
-                ? "Sports Caps & Athletic Headwear"
-                : "Wholesale Products & Technical Apparel"}
+          {selectedCategory === 'teamwear'
+            ? "Custom Sublimated Teamwear & Kits"
+            : selectedCategory === 'womens-activewear'
+              ? "Sports Bras & Women's Activewear"
+              : selectedCategory === 'activewear'
+                ? "Men's Activewear & Training"
+                : selectedCategory === 'sports-caps'
+                  ? "Sports Caps & Athletic Headwear"
+                  : selectedCategory === 'equipment'
+                    ? "Sports Equipment & Athletic Goods"
+                    : "Wholesale Products & Technical Apparel"}
         </h1>
         <p className="text-sm sm:text-base text-[#595856] max-w-3xl leading-relaxed">
-          {selectedCategory === 'womens-activewear'
-            ? "Engineered specifically for women's athletic silhouettes, high-impact bust support, and squat-proof compression. Strictly dedicated to women's apparel with bespoke tech pack grading, custom molded pads, and zero men's options."
-            : selectedCategory === 'activewear'
-              ? "Engineered specifically for men's athletic training, heavy lifting, and gym streetwear. Strictly dedicated to men's cuts, reinforced bar-tacks, heavy French Terry, and compression rashguards with zero women's garments mixed in."
-              : selectedCategory === 'sports-caps'
-                ? "OEM / ODM custom sports caps, athletic running visors, and thermal knit beanies. Manufactured with laser-cut perforations, quick-dry performance sweatbands, and precision 3D Tajima embroidery for athletic teams, tournaments, and lifestyle brands."
-                : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
+          {selectedCategory === 'teamwear'
+            ? "Factory-direct custom sublimated team uniforms, soccer kits, cricket whites, basketball jerseys, and rugby kits. Engineered with Italian Kiian dye sublimation, moisture-wicking interlock, and reinforced bar-tack stitching for pro clubs and tournaments."
+            : selectedCategory === 'womens-activewear'
+              ? "Engineered specifically for women's athletic silhouettes, high-impact bust support, and squat-proof compression. Strictly dedicated to women's apparel with bespoke tech pack grading, custom molded pads, and zero men's options."
+              : selectedCategory === 'activewear'
+                ? "Engineered specifically for men's athletic training, heavy lifting, and gym streetwear. Strictly dedicated to men's cuts, reinforced bar-tacks, heavy French Terry, and compression rashguards with zero women's garments mixed in."
+                : selectedCategory === 'sports-caps'
+                  ? "OEM / ODM custom sports caps, athletic running visors, and thermal knit beanies. Manufactured with laser-cut perforations, quick-dry performance sweatbands, and precision 3D Tajima embroidery for athletic teams, tournaments, and lifestyle brands."
+                  : selectedCategory === 'equipment'
+                    ? "Tournament-grade sports equipment, FIFA-spec match soccer balls, carbon shin guards, wrestling championship belts, combat gear, and gym fitness accessories exported globally from Sialkot."
+                    : "Explore our core manufacturing lines across sublimated teamwear, activewear, and athletic goods. All styles can be completely customized with your brand's labels, tech packs, PMS colors, and fabric specifications."}
         </p>
       </div>
 
@@ -233,12 +425,7 @@ export default function ProductsPage() {
             {womensSubcategories.map((sub) => (
               <button
                 key={sub.id}
-                onClick={() => {
-                  setSelectedSubcategory(sub.id);
-                  const params = new URLSearchParams(searchParams);
-                  params.set('sub', sub.id);
-                  setSearchParams(params);
-                }}
+                onClick={() => handleSubcategoryChange(sub.id)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedSubcategory === sub.id
                     ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
@@ -268,12 +455,7 @@ export default function ProductsPage() {
             {activewearSubcategories.map((sub) => (
               <button
                 key={sub.id}
-                onClick={() => {
-                  setSelectedSubcategory(sub.id);
-                  const params = new URLSearchParams(searchParams);
-                  params.set('sub', sub.id);
-                  setSearchParams(params);
-                }}
+                onClick={() => handleSubcategoryChange(sub.id)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedSubcategory === sub.id
                     ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
@@ -303,12 +485,7 @@ export default function ProductsPage() {
             {sportsCapsSubcategories.map((sub) => (
               <button
                 key={sub.id}
-                onClick={() => {
-                  setSelectedSubcategory(sub.id);
-                  const params = new URLSearchParams(searchParams);
-                  params.set('sub', sub.id);
-                  setSearchParams(params);
-                }}
+                onClick={() => handleSubcategoryChange(sub.id)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   selectedSubcategory === sub.id
                     ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
@@ -336,12 +513,7 @@ export default function ProductsPage() {
           {equipmentSubcategories.map((sub) => (
             <button
               key={sub.id}
-              onClick={() => {
-                setSelectedSubcategory(sub.id);
-                const params = new URLSearchParams(searchParams);
-                params.set('sub', sub.id);
-                setSearchParams(params);
-              }}
+              onClick={() => handleSubcategoryChange(sub.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedSubcategory === sub.id
                   ? 'bg-[#1A1A1A] text-white font-bold shadow-sm'
@@ -361,15 +533,7 @@ export default function ProductsPage() {
         </span>
         {(selectedCategory !== 'all' || selectedSubcategory !== 'all' || selectedMaterial !== 'All Materials' || searchQuery) && (
           <button
-            onClick={() => {
-              setSelectedCategory('all');
-              setSelectedSubcategory('all');
-              setSelectedMaterial('All Materials');
-              setSearchQuery('');
-              searchParams.delete('category');
-              searchParams.delete('sub');
-              setSearchParams(searchParams);
-            }}
+            onClick={handleResetFilters}
             className="text-[#FF751F] font-bold hover:underline flex items-center gap-1"
           >
             <X className="w-3.5 h-3.5" /> Reset all filters
@@ -385,11 +549,7 @@ export default function ProductsPage() {
             Need a custom proprietary garment that is not listed? We manufacture bespoke patterns based on custom tech packs.
           </p>
           <button
-            onClick={() => {
-              setSelectedCategory('all');
-              setSelectedMaterial('All Materials');
-              setSearchQuery('');
-            }}
+            onClick={handleResetFilters}
             className="px-5 py-2.5 rounded-xl bg-[#FF751F] text-white text-xs font-bold shadow-glow-orange"
           >
             Reset Filters

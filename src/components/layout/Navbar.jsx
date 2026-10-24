@@ -77,7 +77,7 @@ export default function Navbar() {
   const productCategories = [
     {
       name: 'Teamwear & Custom Kits',
-      path: '/products?category=teamwear',
+      path: '/products/teamwear',
       desc: 'Soccer, rugby, basketball, cricket uniforms & technical kits',
       badge: 'High-Performance',
       icon: Shirt,
@@ -85,7 +85,7 @@ export default function Navbar() {
     },
     {
       name: "Sports Bras & Women's Activewear",
-      path: '/products?category=womens-activewear',
+      path: '/products/womens-activewear',
       desc: 'High-impact sports bras, seamless leggings, bike shorts & yoga sets',
       badge: "Women's Line",
       icon: Sparkles,
@@ -93,7 +93,7 @@ export default function Navbar() {
     },
     {
       name: "Men's Activewear & Training",
-      path: '/products?category=activewear',
+      path: '/products/activewear',
       desc: 'Compression rashguards, athletic joggers & heavyweight fleece hoodies',
       badge: 'Athleisure',
       icon: Dumbbell,
@@ -101,7 +101,7 @@ export default function Navbar() {
     },
     {
       name: 'Sports Caps & Headwear',
-      path: '/products?category=sports-caps',
+      path: '/products/sports-caps',
       desc: 'Laser-perforated baseball caps, athletic running visors & thermal beanies',
       badge: 'Headwear Line',
       icon: Sparkles,
@@ -109,7 +109,7 @@ export default function Navbar() {
     },
     {
       name: 'Sports Equipment & Goods',
-      path: '/products?category=equipment',
+      path: '/products/equipment',
       desc: 'FIFA-spec match balls, carbon shin pads, padel/badminton rackets & gear',
       badge: 'Gear & Balls',
       icon: Trophy,
@@ -117,7 +117,7 @@ export default function Navbar() {
     },
     {
       name: 'Wrestling & Combat Gear',
-      path: '/products?category=equipment&sub=combat-sports',
+      path: '/products/equipment/combat-sports',
       desc: 'Championship belts, grappling dummies, headgear & wrestling boots',
       badge: 'Pro Combat',
       icon: Sparkles,

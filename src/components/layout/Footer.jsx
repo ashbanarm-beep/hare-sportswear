@@ -132,47 +132,47 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-[#C4BDAF]">
               <li>
-                <Link to="/products?category=teamwear" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/teamwear" className="hover:text-[#FF751F] transition-colors">
                   Custom Teamwear Uniforms
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=womens-activewear" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/womens-activewear" className="hover:text-[#FF751F] transition-colors">
                   Sports Bras & Women's Activewear
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=activewear" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/activewear" className="hover:text-[#FF751F] transition-colors">
                   Men's Activewear & Training
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=sports-caps" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/sports-caps" className="hover:text-[#FF751F] transition-colors">
                   Sports Caps &amp; Headwear
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=equipment" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/equipment" className="hover:text-[#FF751F] transition-colors">
                   Sports Equipment &amp; Goods
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=equipment&sub=racket-sports" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/equipment/racket-sports" className="hover:text-[#FF751F] transition-colors">
                   Racket & Net Sports
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=equipment&sub=fitness" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/equipment/fitness" className="hover:text-[#FF751F] transition-colors">
                   Fitness & Gym Gear
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=equipment&sub=outdoor" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/equipment/outdoor" className="hover:text-[#FF751F] transition-colors">
                   Outdoor & Camping Gear
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=equipment&sub=combat-sports" className="hover:text-[#FF751F] transition-colors">
+                <Link to="/products/equipment/combat-sports" className="hover:text-[#FF751F] transition-colors">
                   Wrestling & Combat Gear
                 </Link>
               </li>

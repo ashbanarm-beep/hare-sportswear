@@ -58,8 +58,11 @@ export default function SEOHead() {
       const twDesc = document.querySelector('meta[name="twitter:description"]');
       if (twDesc) twDesc.setAttribute('content', seo.description || '');
 
+      // Clean URL without query parameters or hashes
+      const cleanUrl = seo.canonical || `https://www.haresportswear.com${pathname}`;
+
       const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+      if (ogUrl) ogUrl.setAttribute('content', cleanUrl);
 
       // 5. Update Canonical Link
       let canonicalTag = document.querySelector('link[rel="canonical"]');
@@ -68,7 +71,7 @@ export default function SEOHead() {
         canonicalTag.setAttribute('rel', 'canonical');
         document.head.appendChild(canonicalTag);
       }
-      canonicalTag.setAttribute('href', seo.canonical || window.location.href);
+      canonicalTag.setAttribute('href', cleanUrl);
 
     } catch (err) {
       console.warn('Error updating SEO tags', err);

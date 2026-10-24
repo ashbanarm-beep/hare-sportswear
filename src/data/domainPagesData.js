@@ -30,12 +30,57 @@ export const DOMAIN_PAGES = [
   },
   {
     id: 'products',
-    name: 'Products Catalog',
+    name: 'Products Catalog (All)',
     path: '/products',
     group: 'core',
     category: 'Core Platform',
     icon: '👕',
-    publicDesc: 'Browse 34+ wholesale manufacturing styles: sublimated team match jerseys, sports bras, and combat gear'
+    publicDesc: 'Browse 39+ wholesale manufacturing styles: sublimated team match jerseys, sports bras, and combat gear'
+  },
+  {
+    id: 'products-teamwear',
+    name: 'Teamwear Uniforms Catalog',
+    path: '/products/teamwear',
+    group: 'core',
+    category: 'Core Platform',
+    icon: '🎽',
+    publicDesc: 'Sublimated match jerseys, basketball uniforms, cricket whites, and rugby kits'
+  },
+  {
+    id: 'products-womens-activewear',
+    name: "Sports Bras & Women's Activewear",
+    path: '/products/womens-activewear',
+    group: 'core',
+    category: 'Core Platform',
+    icon: '✨',
+    publicDesc: 'High-impact sports bras, seamless workout leggings, and biker shorts for women'
+  },
+  {
+    id: 'products-activewear',
+    name: "Men's Activewear & Gym Apparel",
+    path: '/products/activewear',
+    group: 'core',
+    category: 'Core Platform',
+    icon: '🏋️',
+    publicDesc: 'Heavyweight French Terry hoodies, compression rashguards, gym tees, and joggers'
+  },
+  {
+    id: 'products-sports-caps',
+    name: 'Sports Caps & Athletic Headwear',
+    path: '/products/sports-caps',
+    group: 'core',
+    category: 'Core Platform',
+    icon: '🧢',
+    publicDesc: 'Laser-perforated performance baseball caps, running visors, and thermal beanies'
+  },
+  {
+    id: 'products-equipment',
+    name: 'Sports Equipment & Goods',
+    path: '/products/equipment',
+    group: 'core',
+    category: 'Core Platform',
+    icon: '🏆',
+    publicDesc: 'FIFA-spec match soccer balls, carbon shin guards, wrestling gear, and fitness goods'
   },
   {
     id: 'custom-manufacturing',

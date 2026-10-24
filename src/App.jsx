@@ -74,6 +74,13 @@ function MainAppShell() {
             {/* Primary Customer Pages */}
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/womens" element={<Navigate to="/products/womens-activewear" replace />} />
+            <Route path="/products/mens-activewear" element={<Navigate to="/products/activewear" replace />} />
+            <Route path="/products/caps" element={<Navigate to="/products/sports-caps" replace />} />
+            <Route path="/products/headwear" element={<Navigate to="/products/sports-caps" replace />} />
+            <Route path="/products/accessories" element={<Navigate to="/products/equipment" replace />} />
+            <Route path="/products/:category" element={<ProductsPage />} />
+            <Route path="/products/:category/:sub" element={<ProductsPage />} />
             <Route path="/custom-sportswear-manufacturer" element={<CustomManufacturingPage />} />
             <Route path="/custom-manufacturing" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/quality" element={<QualityPage />} />

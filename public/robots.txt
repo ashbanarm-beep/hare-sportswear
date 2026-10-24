@@ -1,0 +1,11 @@
+# Robots.txt for Hare Sportswear & Goods (https://www.haresportswear.com)
+User-agent: *
+Allow: /
+
+# Disallow private admin suite and internal API endpoints
+Disallow: /admin/
+Disallow: /admin
+Disallow: /api/
+
+# Official XML Sitemap location
+Sitemap: https://www.haresportswear.com/sitemap.xml

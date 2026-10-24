@@ -17,7 +17,61 @@ export const defaultSEORegistry = {
     title: 'Custom Sportswear & Athletic Goods Catalog | Hare Sportswear Sialkot',
     description: 'Browse 34+ wholesale manufacturing styles: sublimated team match jerseys, high-impact sports bras, seamless leggings, boxing gear, and sports balls.',
     keywords: 'custom jerseys wholesale, wholesale activewear catalog, sports equipment manufacturer, private label gym wear',
-    canonical: 'https://hare-sportswear.vercel.app/products'
+    canonical: 'https://www.haresportswear.com/products'
+  },
+  '/products/teamwear': {
+    title: 'Custom Sublimated Teamwear & Sports Uniforms Manufacturer | Hare Sportswear',
+    description: 'Factory-direct custom sublimated team uniforms, soccer match kits, cricket whites, basketball jerseys, and rugby kits. Low MOQ, Italian Kiian inks, 10-14 day export.',
+    keywords: 'custom sublimated teamwear, team uniforms manufacturer sialkot, soccer jerseys wholesale, basketball singlets supplier, cricket whites oem',
+    canonical: 'https://www.haresportswear.com/products/teamwear'
+  },
+  '/products/womens-activewear': {
+    title: 'Wholesale Sports Bras & Women\'s Activewear Manufacturer | Sialkot OEM/ODM',
+    description: 'Engineered specifically for women\'s athletic silhouettes: high-impact sports bras, squat-proof seamless leggings, and compression biker shorts. Zero men\'s styles mixed in.',
+    keywords: 'wholesale sports bras, women activewear manufacturer, seamless leggings factory, high impact sports bra oem, private label fitness apparel',
+    canonical: 'https://www.haresportswear.com/products/womens-activewear'
+  },
+  '/products/activewear': {
+    title: 'Men\'s Athletic Activewear, French Terry Hoodies & Gym Apparel Manufacturer | Hare Sportswear',
+    description: 'OEM/ODM manufacturer of men\'s gym apparel: heavyweight French Terry hoodies, compression rashguards, tapered joggers, and breathable training tees. Custom tech packs welcome.',
+    keywords: 'mens activewear manufacturer, gym hoodies wholesale, french terry joggers oem, bjj rashguard factory sialkot, athletic menswear supplier',
+    canonical: 'https://www.haresportswear.com/products/activewear'
+  },
+  '/products/sports-caps': {
+    title: 'Custom Sports Caps, Running Visors & Athletic Headwear Manufacturer | Hare Sportswear',
+    description: 'OEM/ODM sports headwear manufacturer: laser-perforated performance baseball caps, aerodynamic running visors, and thermal knit beanies with 3D Tajima embroidery.',
+    keywords: 'custom sports caps manufacturer, running visors wholesale, athletic beanies oem, 3d embroidery caps sialkot, private label headwear',
+    canonical: 'https://www.haresportswear.com/products/sports-caps'
+  },
+  '/products/equipment': {
+    title: 'Wholesale Sports Equipment, Boxing & Combat Gear Manufacturer | Sialkot Export',
+    description: 'FIFA-spec match soccer balls, carbon shin guards, wrestling gear, championship belts, and gym fitness equipment. Factory-direct export from Sialkot, Pakistan.',
+    keywords: 'sports equipment manufacturer sialkot, wholesale soccer balls, wrestling championship belts, shin guards factory, combat sports gear supplier',
+    canonical: 'https://www.haresportswear.com/products/equipment'
+  },
+  '/products/equipment/combat-sports': {
+    title: 'Wrestling Gear & Combat Sports Equipment Manufacturer | Hare Sportswear',
+    description: 'Professional championship belts, wrestling boots, grappling dummies, and boxing gloves manufactured in Sialkot for combat promotions and athletes.',
+    keywords: 'wrestling gear manufacturer, custom championship belts sialkot, combat sports equipment, grappling dummies wholesale',
+    canonical: 'https://www.haresportswear.com/products/equipment/combat-sports'
+  },
+  '/products/equipment/racket-sports': {
+    title: 'Carbon Padel & Badminton Rackets Manufacturer | Hare Sportswear Sialkot',
+    description: 'Toray high-modulus carbon graphite padel and badminton rackets, tournament shuttlecocks, and net sports accessories directly from our factory.',
+    keywords: 'padel rackets manufacturer, carbon graphite badminton racket, racket sports factory sialkot',
+    canonical: 'https://www.haresportswear.com/products/equipment/racket-sports'
+  },
+  '/products/equipment/fitness': {
+    title: 'Wholesale Gym & Fitness Equipment Manufacturer | Hare Sportswear',
+    description: 'Cast iron hex rubber dumbbells, high-density eco TPE yoga mats, and gym accessories manufactured for global fitness distributors.',
+    keywords: 'fitness equipment manufacturer, wholesale rubber dumbbells, tpe yoga mats factory sialkot',
+    canonical: 'https://www.haresportswear.com/products/equipment/fitness'
+  },
+  '/products/equipment/outdoor': {
+    title: 'Outdoor, Camping Gear & Sports Accessories Manufacturer | Hare Sportswear',
+    description: '1000D Cordura backpacks, aircraft 7075 aluminum trekking poles, and waterproof camping gear manufactured for global export.',
+    keywords: 'outdoor gear manufacturer sialkot, tactical bags factory, trekking poles oem',
+    canonical: 'https://www.haresportswear.com/products/equipment/outdoor'
   },
   '/custom-sportswear-manufacturer': {
     title: 'Custom Sportswear Manufacturer - Hare Sportswear',

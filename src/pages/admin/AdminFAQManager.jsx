@@ -142,7 +142,7 @@ export default function AdminFAQManager() {
       list.push({
         id: `product-${prod.id}`,
         name: `Product: ${prod.name}`,
-        path: `/products?category=${prod.category}`,
+        path: `/products/${prod.category}`,
         group: 'products',
         category: prod.category || 'Sportswear',
         icon: '🎽'
