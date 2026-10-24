@@ -50,7 +50,7 @@ function safeMarkdownInlineToHtml(text) {
     const isSafe = /^(\/|https?:\/\/|mailto:)/i.test(cleanHref);
     const validHref = isSafe ? cleanHref.replace(/"/g, '&quot;') : '#';
     const isExternal = /^https?:\/\//i.test(validHref) && !validHref.includes('haresportswear.com');
-    const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+    const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer nofollow"' : '';
     
     const anchorHtml = `<a href="${validHref}"${targetAttrs} class="text-[#FF751F] hover:text-[#E65E08] underline underline-offset-2 decoration-[#FF751F]/40 hover:decoration-[#FF751F] font-semibold transition-colors">${safeLabel}</a>`;
     
@@ -92,36 +92,117 @@ export default function BlogPostPage() {
     setOpenFaqIndex(prev => prev === idx ? null : idx);
   };
 
-  // Inject Google FAQPage JSON-LD schema into head
+  // Inject Google FAQPage, BlogPosting, and BreadcrumbList JSON-LD schemas into head
   useEffect(() => {
-    if (!postFaqs || postFaqs.length === 0 || !post?.slug) return;
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": postFaqs.map(f => ({
-        "@type": "Question",
-        "name": f.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": f.answer
-        }
-      }))
-    };
-    const scriptId = `faq-schema-${post.slug}`;
-    let script = document.getElementById(scriptId);
-    if (!script) {
-      script = document.createElement('script');
-      script.type = 'application/ld+json';
-      script.id = scriptId;
-      document.head.appendChild(script);
+    if (!post?.slug) return;
+
+    // 1. FAQPage Schema
+    const faqScriptId = `faq-schema-${post.slug}`;
+    if (postFaqs && postFaqs.length > 0) {
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": postFaqs.map(f => ({
+          "@type": "Question",
+          "name": f.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.answer
+          }
+        }))
+      };
+      let script = document.getElementById(faqScriptId);
+      if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = faqScriptId;
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(faqSchema);
     }
-    script.textContent = JSON.stringify(schema);
+
+    // 2. BlogPosting / Article Schema
+    const articleScriptId = `article-schema-${post.slug}`;
+    let articleScript = document.getElementById(articleScriptId);
+    if (!articleScript) {
+      articleScript = document.createElement('script');
+      articleScript.type = 'application/ld+json';
+      articleScript.id = articleScriptId;
+      document.head.appendChild(articleScript);
+    }
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://www.haresportswear.com/blog/${post.slug}`
+      },
+      "headline": post.metaTitle || post.title,
+      "description": post.metaDescription || post.excerpt,
+      "image": post.image ? [`https://www.haresportswear.com${post.image}`] : ["https://www.haresportswear.com/images/hero/custom-sports-apparel-factory.jpg"],
+      "datePublished": post.datePublished || "2026-10-24",
+      "dateModified": post.dateModified || "2026-10-24",
+      "author": {
+        "@type": "Person",
+        "name": post.author?.name || "Ashban Rafique",
+        "jobTitle": post.author?.role || "CEO and Founder of Hare Sportswear"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hare Sportswear",
+        "url": "https://www.haresportswear.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.haresportswear.com/images/logo.png"
+        }
+      }
+    };
+    articleScript.textContent = JSON.stringify(articleSchema);
+
+    // 3. BreadcrumbList Schema
+    const breadcrumbScriptId = `breadcrumb-schema-${post.slug}`;
+    let breadcrumbScript = document.getElementById(breadcrumbScriptId);
+    if (!breadcrumbScript) {
+      breadcrumbScript = document.createElement('script');
+      breadcrumbScript.type = 'application/ld+json';
+      breadcrumbScript.id = breadcrumbScriptId;
+      document.head.appendChild(breadcrumbScript);
+    }
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.haresportswear.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.haresportswear.com/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": post.title,
+          "item": `https://www.haresportswear.com/blog/${post.slug}`
+        }
+      ]
+    };
+    breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
 
     return () => {
-      const el = document.getElementById(scriptId);
-      if (el) el.remove();
+      const elFaq = document.getElementById(faqScriptId);
+      if (elFaq) elFaq.remove();
+      const elArticle = document.getElementById(articleScriptId);
+      if (elArticle) elArticle.remove();
+      const elBreadcrumb = document.getElementById(breadcrumbScriptId);
+      if (elBreadcrumb) elBreadcrumb.remove();
     };
-  }, [postFaqs, post?.slug]);
+  }, [postFaqs, post]);
 
   // Related posts (excluding current post)
   const relatedPosts = useMemo(() => {
@@ -285,8 +366,16 @@ export default function BlogPostPage() {
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-[#8C8476]" /> {post.date}
+              <Calendar className="w-3.5 h-3.5 text-[#8C8476]" /> Published: {post.date}
             </span>
+            {post.updatedDate && (
+              <>
+                <span>•</span>
+                <span className="flex items-center gap-1 text-[#FF751F] font-semibold">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FF751F]" /> Updated: {post.updatedDate}
+                </span>
+              </>
+            )}
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#1A1A1A] leading-[1.18] tracking-tight">
@@ -597,12 +686,7 @@ export default function BlogPostPage() {
                           loading="lazy"
                         />
                       </div>
-                      {altText && (
-                        <figcaption className="text-center text-xs text-[#595856] py-3 px-4 bg-[#FAF8F3] border-t border-[#E5DFD5] italic font-medium flex items-center justify-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF751F] shrink-0" />
-                          <span>{altText}</span>
-                        </figcaption>
-                      )}
+                      {/* Alt text is kept at the backend inside the img tag for accessibility & SEO, not rendered in captions */}
                     </figure>
                   );
                 }

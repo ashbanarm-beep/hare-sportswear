@@ -103,6 +103,12 @@ export default function BlogPage() {
               <div className="p-6 space-y-3">
                 <div className="flex items-center gap-2 text-[11px] text-[#8A847A]">
                   <span>{post.date}</span>
+                  {post.updatedDate && (
+                    <>
+                      <span>•</span>
+                      <span className="text-[#FF751F] font-medium">Updated {post.updatedDate}</span>
+                    </>
+                  )}
                   <span>•</span>
                   <span>{post.readTime}</span>
                 </div>

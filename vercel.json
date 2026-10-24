@@ -42,6 +42,16 @@
       "permanent": true
     },
     {
+      "source": "/private-label-sportswear-manufacturers",
+      "destination": "/blog/private-label-sportswear-manufacturers",
+      "permanent": true
+    },
+    {
+      "source": "/why-source-sportswear-from-sialkot",
+      "destination": "/blog/why-source-sportswear-from-sialkot",
+      "permanent": true
+    },
+    {
       "source": "/tools/cost-estimator",
       "destination": "/tools/manufacturing-cost-calculator",
       "permanent": true

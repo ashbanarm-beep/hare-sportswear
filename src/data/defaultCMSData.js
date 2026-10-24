@@ -1,6 +1,18 @@
 // Default production-ready CMS datasets for Hare Sportswear B2B platform
 
 export const defaultSEORegistry = {
+  '/blog/private-label-sportswear-manufacturers': {
+    title: 'Best Private Label Sportswear Manufacturers in 2026',
+    description: 'Compare 7 private label sportswear manufacturers by order size, location and who each suits best, from small-batch makers to global groups, with a disclosure-first approach and a checklist for choosing.',
+    keywords: 'best private label sportswear manufacturers, private label activewear manufacturers, sportswear clothing manufacturer, custom athletic wear manufacturer, private label gym wear',
+    canonical: 'https://www.haresportswear.com/blog/private-label-sportswear-manufacturers'
+  },
+  '/private-label-sportswear-manufacturers': {
+    title: 'Best Private Label Sportswear Manufacturers in 2026',
+    description: 'Compare 7 private label sportswear manufacturers by order size, location and who each suits best, from small-batch makers to global groups, with a disclosure-first approach and a checklist for choosing.',
+    keywords: 'best private label sportswear manufacturers, private label activewear manufacturers, sportswear clothing manufacturer, custom athletic wear manufacturer, private label gym wear',
+    canonical: 'https://www.haresportswear.com/blog/private-label-sportswear-manufacturers'
+  },
   '/blog/why-source-sportswear-from-sialkot': {
     title: '10 Reasons Brands Source Sportswear from Sialkot (2026 Guide)',
     description: 'Why do brands choose a sportswear manufacturer in Sialkot, Pakistan? 10 honest reasons, from low MOQs and fast sampling to export infrastructure, plus when Sialkot may not be the right fit.',

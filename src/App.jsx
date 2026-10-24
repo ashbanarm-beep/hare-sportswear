@@ -89,6 +89,8 @@ function MainAppShell() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/private-label-sportswear-manufacturers" element={<Navigate to="/blog/private-label-sportswear-manufacturers" replace />} />
+            <Route path="/why-source-sportswear-from-sialkot" element={<Navigate to="/blog/why-source-sportswear-from-sialkot" replace />} />
 
             {/* Dedicated Admin Login Route (Public within Admin Area) */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
