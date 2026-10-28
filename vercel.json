@@ -42,6 +42,11 @@
       "permanent": true
     },
     {
+      "source": "/what-is-gsm-in-fabric",
+      "destination": "/blog/what-is-gsm-in-fabric",
+      "permanent": true
+    },
+    {
       "source": "/private-label-sportswear-manufacturers",
       "destination": "/blog/private-label-sportswear-manufacturers",
       "permanent": true

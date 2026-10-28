@@ -13,9 +13,9 @@ const DUMMY_BLOG_SLUGS = [
 ];
 
 const STORAGE_KEYS = {
-  BLOG_POSTS: 'hare_cms_blog_posts_v5',
+  BLOG_POSTS: 'hare_cms_blog_posts_v6',
   BLOG_CATEGORIES: 'hare_cms_blog_categories_v1',
-  SEO_REGISTRY: 'hare_cms_seo_registry_v6',
+  SEO_REGISTRY: 'hare_cms_seo_registry_v7',
   PAGE_FAQS: 'hare_cms_page_faqs_v1',
   PAGE_BLOCKS: 'hare_cms_page_blocks_v1',
   CUSTOM_FAQ_TARGETS: 'hare_cms_custom_faq_targets_v1',
@@ -30,6 +30,8 @@ export function CMSProvider({ children }) {
       localStorage.removeItem('hare_cms_blog_posts_v2');
       localStorage.removeItem('hare_cms_blog_posts_v3');
       localStorage.removeItem('hare_cms_blog_posts_v4');
+      localStorage.removeItem('hare_cms_blog_posts_v5');
+      localStorage.removeItem('hare_cms_seo_registry_v6');
       const saved = localStorage.getItem(STORAGE_KEYS.BLOG_POSTS);
       if (saved) {
         const parsed = JSON.parse(saved);

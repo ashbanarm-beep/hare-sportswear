@@ -89,6 +89,7 @@ function MainAppShell() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/what-is-gsm-in-fabric" element={<Navigate to="/blog/what-is-gsm-in-fabric" replace />} />
             <Route path="/private-label-sportswear-manufacturers" element={<Navigate to="/blog/private-label-sportswear-manufacturers" replace />} />
             <Route path="/why-source-sportswear-from-sialkot" element={<Navigate to="/blog/why-source-sportswear-from-sialkot" replace />} />
 

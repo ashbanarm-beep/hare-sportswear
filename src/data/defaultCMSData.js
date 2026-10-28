@@ -139,6 +139,30 @@ export const defaultSEORegistry = {
     keywords: 'clothing manufacturer red flags, warning signs clothing supplier, apparel manufacturing scams, verify clothing factory, sialkot sportswear manufacturer',
     canonical: 'https://www.haresportswear.com/blog/red-flags-choosing-clothing-manufacturer'
   },
+  '/blog/what-is-gsm-in-fabric': {
+    title: 'What Is GSM in Fabric? Comprehensive Guide (2026)',
+    description: 'GSM in fabric means grams per square meter, a measure of fabric weight. Learn how to measure it, what the numbers mean for T-shirts, hoodies and sportswear, and how to choose the right GSM.',
+    keywords: 'what is gsm in fabric, fabric gsm guide, grams per square meter, gsm meaning clothing, fabric weight guide, sportswear fabric gsm',
+    canonical: 'https://www.haresportswear.com/blog/what-is-gsm-in-fabric'
+  },
+  '/what-is-gsm-in-fabric': {
+    title: 'What Is GSM in Fabric? Comprehensive Guide (2026)',
+    description: 'GSM in fabric means grams per square meter, a measure of fabric weight. Learn how to measure it, what the numbers mean for T-shirts, hoodies and sportswear, and how to choose the right GSM.',
+    keywords: 'what is gsm in fabric, fabric gsm guide, grams per square meter, gsm meaning clothing, fabric weight guide, sportswear fabric gsm',
+    canonical: 'https://www.haresportswear.com/blog/what-is-gsm-in-fabric'
+  },
+  '/blog/private-label-sportswear-manufacturers': {
+    title: 'Best Private Label Sportswear Manufacturers in 2026',
+    description: 'Compare 7 private label sportswear manufacturers by order size, location and who each suits best, from small-batch makers to global groups, with a disclosure-first approach and a checklist for choosing.',
+    keywords: 'best private label sportswear manufacturers, sportswear manufacturer 2026, activewear manufacturers, custom athletic wear manufacturer, private label gym wear',
+    canonical: 'https://www.haresportswear.com/blog/private-label-sportswear-manufacturers'
+  },
+  '/blog/why-source-sportswear-from-sialkot': {
+    title: 'Why Source Sportswear from Sialkot? Complete Guide',
+    description: 'Discover why top global athletic brands source custom sportswear, soccer balls, and combat gear from Sialkot, Pakistan. Read advantages, MOQs, and tips.',
+    keywords: 'sialkot sportswear manufacturing, sourcing apparel pakistan, why sialkot sports goods',
+    canonical: 'https://www.haresportswear.com/blog/why-source-sportswear-from-sialkot'
+  },
   '/blog/questions-to-ask-sportswear-manufacturer': {
     title: '10 Questions to Ask Sportswear Manufacturer Before Placing an Order',
     description: 'Essential questions every sportswear brand, club, and distributor must ask before placing an OEM or custom manufacturing order in Sialkot, Pakistan.',
