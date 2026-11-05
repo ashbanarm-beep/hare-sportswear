@@ -19,9 +19,9 @@ export const defaultSEORegistry = {
     keywords: 'why source sportswear from sialkot, sialkot sportswear manufacturer, apparel manufacturing pakistan, private label activewear sialkot, sports goods sialkot export',
     canonical: 'https://www.haresportswear.com/blog/why-source-sportswear-from-sialkot'
   },
-'/': {
-    title: 'Hare Sportswear: Best Sportswear Manufacturer In Sialkot',
-    description: 'Looking for a reliable sportswear manufacturer? Partner with Hare Sportswear for custom teamwear, activewear, and fitness gear direct from Sialkot. Get a quote today',
+  '/': {
+    title: 'Hare Sportswear: Where Speed Meets Style',
+    description: 'Custom manufacturing and fast global delivery for your sportswear and activewear brand or sports club.',
     keywords: 'sportswear manufacturer sialkot, custom teamwear oem, sublimation jerseys wholesale, activewear factory direct, athletic goods manufacturer',
     canonical: 'https://www.haresportswear.com/'
   },

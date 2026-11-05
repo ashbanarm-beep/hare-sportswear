@@ -218,30 +218,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/tools/ai-mockup-generator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5 font-bold text-amber-400">
-                  <span>✨</span>
-                  <span>AI Mockup Generator</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/pantone-matcher" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
-                  <span>🎨</span>
-                  <span>Pantone Color Matcher</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/palette-generator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
-                  <span>👕</span>
-                  <span>Palette & Kit Generator</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/manufacturing-cost-calculator" className="hover:text-[#FF751F] transition-colors flex items-center gap-1.5">
-                  <span>⚡</span>
-                  <span>Manufacturing Cost Calculator</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="hover:text-[#FF751F] transition-colors">
                   Request RFQ / Sample
                 </Link>
@@ -290,52 +266,6 @@ export default function Footer() {
 
         </div>
 
-        {/* Global Export Service Regions SEO Strip */}
-        <div className="pt-6 pb-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF751F] flex items-center gap-1.5">
-              <Globe className="w-3.5 h-3.5" />
-              Targeted Country Manufacturing & Export Hubs
-            </span>
-            <span className="text-xs text-[#8A847A]">
-              Direct air freight and DDP customs clearance into 45+ international markets
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2 text-xs">
-            <Link to="/sports-wear-manufacturer-usa" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇺🇸</span>
-              <span>Sportswear Manufacturer USA</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-uk" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇬🇧</span>
-              <span>Sportswear Manufacturer UK</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-australia" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇦🇺</span>
-              <span>Sportswear Manufacturer Australia</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-germany" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇩🇪</span>
-              <span>Sportswear Manufacturer Germany</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-canada" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇨🇦</span>
-              <span>Sportswear Manufacturer Canada</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-uae" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇦🇪</span>
-              <span>Sportswear Manufacturer UAE & GCC</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-france" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇫🇷</span>
-              <span>Sportswear Manufacturer France</span>
-            </Link>
-            <Link to="/sports-wear-manufacturer-netherlands" className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 hover:text-[#FF751F] border border-white/10 transition-colors flex items-center gap-1.5">
-              <span>🇳🇱</span>
-              <span>Sportswear Manufacturer Netherlands</span>
-            </Link>
-          </div>
-        </div>
 
         {/* Newsletter Section */}
         <div className="pt-8 pb-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">

@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, ShieldCheck, Zap, Globe, Sparkles, CheckCircle2, 
   FileText, Award, Layers, ChevronRight, Play, Star, Truck, Factory,
-  Sliders, MessageCircle
+  MessageCircle
 } from 'lucide-react';
 import { products } from '../data/products';
 import { useRFQ } from '../context/RFQContext';
 import AnimatedCounter from '../components/common/AnimatedCounter';
 import ProductionTimeline from '../components/home/ProductionTimeline';
-import GlobalExportFootprint from '../components/home/GlobalExportFootprint';
 import HurryHeroInteractive from '../components/mascot/HurryHeroInteractive';
 import PageFAQSection from '../components/common/PageFAQSection';
 import DynamicPageContent from '../components/cms/DynamicPageContent';
 import MeetFounderSection from '../components/home/MeetFounderSection';
 
-import { useCMS } from '../context/CMSContext';
-
 export default function HomePage() {
   const { setIsTechPackModalOpen } = useRFQ();
-  const { caseStudies } = useCMS();
 
   useEffect(() => {
-    const pageTitle = "Hare Sportswear: Best Sportswear Manufacturer In Sialkot";
-    const pageDescription = "Looking for a reliable sportswear manufacturer? Partner with Hare Sportswear for custom teamwear, activewear, and fitness gear direct from Sialkot. Get a quote today";
+    const pageTitle = "Hare Sportswear: Where Speed Meets Style";
+    const pageDescription = "Custom manufacturing and fast global delivery for your sportswear and activewear brand or sports club.";
     document.title = pageTitle;
 
     // Set meta description
@@ -72,14 +68,6 @@ export default function HomePage() {
     twitterDesc.setAttribute('content', pageDescription);
   }, []);
 
-  // Mini-calculator state for fast quote estimate
-  const [calcCategory, setCalcCategory] = useState('Teamwear & Jerseys');
-  const [calcQuantity, setCalcQuantity] = useState(100);
-  const [calcTechnique, setCalcTechnique] = useState('All-Over Sublimation');
-
-  // Filter only active case studies from CMS
-  const activeCaseStudies = (caseStudies || []).filter(item => item.active !== false);
-
   return (
     <div className="space-y-24 pb-20">
       
@@ -103,12 +91,12 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-4xl sm:text-6xl xl:text-7xl font-display font-black tracking-tight leading-[1.08] text-[#1A1A1A]">
-                Engineered for Performance. <br />
-                <span className="text-gradient-orange">Manufactured to Perfection.</span>
+                Hare Sportswear: <br />
+                <span className="text-gradient-orange">Where Speed Meets Style.</span>
               </h1>
 
               <p className="text-base sm:text-xl text-[#595856] max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                We empower international sports brands, tournament organizers, and athletic startups with factory-direct custom sportswear, technical sublimation, and premium athletic equipment. Low MOQs, rapid 7-day sampling, and precision Sialkot craftsmanship.
+                Custom manufacturing and fast global delivery for your sportswear and activewear brand or sports club.
               </p>
 
               {/* Dual CTAs */}
@@ -236,8 +224,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Global Export Footprint Section */}
-      <GlobalExportFootprint />
 
       {/* 3. Core Categories Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -452,186 +438,6 @@ export default function HomePage() {
 
       {/* 4. Manufacturing Process Section (Interactive Side-by-Side Timeline with Orange Progress Pipeline) */}
       <ProductionTimeline />
-
-      {/* 5. Production Calculator Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-[#1A1A1A] text-white border border-black/40 p-8 sm:p-12 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            <div className="lg:col-span-6 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF751F]/20 text-[#FF751F] text-xs font-bold">
-                <Sliders className="w-3.5 h-3.5" /> Instant Production Calculator
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-white">
-                Estimate Your Custom Manufacturing Parameters
-              </h2>
-              <p className="text-sm text-cream-200 leading-relaxed">
-                Configure your desired garment type, volume, and printing process to get estimated lead times, sampling speed, and direct wholesale routing.
-              </p>
-
-              <div className="pt-2 space-y-2 text-xs text-cream-300">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF751F]" />
-                  <span>Free Tech Pack Review with every inquiry</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF751F]" />
-                  <span>Transparent tiered pricing with zero hidden tooling charges</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive Calculator Box */}
-            <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-[#242220] border border-white/10 space-y-6">
-              
-              {/* Product Category */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-cream-200 mb-2">
-                  Select Product Line
-                </label>
-                <select
-                  value={calcCategory}
-                  onChange={(e) => setCalcCategory(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15 text-white text-sm focus:outline-none focus:border-[#FF751F]"
-                >
-                  <option value="Teamwear & Jerseys" className="bg-[#1A1A1A] text-white">Teamwear & Match Jerseys</option>
-                  <option value="Activewear & Compression" className="bg-[#1A1A1A] text-white">Activewear, Leggings & Compression</option>
-                  <option value="Sports Bras & Women's Activewear" className="bg-[#1A1A1A] text-white">Sports Bras & Women's Activewear</option>
-                  <option value="Sports Caps & Headwear" className="bg-[#1A1A1A] text-white">Sports Caps, Running Visors &amp; Beanies</option>
-                  <option value="Wrestling Equipment & Combat Gear" className="bg-[#1A1A1A] text-white">Wrestling Equipment & Combat Gear</option>
-                  <option value="Streetwear & Hoodies" className="bg-[#1A1A1A] text-white">Heavyweight Hoodies & Joggers</option>
-                  <option value="Sports Match Balls" className="bg-[#1A1A1A] text-white">Thermal-Bonded FIFA Soccer Balls</option>
-                  <option value="Combat Gear & Gloves" className="bg-[#1A1A1A] text-white">Boxing Gloves & BJJ Gis</option>
-                </select>
-              </div>
-
-              {/* Quantity Slider */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-cream-200">
-                    Order Quantity (Units / Sets)
-                  </label>
-                  <span className="text-sm font-display font-extrabold text-[#FF751F] bg-[#FF751F]/15 px-3 py-0.5 rounded border border-[#FF751F]/30">
-                    {calcQuantity} Pieces
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="25"
-                  max="2000"
-                  step="25"
-                  value={calcQuantity}
-                  onChange={(e) => setCalcQuantity(Number(e.target.value))}
-                  className="w-full accent-[#FF751F] bg-white/20 h-2 rounded-lg cursor-pointer"
-                />
-                <div className="flex justify-between text-[10px] text-cream-400 mt-1">
-                  <span>25 (Sample Run)</span>
-                  <span>500 (Club / Brand)</span>
-                  <span>2000+ (Distributor Bulk)</span>
-                </div>
-              </div>
-
-              {/* Printing Technique */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-cream-200 mb-2">
-                  Primary Embellishment
-                </label>
-                <select
-                  value={calcTechnique}
-                  onChange={(e) => setCalcTechnique(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15 text-white text-sm focus:outline-none focus:border-[#FF751F]"
-                >
-                  <option value="All-Over Sublimation" className="bg-[#1A1A1A] text-white">All-Over Dye Sublimation (Kiian Inks)</option>
-                  <option value="Tajima 3D Embroidery" className="bg-[#1A1A1A] text-white">Tajima Multi-Head 3D Embroidery</option>
-                  <option value="Silicone Heat Transfer" className="bg-[#1A1A1A] text-white">Raised 3D Silicone Heat Transfer</option>
-                  <option value="Screen Print & Puff" className="bg-[#1A1A1A] text-white">Plastisol Screen Print / High Density Puff</option>
-                </select>
-              </div>
-
-              {/* Summary & Forward to RFQ */}
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                <div>
-                  <span className="text-[11px] text-cream-300 block">Est. Production Window:</span>
-                  <span className="text-sm font-bold text-white">
-                    {calcQuantity <= 100 ? '10-12 Days' : calcQuantity <= 500 ? '14-16 Days' : '18-22 Days'}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[11px] text-cream-300 block">Pricing Tier:</span>
-                  <span className="text-sm font-bold text-[#FF751F]">
-                    {calcQuantity < 100 ? 'Tier 1 (Startup)' : calcQuantity < 500 ? 'Tier 2 (Pro Club)' : 'Tier 3 (Bulk Wholesale)'}
-                  </span>
-                </div>
-              </div>
-
-              <Link
-                to={`/contact?cat=${encodeURIComponent(calcCategory)}&qty=${calcQuantity}`}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#FF751F] to-[#E65E08] hover:from-[#E65E08] hover:to-[#FF751F] shadow-glow-orange transition-all"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Request Quotation with these Specs</span>
-              </Link>
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Portfolio Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold text-[#FF751F] uppercase tracking-wider">
-              Proven Global Deliveries
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[#1A1A1A] mt-1">
-              Production Portfolio & Case Studies
-            </h2>
-          </div>
-          <p className="text-xs text-[#595856] max-w-md">
-            Recent custom manufacturing runs completed at our Sialkot facility for international athletic clubs, apparel startups, and sporting leagues.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {activeCaseStudies.map((item, idx) => (
-            <div
-              key={item.id || idx}
-              className="group rounded-2xl overflow-hidden bg-white border border-[#E5DFD5] hover:border-[#FF751F]/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-lg"
-            >
-              <div className="relative aspect-square overflow-hidden bg-[#1A1A1A]">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                <span className="absolute top-3 left-3 text-[10px] font-bold px-2 py-0.5 rounded bg-black/80 text-white border border-white/15 backdrop-blur-sm">
-                  {item.category}
-                </span>
-                <span className="absolute bottom-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded bg-[#FF751F] text-white">
-                  {item.turnaround}
-                </span>
-              </div>
-
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                <div>
-                  <h4 className="font-display font-bold text-base text-[#1A1A1A] group-hover:text-[#FF751F] transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs text-[#FF751F] font-bold mt-0.5">
-                    Client: {item.client}
-                  </p>
-                </div>
-                <p className="text-xs text-[#595856] border-t border-[#E5DFD5] pt-2 font-mono text-[11px]">
-                  {item.specs}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Meet the Founder & Executive Sialkot Vision Section */}
       <MeetFounderSection />

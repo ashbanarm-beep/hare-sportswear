@@ -4,7 +4,6 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import WhatsAppFloat from './components/common/WhatsAppFloat';
 import TechPackModal from './components/common/TechPackModal';
-import ScissorCursor from './components/common/ScissorCursor';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import SEOHead from './components/seo/SEOHead';
 import { RFQProvider } from './context/RFQContext';
@@ -19,14 +18,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
-import CountryServicePage from './pages/CountryServicePage';
 import MeetHarePage from './pages/MeetHarePage';
 import FabricGlossaryPage from './pages/FabricGlossaryPage';
-import ToolsHubPage from './pages/ToolsHubPage';
-import PantoneMatcherPage from './pages/PantoneMatcherPage';
-import PaletteGeneratorPage from './pages/PaletteGeneratorPage';
-import CostEstimatorPage from './pages/CostEstimatorPage';
-import AIMockupGeneratorPage from './pages/AIMockupGeneratorPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 
@@ -59,7 +52,6 @@ function MainAppShell() {
     <div className={`flex flex-col min-h-screen ${isAdmin ? 'bg-[#FAF8F5]' : 'bg-[#F5F1E8]'} text-[#1A1A1A] font-sans`}>
       <SEOHead />
       <ScrollToTop />
-      <ScissorCursor />
 
       {/* Conditionally render public customer navbar */}
       {!isAdmin && (
@@ -107,18 +99,14 @@ function MainAppShell() {
             <Route path="/admin/settings" element={<AdminAuthGuard><AdminLayout activeTab="settings"><AdminDashboardOverview /></AdminLayout></AdminAuthGuard>} />
             <Route path="/admin/*" element={<AdminAuthGuard><Navigate to="/admin" replace /></AdminAuthGuard>} />
 
-            {/* Digital Manufacturing & Color Tools */}
-            <Route path="/tools" element={<ToolsHubPage />} />
-            <Route path="/tools/ai-mockup-generator" element={<AIMockupGeneratorPage />} />
-            <Route path="/ai-mockup-generator" element={<Navigate to="/tools/ai-mockup-generator" replace />} />
-            <Route path="/tools/pantone-matcher" element={<PantoneMatcherPage />} />
-            <Route path="/pantone-matcher" element={<Navigate to="/tools/pantone-matcher" replace />} />
-            <Route path="/tools/palette-generator" element={<PaletteGeneratorPage />} />
-            <Route path="/palette-generator" element={<Navigate to="/tools/palette-generator" replace />} />
-            <Route path="/tools/manufacturing-cost-calculator" element={<CostEstimatorPage />} />
-            <Route path="/tools/cost-estimator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
-            <Route path="/cost-estimator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
-            <Route path="/manufacturing-cost-calculator" element={<Navigate to="/tools/manufacturing-cost-calculator" replace />} />
+            {/* Retired Tools Hub & Sub-tools -> Redirect to Products */}
+            <Route path="/tools/*" element={<Navigate to="/products" replace />} />
+            <Route path="/tools" element={<Navigate to="/products" replace />} />
+            <Route path="/ai-mockup-generator" element={<Navigate to="/products" replace />} />
+            <Route path="/pantone-matcher" element={<Navigate to="/products" replace />} />
+            <Route path="/palette-generator" element={<Navigate to="/products" replace />} />
+            <Route path="/cost-estimator" element={<Navigate to="/products" replace />} />
+            <Route path="/manufacturing-cost-calculator" element={<Navigate to="/products" replace />} />
 
             {/* Fabric Glossary Hub & Aliases */}
             <Route path="/fabric-glossary" element={<FabricGlossaryPage />} />
@@ -130,20 +118,12 @@ function MainAppShell() {
             <Route path="/mascot" element={<Navigate to="/meet-hare" replace />} />
             <Route path="/hurry" element={<Navigate to="/meet-hare" replace />} />
 
-            {/* Dedicated Target Country Service Pages */}
-            <Route path="/sports-wear-manufacturer-usa" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-us" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
-            <Route path="/global-reach/usa" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
-            <Route path="/usa" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
-            <Route path="/global-reach/:countryCode" element={<CountryServicePage />} />
-
-            <Route path="/sports-wear-manufacturer-uk" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-australia" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-germany" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-canada" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-uae" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-france" element={<CountryServicePage />} />
-            <Route path="/sports-wear-manufacturer-netherlands" element={<CountryServicePage />} />
+            {/* Retired Country Service Pages -> Redirect to Custom Manufacturing */}
+            <Route path="/sports-wear-manufacturer-:countryCode" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/sports-wear-manufacturer-*" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/global-reach/*" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/global-reach" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/usa" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             
             {/* Dedicated Legal Pages */}
             <Route path="/terms" element={<TermsPage />} />
@@ -151,12 +131,9 @@ function MainAppShell() {
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/privacy-policy" element={<Navigate to="/privacy" replace />} />
 
-            {/* Catch-all dynamic route for any other country code or alias */}
-            <Route path="/sports-wear-manufacturer-:countryCode" element={<CountryServicePage />} />
-
             {/* High-traffic standard B2B Aliases & Route Redirects */}
-            <Route path="/sports-wear-manufacturer" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
-            <Route path="/sports-wear-manufacturers" element={<Navigate to="/sports-wear-manufacturer-usa" replace />} />
+            <Route path="/sports-wear-manufacturer" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
+            <Route path="/sports-wear-manufacturers" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/services" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/oem" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
             <Route path="/manufacturing" element={<Navigate to="/custom-sportswear-manufacturer" replace />} />
