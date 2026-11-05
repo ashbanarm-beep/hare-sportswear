@@ -32,8 +32,8 @@ $watcher.IncludeSubdirectories = $true
 $watcher.EnableRaisingEvents = $true
 $watcher.NotifyFilter = [System.IO.NotifyFilters]::FileName, [System.IO.NotifyFilters]::LastWrite, [System.IO.NotifyFilters]::CreationTime
 
-$script:lastChangeTime = [DateTime]::MinValue
-$script:changedFiles = [System.Collections.Generic.HashSet[string]]::new()
+$global:lastChangeTime = [DateTime]::MinValue
+$global:changedFiles = [System.Collections.Generic.HashSet[string]]::new()
 
 $changeHandler = {
     param($sender, $eventArgs)
@@ -41,32 +41,33 @@ $changeHandler = {
     if ($fullName -match '\\\.git($|\\)' -or $fullName -match '\\node_modules($|\\)' -or $fullName -match '\\dist($|\\)' -or $fullName -match '\.tmp$') {
         return
     }
-    $script:lastChangeTime = [DateTime]::Now
-    $script:changedFiles.Add($eventArgs.Name) | Out-Null
+    $global:lastChangeTime = [DateTime]::Now
+    $global:changedFiles.Add($eventArgs.Name) | Out-Null
 }
 
 $subs = @(
-    Register-ObjectEvent $watcher 'Changed' -Action $changeHandler,
-    Register-ObjectEvent $watcher 'Created' -Action $changeHandler,
-    Register-ObjectEvent $watcher 'Deleted' -Action $changeHandler,
-    Register-ObjectEvent $watcher 'Renamed' -Action $changeHandler
+    (Register-ObjectEvent -InputObject $watcher -EventName 'Changed' -Action $changeHandler)
+    (Register-ObjectEvent -InputObject $watcher -EventName 'Created' -Action $changeHandler)
+    (Register-ObjectEvent -InputObject $watcher -EventName 'Deleted' -Action $changeHandler)
+    (Register-ObjectEvent -InputObject $watcher -EventName 'Renamed' -Action $changeHandler)
 )
 
 try {
     while ($true) {
         Start-Sleep -Milliseconds 800
-        if ($script:lastChangeTime -ne [DateTime]::MinValue) {
-            $elapsed = ([DateTime]::Now - $script:lastChangeTime).TotalSeconds
+        if ($global:lastChangeTime -ne [DateTime]::MinValue) {
+            $elapsed = ([DateTime]::Now - $global:lastChangeTime).TotalSeconds
             if ($elapsed -ge $DebounceSeconds) {
-                $script:lastChangeTime = [DateTime]::MinValue
-                $files = @($script:changedFiles)
-                $script:changedFiles.Clear()
+                $global:lastChangeTime = [DateTime]::MinValue
+                $files = @($global:changedFiles)
+                $global:changedFiles.Clear()
 
                 $status = & $git -C $Path status --porcelain
                 if ($status) {
                     $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
                     $fileSummary = ($files | Select-Object -First 3) -join ", "
                     if ($files.Count -gt 3) { $fileSummary += " and $($files.Count - 3) others" }
+                    if (-not $fileSummary) { $fileSummary = "files updated" }
                     $msg = "Auto-update: $fileSummary ($timestamp)"
 
                     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Change detected: $fileSummary" -ForegroundColor Yellow
@@ -92,3 +93,4 @@ try {
         Unregister-Event -SourceIdentifier $sub.Name -ErrorAction SilentlyContinue
     }
 }
+# Active
