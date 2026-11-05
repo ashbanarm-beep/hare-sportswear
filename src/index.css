@@ -100,32 +100,6 @@
   background: #FF751F;
 }
 
-/* Universal Permanent Custom Scissor Cursor (Desktop Pointers Only) */
-@media (pointer: fine) and (hover: hover) {
-  html.custom-scissor-active,
-  html.custom-scissor-active *,
-  html.custom-scissor-active *::before,
-  html.custom-scissor-active *::after,
-  html.custom-scissor-active body,
-  html.custom-scissor-active a,
-  html.custom-scissor-active button,
-  html.custom-scissor-active input,
-  html.custom-scissor-active select,
-  html.custom-scissor-active textarea,
-  html.custom-scissor-active [role="button"],
-  html.custom-scissor-active label,
-  html.custom-scissor-active p,
-  html.custom-scissor-active span,
-  html.custom-scissor-active h1,
-  html.custom-scissor-active h2,
-  html.custom-scissor-active h3,
-  html.custom-scissor-active h4,
-  html.custom-scissor-active h5,
-  html.custom-scissor-active h6 {
-    cursor: none !important;
-  }
-}
-
 /* Touchscreens & Mobile Devices: Guarantee natural touch response */
 @media (hover: none), (pointer: coarse) {
   html,
